@@ -1,71 +1,83 @@
-import { useEffect } from "react";
-import { ActivityIndicator, Image, Text, View } from "react-native";
-import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
-
-import { useTheme } from "@/theme";
 import { Brand } from "@/components/molecules";
-import { SafeScreen } from "@/components/template";
+import { useState } from "react";
 
-import type { ApplicationScreenProps } from "@/types/navigation";
+import { Text, View, Button, TextInput } from "react-native";
 
-import WelcomeBottom from "@/assets/images/welcomeBottom.png";
+import { navigate } from "@/helper/navigation";
 
-function Startup({ navigation }: ApplicationScreenProps) {
-  const { layout, gutters, fonts } = useTheme();
-  const { t } = useTranslation(["startup"]);
-
-  const init = async () => {
-    await new Promise((resolve) =>
-      setTimeout(() => {
-        resolve(true);
-      }, 2000)
-    );
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "SignIn" }],
-    });
+const WelcomeScreen = () => {
+  const handleLogin = async () => {
+    navigate("GetInfoScreen");
   };
 
-  useEffect(() => {
-    init();
-  }, []);
-
   return (
-    <SafeScreen>
+    <View style={{ alignItems: "center" }}>
       <View
-        style={[
-          layout.flex_1,
-          layout.col,
-          layout.itemsCenter,
-          layout.justifyCenter,
-        ]}
+        style={{
+          marginTop: 100,
+        }}
       >
-        <Brand />
-        <ActivityIndicator size="large" style={[gutters.marginVertical_24]} />
-        <Image
-          testID={"welcome-bottom"}
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "30%",
-            bottom: 0,
-          }}
-          source={WelcomeBottom}
-          resizeMode={"stretch"}
-        />
+        <Brand height={80} width={80} />
+      </View>
+      <Text
+        style={{
+          marginTop: 50,
+          fontSize: 30,
+          fontWeight: "700",
+        }}
+      >
+        Welcome!
+      </Text>
+
+      <Text
+        style={{
+          marginTop: 50,
+          fontSize: 15,
+          fontWeight: "400",
+          marginHorizontal: 16,
+        }}
+      >
+        Chúng tôi rất vui vì bạn đã quan tâm đến ứng dụng này. Chắc chắn bạn
+        muốn nâng cấp sức khoẻ và tinh thần của mình. Hãy để chúng tôi giúp bạn,
+        Seim sẽ là người bạn đồng hành và giúp bạn khoẻ hơn mỗi ngày.
+      </Text>
+
+      <View style={{ width: "100%", marginHorizontal: 16 }}>
         <Text
           style={{
-            position: "absolute",
-            // width: '100%',
-            bottom: 15,
+            marginTop: 20,
+            fontSize: 15,
+            fontWeight: "400",
+            marginHorizontal: 16,
           }}
         >
-          Develop by Gulagi
+          Let's get started!
         </Text>
       </View>
-    </SafeScreen>
-  );
-}
 
-export default Startup;
+      <View
+        style={{
+          backgroundColor: "#1675D6",
+          width: 120,
+          height: 45,
+          borderRadius: 15,
+          marginTop: 50,
+          justifyContent: "center",
+        }}
+      >
+        <Button onPress={handleLogin} title="Bắt đầu  >" color="white" />
+      </View>
+
+      <View
+        style={{
+          flexDirection: "row",
+          marginTop: 17,
+          flexWrap: "wrap",
+          marginBottom: 32,
+        }}
+      ></View>
+    </View>
+  );
+};
+
+export default WelcomeScreen;
