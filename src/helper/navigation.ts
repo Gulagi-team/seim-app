@@ -15,3 +15,12 @@ export const navigate = (
     navigationRef.navigate(name, params);
   }
 };
+
+export const navigateReset = (name: keyof ApplicationStackParamList) => {
+  if (navigationRef.isReady()) {
+    navigationRef.reset({
+      index: 0,
+      routes: [{ name }],
+    });
+  }
+};

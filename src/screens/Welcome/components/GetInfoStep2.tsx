@@ -12,26 +12,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import LogoSeim from "@/assets/images/logoSeim.png";
-import { navigate } from "@/helper/navigation";
-import Header from "@/components/Header";
-import { SafeScreen } from "@/components/template";
-
-import WelcomeBottom from "@/assets/images/wel.svg";
-
 const GetInfoStep2Content = () => {
   const [gender, setGender] = useState<string>("");
 
   return (
-    <View
-      style={{
-        alignItems: "center",
-        height: "100%",
-        width: "100%",
-        paddingHorizontal: 16,
-        marginTop: 24,
-      }}
-    >
+    <View style={styles.container}>
       <View style={styles.question}>
         <Text style={styles.howOldAre1}>What’s your gender?</Text>
         <Text style={styles.letUsKnow1}>
@@ -41,67 +26,67 @@ const GetInfoStep2Content = () => {
       </View>
       <View style={styles.content}>
         <TouchableOpacity
-          onPress={() => setGender("en")}
+          onPress={() => setGender("male")}
           style={{
             ...styles.options,
-            backgroundColor: gender === "en" ? "#1b9cfc" : "#ffffff",
+            backgroundColor: gender === "male" ? "#1b9cfc" : "#ffffff",
           }}
         >
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "en" ? "#fff" : "black",
+              color: gender === "male" ? "#fff" : "black",
             }}
           >
-            English
+            Male
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setGender("vn")}
+          onPress={() => setGender("female")}
           style={{
             ...styles.options,
-            backgroundColor: gender === "vn" ? "#1b9cfc" : "#ffffff",
+            backgroundColor: gender === "female" ? "#1b9cfc" : "#ffffff",
           }}
         >
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "vn" ? "#fff" : "black",
+              color: gender === "female" ? "#fff" : "black",
             }}
           >
-            Tiếng Việt
+            Female
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setGender("fr")}
+          onPress={() => setGender("nonBinary")}
           style={{
             ...styles.options,
-            backgroundColor: gender === "fr" ? "#1b9cfc" : "#ffffff",
+            backgroundColor: gender === "nonBinary" ? "#1b9cfc" : "#ffffff",
           }}
         >
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "fr" ? "#fff" : "black",
+              color: gender === "nonBinary" ? "#fff" : "black",
             }}
           >
-            France
+            Non-binary
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setGender("por")}
+          onPress={() => setGender("other")}
           style={{
             ...styles.options,
-            backgroundColor: gender === "por" ? "#1b9cfc" : "#ffffff",
+            backgroundColor: gender === "other" ? "#1b9cfc" : "#ffffff",
           }}
         >
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "por" ? "#fff" : "black",
+              color: gender === "other" ? "#fff" : "black",
             }}
           >
-            Portugal
+            Other
           </Text>
         </TouchableOpacity>
       </View>
@@ -110,6 +95,13 @@ const GetInfoStep2Content = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    height: "100%",
+    width: "100%",
+    paddingHorizontal: 16,
+    marginTop: 24,
+  },
   question: {
     width: "100%",
     paddingBottom: 16,
@@ -132,7 +124,7 @@ const styles = StyleSheet.create({
   },
   content: {
     width: "100%",
-    height: 100,
+    // height: 100,
     // flex: 1,
     marginTop: 22,
   },

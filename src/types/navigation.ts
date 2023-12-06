@@ -4,6 +4,7 @@ export type ApplicationStackParamList = {
   Splash: undefined;
   Welcome: undefined;
   GetInfoScreen: undefined;
+  HomeScreen: undefined;
 };
 
 export type ApplicationScreenProps =
