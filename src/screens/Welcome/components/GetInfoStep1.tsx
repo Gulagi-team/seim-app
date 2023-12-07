@@ -1,4 +1,6 @@
 import { Brand } from "@/components/molecules";
+import { StoreState, useAppSelector } from "@/store";
+import { InfoState, updateLanguage } from "@/store/userInfo";
 import { useState } from "react";
 
 import {
@@ -11,9 +13,12 @@ import {
   Touchable,
   TouchableOpacity,
 } from "react-native";
-
+import { useDispatch } from "react-redux";
 const GetInfoStep1Content = () => {
-  const [language, setLanguage] = useState<string>("");
+  const dispatch = useDispatch();
+  const language = useAppSelector(
+    (state: StoreState) => state.userInfo.language
+  );
   return (
     <View style={styles.container}>
       <View style={styles.question}>
@@ -25,7 +30,7 @@ const GetInfoStep1Content = () => {
       </View>
       <View style={styles.content}>
         <TouchableOpacity
-          onPress={() => setLanguage("en")}
+          onPress={() => dispatch(updateLanguage("en"))}
           style={{
             ...styles.options,
             backgroundColor: language === "en" ? "#1b9cfc" : "#ffffff",
@@ -41,7 +46,7 @@ const GetInfoStep1Content = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setLanguage("vn")}
+          onPress={() => dispatch(updateLanguage("vn"))}
           style={{
             ...styles.options,
             backgroundColor: language === "vn" ? "#1b9cfc" : "#ffffff",
@@ -57,7 +62,7 @@ const GetInfoStep1Content = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setLanguage("fr")}
+          onPress={() => dispatch(updateLanguage("fr"))}
           style={{
             ...styles.options,
             backgroundColor: language === "fr" ? "#1b9cfc" : "#ffffff",
@@ -73,7 +78,7 @@ const GetInfoStep1Content = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setLanguage("por")}
+          onPress={() => dispatch(updateLanguage("por"))}
           style={{
             ...styles.options,
             backgroundColor: language === "por" ? "#1b9cfc" : "#ffffff",

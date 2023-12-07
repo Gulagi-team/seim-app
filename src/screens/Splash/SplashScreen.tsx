@@ -10,6 +10,7 @@ import { SafeScreen } from "@/components/template";
 import type { ApplicationScreenProps } from "@/types/navigation";
 
 import WelcomeBottom from "@/assets/images/welcomeBottom.png";
+import { getBooleanLocal } from "@/helper/localStorage";
 
 function SplashScreen({ navigation }: ApplicationScreenProps) {
   const { layout, gutters, fonts } = useTheme();
@@ -21,10 +22,18 @@ function SplashScreen({ navigation }: ApplicationScreenProps) {
         resolve(true);
       }, 2000)
     );
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Welcome" }],
-    });
+    const getInfoDone = getBooleanLocal("isGetInfoDone");
+    if (getInfoDone) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "HomeScreen" }],
+      });
+    } else {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Welcome" }],
+      });
+    }
   };
 
   useEffect(() => {

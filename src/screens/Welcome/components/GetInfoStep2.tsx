@@ -1,4 +1,6 @@
 import { Brand } from "@/components/molecules";
+import { StoreState, useAppSelector } from "@/store";
+import { updateGender } from "@/store/userInfo";
 import { useState } from "react";
 
 import {
@@ -11,9 +13,11 @@ import {
   Touchable,
   TouchableOpacity,
 } from "react-native";
+import { useDispatch } from "react-redux";
 
 const GetInfoStep2Content = () => {
-  const [gender, setGender] = useState<string>("");
+  const dispatch = useDispatch();
+  const gender = useAppSelector((state: StoreState) => state.userInfo.gender);
 
   return (
     <View style={styles.container}>
@@ -26,7 +30,7 @@ const GetInfoStep2Content = () => {
       </View>
       <View style={styles.content}>
         <TouchableOpacity
-          onPress={() => setGender("male")}
+          onPress={() => dispatch(updateGender("male"))}
           style={{
             ...styles.options,
             backgroundColor: gender === "male" ? "#1b9cfc" : "#ffffff",
@@ -42,7 +46,7 @@ const GetInfoStep2Content = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setGender("female")}
+          onPress={() => dispatch(updateGender("female"))}
           style={{
             ...styles.options,
             backgroundColor: gender === "female" ? "#1b9cfc" : "#ffffff",
@@ -58,7 +62,7 @@ const GetInfoStep2Content = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setGender("nonBinary")}
+          onPress={() => dispatch(updateGender("nonBinary"))}
           style={{
             ...styles.options,
             backgroundColor: gender === "nonBinary" ? "#1b9cfc" : "#ffffff",
@@ -74,7 +78,7 @@ const GetInfoStep2Content = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setGender("other")}
+          onPress={() => dispatch(updateGender("other"))}
           style={{
             ...styles.options,
             backgroundColor: gender === "other" ? "#1b9cfc" : "#ffffff",
@@ -124,12 +128,9 @@ const styles = StyleSheet.create({
   },
   content: {
     width: "100%",
-    // height: 100,
-    // flex: 1,
     marginTop: 22,
   },
   options: {
-    // backgroundColor: "#1b9cfc",
     width: "100%",
     height: 64,
     borderRadius: 15,

@@ -1,25 +1,19 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import {
-  persistReducer,
-  persistStore,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-  Storage,
-} from "redux-persist";
+import { persistReducer, persistStore, Storage } from "redux-persist";
 import { MMKV } from "react-native-mmkv";
 
-// import { api } from '../services/api';
+import userInfo from "./userInfo/index";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
 // import theme from './theme';
 
 const reducers = combineReducers({
   // theme,
   // [api.reducerPath]: api.reducer,
+  userInfo,
 });
+
+export const reducersType = typeof reducers;
 
 const storage = new MMKV();
 export const reduxStorage: Storage = {
@@ -45,8 +39,13 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-const store = configureStore({
+const stateStore = configureStore({
   reducer: persistedReducer,
+  devTools: false,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
   // middleware: getDefaultMiddleware => {
   //   const middlewares = getDefaultMiddleware({
   //     serializableCheck: {
@@ -63,8 +62,12 @@ const store = configureStore({
   // },
 });
 
-const persistor = persistStore(store);
+const persistor = persistStore(stateStore);
 
-setupListeners(store.dispatch);
+setupListeners(stateStore.dispatch);
 
-export { store, persistor };
+export type StoreState = ReturnType<typeof reducers>;
+
+export const useAppSelector: TypedUseSelectorHook<StoreState> = useSelector;
+
+export { stateStore, persistor };

@@ -1,43 +1,39 @@
-import { useEffect } from "react";
-import { ActivityIndicator, Image, Text, View } from "react-native";
-import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
+import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
 
 import { useTheme } from "@/theme";
-import { Brand } from "@/components/molecules";
 import { SafeScreen } from "@/components/template";
 
-import type { ApplicationScreenProps } from "@/types/navigation";
-
-import WelcomeBottom from "@/assets/images/welcomeBottom.png";
+import Header from "@/components/Header";
 
 const HomeScreen = () => {
   const { layout, gutters, fonts } = useTheme();
 
   return (
     <SafeScreen>
-      <View
-        style={[
-          layout.flex_1,
-          layout.col,
-          layout.itemsCenter,
-          layout.justifyCenter,
-        ]}
-      >
-        <Brand />
-
-        <Text
-          style={{
-            position: "absolute",
-            // width: '100%',
-            bottom: 15,
-          }}
-        >
-          Develop by Gulagi
-        </Text>
+      <Header renderLogo={true} canGoBack={false} />
+      <View style={styles.container}>
+        <View style={styles.textContainer}>
+          <Text style={styles.choseText}>Choose challenge</Text>
+        </View>
       </View>
     </SafeScreen>
   );
 };
-
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    width: "100%",
+    flex: 1,
+    marginTop: 24,
+    marginHorizontal: 16,
+  },
+  textContainer: { width: "100%" },
+  choseText: {
+    fontSize: 23,
+    fontWeight: "700",
+    fontFamily: "Montserrat-Bold",
+    color: "#000",
+    textAlign: "left",
+  },
+});
 export default HomeScreen;

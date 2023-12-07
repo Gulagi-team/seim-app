@@ -1,4 +1,6 @@
 import { Brand } from "@/components/molecules";
+import { StoreState, useAppSelector } from "@/store";
+import { updateOld } from "@/store/userInfo";
 import { useState } from "react";
 
 import {
@@ -11,9 +13,12 @@ import {
   Touchable,
   TouchableOpacity,
 } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import { useDispatch } from "react-redux";
 
 const GetInfoStep3Content = () => {
-  const [gender, setGender] = useState<string>("");
+  const dispatch = useDispatch();
+  const old = useAppSelector((state: StoreState) => state.userInfo.old);
 
   return (
     <View style={styles.container}>
@@ -24,120 +29,120 @@ const GetInfoStep3Content = () => {
           just for you.
         </Text>
       </View>
-      <View style={styles.content}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>
         <TouchableOpacity
-          onPress={() => setGender("under18")}
+          onPress={() => dispatch(updateOld("under18"))}
           style={{
             ...styles.options,
-            backgroundColor: gender === "under18" ? "#1b9cfc" : "#ffffff",
+            backgroundColor: old === "under18" ? "#1b9cfc" : "#ffffff",
           }}
         >
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "under18" ? "#fff" : "black",
+              color: old === "under18" ? "#fff" : "black",
             }}
           >
             Under 18
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setGender("18-23")}
+          onPress={() => dispatch(updateOld("18-23"))}
           style={{
             ...styles.options,
-            backgroundColor: gender === "18-23" ? "#1b9cfc" : "#ffffff",
+            backgroundColor: old === "18-23" ? "#1b9cfc" : "#ffffff",
           }}
         >
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "18-23" ? "#fff" : "black",
+              color: old === "18-23" ? "#fff" : "black",
             }}
           >
             18 - 23
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setGender("24-29")}
+          onPress={() => dispatch(updateOld("24-29"))}
           style={{
             ...styles.options,
-            backgroundColor: gender === "24-29" ? "#1b9cfc" : "#ffffff",
+            backgroundColor: old === "24-29" ? "#1b9cfc" : "#ffffff",
           }}
         >
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "24-29" ? "#fff" : "black",
+              color: old === "24-29" ? "#fff" : "black",
             }}
           >
             24 - 29
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setGender("30-39")}
+          onPress={() => dispatch(updateOld("30-39"))}
           style={{
             ...styles.options,
-            backgroundColor: gender === "30-39" ? "#1b9cfc" : "#ffffff",
+            backgroundColor: old === "30-39" ? "#1b9cfc" : "#ffffff",
           }}
         >
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "30-39" ? "#fff" : "black",
+              color: old === "30-39" ? "#fff" : "black",
             }}
           >
             30 - 39
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setGender("40-49")}
+          onPress={() => dispatch(updateOld("40-49"))}
           style={{
             ...styles.options,
-            backgroundColor: gender === "40-49" ? "#1b9cfc" : "#ffffff",
+            backgroundColor: old === "40-49" ? "#1b9cfc" : "#ffffff",
           }}
         >
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "40-49" ? "#fff" : "black",
+              color: old === "40-49" ? "#fff" : "black",
             }}
           >
             40 - 49
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setGender("50-59")}
+          onPress={() => dispatch(updateOld("50-59"))}
           style={{
             ...styles.options,
-            backgroundColor: gender === "50-59" ? "#1b9cfc" : "#ffffff",
+            backgroundColor: old === "50-59" ? "#1b9cfc" : "#ffffff",
           }}
         >
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "50-59" ? "#fff" : "black",
+              color: old === "50-59" ? "#fff" : "black",
             }}
           >
             50 - 59
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setGender("60-69")}
+          onPress={() => dispatch(updateOld("60-69"))}
           style={{
             ...styles.options,
-            backgroundColor: gender === "60-69" ? "#1b9cfc" : "#ffffff",
+            backgroundColor: old === "60-69" ? "#1b9cfc" : "#ffffff",
           }}
         >
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "60-69" ? "#fff" : "black",
+              color: old === "60-69" ? "#fff" : "black",
             }}
           >
             60 - 69
           </Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </View>
   );
 };

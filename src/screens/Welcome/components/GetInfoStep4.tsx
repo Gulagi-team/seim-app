@@ -12,8 +12,14 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { generateArray } from "@/helper/others";
+import { useDispatch } from "react-redux";
+import { StoreState, useAppSelector } from "@/store";
+import { updateHeight } from "@/store/userInfo";
 
 const GetInfoStep4Content = () => {
+  const dispatch = useDispatch();
+  const height = useAppSelector((state: StoreState) => state.userInfo.height);
+
   const [selectedHeight, setSelectedHeight] = useState(150);
   const [selectedHeight1, setSelectedHeight1] = useState(5);
   const [selectedLanguage, setSelectedLanguage] = useState("cm");
@@ -34,9 +40,14 @@ const GetInfoStep4Content = () => {
         <View style={styles.pickerContainer}>
           <Picker
             selectedValue={selectedHeight}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedHeight(itemValue)
-            }
+            onValueChange={(itemValue, itemIndex) => {
+              dispatch(
+                updateHeight(
+                  `${selectedHeight}.${selectedHeight1} ${selectedLanguage}`
+                )
+              );
+              setSelectedHeight(itemValue);
+            }}
             mode="dialog"
             itemStyle={styles.textContainer}
           >
@@ -49,9 +60,14 @@ const GetInfoStep4Content = () => {
         <View style={styles.pickerContainer}>
           <Picker
             selectedValue={selectedHeight1}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedHeight1(itemValue)
-            }
+            onValueChange={(itemValue, itemIndex) => {
+              dispatch(
+                updateHeight(
+                  `${selectedHeight}.${selectedHeight1} ${selectedLanguage}`
+                )
+              );
+              setSelectedHeight1(itemValue);
+            }}
             itemStyle={styles.textContainer}
           >
             {myArray1.map((item) => (
@@ -62,9 +78,14 @@ const GetInfoStep4Content = () => {
         <View style={styles.pickerContainer}>
           <Picker
             selectedValue={selectedLanguage}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedLanguage(itemValue)
-            }
+            onValueChange={(itemValue, itemIndex) => {
+              dispatch(
+                updateHeight(
+                  `${selectedHeight}.${selectedHeight1} ${selectedLanguage}`
+                )
+              );
+              setSelectedLanguage(itemValue);
+            }}
             itemStyle={styles.textContainer}
           >
             <Picker.Item label="cm" value="cm" />
@@ -112,7 +133,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   pickerContainer: { width: "30%", height: 200 },
-  textContainer: { fontSize: 32, fontWeight: "700", fontFamily: "Inter-Bold" },
+  textContainer: { fontSize: 26, fontWeight: "500", fontFamily: "Inter-Bold" },
   question2: {
     fontSize: 32,
     fontWeight: "700",

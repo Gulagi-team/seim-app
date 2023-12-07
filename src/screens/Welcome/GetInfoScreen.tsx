@@ -1,5 +1,5 @@
 import { Brand } from "@/components/molecules";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import {
   Text,
@@ -22,11 +22,13 @@ import { navigate, navigateReset } from "@/helper/navigation";
 import GetInfoStep3Content from "./components/GetInfoStep3";
 import GetInfoStep4Content from "./components/GetInfoStep4";
 import GetInfoStep5Content from "./components/GetInfoStep5";
+import { StoreState, reduxStorage, useAppSelector } from "@/store";
 
 const GetInfoScreen = () => {
   const width = Dimensions.get("window").width;
   const [idxContent, setIdxContent] = useState<number>(0);
   const ref = useRef<ICarouselInstance>(null);
+  const userInfo = useAppSelector((state: StoreState) => state.userInfo);
 
   const renderRightHeader = () => {
     return (
@@ -35,6 +37,42 @@ const GetInfoScreen = () => {
       </TouchableOpacity>
     );
   };
+
+  const handleGoNext = () => {
+    if (idxContent < 4) {
+      ref.current?.next();
+    } else {
+      reduxStorage.setItem("isGetInfoDone", "true");
+      reduxStorage.setItem("userInfo", JSON.stringify(userInfo));
+      navigateReset("HomeScreen");
+    }
+  };
+
+  const disableContinue = useMemo(() => {
+    if (idxContent === 0 && !userInfo.language) {
+      return true;
+    }
+    if (idxContent === 1 && !userInfo.gender) {
+      return true;
+    }
+    if (idxContent === 2 && !userInfo.old) {
+      return true;
+    }
+    if (idxContent === 3 && !userInfo.height) {
+      return true;
+    }
+    if (idxContent === 4 && !userInfo.weight) {
+      return true;
+    }
+    return false;
+  }, [
+    idxContent,
+    userInfo.language,
+    userInfo.gender,
+    userInfo.old,
+    userInfo.height,
+    userInfo.weight,
+  ]);
 
   const dataRender = [0, 1, 2, 3, 4];
 
@@ -57,9 +95,10 @@ const GetInfoScreen = () => {
     <SafeScreen>
       <Header
         renderLogo={true}
+        canGoBack={idxContent === 0 ? false : true}
         handleGoBack={() => ref.current?.prev()}
         rightContent={renderRightHeader()}
-      ></Header>
+      />
       <View style={styles.container}>
         <Carousel
           ref={ref}
@@ -85,10 +124,16 @@ const GetInfoScreen = () => {
           })}
         </View>
         <TouchableOpacity
-          onPress={() => ref.current?.next()}
-          style={styles.continueContent}
+          onPress={handleGoNext}
+          style={{
+            ...styles.continueContent,
+            opacity: disableContinue ? 0.25 : 1,
+          }}
+          disabled={disableContinue}
         >
-          <Text style={styles.continue}>Continue</Text>
+          <Text style={styles.continue}>
+            {idxContent < 4 ? "Continue" : "Finish"}
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeScreen>
