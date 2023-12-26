@@ -1,7 +1,6 @@
-import { Brand } from "@/components/molecules";
-import { StoreState, useAppSelector } from "@/store";
-import { updateGender } from "@/store/userInfo";
-import { useState } from "react";
+import {StoreState, useAppSelector} from '@/store';
+import {updateGender} from '@/store/userInfo';
+import {useState} from 'react';
 
 import {
   Text,
@@ -12,8 +11,8 @@ import {
   StyleSheet,
   Touchable,
   TouchableOpacity,
-} from "react-native";
-import { useDispatch } from "react-redux";
+} from 'react-native';
+import {useDispatch} from 'react-redux';
 
 const GetInfoStep2Content = () => {
   const dispatch = useDispatch();
@@ -30,66 +29,58 @@ const GetInfoStep2Content = () => {
       </View>
       <View style={styles.content}>
         <TouchableOpacity
-          onPress={() => dispatch(updateGender("male"))}
+          onPress={() => dispatch(updateGender('male'))}
           style={{
             ...styles.options,
-            backgroundColor: gender === "male" ? "#1b9cfc" : "#ffffff",
-          }}
-        >
+            backgroundColor: gender === 'male' ? '#1b9cfc' : '#ffffff',
+          }}>
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "male" ? "#fff" : "black",
-            }}
-          >
+              color: gender === 'male' ? '#fff' : 'black',
+            }}>
             Male
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => dispatch(updateGender("female"))}
+          onPress={() => dispatch(updateGender('female'))}
           style={{
             ...styles.options,
-            backgroundColor: gender === "female" ? "#1b9cfc" : "#ffffff",
-          }}
-        >
+            backgroundColor: gender === 'female' ? '#1b9cfc' : '#ffffff',
+          }}>
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "female" ? "#fff" : "black",
-            }}
-          >
+              color: gender === 'female' ? '#fff' : 'black',
+            }}>
             Female
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => dispatch(updateGender("nonBinary"))}
+          onPress={() => dispatch(updateGender('nonBinary'))}
           style={{
             ...styles.options,
-            backgroundColor: gender === "nonBinary" ? "#1b9cfc" : "#ffffff",
-          }}
-        >
+            backgroundColor: gender === 'nonBinary' ? '#1b9cfc' : '#ffffff',
+          }}>
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "nonBinary" ? "#fff" : "black",
-            }}
-          >
+              color: gender === 'nonBinary' ? '#fff' : 'black',
+            }}>
             Non-binary
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => dispatch(updateGender("other"))}
+          onPress={() => dispatch(updateGender('other'))}
           style={{
             ...styles.options,
-            backgroundColor: gender === "other" ? "#1b9cfc" : "#ffffff",
-          }}
-        >
+            backgroundColor: gender === 'other' ? '#1b9cfc' : '#ffffff',
+          }}>
           <Text
             style={{
               ...styles.optionContent,
-              color: gender === "other" ? "#fff" : "black",
-            }}
-          >
+              color: gender === 'other' ? '#fff' : 'black',
+            }}>
             Other
           </Text>
         </TouchableOpacity>
@@ -100,51 +91,51 @@ const GetInfoStep2Content = () => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    height: "100%",
-    width: "100%",
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
     paddingHorizontal: 16,
     marginTop: 24,
   },
   question: {
-    width: "100%",
+    width: '100%',
     paddingBottom: 16,
   },
   howOldAre1: {
     fontSize: 20,
     letterSpacing: 0,
-    fontWeight: "700",
-    fontFamily: "Inter-Bold",
-    color: "#171717",
-    textAlign: "left",
+    fontWeight: '700',
+    fontFamily: 'Inter-Bold',
+    color: '#171717',
+    textAlign: 'left',
   },
   letUsKnow1: {
     fontSize: 14,
-    fontFamily: "Inter-Regular",
-    color: "#525252",
+    fontFamily: 'Inter-Regular',
+    color: '#525252',
     marginTop: 8,
-    textAlign: "left",
-    alignSelf: "stretch",
+    textAlign: 'left',
+    alignSelf: 'stretch',
   },
   content: {
-    width: "100%",
+    width: '100%',
     marginTop: 22,
   },
   options: {
-    width: "100%",
+    width: '100%',
     height: 64,
     borderRadius: 15,
     marginBottom: 16,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   optionContent: {
     fontSize: 16,
     letterSpacing: 0,
-    fontWeight: "600",
-    fontFamily: "Inter-SemiBold",
+    fontWeight: '600',
+    fontFamily: 'Inter-SemiBold',
     // color: "#fff",
-    textAlign: "left",
+    textAlign: 'left',
     // backgroundColor: "red",
   },
 });

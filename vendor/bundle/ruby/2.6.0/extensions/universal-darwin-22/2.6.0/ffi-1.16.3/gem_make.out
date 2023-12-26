@@ -1,5 +1,5 @@
-current directory: /Users/huuphat/Desktop/codeMobile/SeimMobile/vendor/bundle/ruby/2.6.0/gems/ffi-1.16.3/ext/ffi_c
-/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby -I /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0 -r ./siteconf20231202-88988-14xe3qd.rb extconf.rb
+current directory: /Users/huuphat/Desktop/Freelance/Seim/vendor/bundle/ruby/2.6.0/gems/ffi-1.16.3/ext/ffi_c
+/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby -I /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0 -r ./siteconf20231212-27396-1vlkcs4.rb extconf.rb
 checking for ffi_prep_closure_loc() in -lffi... yes
 checking for ffi_prep_cif_var()... yes
 checking for ffi_raw_call()... yes
@@ -9,10 +9,10 @@ checking for whether -pthread is accepted as LDFLAGS... yes
 creating extconf.h
 creating Makefile
 
-current directory: /Users/huuphat/Desktop/codeMobile/SeimMobile/vendor/bundle/ruby/2.6.0/gems/ffi-1.16.3/ext/ffi_c
+current directory: /Users/huuphat/Desktop/Freelance/Seim/vendor/bundle/ruby/2.6.0/gems/ffi-1.16.3/ext/ffi_c
 make "DESTDIR=" clean
 
-current directory: /Users/huuphat/Desktop/codeMobile/SeimMobile/vendor/bundle/ruby/2.6.0/gems/ffi-1.16.3/ext/ffi_c
+current directory: /Users/huuphat/Desktop/Freelance/Seim/vendor/bundle/ruby/2.6.0/gems/ffi-1.16.3/ext/ffi_c
 make "DESTDIR="
 compiling AbstractMemory.c
 AbstractMemory.c:1124:17: warning: '(' and '{' tokens introducing statement expression appear in different macro expansion contexts [-Wcompound-token-split-by-macro]
@@ -4069,6 +4069,6 @@ compiling ffi.c
 linking shared-object ffi_c.bundle
 ld: warning: directory not found for option '-L/AppleInternal/Library/BuildRoots/810eba08-405a-11ed-86e9-6af958a02716/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.0.Internal.sdk/usr/local/lib'
 
-current directory: /Users/huuphat/Desktop/codeMobile/SeimMobile/vendor/bundle/ruby/2.6.0/gems/ffi-1.16.3/ext/ffi_c
+current directory: /Users/huuphat/Desktop/Freelance/Seim/vendor/bundle/ruby/2.6.0/gems/ffi-1.16.3/ext/ffi_c
 make "DESTDIR=" install
-/usr/bin/install -c -m 0755 ffi_c.bundle ./.gem.20231202-88988-1esg4m6
+/usr/bin/install -c -m 0755 ffi_c.bundle ./.gem.20231212-27396-d0ad9j

@@ -1,16 +1,18 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import { persistReducer, persistStore, Storage } from "redux-persist";
-import { MMKV } from "react-native-mmkv";
+import {configureStore, combineReducers} from '@reduxjs/toolkit';
+import {setupListeners} from '@reduxjs/toolkit/query';
+import {persistReducer, persistStore, Storage} from 'redux-persist';
+import {MMKV} from 'react-native-mmkv';
 
-import userInfo from "./userInfo/index";
-import { TypedUseSelectorHook, useSelector } from "react-redux";
+import userInfo from './userInfo/index';
+import LessionSlice from './lessions/index';
+import {TypedUseSelectorHook, useSelector} from 'react-redux';
 // import theme from './theme';
 
 const reducers = combineReducers({
   // theme,
   // [api.reducerPath]: api.reducer,
   userInfo,
+  LessionSlice,
 });
 
 export const reducersType = typeof reducers;
@@ -21,20 +23,20 @@ export const reduxStorage: Storage = {
     storage.set(key, value);
     return Promise.resolve(true);
   },
-  getItem: (key) => {
+  getItem: key => {
     const value = storage.getString(key);
     return Promise.resolve(value);
   },
-  removeItem: (key) => {
+  removeItem: key => {
     storage.delete(key);
     return Promise.resolve();
   },
 };
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage: reduxStorage,
-  whitelist: ["theme", "auth"],
+  whitelist: ['theme', 'auth'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -42,7 +44,7 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 const stateStore = configureStore({
   reducer: persistedReducer,
   devTools: false,
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
@@ -70,4 +72,4 @@ export type StoreState = ReturnType<typeof reducers>;
 
 export const useAppSelector: TypedUseSelectorHook<StoreState> = useSelector;
 
-export { stateStore, persistor };
+export {stateStore, persistor};

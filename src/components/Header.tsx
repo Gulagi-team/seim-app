@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/core";
-import React from "react";
+import {useNavigation} from '@react-navigation/core';
+import React from 'react';
 import {
   Image,
   StyleProp,
@@ -8,12 +8,10 @@ import {
   TouchableOpacity,
   View,
   ViewStyle,
-} from "react-native";
+} from 'react-native';
 
-import { useTheme } from "@/theme";
-
-import Logo from "@/assets/images/self.png";
-import IconBack from "@/assets/icons/icon-back.svg";
+import Logo from '@/assets/images/logo.png';
+import IconBack from '@/assets/icons/icon_back.svg';
 
 export interface HeaderProps {
   style?: StyleProp<ViewStyle>;
@@ -36,44 +34,36 @@ const Header = ({
   rightContent,
   rightContentStyle,
 }: HeaderProps) => {
-  // const playSound = usePlaySound();
   const navigation = useNavigation();
-  const { variant } = useTheme();
-
-  const renderTitle = () => {
-    if (typeof title === "string") {
-      return <Text style={styles.title}>{title}</Text>;
-    }
-
-    return title;
-  };
 
   return (
     <View style={[styles.container, style]}>
       {canGoBack ? (
         <TouchableOpacity
           onPress={handleGoBack}
-          style={[styles.back, backStyle]}
-        >
+          style={[styles.back, backStyle]}>
+          {/* <Text style={styles.title}>a</Text> */}
           <IconBack />
         </TouchableOpacity>
-      ) : null}
-
-      {renderTitle()}
-
-      {renderLogo && (
-        <Image
-          testID={"logo-header"}
-          style={{
-            // position: "absolute",
-            width: 24,
-            height: 24,
-            // bottom: 0,
-          }}
-          source={Logo}
-          resizeMode={"stretch"}
-        />
+      ) : (
+        <View style={{width: 24}} />
       )}
+      <View style={{flexDirection: 'row'}}>
+        {/* <Text style={styles.title}>{'title?.toString()'}</Text> */}
+
+        {renderLogo && (
+          <Image
+            testID={'logo-header'}
+            style={{
+              // position: "absolute",
+              width: 24,
+              height: 24,
+            }}
+            source={Logo}
+            resizeMode={'contain'}
+          />
+        )}
+      </View>
 
       <View style={[styles.rightContent, rightContentStyle]}>
         {rightContent}
@@ -86,24 +76,24 @@ export default Header;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
+    width: '99%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     // marginBottom: 8,
-    marginHorizontal: 16,
-    // backgroundColor: "red",
+    paddingHorizontal: 16,
+    // backgroundColor: 'red',
   },
   back: {
-    position: "absolute",
-    left: 0,
+    // position: 'absolute',
+    // left: 0,
   },
   title: {
-    color: "#FCFCFD",
+    color: '#FCFCFD',
     minHeight: 24,
   },
   rightContent: {
-    position: "absolute",
-    right: 0,
+    // position: 'absolute',
+    // right: 0,
   },
 });

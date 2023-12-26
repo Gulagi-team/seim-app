@@ -1,5 +1,4 @@
-import { Brand } from "@/components/molecules";
-import { useMemo, useRef, useState } from "react";
+import {useMemo, useRef, useState} from 'react';
 
 import {
   Text,
@@ -9,30 +8,31 @@ import {
   Dimensions,
   TouchableOpacity,
   StyleSheet,
-} from "react-native";
+} from 'react-native';
 
-import Header from "@/components/Header";
-import { SafeScreen } from "@/components/template";
+import Header from '@/components/Header';
 
-import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
-import GetInfoStep1Content from "./components/GetInfoStep1";
-import GetInfoStep2Content from "./components/GetInfoStep2";
-import PaginationItem from "@/components/pagination/Pagination";
-import { navigate, navigateReset } from "@/helper/navigation";
-import GetInfoStep3Content from "./components/GetInfoStep3";
-import GetInfoStep4Content from "./components/GetInfoStep4";
-import GetInfoStep5Content from "./components/GetInfoStep5";
-import { StoreState, reduxStorage, useAppSelector } from "@/store";
+import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
+import GetInfoStep1Content from './components/GetInfoStep1';
+import GetInfoStep2Content from './components/GetInfoStep2';
+// import PaginationItem from '@/components/pagination/Pagination';
+import {navigate, navigateReset} from '@/helpers/navigation';
+import GetInfoStep3Content from './components/GetInfoStep3';
+import GetInfoStep4Content from './components/GetInfoStep4';
+import GetInfoStep5Content from './components/GetInfoStep5';
+import {StoreState, reduxStorage, useAppSelector} from '@/store';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import PaginationItem from '@/components/pagination/Pagination';
 
 const GetInfoScreen = () => {
-  const width = Dimensions.get("window").width;
+  const width = Dimensions.get('window').width;
   const [idxContent, setIdxContent] = useState<number>(0);
   const ref = useRef<ICarouselInstance>(null);
   const userInfo = useAppSelector((state: StoreState) => state.userInfo);
 
   const renderRightHeader = () => {
     return (
-      <TouchableOpacity onPress={() => navigateReset("HomeScreen")}>
+      <TouchableOpacity onPress={() => navigateReset('HomeScreen')}>
         <Text style={styles.skip}>Skip</Text>
       </TouchableOpacity>
     );
@@ -42,9 +42,9 @@ const GetInfoScreen = () => {
     if (idxContent < 4) {
       ref.current?.next();
     } else {
-      reduxStorage.setItem("isGetInfoDone", "true");
-      reduxStorage.setItem("userInfo", JSON.stringify(userInfo));
-      navigateReset("HomeScreen");
+      reduxStorage.setItem('isGetInfoDone', 'true');
+      reduxStorage.setItem('userInfo', JSON.stringify(userInfo));
+      navigateReset('HomeScreen');
     }
   };
 
@@ -76,7 +76,7 @@ const GetInfoScreen = () => {
 
   const dataRender = [0, 1, 2, 3, 4];
 
-  const renderFunction = ({ item, index }: any) => {
+  const renderFunction = ({item, index}: any) => {
     switch (item) {
       case 0:
         return <GetInfoStep1Content />;
@@ -92,21 +92,23 @@ const GetInfoScreen = () => {
   };
 
   return (
-    <SafeScreen>
+    <SafeAreaView style={styles.container}>
       <Header
-        renderLogo={true}
-        canGoBack={idxContent === 0 ? false : true}
+        renderLogo
+        canGoBack={!(idxContent === 0)}
         handleGoBack={() => ref.current?.prev()}
         rightContent={renderRightHeader()}
       />
-      <View style={styles.container}>
+      <View style={styles.contentContainer}>
         <Carousel
           ref={ref}
           loop={false}
           width={width}
           enabled={false}
           data={dataRender}
-          onSnapToItem={(index) => setIdxContent(index)}
+          onSnapToItem={index => {
+            setIdxContent(index);
+          }}
           renderItem={renderFunction}
         />
       </View>
@@ -129,53 +131,53 @@ const GetInfoScreen = () => {
             ...styles.continueContent,
             opacity: disableContinue ? 0.25 : 1,
           }}
-          disabled={disableContinue}
-        >
+          disabled={disableContinue}>
           <Text style={styles.continue}>
-            {idxContent < 4 ? "Continue" : "Finish"}
+            {idxContent < 4 ? 'Continue' : 'Finish'}
           </Text>
         </TouchableOpacity>
       </View>
-    </SafeScreen>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { alignItems: "center", width: "100%", flex: 1 },
+  container: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  contentContainer: {alignItems: 'center', width: '100%', flex: 1},
   skip: {
-    fontWeight: "500",
-    fontFamily: "Inter-Medium",
-    color: "#262626",
-    textAlign: "left",
+    fontWeight: '500',
+    fontFamily: 'Inter-Medium',
+    color: '#262626',
+    textAlign: 'left',
     fontSize: 14,
   },
-  footerContainer: { height: 100, width: "100%", paddingVertical: 16 },
+  footerContainer: {height: 100, width: '100%', paddingVertical: 16},
   paginationContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     width: 100,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   continueContent: {
     marginTop: 16,
     borderRadius: 24,
-    backgroundColor: "#1b9cfc",
+    backgroundColor: '#1b9cfc',
     width: 250,
     height: 48,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
     paddingHorizontal: 20,
     paddingVertical: 8,
   },
   continue: {
     fontSize: 14,
     letterSpacing: 0,
-    fontWeight: "500",
-    fontFamily: "Inter-Medium",
-    color: "#fff",
-    textAlign: "left",
+    fontWeight: '500',
+    fontFamily: 'Inter-Medium',
+    color: '#fff',
+    textAlign: 'left',
   },
 });
 

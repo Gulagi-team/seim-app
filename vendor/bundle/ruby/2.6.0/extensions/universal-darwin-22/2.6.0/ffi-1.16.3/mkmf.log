@@ -235,7 +235,7 @@ checked program was:
 ld: warning: directory not found for option '-L/AppleInternal/Library/BuildRoots/810eba08-405a-11ed-86e9-6af958a02716/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.0.Internal.sdk/usr/local/lib'
 Undefined symbols for architecture arm64:
   "_rb_gc_mark_movable", referenced from:
-      _t in conftest-ebca1a.o
+      _t in conftest-69244e.o
 ld: symbol(s) not found for architecture arm64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 checked program was:

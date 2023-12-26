@@ -1,38 +1,36 @@
-import { useEffect } from "react";
-import { ActivityIndicator, Image, Text, View } from "react-native";
-import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
+import {useEffect} from 'react';
+import {ActivityIndicator, Image, StyleSheet, Text, View} from 'react-native';
+// import {useTranslation} from 'react-i18next';
+import WelcomeBottom from '@/assets/images/welcomeBottom.png';
+import {navigateReset} from '@/helpers/navigation';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import LogoSeim from '@/assets/images/logoSeim.png';
+import {getBooleanLocal, getStringLocal} from '@/helpers/localStorage';
+import {useDispatch} from 'react-redux';
+import {getKeyLession, getLessionSelected} from '@/store/lessions';
 
-import { useTheme } from "@/theme";
-import { Brand } from "@/components/molecules";
-import { SafeScreen } from "@/components/template";
-
-import type { ApplicationScreenProps } from "@/types/navigation";
-
-import WelcomeBottom from "@/assets/images/welcomeBottom.png";
-import { getBooleanLocal } from "@/helper/localStorage";
-
-function SplashScreen({ navigation }: ApplicationScreenProps) {
-  const { layout, gutters, fonts } = useTheme();
-  const { t } = useTranslation(["startup"]);
+const SplashScreen = () => {
+  const dispatch = useDispatch();
 
   const init = async () => {
-    await new Promise((resolve) =>
+    await new Promise(resolve =>
       setTimeout(() => {
         resolve(true);
-      }, 2000)
+      }, 2000),
     );
-    const getInfoDone = getBooleanLocal("isGetInfoDone");
+    const getInfoDone = getBooleanLocal('isGetInfoDone');
+    const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
+    const getKeyLessionsSelectedLocal = getStringLocal('keyLessionsSelected');
+
+    console.log(getLessionsSelectedLocal);
     if (getInfoDone) {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "HomeScreen" }],
-      });
+      if (getLessionsSelectedLocal && getKeyLessionsSelectedLocal) {
+        dispatch(getLessionSelected(JSON.parse(getLessionsSelectedLocal)));
+        dispatch(getKeyLession(JSON.parse(getKeyLessionsSelectedLocal)));
+        navigateReset('PackScreen');
+      } else navigateReset('HomeScreen');
     } else {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "Welcome" }],
-      });
+      navigateReset('Welcome');
     }
   };
 
@@ -41,40 +39,39 @@ function SplashScreen({ navigation }: ApplicationScreenProps) {
   }, []);
 
   return (
-    <SafeScreen>
-      <View
-        style={[
-          layout.flex_1,
-          layout.col,
-          layout.itemsCenter,
-          layout.justifyCenter,
-        ]}
-      >
-        <Brand />
-        <ActivityIndicator size="large" style={[gutters.marginVertical_24]} />
-        <Image
-          testID={"welcome-bottom"}
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "30%",
-            bottom: 0,
-          }}
-          source={WelcomeBottom}
-          resizeMode={"stretch"}
-        />
-        <Text
-          style={{
-            position: "absolute",
-            // width: '100%',
-            bottom: 15,
-          }}
-        >
-          Develop by Gulagi
-        </Text>
-      </View>
-    </SafeScreen>
+    <SafeAreaView style={styles.container}>
+      <Image
+        source={LogoSeim}
+        style={styles.imageLogo}
+        resizeMode={'contain'}
+      />
+      <ActivityIndicator size="large" style={{marginVertical: 24}} />
+      <Image
+        testID={'welcome-bottom'}
+        style={styles.welcomeBottom}
+        source={WelcomeBottom}
+        resizeMode={'stretch'}
+      />
+      <Text
+        style={{
+          position: 'absolute',
+          bottom: 15,
+        }}>
+        Develop by Gulagi
+      </Text>
+    </SafeAreaView>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  imageLogo: {height: 150, width: 150},
+  welcomeBottom: {
+    position: 'absolute',
+    width: '100%',
+    height: '30%',
+    bottom: 0,
+  },
+});
 
 export default SplashScreen;

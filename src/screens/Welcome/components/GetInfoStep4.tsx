@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState} from 'react';
 
 import {
   Text,
@@ -9,23 +9,21 @@ import {
   StyleSheet,
   Touchable,
   TouchableOpacity,
-} from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import { generateArray } from "@/helper/others";
-import { useDispatch } from "react-redux";
-import { StoreState, useAppSelector } from "@/store";
-import { updateHeight } from "@/store/userInfo";
+} from 'react-native';
+import {Picker} from '@react-native-picker/picker';
+import {generateArray} from '@/helpers/others';
+import {useDispatch} from 'react-redux';
+import {StoreState, useAppSelector} from '@/store';
+import {updateHeight} from '@/store/userInfo';
 
 const GetInfoStep4Content = () => {
   const dispatch = useDispatch();
   const height = useAppSelector((state: StoreState) => state.userInfo.height);
 
   const [selectedHeight, setSelectedHeight] = useState(150);
-  const [selectedHeight1, setSelectedHeight1] = useState(5);
-  const [selectedLanguage, setSelectedLanguage] = useState("cm");
+  const [selectedLanguage, setSelectedLanguage] = useState('cm');
 
-  const myArray: number[] = generateArray(140, 190);
-  const myArray1: number[] = generateArray(0, 9);
+  const myArray: number[] = generateArray(100, 210);
 
   return (
     <View style={styles.container}>
@@ -41,36 +39,12 @@ const GetInfoStep4Content = () => {
           <Picker
             selectedValue={selectedHeight}
             onValueChange={(itemValue, itemIndex) => {
-              dispatch(
-                updateHeight(
-                  `${selectedHeight}.${selectedHeight1} ${selectedLanguage}`
-                )
-              );
+              dispatch(updateHeight(`${selectedHeight} ${selectedLanguage}`));
               setSelectedHeight(itemValue);
             }}
             mode="dialog"
-            itemStyle={styles.textContainer}
-          >
-            {myArray.map((item) => (
-              <Picker.Item label={item.toString()} value={item} key={item} />
-            ))}
-          </Picker>
-        </View>
-        <Text style={styles.question2}>.</Text>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={selectedHeight1}
-            onValueChange={(itemValue, itemIndex) => {
-              dispatch(
-                updateHeight(
-                  `${selectedHeight}.${selectedHeight1} ${selectedLanguage}`
-                )
-              );
-              setSelectedHeight1(itemValue);
-            }}
-            itemStyle={styles.textContainer}
-          >
-            {myArray1.map((item) => (
+            itemStyle={styles.textContainer}>
+            {myArray.map(item => (
               <Picker.Item label={item.toString()} value={item} key={item} />
             ))}
           </Picker>
@@ -79,15 +53,10 @@ const GetInfoStep4Content = () => {
           <Picker
             selectedValue={selectedLanguage}
             onValueChange={(itemValue, itemIndex) => {
-              dispatch(
-                updateHeight(
-                  `${selectedHeight}.${selectedHeight1} ${selectedLanguage}`
-                )
-              );
+              dispatch(updateHeight(`${selectedHeight} ${selectedLanguage}`));
               setSelectedLanguage(itemValue);
             }}
-            itemStyle={styles.textContainer}
-          >
+            itemStyle={styles.textContainer}>
             <Picker.Item label="cm" value="cm" />
             <Picker.Item label="ft" value="ft" />
           </Picker>
@@ -99,47 +68,47 @@ const GetInfoStep4Content = () => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    height: "100%",
-    width: "100%",
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
     paddingHorizontal: 16,
     marginTop: 24,
   },
   question: {
-    width: "100%",
+    width: '100%',
     paddingBottom: 16,
   },
   howOldAre1: {
     fontSize: 20,
     letterSpacing: 0,
-    fontWeight: "700",
-    fontFamily: "Inter-Bold",
-    color: "#171717",
-    textAlign: "left",
+    fontWeight: '700',
+    fontFamily: 'Inter-Bold',
+    color: '#171717',
+    textAlign: 'left',
   },
   letUsKnow1: {
     fontSize: 14,
-    fontFamily: "Inter-Regular",
-    color: "#525252",
+    fontFamily: 'Inter-Regular',
+    color: '#525252',
     marginTop: 8,
-    textAlign: "left",
-    alignSelf: "stretch",
+    textAlign: 'left',
+    alignSelf: 'stretch',
   },
   content: {
-    width: "100%",
+    width: '100%',
     marginTop: 22,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  pickerContainer: { width: "30%", height: 200 },
-  textContainer: { fontSize: 26, fontWeight: "500", fontFamily: "Inter-Bold" },
+  pickerContainer: {width: '40%', height: 200},
+  textContainer: {fontSize: 26, fontWeight: '500', fontFamily: 'Inter-Bold'},
   question2: {
     fontSize: 32,
-    fontWeight: "700",
-    fontFamily: "Inter-Bold",
-    color: "#000",
-    textAlign: "left",
+    fontWeight: '700',
+    fontFamily: 'Inter-Bold',
+    color: '#000',
+    textAlign: 'left',
   },
 });
 
