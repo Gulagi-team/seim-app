@@ -8,6 +8,7 @@ import LogoSeim from '@/assets/images/logoSeim.png';
 import {getBooleanLocal, getStringLocal} from '@/helpers/localStorage';
 import {useDispatch} from 'react-redux';
 import {getKeyLession, getLessionSelected} from '@/store/lessions';
+import { styles } from './SplashScreen.styles';
 
 const SplashScreen = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const SplashScreen = () => {
     await new Promise(resolve =>
       setTimeout(() => {
         resolve(true);
-      }, 2000),
+      }, 1000),
     );
     const getInfoDone = getBooleanLocal('isGetInfoDone');
     const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
@@ -27,8 +28,11 @@ const SplashScreen = () => {
       if (getLessionsSelectedLocal && getKeyLessionsSelectedLocal) {
         dispatch(getLessionSelected(JSON.parse(getLessionsSelectedLocal)));
         dispatch(getKeyLession(JSON.parse(getKeyLessionsSelectedLocal)));
-        navigateReset('PackScreen');
-      } else navigateReset('HomeScreen');
+        navigateReset('HomeScreen');        
+      } else{
+        
+        navigateReset('HomeScreen');
+      } 
     } else {
       navigateReset('Welcome');
     }
@@ -45,7 +49,7 @@ const SplashScreen = () => {
         style={styles.imageLogo}
         resizeMode={'contain'}
       />
-      <ActivityIndicator size="large" style={{marginVertical: 24}} />
+      {/* <ActivityIndicator size="large" style={{marginVertical: 24}} /> */}
       <Image
         testID={'welcome-bottom'}
         style={styles.welcomeBottom}
@@ -63,15 +67,15 @@ const SplashScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {flex: 1, justifyContent: 'center', alignItems: 'center'},
-  imageLogo: {height: 150, width: 150},
-  welcomeBottom: {
-    position: 'absolute',
-    width: '100%',
-    height: '30%',
-    bottom: 0,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+//   imageLogo: {height: 150, width: 150},
+//   welcomeBottom: {
+//     position: 'absolute',
+//     width: '100%',
+//     height: '30%',
+//     bottom: 0,
+//   },
+// });
 
 export default SplashScreen;

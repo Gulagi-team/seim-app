@@ -1,0 +1,14 @@
+{
+  "usesTypeScript": true,
+  "usesStyledComponents": false,
+  "testLibrary": "None",
+  "component": {
+    "default": {
+      "path": "src/screens",
+      "withStyle": true,
+      "withTest": false,
+      "withStory": false,
+      "withLazy": true
+    }
+  }
+}

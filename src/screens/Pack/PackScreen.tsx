@@ -1,6 +1,5 @@
 import {
   ActivityIndicator,
-  Dimensions,
   FlatList,
   Image,
   ScrollView,
@@ -9,156 +8,85 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useEffect, useRef, useState} from 'react';
-import {StoreState, useAppSelector} from '@/store';
-import {useDispatch} from 'react-redux';
-import FastImage from 'react-native-fast-image';
-import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
-import ListTaskContent from './component/ListTask';
-import HeartBottom from '@/assets/images/wel.svg';
-import IconAdd from '@/assets/icons/icon_add.svg';
-import {navigate} from '@/helpers/navigation';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import firestore from '@react-native-firebase/firestore';
+import { useEffect, useState } from 'react';
+import { LessionType } from '@/types/colection';
+import LessionItem from '@/components/listItem/LessionItem';
+import { StoreState, reduxStorage, useAppSelector } from '@/store';
+import { useDispatch } from 'react-redux';
+import {
+  addKeyLession,
+  removeKeyLession,
+  addLessionSelected,
+  updateLessionSelected,
+  fetchLessions,
+} from '@/store/lessions';
+import { navigate } from '@/helpers/navigation';
+import { ThunkDispatch } from '@reduxjs/toolkit';
+import { Spinner } from '@gluestack-ui/themed';
+import { styles } from './PackScreen.styles';
 
 const PackScreen = () => {
-  const dispatch = useDispatch();
-  const lessionsSelected = useAppSelector(
-    (state: StoreState) => state.LessionSlice.lessionsSelected,
-  );
-  const width = Dimensions.get('window').width;
-  const [idxContent, setIdxContent] = useState<number>(0);
-  const ref = useRef<ICarouselInstance>(null);
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
-  const renderFunction = ({item, index}: any) => {
-    return <ListTaskContent lessionSelected={item} />;
+  const [loading, setLoading] = useState(true);
+  // const [lessions, setLessions] = useState<LessionType[]>([]);
+
+  const { lessions, lessionsSelected, status, keyLessionSelected } = useAppSelector(
+    (state: StoreState) => state.LessionSlice,
+  );
+
+  useEffect(() => {
+    dispatch(fetchLessions());
+  }, []);
+
+  //------
+
+
+
+  const handleSelectLession = (key: string, lesson: LessionType) => {
+    if (keyLessionSelected.indexOf(key) >= 0) {
+      dispatch(removeKeyLession(key));
+    } else {
+      dispatch(addKeyLession(key));
+      dispatch(addLessionSelected(lesson));
+    }
   };
 
-  const handleChangeTask = (to: number) => {
-    const dis = to - idxContent;
-    setIdxContent(to);
-    ref.current?.scrollTo({count: dis});
+  const handleFinishSelect = () => {
+    dispatch(updateLessionSelected());
+    reduxStorage.setItem('lessionsSelected', JSON.stringify(lessionsSelected));
+    reduxStorage.setItem(
+      'keyLessionsSelected',
+      JSON.stringify(keyLessionSelected),
+    );
+    navigate('HomeScreen');
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View
-        style={{
-          width: '100%',
-          alignItems: 'flex-end',
-          // backgroundColor: 'gray',
-        }}>
-        {/* <View
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 100,
-            backgroundColor: 'gray',
-          }}></View> */}
-        <FastImage
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 100,
-            backgroundColor: '#E6E6E6',
-          }}
-          source={{
-            uri: 'https://seim-gulagi.web.app/assets/imgs/self.png',
-          }}
-          resizeMode={FastImage.resizeMode.contain}
-        />
+      <View style={styles.textContainer}>
+        <Text style={styles.chooseText}>Choose challenge</Text>
+        <TouchableOpacity
+          style={styles.finishContainer}
+          onPress={handleFinishSelect}>
+          <Text style={styles.finishText}>{`Finish >`}</Text>
+        </TouchableOpacity>
       </View>
-      <View
-        style={{
-          width: '90%',
-          height: '85%',
-          borderRadius: 10,
-          marginTop: 14,
-          backgroundColor: '#fff',
-        }}>
-        <View>
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            style={{
-              marginTop: 13,
-              marginBottom: 12,
-              marginHorizontal: 30,
-            }}>
-            {lessionsSelected.map((item, index) => (
-              <TouchableOpacity
-                style={{marginRight: 10}}
-                onPress={() => handleChangeTask(index)}
-                key={item.lession_key}>
-                <FastImage
-                  style={{
-                    height: 46,
-                    width: 46,
-                    marginBottom: 10,
-                  }}
-                  source={{
-                    uri: 'https://firebasestorage.googleapis.com/v0/b/seim-gulagi.appspot.com/o/lesssions%2F20210528144843-2021-05-28su_lession144842.png?alt=media&token=24b73dcb-271b-4d0b-ab7a-5cdd5970dd0f',
-                  }}
-                  resizeMode={FastImage.resizeMode.contain}
-                />
-                {index === idxContent && (
-                  <View
-                    style={{
-                      width: '100%',
-                      height: 2,
-                      backgroundColor: 'black',
-                      borderRadius: 40,
-                    }}
-                  />
-                )}
-              </TouchableOpacity>
-            ))}
-            <TouchableOpacity
-              onPress={() => navigate('HomeScreen')}
-              style={{
-                height: 46,
-                width: 46,
-                backgroundColor: '#E6E6E6',
-                borderRadius: 5,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <IconAdd />
-            </TouchableOpacity>
-          </ScrollView>
-        </View>
-
-        <Carousel
-          ref={ref}
-          loop={false}
-          width={width}
-          enabled={false}
-          data={lessionsSelected}
-          onSnapToItem={index => {
-            setIdxContent(index);
-          }}
-          renderItem={renderFunction}
-        />
-      </View>
-      <HeartBottom
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '30%',
-          zIndex: -1,
-          bottom: 0,
-        }}
-      />
+      <ScrollView style={styles.contentContainer}>
+        {lessions.map(item => (
+          <LessionItem
+            lession={item}
+            key={item.lession_key}
+            onSelect={() => handleSelectLession(item.lession_key, item)}
+            isSelect={keyLessionSelected.indexOf(item.lession_key) >= 0}
+          />
+        ))}
+        {lessions.length == 0 ? (<View><Spinner size="large" /></View>) : ''}
+      </ScrollView>
     </SafeAreaView>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    width: '100%',
-    flex: 1,
-    marginTop: 14,
-    paddingTop: 7,
-    paddingHorizontal: 16,
-  },
-});
+
 export default PackScreen;

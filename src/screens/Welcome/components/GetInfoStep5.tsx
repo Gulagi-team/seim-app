@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
 import {
   Text,
@@ -10,11 +10,12 @@ import {
   Touchable,
   TouchableOpacity,
 } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
-import {generateArray} from '@/helpers/others';
-import {useDispatch} from 'react-redux';
-import {StoreState, useAppSelector} from '@/store';
-import {updateWeight} from '@/store/userInfo';
+import { Picker } from '@react-native-picker/picker';
+import { generateArray } from '@/helpers/others';
+import { useDispatch } from 'react-redux';
+import { StoreState, useAppSelector } from '@/store';
+import { updateWeight } from '@/store/userInfo';
+import { Input, InputField } from '@gluestack-ui/themed';
 
 const GetInfoStep5Content = () => {
   const dispatch = useDispatch();
@@ -36,30 +37,24 @@ const GetInfoStep5Content = () => {
       </View>
       <View style={styles.content}>
         <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={selectedWeight}
-            onValueChange={(itemValue, itemIndex) => {
-              dispatch(updateWeight(`${selectedWeight} ${selectedLanguage}`));
-              setSelectedWeight(itemValue);
+          <Input
+            variant="underlined"
+            size="md"
+            isDisabled={false}
+            isInvalid={false}
+            isReadOnly={false}
+          >
+            <InputField placeholder="50" keyboardType="numeric" onChangeText={(value) => {
+              dispatch(updateWeight(`${selectedWeight} CM`));
+              setSelectedWeight(+value);
             }}
-            mode="dialog"
-            itemStyle={styles.textContainer}>
-            {myArray.map(item => (
-              <Picker.Item label={item.toString()} value={item} key={item} />
-            ))}
-          </Picker>
+            />
+          </Input>
         </View>
         <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={selectedLanguage}
-            onValueChange={(itemValue, itemIndex) => {
-              dispatch(updateWeight(`${selectedWeight} ${selectedLanguage}`));
-              setSelectedLanguage(itemValue);
-            }}
-            itemStyle={styles.textContainer}>
-            <Picker.Item label="kg" value="kg" />
-            <Picker.Item label="lbs" value="lbs" />
-          </Picker>
+          <Text style={styles.textContainer}>
+            KG
+          </Text>
         </View>
       </View>
     </View>
@@ -101,8 +96,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  pickerContainer: {width: '40%', height: 200},
-  textContainer: {fontSize: 26, fontWeight: '500', fontFamily: 'Inter-Bold'},
+  pickerContainer: { width: '40%', height: 200 },
+  textContainer: { fontSize: 20, fontWeight: '500', fontFamily: 'Inter-Bold' },
   question2: {
     fontSize: 32,
     fontWeight: '700',

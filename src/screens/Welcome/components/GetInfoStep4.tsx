@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
 import {
   Text,
@@ -10,11 +10,13 @@ import {
   Touchable,
   TouchableOpacity,
 } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
-import {generateArray} from '@/helpers/others';
-import {useDispatch} from 'react-redux';
-import {StoreState, useAppSelector} from '@/store';
-import {updateHeight} from '@/store/userInfo';
+import { Picker } from '@react-native-picker/picker';
+import { generateArray } from '@/helpers/others';
+import { useDispatch } from 'react-redux';
+import { StoreState, useAppSelector } from '@/store';
+import { updateHeight } from '@/store/userInfo';
+import { Input, InputField } from '@gluestack-ui/themed';
+import ScrollPicker from 'react-native-wheel-scrollview-picker';
 
 const GetInfoStep4Content = () => {
   const dispatch = useDispatch();
@@ -35,31 +37,36 @@ const GetInfoStep4Content = () => {
         </Text>
       </View>
       <View style={styles.content}>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={selectedHeight}
-            onValueChange={(itemValue, itemIndex) => {
-              dispatch(updateHeight(`${selectedHeight} ${selectedLanguage}`));
-              setSelectedHeight(itemValue);
+        <View style={styles.pickerContainer1}>
+          <ScrollPicker 
+            dataSource={['150', '155', '169', '170', '175', '180']}
+            selectedIndex={1}
+            // renderItem={(data, index) => {
+              
+            //   console.log('====================================');
+            //   console.log('data',data);
+            //   console.log('====================================');
+            // }}
+            onValueChange={(data, selectedIndex) => {
+              //
+              console.log('data',data);
+              dispatch(updateHeight(`${selectedHeight} CM`));
+              setSelectedHeight(+data);
             }}
-            mode="dialog"
-            itemStyle={styles.textContainer}>
-            {myArray.map(item => (
-              <Picker.Item label={item.toString()} value={item} key={item} />
-            ))}
-          </Picker>
+            wrapperHeight={300}
+            // wrapperWidth={150}
+            // wrapperColor='red' 
+            itemTextStyle={{fontSize:40,  fontWeight: '700', color:'#ddd'}}
+            itemHeight={100}
+            highlightColor='black'
+            activeItemTextStyle={{fontSize:40,  fontWeight: '700', color:'black'}}
+            // highlightBorderWidth={2}
+          />
         </View>
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={selectedLanguage}
-            onValueChange={(itemValue, itemIndex) => {
-              dispatch(updateHeight(`${selectedHeight} ${selectedLanguage}`));
-              setSelectedLanguage(itemValue);
-            }}
-            itemStyle={styles.textContainer}>
-            <Picker.Item label="cm" value="cm" />
-            <Picker.Item label="ft" value="ft" />
-          </Picker>
+        <View style={styles.pickerContainer2}>
+          <Text style={styles.textContainer}>
+            CM
+          </Text>
         </View>
       </View>
     </View>
@@ -97,12 +104,14 @@ const styles = StyleSheet.create({
   content: {
     width: '100%',
     marginTop: 22,
+    display:'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  pickerContainer: {width: '40%', height: 200},
-  textContainer: {fontSize: 26, fontWeight: '500', fontFamily: 'Inter-Bold'},
+  pickerContainer1: { width: '40%', height: 300 },
+  pickerContainer2: { width: '40%' },
+  textContainer: { fontSize: 40, fontWeight: '700', color:'black',fontFamily: 'Inter-Bold', marginStart:10 },
   question2: {
     fontSize: 32,
     fontWeight: '700',

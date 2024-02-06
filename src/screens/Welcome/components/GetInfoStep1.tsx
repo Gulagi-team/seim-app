@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 24,
     flex: 1,
+    backgroundColor:'white'
   },
   question: {
     width: '100%',
@@ -130,6 +131,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth:1,
+    borderColor:'#ddd'
   },
   optionContent: {
     fontSize: 16,

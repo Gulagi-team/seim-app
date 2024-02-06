@@ -43,7 +43,7 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 
 const stateStore = configureStore({
   reducer: persistedReducer,
-  devTools: false,
+  devTools: process.env.NODE_ENV !== 'production',
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: false,

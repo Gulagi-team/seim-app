@@ -82,10 +82,10 @@ const GetInfoStep3Content = () => {
               ...styles.optionContent,
               color: old === '30-39' ? '#fff' : 'black',
             }}>
-            30 - 39
+            Trên 30
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => dispatch(updateOld('40-49'))}
           style={{
             ...styles.options,
@@ -124,9 +124,9 @@ const GetInfoStep3Content = () => {
               ...styles.optionContent,
               color: old === '60-69' ? '#fff' : 'black',
             }}>
-            60 - 69
-          </Text>
-        </TouchableOpacity>
+            60 - 69 */}
+          {/* </Text> */}
+        {/* </TouchableOpacity> */}
       </ScrollView>
     </View>
   );
@@ -175,6 +175,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth:1,
+    borderColor:'#ddd'
   },
   optionContent: {
     fontSize: 16,

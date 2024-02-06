@@ -128,6 +128,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth:1,
+    borderColor:'#ddd'
   },
   optionContent: {
     fontSize: 16,

@@ -21,7 +21,7 @@ const WelcomeScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{alignItems: 'center'}}>
+    <SafeAreaView style={{alignItems: 'center', backgroundColor:'white', height:'100%'}}>
       <View
         style={{
           marginTop: 100,

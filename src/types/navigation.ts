@@ -6,6 +6,7 @@ export type ApplicationStackParamList = {
   GetInfoScreen: undefined;
   HomeScreen: undefined;
   PackScreen: undefined;
+  LessionTypeScreen: undefined;
 };
 
 export type ApplicationScreenProps =
