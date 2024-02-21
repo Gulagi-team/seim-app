@@ -1,5 +1,5 @@
-import {LessionSelectedType} from '@/types/colection';
-import React, {useState} from 'react';
+import { LessionSelectedType } from '@/types/colection';
+import React, { useState } from 'react';
 
 import {
   Text,
@@ -11,14 +11,17 @@ import {
   Touchable,
   TouchableOpacity,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import IconCheck from '@/assets/icons/icon_checkmark.svg';
-import {updateTaskStatus} from '@/store/lessions';
+import { updateTaskStatus } from '@/store/lessions';
+import { styled } from '@gluestack-style/react';
+import { styles } from './ListTask.styles';
+import { CheckIcon, Checkbox, CheckboxGroup, CheckboxIcon, CheckboxIndicator, CheckboxLabel } from '@gluestack-ui/themed';
 
 export interface props {
   lessionSelected: LessionSelectedType;
 }
-const ListTaskContent = ({lessionSelected}: props) => {
+const ListTaskContent = ({ lessionSelected }: props) => {
   const dispatch = useDispatch();
 
   return (
@@ -27,6 +30,7 @@ const ListTaskContent = ({lessionSelected}: props) => {
         <Text style={styles.howOldAre1}>{lessionSelected.lession_title}</Text>
         {lessionSelected.items.map((item, index) => (
           <TouchableOpacity
+          accessible={true}
             onPress={() =>
               dispatch(
                 updateTaskStatus({
@@ -35,28 +39,13 @@ const ListTaskContent = ({lessionSelected}: props) => {
                 }),
               )
             }
-            style={{
-              width: '80%',
-              height: 60,
-              backgroundColor: '#F7F7F7',
-              marginBottom: 10,
-              flexDirection: 'row',
-              alignItems: 'center',
-              borderRadius: 5,
-            }}
+            style={styles.item}
             key={item.item_trans_title}>
             <Text
-              style={{
-                width: '80%',
-                marginLeft: 10,
-                fontSize: 12,
-                fontWeight: '500',
-                fontFamily: 'Montserrat-Medium',
-                color: '#000',
-              }}>
+              style={styles.ItemText}>
               {item.item_trans_title}
             </Text>
-            <View
+            {/* <View
               style={{
                 borderColor: 'black',
                 borderWidth: 1,
@@ -64,40 +53,22 @@ const ListTaskContent = ({lessionSelected}: props) => {
                 height: 25,
                 borderRadius: 100,
                 marginRight: 20,
-                // marginVertical: 30,
+                marginVertical: 30,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              {item.isDone && <IconCheck />}
-            </View>
+              {item.isDone && <IconCheck  />}
+            </View> */}
+            
+              <Checkbox  aria-label={item.item_trans_title} size="lg" value='12' isChecked={item.isDone} >
+                <CheckboxIndicator style={{borderRadius:25}}   mr="$2">
+                  <CheckboxIcon as={CheckIcon} />
+                </CheckboxIndicator>
+              </Checkbox>
           </TouchableOpacity>
         ))}
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    // marginTop: 24,
-    flex: 1,
-  },
-  question: {
-    width: '100%',
-    paddingBottom: 16,
-  },
-  howOldAre1: {
-    marginLeft: 14,
-    marginBottom: 20,
-    fontSize: 16,
-    letterSpacing: 0,
-    fontWeight: '700',
-    fontFamily: 'Inter-Bold',
-    color: '#B00404',
-    textAlign: 'left',
-  },
-});
-
 export default ListTaskContent;

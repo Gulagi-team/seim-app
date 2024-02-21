@@ -1,5 +1,10 @@
+
+// import PackSreen from './PackSreen.module.scss';
+// import style from "./PackSreen.module.scss";
+
 import {
   ActivityIndicator,
+  Dimensions,
   FlatList,
   Image,
   ScrollView,
@@ -8,140 +13,113 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import firestore from '@react-native-firebase/firestore';
-import {useEffect, useState} from 'react';
-import {LessionType} from '@/types/colection';
-import LessionItem from '@/components/listItem/LessionItem';
-import {StoreState, reduxStorage, useAppSelector} from '@/store';
-import {useDispatch} from 'react-redux';
-import {
-  addKeyLession,
-  removeKeyLession,
-  addLessionSelected,
-  updateLessionSelected,
-} from '@/store/lessions';
-import {navigate} from '@/helpers/navigation';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useEffect, useRef, useState } from 'react';
+import { StoreState, useAppSelector } from '@/store';
+import { useDispatch } from 'react-redux';
+import FastImage from 'react-native-fast-image';
+import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
+import ListTaskContent from './component/ListTask';
+import HeartBottom from '@/assets/images/bg_home.svg';
+import IconAdd from '@/assets/icons/icon_add.svg';
+import { navigate } from '@/helpers/navigation';
+import Header from '@/components/Header';
+import { styles } from './HomeScreen.styles';
+import HeaderMain from '@/components/HeaderMain';
+import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 const HomeScreen = () => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
-  const [lessions, setLessions] = useState<LessionType[]>([]);
-
-  const {lessionsSelected, keyLessionSelected} = useAppSelector(
-    (state: StoreState) => state.LessionSlice,
+  const lessionsSelected = useAppSelector(
+    (state: StoreState) => state.LessionSlice.lessionsSelected,
   );
+  const width = Dimensions.get('window').width;
+  const [idxContent, setIdxContent] = useState<number>(0);
+  const ref = useRef<ICarouselInstance>(null);
+  const [open, setOpen] = useState(false);
 
-  const getInfo = () => {
-    const subscriber = firestore()
-      .collection('lessions')
-      .onSnapshot(
-        querySnapshot => {
-          const users1: any = [];
-
-          querySnapshot.forEach(documentSnapshot => {
-            users1.push({
-              ...documentSnapshot.data(),
-              key: documentSnapshot.data().lession_key,
-            });
-          });
-
-          setLessions(users1);
-          setLoading(false);
-        },
-        err => console.log('err', err),
-      );
-
-    return () => subscriber();
+  const renderFunction = ({ item, index }: any) => {
+    return <ListTaskContent lessionSelected={item} />;
   };
 
-  useEffect(() => {
-    getInfo();
-  }, []);
-
-  const handleSelectLession = (key: string, lesson: LessionType) => {
-    if (keyLessionSelected.indexOf(key) >= 0) {
-      dispatch(removeKeyLession(key));
-    } else {
-      dispatch(addKeyLession(key));
-      dispatch(addLessionSelected(lesson));
-    }
-  };
-
-  const handleFinishSelect = () => {
-    dispatch(updateLessionSelected());
-    reduxStorage.setItem('lessionsSelected', JSON.stringify(lessionsSelected));
-    reduxStorage.setItem(
-      'keyLessionsSelected',
-      JSON.stringify(keyLessionSelected),
-    );
-    navigate('PackScreen');
+  const handleChangeTask = (to: number) => {
+    const dis = to - idxContent;
+    setIdxContent(to);
+    ref.current?.scrollTo({ count: dis });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.textContainer}>
-        <Text style={styles.chooseText}>Choose challenge</Text>
-        <TouchableOpacity
-          style={styles.finishContainer}
-          onPress={handleFinishSelect}>
-          <Text style={styles.finishText}>{`Finish >`}</Text>
-        </TouchableOpacity>
-      </View>
-      <ScrollView style={styles.contentContainer}>
-        {lessions.map(item => (
-          <LessionItem
-            lession={item}
-            key={item.lession_key}
-            onSelect={() => handleSelectLession(item.lession_key, item)}
-            isSelect={keyLessionSelected.indexOf(item.lession_key) >= 0}
+      <View style={styles.containerView}>
+        <HeaderMain canGoBack={false} renderLogo={true}></HeaderMain>
+        <View style={styles.viewBody}>
+          <View>
+            <ScrollView
+              horizontal={true}
+              // showsHorizontalScrollIndicator={false}
+              style={styles.ScrollView}>
+              {lessionsSelected.map((item, index) => (
+                <TouchableOpacity
+                  style={{ marginRight: 10 }}
+                  onPress={() => handleChangeTask(index)}
+                  key={item.lession_key}>
+                  <FastImage
+                    style={styles.imgF}
+                    source={{
+                      uri: 'https://firebasestorage.googleapis.com/v0/b/seim-gulagi.appspot.com/o/lesssions%2F20210528144843-2021-05-28su_lession144842.png?alt=media&token=24b73dcb-271b-4d0b-ab7a-5cdd5970dd0f',
+                    }}
+                    resizeMode={FastImage.resizeMode.contain}
+                  />
+                  {index === idxContent && (
+                    <View
+                      style={{
+                        width: '100%',
+                        height: 4,
+                        backgroundColor: 'black',
+                        borderRadius: 50,
+                      }}
+                    />
+                  )}
+                </TouchableOpacity>
+              ))}
+              <TouchableOpacity
+                onPress={() => navigate('LessionTypeScreen')}
+                style={{
+                  height: 46,
+                  width: 46,
+                  backgroundColor: '#E6E6E6',
+                  borderRadius: 5,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <IconAdd />
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+
+          <Carousel
+            ref={ref}
+            loop={false}
+            // style={{borderRadius:10}}
+            width={width - 30}
+            enabled={false}
+            data={lessionsSelected}
+            onSnapToItem={index => {
+              setIdxContent(index);
+            }}
+            renderItem={renderFunction}
           />
-        ))}
-      </ScrollView>
+        </View>
+      
+      </View>
+        {/* <HeartBottom
+        style={styles.backgroundImg}
+      /> */}
+      <Image
+        style={styles.welcomeBottom}
+        source={WelcomeBottom}
+        resizeMode={'stretch'}
+      />
     </SafeAreaView>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    width: '100%',
-    flex: 1,
-    marginTop: 14,
-    paddingTop: 7,
-    paddingHorizontal: 16,
-  },
-  textContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  chooseText: {
-    fontSize: 20,
-    fontWeight: '700',
-    fontFamily: 'Montserrat-Bold',
-    color: '#000',
-    textAlign: 'left',
-  },
-  finishContainer: {
-    paddingVertical: 5,
-    paddingLeft: 18,
-    paddingRight: 9,
-    backgroundColor: '#1873D3',
-    alignItems: 'center',
-    borderTopLeftRadius: 20,
-    borderBottomLeftRadius: 20,
-  },
-  finishText: {
-    fontSize: 12,
-    fontWeight: '500',
-    fontFamily: 'Montserrat-Medium',
-    color: '#fff',
-    textAlign: 'left',
-  },
-  contentContainer: {
-    width: '100%',
-    marginTop: 21,
-  },
-});
 export default HomeScreen;

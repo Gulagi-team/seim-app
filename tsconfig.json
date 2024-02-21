@@ -15,5 +15,5 @@
     "jest.config.js",
     "babel.config.js",
     "index.js"
-  ]
+, " customTransformer.js"  ]
 }

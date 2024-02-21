@@ -1,21 +1,55 @@
+import firestore from '@react-native-firebase/firestore';
 import {
   LessionSelectedType,
   LessionType,
   TaskSelectedItem,
   TaskToUpdate,
 } from '@/types/colection';
-import {PayloadAction, createSlice} from '@reduxjs/toolkit';
-import {union, unionWith} from 'lodash';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { union, unionWith } from 'lodash';
 
 export type LessionsState = {
+  lessions: LessionSelectedType[];
+  status: string,
+  error: any,
   lessionsSelected: LessionSelectedType[];
   keyLessionSelected: string[];
 };
 
 const initialState: LessionsState = {
+  lessions: [],
+  status: 'idle',
+  error: null,
   lessionsSelected: [],
   keyLessionSelected: [],
 };
+
+
+//  Thunks fetchLessions
+export const fetchLessions = createAsyncThunk('lession/fetchLessions', async () => {
+  const allLession: any = [];
+  const unsubscribe = await firestore()
+    .collection('lessions')
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach(documentSnapshot => {
+        allLession.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.data().lession_key,
+        });
+      });
+      console.log('allLession',allLession);
+      
+      return allLession;
+    },
+      err => { return JSON.stringify(err) }
+    );
+
+  const data = await unsubscribe;
+  return data;
+})
+
+
 
 const LessionSlice = createSlice({
   name: 'lession',
@@ -30,6 +64,7 @@ const LessionSlice = createSlice({
       state.keyLessionSelected = state.keyLessionSelected.filter(
         el => el !== action.payload.toLocaleLowerCase(),
       );
+
     },
     getKeyLession: (state, action: PayloadAction<string[]>) => {
       state.keyLessionSelected = action.payload;
@@ -73,10 +108,7 @@ const LessionSlice = createSlice({
       });
       state.lessionsSelected = temp;
     },
-    getLessionSelected: (
-      state,
-      action: PayloadAction<LessionSelectedType[]>,
-    ) => {
+    getLessionSelected: (state, action: PayloadAction<LessionSelectedType[]>,) => {
       state.lessionsSelected = action.payload;
     },
     updateTaskStatus: (state, action: PayloadAction<TaskToUpdate>) => {
@@ -88,8 +120,24 @@ const LessionSlice = createSlice({
           !state.lessionsSelected[index].items[action.payload.index].isDone;
       }
     },
+
   },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchLessions.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchLessions.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        state.lessions = action.payload;
+      })
+      .addCase(fetchLessions.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message
+      })
+  }
 });
+
 
 export const {
   addKeyLession,
@@ -102,3 +150,4 @@ export const {
 } = LessionSlice.actions;
 
 export default LessionSlice.reducer;
+

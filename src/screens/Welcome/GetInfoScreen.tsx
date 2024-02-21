@@ -30,21 +30,13 @@ const GetInfoScreen = () => {
   const ref = useRef<ICarouselInstance>(null);
   const userInfo = useAppSelector((state: StoreState) => state.userInfo);
 
-  const renderRightHeader = () => {
-    return (
-      <TouchableOpacity onPress={() => navigateReset('HomeScreen')}>
-        <Text style={styles.skip}>Skip</Text>
-      </TouchableOpacity>
-    );
-  };
-
   const handleGoNext = () => {
     if (idxContent < 4) {
       ref.current?.next();
     } else {
       reduxStorage.setItem('isGetInfoDone', 'true');
       reduxStorage.setItem('userInfo', JSON.stringify(userInfo));
-      navigateReset('HomeScreen');
+      navigateReset('PackScreen');
     }
   };
 
@@ -97,7 +89,6 @@ const GetInfoScreen = () => {
         renderLogo
         canGoBack={!(idxContent === 0)}
         handleGoBack={() => ref.current?.prev()}
-        rightContent={renderRightHeader()}
       />
       <View style={styles.contentContainer}>
         <Carousel
@@ -142,7 +133,7 @@ const GetInfoScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  container: {flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:'white'},
   contentContainer: {alignItems: 'center', width: '100%', flex: 1},
   skip: {
     fontWeight: '500',

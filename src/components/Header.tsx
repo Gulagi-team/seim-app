@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import {
   Image,
@@ -12,6 +12,7 @@ import {
 
 import Logo from '@/assets/images/logo.png';
 import IconBack from '@/assets/icons/icon_back.svg';
+import { ArrowLeftIcon, Icon } from '@gluestack-ui/themed';
 
 export interface HeaderProps {
   style?: StyleProp<ViewStyle>;
@@ -42,22 +43,18 @@ const Header = ({
         <TouchableOpacity
           onPress={handleGoBack}
           style={[styles.back, backStyle]}>
-          {/* <Text style={styles.title}>a</Text> */}
-          <IconBack />
+          <Icon as={ArrowLeftIcon} size='xl' />
         </TouchableOpacity>
-      ) : (
-        <View style={{width: 24}} />
-      )}
-      <View style={{flexDirection: 'row'}}>
+      ):null}
+      <View style={{ flexDirection: 'row' }}>
         {/* <Text style={styles.title}>{'title?.toString()'}</Text> */}
 
         {renderLogo && (
           <Image
             testID={'logo-header'}
             style={{
-              // position: "absolute",
-              width: 24,
-              height: 24,
+              width: 34,
+              height: 34,
             }}
             source={Logo}
             resizeMode={'contain'}
@@ -76,21 +73,22 @@ export default Header;
 
 const styles = StyleSheet.create({
   container: {
-    width: '99%',
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    // marginBottom: 8,
-    paddingHorizontal: 16,
-    // backgroundColor: 'red',
+    justifyContent: 'center',
+    margin: 'auto',
+    padding: 14,
+    minHeight: 40
+
   },
   back: {
-    // position: 'absolute',
-    // left: 0,
+    position: 'absolute',
+    left: 10,
   },
   title: {
     color: '#FCFCFD',
-    minHeight: 24,
+    minHeight: 34,
   },
   rightContent: {
     // position: 'absolute',

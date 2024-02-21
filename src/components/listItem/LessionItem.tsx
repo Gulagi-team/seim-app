@@ -17,7 +17,6 @@ const LessionItem = (props: Props) => {
       onPress={onSelect}
       style={{
         ...styles.container,
-        // backgroundColor: props.lession.lession_color,
       }}>
       <View style={{flex: 1, flexDirection: 'row'}}>
         <FastImage
@@ -36,7 +35,7 @@ const LessionItem = (props: Props) => {
         <View style={{marginTop: 12, marginLeft: 12}}>
           <Text style={styles.titleText}>{lession.lession_title}</Text>
           <View style={{marginTop: 13, flexDirection: 'row'}}>
-            <FastImage
+            {/* <FastImage
               style={{width: 25, height: 25, marginRight: 5}}
               source={{
                 uri: 'https://firebasestorage.googleapis.com/v0/b/seim-gulagi.appspot.com/o/lesssions%2F20210528144824-2021-05-28su_lession144823.png?alt=media&token=2a298870-f62b-43b4-a4c7-3ff7e4a652ee',
@@ -56,7 +55,7 @@ const LessionItem = (props: Props) => {
                 uri: 'https://firebasestorage.googleapis.com/v0/b/seim-gulagi.appspot.com/o/lesssions%2F20210528144804-2021-05-28su_lession144803.png?alt=media&token=5bef52d4-a505-434b-ba15-e9ab0f79d14f',
               }}
               resizeMode={FastImage.resizeMode.contain}
-            />
+            /> */}
           </View>
         </View>
       </View>
