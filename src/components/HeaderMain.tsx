@@ -1,22 +1,21 @@
-import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import {
   Image,
   StyleProp,
   StyleSheet,
   Text,
-  TouchableOpacity,
+  // TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
-
 import Logo from '@/assets/images/logo.png';
-import IconBack from '@/assets/icons/icon_back.svg';
-import { ArrowLeftIcon, Icon } from '@gluestack-ui/themed';
+// import IconBack from '@/assets/icons/icon_back.svg';
+// import { ArrowLeftIcon, Icon } from '@gluestack-ui/themed';
+// import { useNavigation } from '@react-navigation/core';
 
 export interface HeaderProps {
   style?: StyleProp<ViewStyle>;
-  title?: string | React.ReactNode;
+  // title?: string | React.ReactNode;
   renderLogo?: boolean;
   canGoBack?: boolean;
   handleGoBack?: () => void;
@@ -27,28 +26,22 @@ export interface HeaderProps {
 
 const HeaderMain = ({
   style,
-  title,
   renderLogo,
-  canGoBack = true,
-  handleGoBack,
-  backStyle,
+  // canGoBack = true,
+  // handleGoBack,
+  // backStyle,
   rightContent,
   rightContentStyle,
 }: HeaderProps) => {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   return (
     <View style={[styles.container, style]}>
-      <View style={{ flexDirection: 'row', }}>
-       
-
+      <View style={{flexDirection: 'row'}}>
         {renderLogo && (
           <Image
             testID={'logo-header'}
-            style={{
-              width: 34,
-              height: 34,
-            }}
+            style={styles.logo}
             source={Logo}
             resizeMode={'contain'}
           />
@@ -69,27 +62,27 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    // justifyContent: 'center',
     margin: 'auto',
     padding: 14,
-    minHeight: 40
-
+    minHeight: 40,
   },
   back: {
     position: 'absolute',
     left: 10,
   },
   title: {
-    // color: '#FCFCFD',
-    // minHeight: 34,
-    marginStart:5,
-    letterSpacing:2,
-    fontSize:22,
-    color:'black',
-    fontWeight:'500'
+    marginStart: 5,
+    letterSpacing: 2,
+    fontSize: 22,
+    color: 'black',
+    fontWeight: '500',
+  },
+  logo: {
+    width: 34,
+    height: 34,
   },
   rightContent: {
-    // position: 'absolute',
-    // right: 0,
+    position: 'absolute',
+    right: 10,
   },
 });

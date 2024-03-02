@@ -1,7 +1,4 @@
-
-// import PackSreen from './PackSreen.module.scss';
-// import style from "./PackSreen.module.scss";
-
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -13,44 +10,62 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useEffect, useRef, useState } from 'react';
-import { StoreState, useAppSelector } from '@/store';
-import { useDispatch } from 'react-redux';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {StoreState, useAppSelector} from '@/store';
+import {useDispatch} from 'react-redux';
 import FastImage from 'react-native-fast-image';
-import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
+import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
 import ListTaskContent from './component/ListTask';
-import HeartBottom from '@/assets/images/bg_home.svg';
-import IconAdd from '@/assets/icons/icon_add.svg';
-import { navigate } from '@/helpers/navigation';
-import Header from '@/components/Header';
-import { styles } from './HomeScreen.styles';
+import {navigate} from '@/helpers/navigation';
+// import Header from '@/components/Header';
 import HeaderMain from '@/components/HeaderMain';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
+import IconAdd from '@/assets/icons/icon_add.svg';
+import IconSearch from '@/assets/icons/icon_search.svg';
+import IconSetting from '@/assets/icons/icon_settings.svg';
+import {styles, rightMenuStyles, topicStyles} from './HomeScreen.styles';
+
 const HomeScreen = () => {
-  const dispatch = useDispatch();
+  const width = Dimensions.get('window').width;
+
+  // const dispatch = useDispatch();
   const lessionsSelected = useAppSelector(
     (state: StoreState) => state.LessionSlice.lessionsSelected,
   );
-  const width = Dimensions.get('window').width;
+
   const [idxContent, setIdxContent] = useState<number>(0);
   const ref = useRef<ICarouselInstance>(null);
-  const [open, setOpen] = useState(false);
 
-  const renderFunction = ({ item, index }: any) => {
+  const renderFunction = ({item, index}: any) => {
     return <ListTaskContent lessionSelected={item} />;
   };
 
   const handleChangeTask = (to: number) => {
     const dis = to - idxContent;
     setIdxContent(to);
-    ref.current?.scrollTo({ count: dis });
+    ref.current?.scrollTo({count: dis});
   };
+
+  const rightIcon = (): React.ReactNode => (
+    <View style={rightMenuStyles.container}>
+      <TouchableOpacity style={rightMenuStyles.iconSearch}>
+        <IconSearch />
+      </TouchableOpacity>
+      <TouchableOpacity style={rightMenuStyles.iconSetting}>
+        <IconSetting />
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerView}>
-        <HeaderMain canGoBack={false} renderLogo={true}></HeaderMain>
+        <HeaderMain
+          canGoBack={false}
+          renderLogo={true}
+          rightContent={rightIcon()}
+          rightContentStyle={rightMenuStyles.rightContent}
+        />
         <View style={styles.viewBody}>
           <View>
             <ScrollView
@@ -59,7 +74,7 @@ const HomeScreen = () => {
               style={styles.ScrollView}>
               {lessionsSelected.map((item, index) => (
                 <TouchableOpacity
-                  style={{ marginRight: 10 }}
+                  style={topicStyles.itemContainer}
                   onPress={() => handleChangeTask(index)}
                   key={item.lession_key}>
                   <FastImage
@@ -70,27 +85,13 @@ const HomeScreen = () => {
                     resizeMode={FastImage.resizeMode.contain}
                   />
                   {index === idxContent && (
-                    <View
-                      style={{
-                        width: '100%',
-                        height: 4,
-                        backgroundColor: 'black',
-                        borderRadius: 50,
-                      }}
-                    />
+                    <View style={topicStyles.selectedLine} />
                   )}
                 </TouchableOpacity>
               ))}
               <TouchableOpacity
                 onPress={() => navigate('LessionTypeScreen')}
-                style={{
-                  height: 46,
-                  width: 46,
-                  backgroundColor: '#E6E6E6',
-                  borderRadius: 5,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+                style={topicStyles.itemAdd}>
                 <IconAdd />
               </TouchableOpacity>
             </ScrollView>
@@ -100,7 +101,7 @@ const HomeScreen = () => {
             ref={ref}
             loop={false}
             // style={{borderRadius:10}}
-            width={width - 30}
+            width={width * 0.9 - 25}
             enabled={false}
             data={lessionsSelected}
             onSnapToItem={index => {
@@ -109,11 +110,8 @@ const HomeScreen = () => {
             renderItem={renderFunction}
           />
         </View>
-      
       </View>
-        {/* <HeartBottom
-        style={styles.backgroundImg}
-      /> */}
+
       <Image
         style={styles.welcomeBottom}
         source={WelcomeBottom}
