@@ -11,23 +11,31 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import GetInfoScreen from '@/screens/Welcome/GetInfoScreen';
 import WelcomeScreen from '@/screens/Welcome/Welcome';
 import PackScreen from '@/screens/Pack/PackScreen';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LessionTypeScreen from '@/screens/LessionType/LessionTypeScreen';
+import ProfileScreen from '@/screens/Profile/ProfileScreen';
+import LoginScreen from '@/screens/Login/LoginScreen';
 // import { lazy } from 'react';
 
 const Stack = createNativeStackNavigator<ApplicationStackParamList>();
 
 function ApplicationNavigator() {
   return (
-    <NavigationContainer ref={navigationRef} >
+    <NavigationContainer ref={navigationRef}>
       <SafeAreaProvider>
-        <Stack.Navigator screenOptions={{headerShown: false, gestureEnabled: false}}>
+        <Stack.Navigator
+          screenOptions={{headerShown: false, gestureEnabled: false}}>
           <Stack.Screen name="Splash" component={SplashScreen} />
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="GetInfoScreen" component={GetInfoScreen} />
-          <Stack.Screen  name="HomeScreen" component={HomeScreen} />
-          <Stack.Screen  name="PackScreen" component={PackScreen} />
-          <Stack.Screen  name="LessionTypeScreen" component={LessionTypeScreen} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="PackScreen" component={PackScreen} />
+          <Stack.Screen
+            name="LessionTypeScreen"
+            component={LessionTypeScreen}
+          />
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
         </Stack.Navigator>
       </SafeAreaProvider>
     </NavigationContainer>

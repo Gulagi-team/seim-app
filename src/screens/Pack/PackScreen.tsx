@@ -8,13 +8,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import firestore from '@react-native-firebase/firestore';
-import { useEffect, useState } from 'react';
-import { LessionType } from '@/types/colection';
+import {useEffect, useState} from 'react';
+import {LessionType} from '@/types/colection';
 import LessionItem from '@/components/listItem/LessionItem';
-import { StoreState, reduxStorage, useAppSelector } from '@/store';
-import { useDispatch } from 'react-redux';
+import {StoreState, reduxStorage, useAppSelector} from '@/store';
+import {useDispatch} from 'react-redux';
 import {
   addKeyLession,
   removeKeyLession,
@@ -22,10 +22,10 @@ import {
   updateLessionSelected,
   fetchLessions,
 } from '@/store/lessions';
-import { navigate } from '@/helpers/navigation';
-import { ThunkDispatch } from '@reduxjs/toolkit';
-import { Spinner } from '@gluestack-ui/themed';
-import { styles } from './PackScreen.styles';
+import {navigate} from '@/helpers/navigation';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import {Spinner} from '@gluestack-ui/themed';
+import {styles} from './PackScreen.styles';
 
 const PackScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -33,17 +33,14 @@ const PackScreen = () => {
   const [loading, setLoading] = useState(true);
   // const [lessions, setLessions] = useState<LessionType[]>([]);
 
-  const { lessions, lessionsSelected, status, keyLessionSelected } = useAppSelector(
-    (state: StoreState) => state.LessionSlice,
-  );
+  const {lessions, lessionsSelected, status, keyLessionSelected} =
+    useAppSelector((state: StoreState) => state.LessionSlice);
 
   useEffect(() => {
     dispatch(fetchLessions());
   }, []);
 
   //------
-
-
 
   const handleSelectLession = (key: string, lesson: LessionType) => {
     if (keyLessionSelected.indexOf(key) >= 0) {
@@ -75,7 +72,7 @@ const PackScreen = () => {
         </TouchableOpacity>
       </View>
       <ScrollView style={styles.contentContainer}>
-        {lessions.map(item => (
+        {lessionsSelected.map(item => (
           <LessionItem
             lession={item}
             key={item.lession_key}
@@ -83,7 +80,13 @@ const PackScreen = () => {
             isSelect={keyLessionSelected.indexOf(item.lession_key) >= 0}
           />
         ))}
-        {lessions.length == 0 ? (<View><Spinner size="large" /></View>) : ''}
+        {lessions.length == 0 ? (
+          <View>
+            <Spinner size="large" />
+          </View>
+        ) : (
+          ''
+        )}
       </ScrollView>
     </SafeAreaView>
   );

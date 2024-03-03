@@ -8,7 +8,7 @@ import LogoSeim from '@/assets/images/logoSeim.png';
 import {getBooleanLocal, getStringLocal} from '@/helpers/localStorage';
 import {useDispatch} from 'react-redux';
 import {getKeyLession, getLessionSelected} from '@/store/lessions';
-import { styles } from './SplashScreen.styles';
+import {styles} from './SplashScreen.styles';
 
 const SplashScreen = () => {
   const dispatch = useDispatch();
@@ -28,11 +28,10 @@ const SplashScreen = () => {
       if (getLessionsSelectedLocal && getKeyLessionsSelectedLocal) {
         dispatch(getLessionSelected(JSON.parse(getLessionsSelectedLocal)));
         dispatch(getKeyLession(JSON.parse(getKeyLessionsSelectedLocal)));
-        navigateReset('HomeScreen');        
-      } else{
-        
-        navigateReset('HomeScreen');
-      } 
+        navigateReset('LoginScreen');
+      } else {
+        navigateReset('LoginScreen');
+      }
     } else {
       navigateReset('Welcome');
     }
