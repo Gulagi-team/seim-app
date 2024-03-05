@@ -23,6 +23,7 @@ import GetInfoStep5Content from './components/GetInfoStep5';
 import {StoreState, reduxStorage, useAppSelector} from '@/store';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import PaginationItem from '@/components/pagination/Pagination';
+import SCREENS from '@/constants/screen';
 
 const GetInfoScreen = () => {
   const width = Dimensions.get('window').width;
@@ -36,7 +37,7 @@ const GetInfoScreen = () => {
     } else {
       reduxStorage.setItem('isGetInfoDone', 'true');
       reduxStorage.setItem('userInfo', JSON.stringify(userInfo));
-      navigateReset('PackScreen');
+      navigateReset(SCREENS.PACK);
     }
   };
 

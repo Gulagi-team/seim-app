@@ -12,11 +12,11 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {StoreState, useAppSelector} from '@/store';
-import {useDispatch} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
 import ListTaskContent from './component/ListTask';
 import {navigate} from '@/helpers/navigation';
+import {useDispatch} from 'react-redux';
 // import Header from '@/components/Header';
 import HeaderMain from '@/components/HeaderMain';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
@@ -24,6 +24,7 @@ import IconAdd from '@/assets/icons/icon_add.svg';
 import IconSearch from '@/assets/icons/icon_search.svg';
 import IconSetting from '@/assets/icons/icon_settings.svg';
 import {styles, rightMenuStyles, topicStyles} from './HomeScreen.styles';
+import SCREENS from '@/constants/screen';
 
 const HomeScreen = () => {
   const width = Dimensions.get('window').width;
@@ -90,7 +91,7 @@ const HomeScreen = () => {
                 </TouchableOpacity>
               ))}
               <TouchableOpacity
-                onPress={() => navigate('LessionTypeScreen')}
+                onPress={() => navigate(SCREENS.LESSION_TYPE)}
                 style={topicStyles.itemAdd}>
                 <IconAdd />
               </TouchableOpacity>
