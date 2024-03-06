@@ -1,0 +1,85 @@
+import {
+  ActivityIndicator,
+  Button,
+  Dimensions,
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {styles} from './LoginScreen.styles';
+import LogoSeim from '@/assets/images/logoSeim.png';
+import WelcomeBottom from '@/assets/images/welcomeBottom.png';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import IconGoogle from '@/assets/icons/icon_google.svg';
+import {navigate} from '@/helpers/navigation';
+
+const HomeScreen = () => {
+  const onLoginViaGoogle = async () => {
+    try {
+      GoogleSignin.configure({
+        webClientId:
+          '474737740853-4iohtlair4u6bbp7b60k9hta9v00vuut.apps.googleusercontent.com',
+        offlineAccess: true,
+      });
+      const a = await GoogleSignin.hasPlayServices({
+        showPlayServicesUpdateDialog: true,
+      });
+      console.log('🚀 ~ onLoginViaGoogle ~ a:', a);
+      // await GoogleSignin.signIn();
+      // const token = await GoogleSignin.getTokens();
+      // const {idToken} = await GoogleSignin.signIn();
+      const b = await GoogleSignin.signIn();
+
+      navigate('MyWalletScreen');
+
+      // if (token?.accessToken) {
+      //   // loginViaGoogleMiddleware(token.accessToken, (res) =>
+      //   //   handleLoginSuccessViaThirdParty(res, LoginThirdPartyType.GOOGLE),
+      //   // );
+      //   console.log('token.accessToken:', token.accessToken);
+      // }
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('SIGN_IN_CANCELLED');
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('IN_PROGRESS', error);
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('PLAY_SERVICES_NOT_AVAILABLE');
+        // play services not available or outdated
+      } else {
+        console.log('error', {error});
+        // some other error happened
+      }
+    }
+  };
+  return (
+    <SafeAreaView style={styles.container}>
+      <Image
+        source={LogoSeim}
+        style={{height: 120, width: 120}}
+        resizeMode={'contain'}
+      />
+      <TouchableOpacity style={styles.googleButton} onPress={onLoginViaGoogle}>
+        <IconGoogle />
+        <Text style={styles.loginText}>Log in with Google</Text>
+      </TouchableOpacity>
+
+      <Image
+        style={styles.welcomeBottom}
+        source={WelcomeBottom}
+        resizeMode={'stretch'}
+      />
+    </SafeAreaView>
+  );
+};
+export default HomeScreen;
