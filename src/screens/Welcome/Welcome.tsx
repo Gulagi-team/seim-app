@@ -14,10 +14,11 @@ import {navigate} from '@/helpers/navigation';
 
 import LogoSeim from '@/assets/images/logoSeim.png';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import SCREENS from '@/constants/screen';
 
 const WelcomeScreen = () => {
   const handleLogin = async () => {
-    navigate('GetInfoScreen');
+    navigate(SCREENS.GETINFO);
   };
 
   return (

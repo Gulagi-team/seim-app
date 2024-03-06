@@ -9,6 +9,7 @@ import {getBooleanLocal, getStringLocal} from '@/helpers/localStorage';
 import {useDispatch} from 'react-redux';
 import {getKeyLession, getLessionSelected} from '@/store/lessions';
 import { styles } from './SplashScreen.styles';
+import CONST_SCREEN from '@/constants/screen';
 
 const SplashScreen = () => {
   const dispatch = useDispatch();
@@ -28,13 +29,13 @@ const SplashScreen = () => {
       if (getLessionsSelectedLocal && getKeyLessionsSelectedLocal) {
         dispatch(getLessionSelected(JSON.parse(getLessionsSelectedLocal)));
         dispatch(getKeyLession(JSON.parse(getKeyLessionsSelectedLocal)));
-        navigateReset('HomeScreen');        
+        navigateReset(CONST_SCREEN.MAIN);
       } else{
         
-        navigateReset('HomeScreen');
+        navigateReset(CONST_SCREEN.MAIN);
       } 
     } else {
-      navigateReset('Welcome');
+      navigateReset(CONST_SCREEN.WELCOME);
     }
   };
 

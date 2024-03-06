@@ -1,53 +1,77 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    
-    // width: '100%',
     flex: 1,
-    // backgroundColor: 'red'
   },
-  containerView:{
+  containerView: {
     padding: 15,
     // flex: 1,
     alignItems: 'center',
   },
-  carousel: {
-  },
   imgF: {
-    height: 46,
-    width: 46,
+    height: 50,
+    width: 50,
     marginBottom: 10,
   },
   ScrollView: {
-    paddingTop: 13,
-    paddingBottom: 12,
-    paddingHorizontal: 15,
+    marginTop: 23,
+    marginHorizontal: 25,
   },
   viewBody: {
-    width: '100%',
-    height: '70%',
-    borderRadius: 10,
-    marginTop: 14,
-    // backgroundColor: '#',
-    // borderWidth:1
+    width: '90%',
+    height: '76%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    marginTop: 10,
   },
-  // backgroundImg: {
-  //   position: 'absolute',
-  //   width: '100%',
-  //   // flex: 1,
-  //   // backgroundColor: 'black',
-  //   // height: '30%',
-  //   // zIndex: -1,
-  //   bottom: 0,
-  // },
-  welcomeBottom:{
+  welcomeBottom: {
     position: 'absolute',
     width: '100%',
-    // flex:1,
-    // padding:-15,
-    zIndex:-1,
+    zIndex: -1,
     height: '25%',
     bottom: 0,
-  }
+  },
+});
+
+export const rightMenuStyles = StyleSheet.create({
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  rightContent: {
+    top: 5,
+    width: '20%',
+  },
+  iconSearch: {
+    width: 20,
+    height: 20,
+    padding: 12,
+  },
+  iconSetting: {
+    width: 20,
+    height: 20,
+    padding: 12,
+    marginLeft: 15,
+  },
+});
+
+export const topicStyles = StyleSheet.create({
+  itemContainer: {
+    marginRight: 25,
+  },
+  selectedLine: {
+    width: '100%',
+    height: 4,
+    backgroundColor: 'black',
+    borderRadius: 50,
+  },
+  itemAdd: {
+    height: 50,
+    width: 50,
+    backgroundColor: '#E6E6E6',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
