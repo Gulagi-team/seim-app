@@ -7,6 +7,11 @@ import WelcomeScreen from '@/screens/Welcome/Welcome';
 import GetInfoScreen from '@/screens/Welcome/GetInfoScreen';
 import PackScreen from '@/screens/Pack/PackScreen';
 import LessionTypeScreen from '@/screens/LessionType/LessionTypeScreen';
+import MyWalletScreen from '@/screens/Wallet/MyWallet/MyWalletScreen';
+import PasswordWalletScreen from '@/screens/Wallet/PasswordWallet/PasswordWalletScreen';
+import CreateWalletScreen from '@/screens/Wallet/CreateWallet/CreateWalletScreen';
+import ImportWalletScreen from '@/screens/Wallet/ImportWallet/ImportWalletScreen';
+import IntroWalletScreen from '@/screens/Wallet/IntroWallet/IntroWalletScreen';
 
 export const route = [
   {
@@ -36,5 +41,25 @@ export const route = [
   {
     name: CONST_SCREEN.LESSION_TYPE,
     component: LessionTypeScreen,
+  },
+  {
+    name: CONST_SCREEN.MY_WALLET,
+    component: MyWalletScreen,
+  },
+  {
+    name: CONST_SCREEN.PASSWORD_WALLET,
+    component: PasswordWalletScreen,
+  },
+  {
+    name: CONST_SCREEN.CREATE_WALLET,
+    component: CreateWalletScreen,
+  },
+  {
+    name: CONST_SCREEN.IMPORT_WALLET,
+    component: ImportWalletScreen,
+  },
+  {
+    name: CONST_SCREEN.INTRO_WALLET_SCREEN,
+    component: IntroWalletScreen,
   },
 ];
