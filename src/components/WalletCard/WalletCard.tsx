@@ -13,10 +13,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import SCREEN from '@/constants/screen';
 
 import {formatPricing, getShortAddress} from '@/helpers/conversion';
-import {StoreState, useAppSelector} from '@/store';
-import {updateWalletBalance, updateWalletTokenBalance} from '@/store/wallet';
+import {StoreState, reduxStorage, useAppSelector} from '@/store';
+import {
+  disconnectWallet,
+  updateWalletBalance,
+  updateWalletTokenBalance,
+} from '@/store/wallet';
 import {navigate} from '@/helpers/navigation';
-// import {getWalletBalance} from '@/blockchain/basic';
+import {getWalletBalance} from '@/blockchain/basic';
 
 // import MyWalletModal from '@/components/Modal/MyWalletModal.js';
 // import LoadingModal from '@/components/Modal/LoadingModal.js';
@@ -34,8 +38,9 @@ export const WalletBalance = () => {
       <Text
         style={{
           // fontFamily: MONT_BOLD,
-          fontSize: 12,
+          fontSize: 14,
           color: 'black',
+          fontWeight: '700',
           // marginTop: 5,
           marginLeft: 7,
         }}>
@@ -54,17 +59,21 @@ const WalletCard = () => {
   const [modalVisible, setModalVisible] = useState(false);
   // const [modalLoadingVisible, setModalLoadingVisible] = useState(isLoading);
   useEffect(() => {
-    handleGetBalanceWallet();
-  }, []);
+    if (currentAccount) {
+      handleGetBalanceWallet();
+    }
+  }, [currentAccount]);
 
   const handleGetBalanceWallet = async () => {
-    // const balance = await getWalletBalance(currentAccount);
-    // dispatch(updateWalletBalance(balance.toString()));
-    // dispatch(updateWalletTokenBalance(currentAccount));
+    const balance = await getWalletBalance(currentAccount);
+    dispatch(updateWalletBalance(balance.toString()));
   };
 
   const handleTopUp = async () => {
-    // dispatch(useTopUp(currentAccount));
+    dispatch(disconnectWallet());
+    reduxStorage.setItem('address', '');
+    reduxStorage.setItem('privateKey', '');
+    reduxStorage.setItem('passwordWallet', '');
   };
 
   return (
@@ -95,7 +104,6 @@ const WalletCard = () => {
             }}>
             <Text
               style={{
-                // fontFamily: MONT_BOLD,
                 fontSize: 16,
                 color: '#fff',
                 marginLeft: 7,
@@ -115,21 +123,12 @@ const WalletCard = () => {
             </Text>
             <Text
               style={{
-                // fontFamily: MONT_REGULAR,
                 fontSize: 16,
                 color: '#EDEEF0',
                 marginTop: 2,
               }}>
               TBNB: {formatPricing(balance)}
             </Text>
-            {/* <Text
-              style={{
-                // fontFamily: MONT_REGULAR,
-                fontSize: 14,
-                color: '#EDEEF0',
-              }}>
-              vUSD: {formatPricing(tokenBalance)}
-            </Text> */}
           </View>
           <View
             style={{
@@ -148,18 +147,13 @@ const WalletCard = () => {
             </TouchableOpacity>
           </View>
 
-          {/* <MyWalletModal
-            modalVisible={modalVisible}
-            callbackChangeVisible={() => setModalVisible(false)}
-          />
-          <LoadingModal modalVisible={isLoading} /> */}
-          {/* <TouchableOpacity
+          <TouchableOpacity
             onPress={handleTopUp}
             delayLongPress={0}
             style={{
               backgroundColor: '#fff',
-              padding: 10,
-              borderRadius: 16,
+              padding: 7,
+              borderRadius: 10,
               alignItems: 'center',
               position: 'absolute',
               top: '40%',
@@ -167,22 +161,15 @@ const WalletCard = () => {
               flexDirection: 'row',
               zIndex: 2,
             }}>
-            <Icon
-              name="save-alt"
-              style={{
-                fontSize: 18,
-                color: 'black',
-                marginRight: 5,
-              }}
-            />
             <Text
               style={{
                 // fontFamily: MONT_BOLD,
                 fontSize: 14,
+                fontWeight: '600',
               }}>
-              Top up
+              Disconnect
             </Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
       ) : (
         <View
@@ -193,7 +180,7 @@ const WalletCard = () => {
             alignItems: 'center',
           }}>
           <TouchableOpacity
-            // onPress={() => navigate(SCREEN.INTRO_WALLET_SCREEN)}
+            onPress={() => navigate(SCREEN.INTRO_WALLET_SCREEN)}
             delayLongPress={0}>
             <View
               style={{

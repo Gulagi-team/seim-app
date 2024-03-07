@@ -20,8 +20,13 @@ import {
 } from '@react-native-google-signin/google-signin';
 import IconGoogle from '@/assets/icons/icon_google.svg';
 import {navigate} from '@/helpers/navigation';
+import SCREENS from '@/constants/screen';
+import {UserProfileType} from '@/types/colection';
+import {useDispatch} from 'react-redux';
+import {updateUserProfile} from '@/store/userInfo';
 
-const HomeScreen = () => {
+const LoginScreen = () => {
+  const dispatch = useDispatch();
   const onLoginViaGoogle = async () => {
     try {
       GoogleSignin.configure({
@@ -32,13 +37,14 @@ const HomeScreen = () => {
       const a = await GoogleSignin.hasPlayServices({
         showPlayServicesUpdateDialog: true,
       });
-      console.log('🚀 ~ onLoginViaGoogle ~ a:', a);
-      // await GoogleSignin.signIn();
-      // const token = await GoogleSignin.getTokens();
-      // const {idToken} = await GoogleSignin.signIn();
-      const b = await GoogleSignin.signIn();
-
-      navigate('MyWalletScreen');
+      const result = await GoogleSignin.signIn();
+      const userProfile: UserProfileType = {
+        email: result.user.email,
+        name: result.user.name || '',
+        avatar: result.user.photo || '',
+      };
+      dispatch(updateUserProfile(userProfile));
+      navigate(SCREENS.WELCOME);
 
       // if (token?.accessToken) {
       //   // loginViaGoogleMiddleware(token.accessToken, (res) =>
@@ -82,4 +88,4 @@ const HomeScreen = () => {
     </SafeAreaView>
   );
 };
-export default HomeScreen;
+export default LoginScreen;

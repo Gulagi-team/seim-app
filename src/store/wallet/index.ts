@@ -91,6 +91,10 @@ const walletSlice = createSlice({
     addPassword: (state, action: PayloadAction<string>) => {
       state.password = action.payload;
     },
+    disconnectWallet: state => {
+      state.currentAccount = '';
+      state.currentPrivateKey = '';
+    },
   },
 });
 
@@ -106,6 +110,7 @@ export const {
   updateCurrentNetwork,
   addPrivateKey,
   addPassword,
+  disconnectWallet,
 } = walletSlice.actions;
 
 export default walletSlice.reducer;

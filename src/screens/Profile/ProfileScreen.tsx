@@ -33,8 +33,13 @@ const ProfileScreen = () => {
   const [loading, setLoading] = useState(true);
   // const [lessions, setLessions] = useState<LessionType[]>([]);
 
-  const {lessions, lessionsSelected, status, keyLessionSelected} =
-    useAppSelector((state: StoreState) => state.LessionSlice);
+  const lessionsSelected = useAppSelector(
+    (state: StoreState) => state.LessionSlice.lessionsSelected,
+  );
+
+  const {email, name, avatar} = useAppSelector(
+    (state: StoreState) => state.userInfo,
+  );
 
   useEffect(() => {
     dispatch(fetchLessions());
@@ -54,12 +59,14 @@ const ProfileScreen = () => {
           <FastImage
             style={styles.avatar}
             source={{
-              uri: 'https://p16-sg.tiktokcdn.com/aweme/720x720/tos-alisg-avt-0068/a6f08bb5d661b2839f5be9f2fb755f47.jpeg',
+              uri: avatar
+                ? avatar
+                : 'https://p16-sg.tiktokcdn.com/aweme/720x720/tos-alisg-avt-0068/a6f08bb5d661b2839f5be9f2fb755f47.jpeg',
             }}
             resizeMode={FastImage.resizeMode.contain}
           />
           <View style={styles.nameContainer}>
-            <Text style={styles.userName}>Thanh Tung</Text>
+            <Text style={styles.userName}>{name}</Text>
 
             <View style={styles.levelContainer}>
               <Text style={styles.levelText}>Level.2</Text>

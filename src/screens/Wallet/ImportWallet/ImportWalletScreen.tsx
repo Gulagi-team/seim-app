@@ -28,6 +28,7 @@ import {useDispatch} from 'react-redux';
 import {navigate} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
 import {addPassword, addPrivateKey, updateWalletState} from '@/store/wallet';
+import {reduxStorage} from '@/store';
 
 const ImportWalletScreen = ({
   route,
@@ -48,11 +49,10 @@ const ImportWalletScreen = ({
       dispatch(updateWalletState({chainId: 97, account: account.address}));
       dispatch(addPrivateKey(account.privateKey));
       dispatch(addPassword(password));
-      // setAsyncStorage('address', account.address);
-      // setAsyncStorage('privateKey', account.privateKey);
-      // setAsyncStorage('passwordWallet', password);
-      // showToast('success', 'Import wallet successfully');
-      // navigate(SCREENS.MY_WALLET);
+      reduxStorage.setItem('address', account.address);
+      reduxStorage.setItem('privateKey', account.privateKey);
+      reduxStorage.setItem('passwordWallet', password);
+      navigate(SCREENS.MAIN);
     } else {
       // showToast('error', "Can't get wallet from your private key");
     }
