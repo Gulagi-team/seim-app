@@ -23,6 +23,15 @@ import IconGoogle from '@/assets/icons/icon_google.svg';
 import {ApplicationScreenProps} from '@/types/navigation';
 import React, {useEffect, useState} from 'react';
 import {createAccount, importWalletFromPK} from '@/blockchain/basic';
+import Clipboard from '@react-native-clipboard/clipboard';
+import {showToast} from '@/helpers/toast';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import {useDispatch} from 'react-redux';
+import {addPassword, addPrivateKey, updateWalletState} from '@/store/wallet';
+import {reduxStorage} from '@/store';
+import {navigate} from '@/helpers/navigation';
+import SCREENS from '@/constants/screen';
 
 const CreateWalletScreen = ({
   route,
@@ -30,6 +39,7 @@ const CreateWalletScreen = ({
 }: ApplicationScreenProps<'CreateWalletScreen'>) => {
   const {password} = route.params;
   const [privateKey, setPrivateKey] = useState<string>('');
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const [address, setAddress] = useState<string>('');
   useEffect(() => {
     handleCreateWallet();
@@ -37,34 +47,31 @@ const CreateWalletScreen = ({
 
   const handleCreateWallet = async () => {
     const account = await createAccount();
+
     if (account) {
       setPrivateKey(account.privateKey);
       setAddress(account.address);
     }
   };
-  const disableSubmit = !!privateKey;
-  // const handlePrivateKey = (txt: string) => {
-  //   setPrivateKey(txt);
-  // };
-  const handleImportPrivateKey = async () => {
-    console.log('privateKey', privateKey);
-    const account = await importWalletFromPK(privateKey);
-    console.log('account', account);
-    // if (account) {
-    //   stateStore.dispatch(
-    //     updateWalletState({ chainId: 97, account: account.address }),
-    //   );
-    //   stateStore.dispatch(addPrivateKey(account.privateKey));
-    //   stateStore.dispatch(addPassword(password));
-    //   setAsyncStorage('address', account.address);
-    //   setAsyncStorage('privateKey', account.privateKey);
-    //   setAsyncStorage('passwordWallet', password);
-    //   showToast('success', 'Import wallet successfully');
-    //   navigate('InfoWallet');
-    // } else {
-    //   showToast('error', "Can't get wallet from your private key");
-    // }
+  const handlePressCopy = () => {
+    Clipboard.setString(privateKey.slice(2));
+    showToast('info', 'Private key is saved to Clipboard');
   };
+
+  const handlePressFinish = () => {
+    dispatch(updateWalletState({chainId: 97, account: address}));
+    dispatch(addPrivateKey(privateKey));
+    dispatch(addPassword(password));
+    reduxStorage.setItem('address', address);
+    reduxStorage.setItem('privateKey', privateKey);
+    reduxStorage.setItem('passwordWallet', password);
+    // setAsyncStorage('address', account.address);
+    // setAsyncStorage('privateKey', account.privateKey);
+    // setAsyncStorage('passwordWallet', password);
+    // showToast('success', 'Import wallet successfully');
+    navigate(SCREENS.MAIN);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -75,40 +82,66 @@ const CreateWalletScreen = ({
           width: '100%',
           // flex: 1,
         }}>
-        <View
-          style={{
-            // marginTop: 20,
-            alignSelf: 'center',
-            // flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text>Hãy nhập khoá bí mật để kết nối ví.</Text>
-        </View>
-        <View
-          style={{
-            marginTop: 30,
-            width: '80%',
-            height: 80,
-            // borderColor: COLORS.sub_text,
-            borderWidth: 2,
-          }}>
-          <TextInput
-            placeholder="Private key"
-            placeholderTextColor={'#808080'}
-            multiline
-            numberOfLines={4}
-            onChangeText={value => setPrivateKey(value)}
-          />
+        <View style={{marginTop: 40}}>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 14,
+              fontWeight: '500',
+              // color: COLORS.secondary3,
+            }}>
+            Save the private key !!!
+          </Text>
+          <Text
+            // variant="body2Bold"
+            style={{
+              textAlign: 'center',
+              fontSize: 14,
+              fontWeight: '500',
+              // color: COLORS.secondary3,
+              marginTop: 5,
+              // marginRight: 5,
+            }}>
+            If you lose it you won't be able to recover your wallet.
+          </Text>
+          <View
+            style={{
+              marginTop: 20,
+              alignSelf: 'center',
+              flexDirection: 'row',
+              // backgroundColor: COLORS.neutral1,
+              paddingVertical: 20,
+              paddingHorizontal: 25,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 10,
+              borderWidth: 1,
+              // borderColor: COLORS.primary4,
+            }}>
+            <TouchableOpacity
+              onPress={handlePressCopy}
+              delayLongPress={0}
+              style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text
+                style={{
+                  width: 250,
+                  textAlign: 'center',
+                  color: '#343D48',
+                  fontSize: 16,
+                  fontWeight: '500',
+                  marginRight: 5,
+                }}>
+                {privateKey.slice(2)}
+              </Text>
+
+              <Icon name={'content-copy'} size={28} color={'#343D48'} />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <TouchableOpacity
-          onPress={handleImportPrivateKey}
-          // disabled={disabled}
-          style={{
-            ...styles.continueButton,
-            // opacity: disabled ? 0.25 : 1,
-          }}>
+          onPress={handlePressFinish}
+          style={styles.continueButton}>
           <Text style={styles.continueText}>Kết nối ví</Text>
         </TouchableOpacity>
       </View>

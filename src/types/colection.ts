@@ -39,3 +39,9 @@ export interface TaskToUpdate {
   lession_key: string;
   index: number;
 }
+
+export interface UserProfileType {
+  email: string;
+  name: string;
+  avatar: string;
+}

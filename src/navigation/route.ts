@@ -12,6 +12,7 @@ import PasswordWalletScreen from '@/screens/Wallet/PasswordWallet/PasswordWallet
 import CreateWalletScreen from '@/screens/Wallet/CreateWallet/CreateWalletScreen';
 import ImportWalletScreen from '@/screens/Wallet/ImportWallet/ImportWalletScreen';
 import IntroWalletScreen from '@/screens/Wallet/IntroWallet/IntroWalletScreen';
+import LoginScreen from '@/screens/Login/LoginScreen';
 
 export const route = [
   {
@@ -41,6 +42,10 @@ export const route = [
   {
     name: CONST_SCREEN.LESSION_TYPE,
     component: LessionTypeScreen,
+  },
+  {
+    name: CONST_SCREEN.LOGIN,
+    component: LoginScreen,
   },
   {
     name: CONST_SCREEN.MY_WALLET,

@@ -8,8 +8,10 @@ import LogoSeim from '@/assets/images/logoSeim.png';
 import {getBooleanLocal, getStringLocal} from '@/helpers/localStorage';
 import {useDispatch} from 'react-redux';
 import {getKeyLession, getLessionSelected} from '@/store/lessions';
-import { styles } from './SplashScreen.styles';
+import {styles} from './SplashScreen.styles';
 import CONST_SCREEN from '@/constants/screen';
+import {updateWalletState} from '@/store/wallet';
+import {updateInfoUser} from '@/store/userInfo';
 
 const SplashScreen = () => {
   const dispatch = useDispatch();
@@ -21,21 +23,25 @@ const SplashScreen = () => {
       }, 1000),
     );
     const getInfoDone = getBooleanLocal('isGetInfoDone');
+    const getUserInfoLocal = getStringLocal('userInfo');
     const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
     const getKeyLessionsSelectedLocal = getStringLocal('keyLessionsSelected');
+    const address = getStringLocal('address');
 
     console.log(getLessionsSelectedLocal);
-    if (getInfoDone) {
+    if (getInfoDone && getUserInfoLocal) {
+      console.log('getUserInfoLocal', getUserInfoLocal);
+      dispatch(updateInfoUser(JSON.parse(getUserInfoLocal)));
       if (getLessionsSelectedLocal && getKeyLessionsSelectedLocal) {
         dispatch(getLessionSelected(JSON.parse(getLessionsSelectedLocal)));
         dispatch(getKeyLession(JSON.parse(getKeyLessionsSelectedLocal)));
+        address && dispatch(updateWalletState({chainId: 97, account: address}));
         navigateReset(CONST_SCREEN.MAIN);
-      } else{
-        
+      } else {
         navigateReset(CONST_SCREEN.MAIN);
-      } 
+      }
     } else {
-      navigateReset(CONST_SCREEN.WELCOME);
+      navigateReset(CONST_SCREEN.LOGIN);
     }
   };
 

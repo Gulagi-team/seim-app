@@ -28,6 +28,28 @@ export const styles = StyleSheet.create({
     color: '#757575',
     marginLeft: 20,
   },
+  continueButton: {
+    marginTop: 40,
+    width: 200,
+    height: 50,
+    // borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#1B9CFC',
+    borderRadius: 12,
+    // padding: 10,
+
+    // elevation: 5,
+    // shadowColor: '#000',
+  },
+  continueText: {
+    fontSize: 16,
+    fontWeight: '700',
+    fontFamily: 'Montserrat-Medium',
+    color: '#fff',
+    marginLeft: 20,
+  },
 
   welcomeBottom: {
     position: 'absolute',
