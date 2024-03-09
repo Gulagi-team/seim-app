@@ -9,6 +9,12 @@ import PackScreen from '@/screens/Pack/PackScreen';
 import LessionTypeScreen from '@/screens/LessionType/LessionTypeScreen';
 import TopicScreen from '@/screens/Topic/TopicScreen';
 import LessionScreen from '@/screens/Lession/LessionScreen';
+import MyWalletScreen from '@/screens/Wallet/MyWallet/MyWalletScreen';
+import PasswordWalletScreen from '@/screens/Wallet/PasswordWallet/PasswordWalletScreen';
+import CreateWalletScreen from '@/screens/Wallet/CreateWallet/CreateWalletScreen';
+import ImportWalletScreen from '@/screens/Wallet/ImportWallet/ImportWalletScreen';
+import IntroWalletScreen from '@/screens/Wallet/IntroWallet/IntroWalletScreen';
+import LoginScreen from '@/screens/Login/LoginScreen';
 
 export const route = [
   {
@@ -46,5 +52,29 @@ export const route = [
   {
     name: CONST_SCREEN.LESSION,
     component: LessionScreen,
+  },
+  {
+    name: CONST_SCREEN.LOGIN,
+    component: LoginScreen,
+  },
+  {
+    name: CONST_SCREEN.MY_WALLET,
+    component: MyWalletScreen,
+  },
+  {
+    name: CONST_SCREEN.PASSWORD_WALLET,
+    component: PasswordWalletScreen,
+  },
+  {
+    name: CONST_SCREEN.CREATE_WALLET,
+    component: CreateWalletScreen,
+  },
+  {
+    name: CONST_SCREEN.IMPORT_WALLET,
+    component: ImportWalletScreen,
+  },
+  {
+    name: CONST_SCREEN.INTRO_WALLET_SCREEN,
+    component: IntroWalletScreen,
   },
 ];

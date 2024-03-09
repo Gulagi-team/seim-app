@@ -5,6 +5,7 @@ import {MMKV} from 'react-native-mmkv';
 
 import userInfo from './userInfo/index';
 import LessionSlice from './lessions/index';
+import walletSlice from './wallet/index';
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
 // import theme from './theme';
 
@@ -13,6 +14,7 @@ const reducers = combineReducers({
   // [api.reducerPath]: api.reducer,
   userInfo,
   LessionSlice,
+  walletSlice,
 });
 
 export const reducersType = typeof reducers;

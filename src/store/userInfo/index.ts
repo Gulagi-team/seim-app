@@ -1,7 +1,11 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import {UserProfileType} from '@/types/colection';
+import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 // import themes from '../../theme/themes';
 
 export type InfoState = {
+  email: string;
+  name: string;
+  avatar: string;
   language: string;
   gender: string;
   old: string;
@@ -10,17 +14,35 @@ export type InfoState = {
 };
 
 const initialState: InfoState = {
-  language: "",
-  gender: "",
-  old: "",
-  height: "",
-  weight: "",
+  email: '',
+  name: '',
+  avatar: '',
+  language: '',
+  gender: '',
+  old: '',
+  height: '',
+  weight: '',
 };
 
 const Infoslice = createSlice({
-  name: "info",
+  name: 'info',
   initialState,
   reducers: {
+    updateUserProfile: (state, action: PayloadAction<UserProfileType>) => {
+      state.email = action.payload.email;
+      state.name = action.payload.name;
+      state.avatar = action.payload.avatar;
+    },
+    updateInfoUser: (state, action: PayloadAction<InfoState>) => {
+      state.email = action.payload.email;
+      state.name = action.payload.name;
+      state.avatar = action.payload.avatar;
+      state.language = action.payload.language;
+      state.gender = action.payload.gender;
+      state.old = action.payload.old;
+      state.height = action.payload.height;
+      state.weight = action.payload.weight;
+    },
     updateLanguage: (state, action: PayloadAction<string>) => {
       state.language = action.payload;
     },
@@ -40,6 +62,8 @@ const Infoslice = createSlice({
 });
 
 export const {
+  updateUserProfile,
+  updateInfoUser,
   updateLanguage,
   updateGender,
   updateOld,

@@ -134,7 +134,12 @@ const GetInfoScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor:'white'},
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
   contentContainer: {alignItems: 'center', width: '100%', flex: 1},
   skip: {
     fontWeight: '500',

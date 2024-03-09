@@ -6,7 +6,7 @@ import {persistor, stateStore} from '@/store';
 import {Provider} from 'react-redux';
 import {GluestackUIProvider} from '@gluestack-ui/themed';
 import {config} from '@gluestack-ui/config';
-import {Text} from 'react-native-svg';
+import ToastContainer, {getToastConfig} from '@/components/Toast/Toast';
 
 const App = () => {
   return (
@@ -14,6 +14,7 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <GluestackUIProvider config={config}>
           <ApplicationNavigator />
+          <ToastContainer config={getToastConfig()} />
         </GluestackUIProvider>
       </PersistGate>
     </Provider>
