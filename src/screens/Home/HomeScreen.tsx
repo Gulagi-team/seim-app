@@ -91,7 +91,7 @@ const HomeScreen = () => {
                 </TouchableOpacity>
               ))}
               <TouchableOpacity
-                onPress={() => navigate(SCREENS.LESSION_TYPE)}
+                onPress={() => navigate(SCREENS.TOPIC)}
                 style={topicStyles.itemAdd}>
                 <IconAdd />
               </TouchableOpacity>

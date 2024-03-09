@@ -4,7 +4,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {enableScreens} from 'react-native-screens';
 // import { useTheme } from "@/theme";
 import BottomTab from './BottomTab';
-import {ApplicationStackParamList} from '@/types/navigation';
 import SplashScreen from '@/screens/Splash/SplashScreen';
 import {navigationRef} from '@/helpers/navigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';

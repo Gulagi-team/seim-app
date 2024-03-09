@@ -7,6 +7,8 @@ const screen = {
   GETINFO: 'GETINFO_SCREEN',
   PACK: 'PACK_SCREEN',
   LESSION_TYPE: 'LESSION_TYPE_SCREEN',
+  TOPIC: 'TOPIC_SCREEN',
+  LESSION: 'LESSION_SCREEN',
 };
 
 export default screen;

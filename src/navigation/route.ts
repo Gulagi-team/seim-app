@@ -7,6 +7,8 @@ import WelcomeScreen from '@/screens/Welcome/Welcome';
 import GetInfoScreen from '@/screens/Welcome/GetInfoScreen';
 import PackScreen from '@/screens/Pack/PackScreen';
 import LessionTypeScreen from '@/screens/LessionType/LessionTypeScreen';
+import TopicScreen from '@/screens/Topic/TopicScreen';
+import LessionScreen from '@/screens/Lession/LessionScreen';
 
 export const route = [
   {
@@ -36,5 +38,13 @@ export const route = [
   {
     name: CONST_SCREEN.LESSION_TYPE,
     component: LessionTypeScreen,
+  },
+  {
+    name: CONST_SCREEN.TOPIC,
+    component: TopicScreen,
+  },
+  {
+    name: CONST_SCREEN.LESSION,
+    component: LessionScreen,
   },
 ];
