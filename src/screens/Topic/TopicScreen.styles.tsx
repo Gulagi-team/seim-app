@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textTitle: {
+    fontFamily: 'Poppins-Medium',
     fontSize: 16,
     fontWeight: '600',
     color: '#171717',
@@ -50,17 +51,21 @@ export const styles = StyleSheet.create({
     marginStart: 10,
   },
   title: {
+    fontFamily: 'Poppins-Medium',
     fontSize: 14,
     fontWeight: '500',
     color: '#171717',
   },
   secondTitle: {
+    fontFamily: 'Poppins-Regular',
     fontSize: 12,
     fontWeight: '400',
     color: '#737373',
   },
   thridTitle: {
+    fontFamily: 'Poppins-Medium',
     fontSize: 12,
+    fontWeight: '500',
     color: '#404040',
   },
   welcomeBottom: {

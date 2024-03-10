@@ -15,7 +15,15 @@ export const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
   },
+  searchBar: {
+    width: '90%',
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
+    borderRadius: 20,
+    marginTop: 20,
+  },
   textTitle: {
+    fontFamily: 'Poppins-Medium',
     fontSize: 16,
     fontWeight: '600',
     color: '#171717',
@@ -29,7 +37,7 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
   item: {
-    height: 85,
+    // height: '85%',
     padding: 15,
     marginBottom: 10,
     backgroundColor: '#FFFFFF',
@@ -50,18 +58,30 @@ export const styles = StyleSheet.create({
     marginStart: 10,
   },
   title: {
+    fontFamily: 'Poppins-Medium',
     fontSize: 14,
     fontWeight: '500',
+    lineHeight: 21,
     color: '#171717',
   },
   secondTitle: {
+    fontFamily: 'Poppins-Regular',
     fontSize: 12,
     fontWeight: '400',
+    lineHeight: 18,
     color: '#737373',
   },
-  thridTitle: {
+  statIcon: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  statText: {
     fontSize: 12,
-    color: '#404040',
+    fontFamily: 'Poppins-Medium',
+    fontWeight: '500',
+    lineHeight: 18,
+    marginStart: 5,
   },
   addStyle: {
     position: 'absolute',

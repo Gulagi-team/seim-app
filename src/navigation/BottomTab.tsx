@@ -1,53 +1,54 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {useEffect} from 'react';
-import {View, Image} from 'react-native';
-// import { useDispatch } from 'react-redux';
-
+import {View, Image, Text} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '@/screens/Home/HomeScreen';
 import ProfileScreen from '@/screens/Profile/ProfileScreen';
 import NotificationScreen from '@/screens/Notification/NotificationScreen';
-
-import {HOME, NOTIFICATION, PROFILE} from '@/assets/icons/bottom';
 import MyWalletScreen from '@/screens/Wallet/MyWallet/MyWalletScreen';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {
+  HOME,
+  HOME_SELECTED,
+  MINING,
+  MINING_SELECTED,
+  NOTIFICATION,
+  SETTING,
+  SETTING_SELECTED,
+} from '@/assets/icons/bottom';
 
 export const KEY_BOTTOM_SCREEN = {
-  HOME: 'Trang chủ',
-  WALLET: 'Ví',
-  NOTIFICATION: 'Thông báo',
-  PROFILE: 'Tài khoản',
+  HOME: 'Home',
+  WALLET: 'Mining',
+  NOTIFICATION: 'Notify',
+  PROFILE: 'Setting',
 };
 
-const ACTIVE_COLOR = '#303030';
-const DEACTIVE_COLOR = '#C5C5C5';
+const ACTIVE_COLOR = '#1B9CFC';
+const DEACTIVE_COLOR = '#404040';
 
 const BottomTabConstant = {
   [KEY_BOTTOM_SCREEN.HOME]: {
     name: KEY_BOTTOM_SCREEN.HOME,
     component: HomeScreen,
-    // activeIcon: HOME, // TODO
-    // deactiveIcon: HOME,
-    icon: 'home',
+    activeIcon: HOME_SELECTED,
+    deactiveIcon: HOME,
     index: 0,
-    activeColor: ACTIVE_COLOR,
+    activeColor: '#1B9CFC',
     deactiveColor: DEACTIVE_COLOR,
   },
   [KEY_BOTTOM_SCREEN.WALLET]: {
     name: KEY_BOTTOM_SCREEN.WALLET,
     component: MyWalletScreen,
-    // activeIcon: NOTIFICATION, // TODO
-    // deactiveIcon: NOTIFICATION,
-    icon: 'account-balance-wallet',
+    activeIcon: MINING_SELECTED,
+    deactiveIcon: MINING,
     index: 1,
-    activeColor: ACTIVE_COLOR,
+    activeColor: '#A29BFE',
     deactiveColor: DEACTIVE_COLOR,
   },
   [KEY_BOTTOM_SCREEN.NOTIFICATION]: {
     name: KEY_BOTTOM_SCREEN.NOTIFICATION,
     component: NotificationScreen,
-    // activeIcon: NOTIFICATION, // TODO
-    // deactiveIcon: NOTIFICATION,
-    icon: 'notifications',
+    activeIcon: NOTIFICATION, // TODO
+    deactiveIcon: NOTIFICATION,
     index: 1,
     activeColor: ACTIVE_COLOR,
     deactiveColor: DEACTIVE_COLOR,
@@ -56,11 +57,10 @@ const BottomTabConstant = {
   [KEY_BOTTOM_SCREEN.PROFILE]: {
     name: KEY_BOTTOM_SCREEN.PROFILE,
     component: ProfileScreen,
-    // activeIcon: PROFILE, // TODO
-    // deactiveIcon: PROFILE,
-    icon: 'account-circle',
+    activeIcon: SETTING_SELECTED,
+    deactiveIcon: SETTING,
     index: 2,
-    activeColor: ACTIVE_COLOR,
+    activeColor: '#1DD1A1',
     deactiveColor: DEACTIVE_COLOR,
   },
 };
@@ -91,22 +91,31 @@ const BottomTab = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          const iconName = BottomTabConstant[route.name]?.icon;
-          // const iconSrc = focused
-          //   ? BottomTabConstant[route.name].activeIcon
-          //   : BottomTabConstant[route.name].deactiveIcon;
+        tabBarStyle: {
+          position: 'absolute',
+          bottom: 10,
+          margin: 10,
+          borderRadius: 10,
+          height: 70,
+          paddingTop: 10,
+          paddingBottom: 10,
+        },
+        tabBarLabel: ({children, color, focused}) => {
           const newColor = focused
             ? BottomTabConstant[route.name].activeColor
             : BottomTabConstant[route.name].deactiveColor;
-
+          return <Text style={{color: newColor}}>{children}</Text>;
+        },
+        tabBarIcon: ({focused, color, size}) => {
+          const iconSrc = focused
+            ? BottomTabConstant[route.name].activeIcon
+            : BottomTabConstant[route.name].deactiveIcon;
           return (
-            // <Image
-            //   source={iconSrc}
-            //   resizeMode="contain"
-            //   style={{width: 28, height: 28}}
-            // />
-            <Icon name={iconName} size={28} color={newColor} />
+            <Image
+              source={iconSrc}
+              resizeMode="contain"
+              style={{width: 25, height: 25}}
+            />
           );
         },
         tabBarActiveTintColor: ACTIVE_COLOR,
