@@ -26,6 +26,7 @@ import { navigate } from '@/helpers/navigation';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { Spinner } from '@gluestack-ui/themed';
 import { styles } from './PackScreen.styles';
+import SCREENS from '@/constants/screen';
 
 const PackScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -61,7 +62,7 @@ const PackScreen = () => {
       'keyLessionsSelected',
       JSON.stringify(keyLessionSelected),
     );
-    navigate('HomeScreen');
+    navigate(SCREENS.MAIN);
   };
 
   return (

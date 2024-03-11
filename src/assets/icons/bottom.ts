@@ -1,3 +1,7 @@
 export const HOME = require('./bottom/home.png');
+export const HOME_SELECTED = require('./bottom/home_selected.png');
+export const MINING = require('./bottom/mining.png');
+export const MINING_SELECTED = require('./bottom/mining_selected.png');
 export const NOTIFICATION = require('./bottom/notification.png');
-export const PROFILE = require('./bottom/profile.png');
+export const SETTING = require('./bottom/setting.png');
+export const SETTING_SELECTED = require('./bottom/setting_selected.png');

@@ -7,6 +7,8 @@ import WelcomeScreen from '@/screens/Welcome/Welcome';
 import GetInfoScreen from '@/screens/Welcome/GetInfoScreen';
 import PackScreen from '@/screens/Pack/PackScreen';
 import LessionTypeScreen from '@/screens/LessionType/LessionTypeScreen';
+import TopicScreen from '@/screens/Topic/TopicScreen';
+import LessionScreen from '@/screens/Lession/LessionScreen';
 import MyWalletScreen from '@/screens/Wallet/MyWallet/MyWalletScreen';
 import PasswordWalletScreen from '@/screens/Wallet/PasswordWallet/PasswordWalletScreen';
 import CreateWalletScreen from '@/screens/Wallet/CreateWallet/CreateWalletScreen';
@@ -42,6 +44,14 @@ export const route = [
   {
     name: CONST_SCREEN.LESSION_TYPE,
     component: LessionTypeScreen,
+  },
+  {
+    name: CONST_SCREEN.TOPIC,
+    component: TopicScreen,
+  },
+  {
+    name: CONST_SCREEN.LESSION,
+    component: LessionScreen,
   },
   {
     name: CONST_SCREEN.LOGIN,

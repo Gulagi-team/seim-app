@@ -17,7 +17,6 @@ import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
 import ListTaskContent from './component/ListTask';
 import {navigate} from '@/helpers/navigation';
 import {useDispatch} from 'react-redux';
-// import Header from '@/components/Header';
 import HeaderMain from '@/components/HeaderMain';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import IconAdd from '@/assets/icons/icon_add.svg';
@@ -91,7 +90,7 @@ const HomeScreen = () => {
                 </TouchableOpacity>
               ))}
               <TouchableOpacity
-                onPress={() => navigate(SCREENS.LESSION_TYPE)}
+                onPress={() => navigate(SCREENS.TOPIC)}
                 style={topicStyles.itemAdd}>
                 <IconAdd />
               </TouchableOpacity>
