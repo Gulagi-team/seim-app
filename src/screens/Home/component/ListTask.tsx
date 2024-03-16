@@ -12,10 +12,10 @@ import {
   Dimensions,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
-import IconCheck from '@/assets/icons/icon_checkmark.svg';
 import {updateTaskStatus} from '@/store/lessions';
 import {styled} from '@gluestack-style/react';
-import {styles} from './ListTask.styles';
+import IconSleep from '@/assets/icons/sleep.svg';
+import {styles, dayStyles} from './ListTask.styles';
 import {
   CheckIcon,
   Checkbox,
@@ -39,8 +39,8 @@ const ListTaskContent = ({lessionSelected}: props) => {
 
   const renderDayItem = (item: any) => {
     return (
-      <View key={item} style={styles.itemDoneDayContainer}>
-        <Text style={styles.itemDoneDayText}>{item}</Text>
+      <View key={item} style={dayStyles.failedDayContainer}>
+        <Text style={dayStyles.failedDayText}>{item}</Text>
       </View>
     );
   };
@@ -64,7 +64,13 @@ const ListTaskContent = ({lessionSelected}: props) => {
               }
               style={styles.item}
               key={item.item_trans_title}>
-              <Text style={styles.ItemText}>{item.item_trans_title}</Text>
+              <IconSleep />
+              <View style={styles.itemText}>
+                <Text style={styles.itemTextContent} numberOfLines={1}>
+                  {item.item_trans_title}
+                </Text>
+                <Text style={styles.itemTextSub}>6-8 hours</Text>
+              </View>
               {/* <View
                 style={{
                   borderColor: 'black',
@@ -83,9 +89,9 @@ const ListTaskContent = ({lessionSelected}: props) => {
               <Checkbox
                 aria-label={item.item_trans_title}
                 size="lg"
-                value='12'
+                value="12"
                 isChecked={item.isDone}>
-                <CheckboxIndicator style={{borderRadius:25}} mr="$2">
+                <CheckboxIndicator style={styles.itemCbxIndicator} mr="$2">
                   <CheckboxIcon as={CheckIcon} />
                 </CheckboxIndicator>
               </Checkbox>

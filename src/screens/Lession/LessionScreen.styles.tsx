@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {COLORS, POPPINS_MEDIUM, POPPINS_REGULAR} from '@/theme/index';
 
 export const styles = StyleSheet.create({
   container: {
@@ -18,15 +19,15 @@ export const styles = StyleSheet.create({
   searchBar: {
     width: '90%',
     borderWidth: 1,
-    borderColor: '#E5E5E5',
+    borderColor: COLORS.text_A200,
     borderRadius: 20,
     marginTop: 20,
   },
   textTitle: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: POPPINS_MEDIUM,
     fontSize: 16,
     fontWeight: '600',
-    color: '#171717',
+    color: COLORS.text_A900,
     // marginTop: 15,
   },
   ScrollView: {
@@ -58,18 +59,18 @@ export const styles = StyleSheet.create({
     marginStart: 10,
   },
   title: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: POPPINS_MEDIUM,
     fontSize: 14,
     fontWeight: '500',
     lineHeight: 21,
-    color: '#171717',
+    color: COLORS.text_A900,
   },
   secondTitle: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: POPPINS_REGULAR,
     fontSize: 12,
     fontWeight: '400',
     lineHeight: 18,
-    color: '#737373',
+    color: COLORS.text_A500,
   },
   statIcon: {
     display: 'flex',
@@ -78,7 +79,7 @@ export const styles = StyleSheet.create({
   },
   statText: {
     fontSize: 12,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: POPPINS_MEDIUM,
     fontWeight: '500',
     lineHeight: 18,
     marginStart: 5,

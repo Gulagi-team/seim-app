@@ -1,4 +1,10 @@
 import {StyleSheet} from 'react-native';
+import {
+  COLORS,
+  POPPINS_MEDIUM,
+  POPPINS_REGULAR,
+  POPPINS_BOLD,
+} from '@/theme/index';
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,64 +16,127 @@ export const styles = StyleSheet.create({
   question: {
     width: '100%',
   },
+  howOldAre1: {
+    marginBottom: 10,
+    fontSize: 16,
+    fontWeight: '600',
+    fontFamily: POPPINS_BOLD,
+    color: COLORS.text_A700,
+  },
   item: {
     width: '100%',
     height: 60,
-    backgroundColor: '#F7F7F7',
-    marginBottom: 10,
     paddingStart: 10,
+    paddingEnd: 10,
+    marginBottom: 10,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: COLORS.text_A50,
+    borderWidth: 1,
     borderRadius: 10,
+    borderColor: COLORS.text_A200,
   },
-  ItemText: {
+  itemText: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    paddingLeft: 5,
+    paddingEnd: 5,
+  },
+  itemTextContent: {
     fontSize: 14,
     fontWeight: '500',
-    fontFamily: 'Montserrat-Medium',
-    color: '#000',
+    fontFamily: POPPINS_MEDIUM,
+    color: COLORS.text_A800,
   },
-  howOldAre1: {
-    // marginLeft: 14,
-    marginBottom: 15,
-    fontSize: 16,
-    letterSpacing: 0,
-    fontWeight: '700',
-    fontFamily: 'Inter-Bold',
-    color: 'black',
-    // textAlign: 'left',
+  itemTextSub: {
+    fontSize: 12,
+    fontWeight: '400',
+    fontFamily: POPPINS_REGULAR,
+    color: COLORS.text_A400,
   },
+  itemCbxIndicator: {
+    borderWidth: 1.5,
+    borderRadius: 5,
+    width: 20,
+    height: 20,
+  },
+});
 
-  itemDayContainer: {
+export const dayStyles = StyleSheet.create({
+  doneDayContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    width: 30,
-    height: 30,
+    width: 36,
+    height: 36,
     borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'red',
+    padding: 8,
+    backgroundColor: COLORS.primary_A500,
     marginEnd: 12,
   },
-  itemDayText: {
-    color: 'red',
-    fontSize: 16,
+  doneDayText: {
+    color: COLORS.white,
+    fontSize: 14,
+    fontFamily: POPPINS_MEDIUM,
+    fontWeight: '500',
+    lineHeight: 21,
   },
-  itemDoneDayContainer: {
+  failedDayContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    width: 30,
-    height: 30,
+    width: 36,
+    height: 36,
     borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'red',
-    backgroundColor: 'red',
+    padding: 8,
+    backgroundColor: COLORS.text_A300,
     marginEnd: 12,
   },
-  itemDoneDayText: {
-    color: '#FFFFFF',
-    fontSize: 16,
+  failedDayText: {
+    color: COLORS.text_A500,
+    fontSize: 14,
+    fontFamily: POPPINS_MEDIUM,
+    fontWeight: '500',
+    lineHeight: 21,
   },
-
+  todoDayContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: 36,
+    height: 36,
+    borderRadius: 20,
+    padding: 8,
+    borderWidth: 1.5,
+    borderColor: COLORS.text_A300,
+    marginEnd: 12,
+  },
+  todoDayText: {
+    color: COLORS.text_A400,
+    fontSize: 14,
+    fontFamily: POPPINS_MEDIUM,
+    fontWeight: '500',
+    lineHeight: 21,
+  },
+  toDayContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: 36,
+    height: 36,
+    borderRadius: 20,
+    padding: 8,
+    borderWidth: 1.5,
+    borderColor: COLORS.primary_A500,
+    marginEnd: 12,
+  },
+  toDayText: {
+    color: COLORS.text_A900,
+    fontSize: 14,
+    fontFamily: POPPINS_MEDIUM,
+    fontWeight: '500',
+    lineHeight: 21,
+  },
 });

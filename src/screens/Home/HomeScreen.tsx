@@ -22,6 +22,7 @@ import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import IconAdd from '@/assets/icons/icon_add.svg';
 import IconSearch from '@/assets/icons/icon_search.svg';
 import IconSetting from '@/assets/icons/icon_settings.svg';
+import HomeBaner from '@/assets/images/home_banner.png';
 import {styles, rightMenuStyles, topicStyles} from './HomeScreen.styles';
 import SCREENS from '@/constants/screen';
 
@@ -38,6 +39,22 @@ const HomeScreen = () => {
 
   const renderFunction = ({item, index}: any) => {
     return <ListTaskContent lessionSelected={item} />;
+  };
+
+  const renderAddTopicButton = (): React.ReactNode[] => {
+    const items = [];
+    const MAX_NUM_TOPICS = process.env.MAX_NUM_TOPICS;
+    for (let i = 0; i < (MAX_NUM_TOPICS - lessionsSelected.length); i++) {
+      items.push(
+        <TouchableOpacity
+          key={i}
+          onPress={() => navigate(SCREENS.TOPIC)}
+          style={topicStyles.itemAdd}>
+          <IconAdd />
+        </TouchableOpacity>
+      );
+    }
+    return items;
   };
 
   const handleChangeTask = (to: number) => {
@@ -59,13 +76,18 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Image style={styles.banner} source={HomeBaner} resizeMode={'stretch'} />
       <View style={styles.containerView}>
-        <HeaderMain
+        {/* <HeaderMain
           canGoBack={false}
           renderLogo={true}
           rightContent={rightIcon()}
           rightContentStyle={rightMenuStyles.rightContent}
-        />
+        /> */}
+        <View style={styles.welcomeTop}>
+          <Text style={styles.welcomeTitle}>Good morning</Text>
+          <Text style={styles.currentDate}>Today is 25 Jan 2024</Text>
+        </View>
         <View style={styles.viewBody}>
           <View>
             <ScrollView
@@ -89,19 +111,15 @@ const HomeScreen = () => {
                   )}
                 </TouchableOpacity>
               ))}
-              <TouchableOpacity
-                onPress={() => navigate(SCREENS.TOPIC)}
-                style={topicStyles.itemAdd}>
-                <IconAdd />
-              </TouchableOpacity>
+
+              {renderAddTopicButton()}
             </ScrollView>
           </View>
 
           <Carousel
             ref={ref}
             loop={false}
-            // style={{borderRadius:10}}
-            width={width * 0.9 - 25}
+            width={width * 0.92}
             enabled={false}
             data={lessionsSelected}
             onSnapToItem={index => {

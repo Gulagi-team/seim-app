@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {COLORS, POPPINS_MEDIUM} from '@/theme/index';
 
 export const styles = StyleSheet.create({
   container: {
@@ -6,8 +7,29 @@ export const styles = StyleSheet.create({
   },
   containerView: {
     padding: 15,
-    // flex: 1,
-    alignItems: 'center',
+  },
+  banner: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    width: '100%',
+  },
+  welcomeTop: {
+    display: 'flex',
+    alignItems: 'flex-start',
+  },
+  welcomeTitle: {
+    fontSize: 16,
+    color: COLORS.secondary_green1,
+    fontWeight: '600',
+    fontFamily: POPPINS_MEDIUM,
+  },
+  currentDate: {
+    fontSize: 14,
+    color: COLORS.text_A600,
+    fontWeight: '500',
+    fontFamily: POPPINS_MEDIUM,
   },
   imgF: {
     height: 50,
@@ -19,11 +41,10 @@ export const styles = StyleSheet.create({
     marginHorizontal: 25,
   },
   viewBody: {
-    width: '90%',
-    height: '76%',
+    height: '85%',
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
-    marginTop: 10,
+    marginTop: 15,
   },
   welcomeBottom: {
     position: 'absolute',
@@ -58,7 +79,7 @@ export const rightMenuStyles = StyleSheet.create({
 
 export const topicStyles = StyleSheet.create({
   itemContainer: {
-    marginRight: 25,
+    marginRight: 15,
   },
   selectedLine: {
     width: '100%',
@@ -69,8 +90,11 @@ export const topicStyles = StyleSheet.create({
   itemAdd: {
     height: 50,
     width: 50,
-    backgroundColor: '#E6E6E6',
+    marginRight: 15,
+    backgroundColor: '#FAFAFA',
     borderRadius: 5,
+    borderColor: COLORS.text_A200,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
