@@ -11,9 +11,11 @@ import {
   MINING,
   MINING_SELECTED,
   NOTIFICATION,
+  NOTIFICATION_SELECTED,
   SETTING,
   SETTING_SELECTED,
 } from '@/assets/icons/bottom';
+import {COLORS} from '@/theme/index';
 
 export const KEY_BOTTOM_SCREEN = {
   HOME: 'Home',
@@ -22,8 +24,8 @@ export const KEY_BOTTOM_SCREEN = {
   PROFILE: 'Setting',
 };
 
-const ACTIVE_COLOR = '#1B9CFC';
-const DEACTIVE_COLOR = '#404040';
+const ACTIVE_COLOR = COLORS.primary_A500;
+const DEACTIVE_COLOR = COLORS.text_A700;
 
 const BottomTabConstant = {
   [KEY_BOTTOM_SCREEN.HOME]: {
@@ -32,7 +34,7 @@ const BottomTabConstant = {
     activeIcon: HOME_SELECTED,
     deactiveIcon: HOME,
     index: 0,
-    activeColor: '#1B9CFC',
+    activeColor: COLORS.primary_A500,
     deactiveColor: DEACTIVE_COLOR,
   },
   [KEY_BOTTOM_SCREEN.WALLET]: {
@@ -41,16 +43,16 @@ const BottomTabConstant = {
     activeIcon: MINING_SELECTED,
     deactiveIcon: MINING,
     index: 1,
-    activeColor: '#A29BFE',
+    activeColor: COLORS.secondary_violet2,
     deactiveColor: DEACTIVE_COLOR,
   },
   [KEY_BOTTOM_SCREEN.NOTIFICATION]: {
     name: KEY_BOTTOM_SCREEN.NOTIFICATION,
     component: NotificationScreen,
-    activeIcon: NOTIFICATION, // TODO
+    activeIcon: NOTIFICATION_SELECTED,
     deactiveIcon: NOTIFICATION,
     index: 1,
-    activeColor: ACTIVE_COLOR,
+    activeColor: COLORS.secondary_orange2,
     deactiveColor: DEACTIVE_COLOR,
   },
 
@@ -60,7 +62,7 @@ const BottomTabConstant = {
     activeIcon: SETTING_SELECTED,
     deactiveIcon: SETTING,
     index: 2,
-    activeColor: '#1DD1A1',
+    activeColor: COLORS.secondary_green1,
     deactiveColor: DEACTIVE_COLOR,
   },
 };
@@ -93,7 +95,7 @@ const BottomTab = () => {
       screenOptions={({route}) => ({
         tabBarStyle: {
           position: 'absolute',
-          bottom: 10,
+          bottom: 5,
           margin: 10,
           borderRadius: 10,
           height: 70,

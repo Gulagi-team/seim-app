@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {COLORS, POPPINS_MEDIUM, POPPINS_REGULAR} from '@/theme/index';
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,17 +10,17 @@ export const styles = StyleSheet.create({
   viewBody: {
     width: '90%',
     height: '76%',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: COLORS.background,
     borderRadius: 20,
     marginTop: 10,
     display: 'flex',
     alignItems: 'center',
   },
   textTitle: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: POPPINS_MEDIUM,
     fontSize: 16,
     fontWeight: '600',
-    color: '#171717',
+    color: COLORS.text_A900,
     marginTop: 15,
   },
   ScrollView: {
@@ -33,7 +34,7 @@ export const styles = StyleSheet.create({
     height: 85,
     padding: 15,
     marginBottom: 10,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: COLORS.background,
     borderRadius: 10,
     display: 'flex',
     flexDirection: 'row',
@@ -51,22 +52,22 @@ export const styles = StyleSheet.create({
     marginStart: 10,
   },
   title: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: POPPINS_MEDIUM,
     fontSize: 14,
     fontWeight: '500',
-    color: '#171717',
+    color: COLORS.text_A900,
   },
   secondTitle: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: POPPINS_REGULAR,
     fontSize: 12,
     fontWeight: '400',
-    color: '#737373',
+    color: COLORS.text_A500,
   },
   thridTitle: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: POPPINS_MEDIUM,
     fontSize: 12,
     fontWeight: '500',
-    color: '#404040',
+    color: COLORS.text_A700,
   },
   welcomeBottom: {
     position: 'absolute',
