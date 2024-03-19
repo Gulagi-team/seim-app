@@ -15,6 +15,7 @@ import CreateWalletScreen from '@/screens/Wallet/CreateWallet/CreateWalletScreen
 import ImportWalletScreen from '@/screens/Wallet/ImportWallet/ImportWalletScreen';
 import IntroWalletScreen from '@/screens/Wallet/IntroWallet/IntroWalletScreen';
 import LoginScreen from '@/screens/Login/LoginScreen';
+import MiningScreen from '@/screens/Mining/MiningScreen';
 
 export const route = [
   {
@@ -76,5 +77,9 @@ export const route = [
   {
     name: CONST_SCREEN.INTRO_WALLET_SCREEN,
     component: IntroWalletScreen,
+  },
+  {
+    name: CONST_SCREEN.MINING,
+    component: MiningScreen,
   },
 ];

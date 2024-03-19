@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useState} from 'react';
 
 import {
   Text,
@@ -10,12 +10,12 @@ import {
   Touchable,
   TouchableOpacity,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { generateArray } from '@/helpers/others';
-import { useDispatch } from 'react-redux';
-import { StoreState, useAppSelector } from '@/store';
-import { updateHeight } from '@/store/userInfo';
-import { Input, InputField } from '@gluestack-ui/themed';
+import {Picker} from '@react-native-picker/picker';
+import {generateArray} from '@/helpers/others';
+import {useDispatch} from 'react-redux';
+import {StoreState, useAppSelector} from '@/store';
+import {updateHeight} from '@/store/userInfo';
+import {Input, InputField} from '@gluestack-ui/themed';
 import ScrollPicker from 'react-native-wheel-scrollview-picker';
 
 const GetInfoStep4Content = () => {
@@ -38,35 +38,37 @@ const GetInfoStep4Content = () => {
       </View>
       <View style={styles.content}>
         <View style={styles.pickerContainer1}>
-          <ScrollPicker 
-            dataSource={['150', '155', '169', '170', '175', '180']}
+          <ScrollPicker
+            dataSource={myArray}
             selectedIndex={1}
             // renderItem={(data, index) => {
-              
+
             //   console.log('====================================');
             //   console.log('data',data);
             //   console.log('====================================');
             // }}
             onValueChange={(data, selectedIndex) => {
               //
-              console.log('data',data);
+              console.log('data', data);
               dispatch(updateHeight(`${selectedHeight} CM`));
               setSelectedHeight(+data);
             }}
             wrapperHeight={300}
             // wrapperWidth={150}
-            // wrapperColor='red' 
-            itemTextStyle={{fontSize:40,  fontWeight: '700', color:'#ddd'}}
+            // wrapperColor='red'
+            itemTextStyle={{fontSize: 40, fontWeight: '700', color: '#ddd'}}
             itemHeight={100}
-            highlightColor='black'
-            activeItemTextStyle={{fontSize:40,  fontWeight: '700', color:'black'}}
+            highlightColor="black"
+            activeItemTextStyle={{
+              fontSize: 40,
+              fontWeight: '700',
+              color: 'black',
+            }}
             // highlightBorderWidth={2}
           />
         </View>
         <View style={styles.pickerContainer2}>
-          <Text style={styles.textContainer}>
-            CM
-          </Text>
+          <Text style={styles.textContainer}>CM</Text>
         </View>
       </View>
     </View>
@@ -104,14 +106,20 @@ const styles = StyleSheet.create({
   content: {
     width: '100%',
     marginTop: 22,
-    display:'flex',
+    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  pickerContainer1: { width: '40%', height: 300 },
-  pickerContainer2: { width: '40%' },
-  textContainer: { fontSize: 40, fontWeight: '700', color:'black',fontFamily: 'Inter-Bold', marginStart:10 },
+  pickerContainer1: {width: '40%', height: 300},
+  pickerContainer2: {width: '40%'},
+  textContainer: {
+    fontSize: 40,
+    fontWeight: '700',
+    color: 'black',
+    fontFamily: 'Inter-Bold',
+    marginStart: 10,
+  },
   question2: {
     fontSize: 32,
     fontWeight: '700',

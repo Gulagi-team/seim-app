@@ -4,7 +4,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '@/screens/Home/HomeScreen';
 import ProfileScreen from '@/screens/Profile/ProfileScreen';
 import NotificationScreen from '@/screens/Notification/NotificationScreen';
-import MyWalletScreen from '@/screens/Wallet/MyWallet/MyWalletScreen';
 import {
   HOME,
   HOME_SELECTED,
@@ -16,10 +15,11 @@ import {
   SETTING_SELECTED,
 } from '@/assets/icons/bottom';
 import {COLORS} from '@/theme/index';
+import MiningScreen from '@/screens/Mining/MiningScreen';
 
 export const KEY_BOTTOM_SCREEN = {
   HOME: 'Home',
-  WALLET: 'Mining',
+  MINING: 'Mining',
   NOTIFICATION: 'Notify',
   PROFILE: 'Setting',
 };
@@ -37,9 +37,9 @@ const BottomTabConstant = {
     activeColor: COLORS.primary_A500,
     deactiveColor: DEACTIVE_COLOR,
   },
-  [KEY_BOTTOM_SCREEN.WALLET]: {
-    name: KEY_BOTTOM_SCREEN.WALLET,
-    component: MyWalletScreen,
+  [KEY_BOTTOM_SCREEN.MINING]: {
+    name: KEY_BOTTOM_SCREEN.MINING,
+    component: MiningScreen,
     activeIcon: MINING_SELECTED,
     deactiveIcon: MINING,
     index: 1,
