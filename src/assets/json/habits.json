@@ -1,0 +1,52 @@
+{
+  "today": "2024-03-14T14:51:26.647Z",
+  "data": [
+    {
+      "startDate": null,
+      "endDate": null,
+      "habit": {
+        "id": "8cd535b6-7a04-4e71-be97-b83758028207",
+        "name": "30 Bữa sáng năng lượng",
+        "icon": "https://firebasestorage.googleapis.com/v0/b/seim-gulagi.appspot.com/o/lesssions%2F20210528144843-2021-05-28su_lession144842.png?alt=media&token=24b73dcb-271b-4d0b-ab7a-5cdd5970dd0f",
+        "description": "descriptionription ....",
+        "days": 30,
+        "exp": 0,
+        "rating": 0,
+        "tasks": [
+          {
+            "id": "10ede5c3-b4a8-4727-a6b6-76ace0d76eb9",
+            "name": "Chạy bộ 15 phút",
+            "icon": null,
+            "description": "6-8 hours",
+            "history": null,
+            "isFinished": true
+          },
+          {
+            "id": "7e3d611c-658f-4eb3-8f2b-7c78ea4dea6d",
+            "name": "Uống 8 cốc nước",
+            "icon": null,
+            "description": "Eat more vegetables",
+            "history": null,
+            "isFinished": false
+          },
+          {
+            "id": "dfa9e76d-2691-4e5e-87dd-a4e39b0784b5",
+            "name": "Ngủ trước 11h",
+            "icon": null,
+            "description": null,
+            "history": null,
+            "isFinished": false
+          },
+          {
+            "id": "e4b37fd8-5a91-43f3-8507-c4e027bbfb05",
+            "name": "Thiền 30 phút",
+            "icon": null,
+            "description": "30 minues",
+            "history": null,
+            "isFinished": true
+          }
+        ]
+      }
+    }
+  ]
+}

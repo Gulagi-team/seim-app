@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {API_URL} from '@/constants/enviroments';
+
+const API_URL = process.env.API_URL;
 
 // Add a request interceptor
 axios.interceptors.request.use(
@@ -36,7 +37,7 @@ axios.interceptors.response.use(
   },
 );
 
-export const setToken = token => {
+export const setToken = (token: string) => {
   const auth = `Bearer ${token}`;
   axios.defaults.headers.common['Authorization'] = auth;
 };
