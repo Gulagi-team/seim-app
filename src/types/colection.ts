@@ -36,12 +36,38 @@ export interface LessionSelectedType {
 }
 
 export interface TaskToUpdate {
-  lession_key: string;
-  index: number;
+  habit_id: string;
+  task_id: string;
 }
 
 export interface UserProfileType {
   email: string;
   name: string;
   avatar: string;
+}
+
+export interface Habit {
+  startDate: string | null;
+  endDate: string | null;
+  habit: HabitData;
+}
+
+export interface HabitData {
+  id: string;
+  name: string;
+  icon: string;
+  description: string;
+  days: number;
+  exp: number;
+  rating: number;
+  tasks: Task[];
+}
+
+export interface Task {
+  id: string;
+  name: string;
+  icon: string | null;
+  description: string | null;
+  history: any | null;
+  isFinished: boolean;
 }
