@@ -1,0 +1,11 @@
+{
+  "try_again": "다시 해 보다",
+  "using_this": "스캔",
+  "prompt": "정보 감지, 유효한 필드는 다음과 같습니다 Name, Description, Year, Brand,Price, Color, Seat, Manufacturing_country. \ntext: 양식에 따라 사진 속 차량에 대한 정보를 원합니다 \nJSON: {\"Name\":\"VinFast Lux A2.0\",\"Brand\":\"VinFast\",\"Description\":\"VinFast Lux A2.0은 VinFast가 제조한 E클래스 세단입니다. 이 차에는 터보차저 2.0L I4 엔진과 8단 자동변속기, 후륜구동 시스템이 탑재됐다. Lux A2.0은 부드럽고 유연한 라인이 돋보이는 고급스럽고 우아한 디자인을 자랑합니다. 차량 내부는 넓고 현대적인 기능을 많이 갖추고 있어 편안합니다. 이 차량에는 ABS 잠김 방지 제동 시스템, EBD 전자 제동력 분배 시스템, ESC 전자 밸런스 시스템, TCS 트랙션 컨트롤 시스템 등 다양한 안전 기능도 탑재되어 있습니다.\",\"Year\":\"2023\",\"Price\":\"54301228 KRW\",\"Color\":\"검은색\",\"Seat\":\"5\",\"Manufacturing_country\":\"VietNam\"} ",
+  "error": "정보를 찾을 수 없습니다",
+  "success": "찾은 정보",
+  "press": "정보를 얻으려면 \"스캔\"을 클릭하세요",
+  "image_progress": "이미지 처리",
+  "object_analyse": "객체 분석",
+  "detect_info": "정보 처리"
+}

@@ -1,4 +1,11 @@
-import {COLORS, FONT_SIZE, POPPINS_MEDIUM} from '@/theme';
+import {
+  COLORS,
+  FONT_SIZE,
+  POPPINS_BOLD,
+  POPPINS_LIGHT,
+  POPPINS_MEDIUM,
+  POPPINS_REGULAR,
+} from '@/theme';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -11,35 +18,74 @@ export const styles = StyleSheet.create({
     padding: 15,
     // backgroundColor: 'red',
   },
-  pointContainer: {
-    height: 58,
+  titleText: {
+    fontSize: FONT_SIZE.large2,
+    fontWeight: '700',
+    color: '#212121',
+    // marginTop: 10,
+    fontFamily: POPPINS_MEDIUM,
+    alignSelf: 'center',
+  },
+  rewardContainer: {
+    height: 70,
     width: '100%',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#DAEDFD73',
     borderRadius: 10,
     marginTop: 15,
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    borderColor: '#B5DCFB',
+    borderWidth: 1,
+    justifyContent: 'center',
+    position: 'relative',
+    // flex: 1,
+  },
+  rewardText: {
+    fontSize: FONT_SIZE.tiny0,
+    fontWeight: '500',
+    color: '#1B9CFC',
+    marginLeft: 10,
+    fontFamily: POPPINS_REGULAR,
+  },
+  pointContainer: {
+    // marginTop: 15,
     flexDirection: 'row',
     alignItems: 'center',
+    // borderColor: '#B5DCFB',
+    // borderWidth: 1,
     // flex: 1,
   },
   imagePoint: {
-    width: 40,
-    height: 40,
+    width: 20,
+    height: 20,
     marginLeft: 10,
   },
   pointText: {
-    fontSize: FONT_SIZE.large2,
+    fontSize: FONT_SIZE.medium0,
     fontWeight: '700',
     color: '#000',
-    marginLeft: 10,
-    fontFamily: POPPINS_MEDIUM,
+    marginLeft: 5,
+    fontFamily: POPPINS_BOLD,
+  },
+  imageBackgroundReward: {
+    width: '50%',
+    height: 70,
+    position: 'absolute',
+    // backgroundColor: 'red',
+    right: 0,
+
+    // marginLeft: 10,
   },
   actionMiningContainer: {
-    height: '50%',
+    height: '40%',
     width: '100%',
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
+    borderColor: COLORS.text_A200,
+    borderWidth: 1,
     marginTop: 15,
     alignItems: 'center',
+
     // flex: 1,
   },
   plugContainer: {
@@ -85,6 +131,8 @@ export const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
+    borderColor: COLORS.text_A200,
+    borderWidth: 1,
     marginTop: 5,
     alignItems: 'center',
     paddingTop: 15,
@@ -111,17 +159,18 @@ export const styles = StyleSheet.create({
   },
   miningInfoText: {
     fontSize: FONT_SIZE.tiny0,
-    fontWeight: '400',
-    color: '#06C270',
+    fontWeight: '500',
+    color: COLORS.black,
     fontFamily: POPPINS_MEDIUM,
     marginLeft: 5,
   },
   miningInfoValue: {
-    fontSize: FONT_SIZE.small0,
+    fontSize: FONT_SIZE.medium1,
     fontWeight: '600',
     color: COLORS.black,
     fontFamily: POPPINS_MEDIUM,
     marginTop: 5,
+    marginLeft: 10,
   },
   welcomeBottom: {
     position: 'absolute',

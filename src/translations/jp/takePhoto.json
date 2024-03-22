@@ -1,0 +1,11 @@
+{
+  "try_again": "リトライ",
+  "using_this": "スキャン",
+  "prompt": "情報を検出します。有効なフィールドは次のとおりです。 Name, Description, Year, Brand,Price, Color, Seat, Manufacturing_country. \ntext: フォームに従って写真に写っている車に関する情報が欲しいです。 \nJSON: {\"Name\":\"VinFast Lux A2.0\",\"Brand\":\"VinFast\",\"Description\":\"VinFast Lux A2.0は、VinFast社が製造するEクラスセダンです。 ターボチャージャー付き2.0L I4エンジン、8速オートマチックトランスミッション、後輪駆動システムを搭載。 Lux A2.0は、柔らかくしなやかなラインを備えた高級感のあるエレガントなデザインです。 車内は広々として快適で、多くの最新機能が備わっています。 この車には、ABS アンチロック ブレーキ システム、EBD 電子ブレーキ力配分システム、ESC 電子バランス システム、TCS トラクション コントロール システムなど、多くの安全機能も装備されています。\",\"Year\":\"2023\",\"Price\":\"5957752 JPY\",\"Color\":\"黒\",\"Seat\":\"5\",\"Manufacturing_country\":\"VietNam\"} ",
+  "error": "情報が見つかりませんでした",
+  "success": "見つかった情報",
+  "press": "\"スキャン\" をクリックして情報を受信します",
+  "image_progress": "画像処理",
+  "object_analyse": "オブジェクト分析",
+  "detect_info": "情報処理"
+}

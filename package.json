@@ -36,6 +36,7 @@
     "babel-plugin-react-native-platform-specific-extensions": "^1.1.1",
     "crypto": "^1.0.1",
     "generate-react-cli": "^8.4.0",
+    "i18next": "^23.10.1",
     "lodash": "^4.17.21",
     "lottie-react-native": "^6.7.0",
     "metro-react-native-babel-preset": "^0.77.0",

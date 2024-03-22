@@ -10,8 +10,6 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
 
-import SCREEN from '@/constants/screen';
-
 import {formatPricing, getShortAddress} from '@/helpers/conversion';
 import {StoreState, reduxStorage, useAppSelector} from '@/store';
 import {
@@ -21,9 +19,10 @@ import {
 } from '@/store/wallet';
 import {navigate} from '@/helpers/navigation';
 import {getWalletBalance} from '@/blockchain/basic';
-
-// import MyWalletModal from '@/components/Modal/MyWalletModal.js';
-// import LoadingModal from '@/components/Modal/LoadingModal.js';
+import {COLORS, FONT_SIZE, POPPINS_MEDIUM} from '@/theme';
+import POINT_SEIM from '@/assets/images/point_seim.png';
+import BACKGROUND_REWARD from '@/assets/images/background_reward.png';
+import SCREENS from '@/constants/screen';
 
 export const WalletBalance = () => {
   const currentAccount = useAppSelector(
@@ -31,21 +30,17 @@ export const WalletBalance = () => {
   );
   return (
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-      <Icon
-        name="account-balance-wallet"
-        style={{fontSize: 30, color: 'black'}}
-      />
       <Text
         style={{
-          // fontFamily: MONT_BOLD,
-          fontSize: 14,
-          color: 'black',
-          fontWeight: '700',
-          // marginTop: 5,
-          marginLeft: 7,
+          fontFamily: POPPINS_MEDIUM,
+          fontSize: FONT_SIZE.small1,
+          fontWeight: '500',
+          color: COLORS.black,
+          paddingRight: 5,
         }}>
         {getShortAddress(currentAccount)}
       </Text>
+      <Icon name="content-copy" style={{fontSize: 14, color: '#1B9CFC'}} />
     </View>
   );
 };
@@ -55,9 +50,7 @@ const WalletCard = () => {
   const {currentAccount, balance, tokenBalance} = useAppSelector(
     (state: StoreState) => state.walletSlice,
   );
-  // const isLoading = useSelector(state => state.transactionReducer.isLoading);
   const [modalVisible, setModalVisible] = useState(false);
-  // const [modalLoadingVisible, setModalLoadingVisible] = useState(isLoading);
   useEffect(() => {
     if (currentAccount) {
       handleGetBalanceWallet();
@@ -69,7 +62,7 @@ const WalletCard = () => {
     dispatch(updateWalletBalance(balance.toString()));
   };
 
-  const handleTopUp = async () => {
+  const handleDisconnect = async () => {
     dispatch(disconnectWallet());
     reduxStorage.setItem('address', '');
     reduxStorage.setItem('privateKey', '');
@@ -77,95 +70,53 @@ const WalletCard = () => {
   };
 
   return (
-    <View
-      style={{
-        width: '100%',
-        height: 200,
-        backgroundColor: 'black',
-        position: 'relative',
-        marginTop: 20,
-        marginBottom: 20,
-        borderRadius: 10,
-      }}>
-      <View style={styles.circleTop} />
-      <View style={styles.circleTop2} />
-      <View style={styles.circleBottom} />
-      <View style={styles.circleBottom2} />
-      <View style={styles.circleBottom3} />
+    <View style={styles.cardContainer}>
+      <Image
+        source={BACKGROUND_REWARD}
+        style={styles.imageBackgroundReward}
+        resizeMode={'contain'}
+      />
       {currentAccount ? (
-        <View>
-          <View
-            style={{
-              alignSelf: 'center',
-              alignItems: 'center',
-              flexDirection: 'row',
-              marginTop: 10,
-              // marginLeft: 80,
-            }}>
-            <Text
-              style={{
-                fontSize: 16,
-                color: '#fff',
-                marginLeft: 7,
-              }}>
-              BSC Testnet
-            </Text>
-          </View>
-
-          <View style={{marginLeft: 10, marginTop: 20}}>
-            <Text
-              style={{
-                // fontFamily: MONT_BOLD,
-                fontSize: 14,
-                color: '#fff',
-              }}>
-              Your balance
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                color: '#EDEEF0',
-                marginTop: 2,
-              }}>
-              TBNB: {formatPricing(balance)}
-            </Text>
-          </View>
-          <View
-            style={{
-              backgroundColor: '#f2f2f2',
-              width: '80%',
-              padding: 5,
-              marginLeft: 35,
-              marginTop: 15,
-              borderRadius: 10,
-              alignItems: 'center',
-            }}>
-            <TouchableOpacity
-              onPress={() => setModalVisible(true)}
-              delayLongPress={0}>
-              <WalletBalance />
-            </TouchableOpacity>
-          </View>
-
+        <View style={{padding: 15}}>
           <TouchableOpacity
-            onPress={handleTopUp}
+            onPress={() => setModalVisible(true)}
+            delayLongPress={0}>
+            <WalletBalance />
+          </TouchableOpacity>
+          <View style={{marginTop: 20}}>
+            <Text style={styles.balanceText}>Your balance</Text>
+            <View style={styles.balanceContainer}>
+              <Image
+                source={POINT_SEIM}
+                style={styles.imagePoint}
+                resizeMode={'contain'}
+              />
+              <Text style={styles.balanceTokenText}>
+                {formatPricing(balance)}
+              </Text>
+            </View>
+          </View>
+          <TouchableOpacity
+            onPress={handleDisconnect}
             delayLongPress={0}
             style={{
-              backgroundColor: '#fff',
+              backgroundColor: COLORS.white,
               padding: 7,
               borderRadius: 10,
+              borderWidth: 1,
+              borderColor: '#1B9CFC',
               alignItems: 'center',
               position: 'absolute',
-              top: '40%',
+              top: '50%',
               right: '5%',
               flexDirection: 'row',
               zIndex: 2,
             }}>
             <Text
               style={{
-                // fontFamily: MONT_BOLD,
-                fontSize: 14,
-                fontWeight: '600',
+                fontSize: FONT_SIZE.small1,
+                fontWeight: '500',
+                color: COLORS.black,
               }}>
               Disconnect
             </Text>
@@ -174,28 +125,31 @@ const WalletCard = () => {
       ) : (
         <View
           style={{
-            marginTop: 80,
             width: '100%',
+            height: '100%',
             justifyContent: 'center',
             alignItems: 'center',
           }}>
           <TouchableOpacity
-            onPress={() => navigate(SCREEN.INTRO_WALLET_SCREEN)}
+            onPress={() => navigate(SCREENS.INTRO_WALLET_SCREEN)}
             delayLongPress={0}>
             <View
               style={{
-                backgroundColor: '#fafafa',
+                backgroundColor: COLORS.white,
                 padding: 10,
                 borderRadius: 10,
+                borderWidth: 1,
+                borderColor: '#1B9CFC',
                 width: 200,
               }}>
               <Text
                 style={{
-                  textAlign: 'center',
-                  // fontFamily: MONT_BOLD,
-                  fontSize: 14,
-                  color: 'black',
-                  paddingVertical: 5,
+                  fontSize: FONT_SIZE.small0,
+                  fontWeight: '600',
+                  color: COLORS.black,
+                  // marginTop: 10,
+                  fontFamily: POPPINS_MEDIUM,
+                  alignSelf: 'center',
                 }}>
                 Connect wallet
               </Text>
@@ -210,59 +164,43 @@ const WalletCard = () => {
 export default WalletCard;
 
 const styles = StyleSheet.create({
-  circleTop: {
-    position: 'absolute',
-    width: 20,
-    height: 70,
-    right: 20,
-    top: 10,
-    // backgroundColor: COLORS.primary,
-    borderRadius: 4,
-    zIndex: 0,
-    opacity: 0.9,
+  cardContainer: {
+    width: '100%',
+    height: 150,
+    backgroundColor: COLORS.primary_A50,
+    position: 'relative',
+    borderWidth: 1,
+    borderColor: COLORS.primary_A100,
+    marginTop: 10,
+    marginBottom: 20,
+    borderRadius: 10,
   },
-  circleTop2: {
+  imageBackgroundReward: {
+    width: '70%',
+    height: 150,
     position: 'absolute',
-    width: 20,
-    height: 75,
-    right: 30,
-    top: 40,
-    // backgroundColor: COLORS.primary,
-    borderRadius: 4,
-    zIndex: 0,
-    opacity: 0.8,
+    right: 0,
   },
-  circleBottom: {
-    position: 'absolute',
-    width: 60,
-    height: 60,
-    left: 12,
-    top: 125,
-    // backgroundColor: COLORS.primary,
-    borderRadius: 100,
-    zIndex: -1,
-    opacity: 0.9,
+  balanceText: {
+    fontFamily: POPPINS_MEDIUM,
+    fontSize: FONT_SIZE.tiny0,
+    fontWeight: '500',
+    color: COLORS.primary_A500,
   },
-  circleBottom2: {
-    position: 'absolute',
-    width: 35,
-    height: 35,
-    left: 5,
-    top: 160,
-    // backgroundColor: COLORS.primary,
-    borderRadius: 100,
-    zIndex: -2,
-    opacity: 0.8,
+  balanceContainer: {
+    flexDirection: 'row',
+    // marginTop: 5,
+    alignItems: 'center',
   },
-  circleBottom3: {
-    position: 'absolute',
+  imagePoint: {
     width: 20,
     height: 20,
-    left: 0,
-    top: 180,
-    // backgroundColor: COLORS.primary,
-    borderRadius: 100,
-    zIndex: -3,
-    opacity: 0.7,
+  },
+  balanceTokenText: {
+    marginLeft: 5,
+    fontFamily: POPPINS_MEDIUM,
+    fontSize: FONT_SIZE.medium0,
+    fontWeight: '600',
+    color: COLORS.black,
   },
 });

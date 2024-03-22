@@ -45,3 +45,13 @@ export interface UserProfileType {
   name: string;
   avatar: string;
 }
+
+export type LanguageType =
+  | 'vi'
+  | 'en'
+  | 'de'
+  | 'id'
+  | 'cn'
+  | 'jp'
+  | 'kr'
+  | 'ru';

@@ -12,8 +12,9 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles} from './MiningScreen.styles';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import POINT_SEIM from '@/assets/images/point_seim.png';
+import LOGO from '@/assets/images/logo.png';
+import BACKGROUND_REWARD from '@/assets/images/background_reward.png';
 import PLUG from '@/assets/images/plug.png';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import mobileAds, {
@@ -22,6 +23,12 @@ import mobileAds, {
 } from 'react-native-google-mobile-ads';
 import {useEffect, useState} from 'react';
 import {showToast} from '@/helpers/toast';
+import MiningCard from '@/components/MiningCard/MiningCard';
+import LottieView from 'lottie-react-native';
+import IconPool from '@/assets/icons/icon_pool.svg';
+import IconSpeed from '@/assets/icons/icon_speed.svg';
+import IconDiamond from '@/assets/icons/icon_diamond.svg';
+import IconUser from '@/assets/icons/icon_user.svg';
 
 const adUnitId = 'ca-app-pub-4899008737130339/7604879423';
 
@@ -53,7 +60,7 @@ const MiningScreen = () => {
         // reduxStorage.setItem('turnLeftLocal', 2);
         // dispatch(updateTurnLeftNumber(2));
         // props.callbackChangeVisible();
-        // showToast('success', t('home:reward_success'));
+        showToast('success', 'Success');
         // setLoaded(false);
       },
     );
@@ -75,14 +82,24 @@ const MiningScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerView}>
-        <View style={styles.pointContainer}>
+        <Text style={styles.titleText}>Mining</Text>
+        <View style={styles.rewardContainer}>
+          <Text style={styles.rewardText}>Current Rewards</Text>
+          <View style={styles.pointContainer}>
+            <Image
+              source={POINT_SEIM}
+              style={styles.imagePoint}
+              resizeMode={'contain'}
+            />
+            <Text style={styles.pointText}>0.0267</Text>
+          </View>
           <Image
-            source={POINT_SEIM}
-            style={styles.imagePoint}
+            source={BACKGROUND_REWARD}
+            style={styles.imageBackgroundReward}
             resizeMode={'contain'}
           />
-          <Text style={styles.pointText}>0.0267 Seim</Text>
         </View>
+        {/* <MiningCard /> */}
         <View style={styles.actionMiningContainer}>
           <View style={styles.plugContainer}>
             <Image
@@ -91,6 +108,12 @@ const MiningScreen = () => {
               resizeMode={'contain'}
             />
           </View>
+          {/* <LottieView
+            source={require('@/assets/lotties/mining_animation.json')}
+            autoPlay
+            loop
+            style={{width: '100%', height: '100%'}}
+          /> */}
           <TouchableOpacity style={styles.btnMint} onPress={showAds}>
             <Text style={styles.mintText}>START MINT</Text>
           </TouchableOpacity>
@@ -100,35 +123,47 @@ const MiningScreen = () => {
           <View style={{flexDirection: 'row'}}>
             <View style={styles.miningDetailLeft}>
               <View style={styles.miningDetailTextContainer}>
-                <Icon
-                  name="supervisor-account"
-                  style={{fontSize: 16, color: '#06C270'}}
-                />
-                <Text style={styles.miningInfoText}>
-                  Total number of Pools mined
-                </Text>
+                <IconPool />
+                <Text style={styles.miningInfoText}>Total Pools Mined</Text>
               </View>
 
               <Text style={styles.miningInfoValue}>5</Text>
             </View>
             <View style={styles.miningDetailRight}>
               <View style={styles.miningDetailTextContainer}>
-                <Icon name="speed" style={{fontSize: 16, color: '#06C270'}} />
-                <Text style={styles.miningInfoText}>
-                  Mining amount in the last 24 hours
-                </Text>
+                <IconSpeed />
+                <Text style={styles.miningInfoText}>Mining amount (24h)</Text>
               </View>
 
               <Text style={styles.miningInfoValue}>0.03</Text>
             </View>
           </View>
-          <View style={{flexDirection: 'row', marginTop: 12}}>
+          <View
+            style={{
+              width: '90%',
+              paddingHorizontal: '3%',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginTop: 10,
+            }}>
+            <View
+              style={{width: '45%', height: 1, backgroundColor: '#000'}}></View>
+            {/* <Image
+              source={LOGO}
+              style={{
+                width: 20,
+                height: 20,
+              }}
+              resizeMode={'contain'}
+            /> */}
+            <View
+              style={{width: '45%', height: 1, backgroundColor: '#000'}}></View>
+          </View>
+          <View style={{flexDirection: 'row', marginTop: 10}}>
             <View style={styles.miningDetailLeft}>
               <View style={styles.miningDetailTextContainer}>
-                <Icon
-                  name="supervisor-account"
-                  style={{fontSize: 16, color: '#06C270'}}
-                />
+                <IconDiamond />
                 <Text style={styles.miningInfoText}>Level</Text>
               </View>
 
@@ -136,10 +171,8 @@ const MiningScreen = () => {
             </View>
             <View style={styles.miningDetailRight}>
               <View style={styles.miningDetailTextContainer}>
-                <Icon name="speed" style={{fontSize: 16, color: '#06C270'}} />
-                <Text style={styles.miningInfoText}>
-                  Number of people invited
-                </Text>
+                <IconUser />
+                <Text style={styles.miningInfoText}>Invited Peoples</Text>
               </View>
 
               <Text style={styles.miningInfoValue}>8</Text>

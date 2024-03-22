@@ -1,0 +1,12 @@
+{
+  "description": "説明する",
+  "see_more": "続きを見る",
+  "see_less": "もっと見る",
+  "detail_information": "詳細",
+  "brand": "自動車会社",
+  "year": "年",
+  "price": "車両価格",
+  "national": "製造国",
+  "color": "色",
+  "seat": "席"
+}

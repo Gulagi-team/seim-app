@@ -1,0 +1,11 @@
+{
+  "try_again": "Try again",
+  "using_this": "Detect now",
+  "prompt": "Detect info ,Valid fields are Name, Description, Year, Brand,Price, Color, Seat, Manufacturing_country. \ntext: Give me information about the car in the photo example. \nJSON: {\"Name\":\"VinFast Lux A2.0\",\"Brand\":\"VinFast\",\"Description\":\"VinFast Lux A2.0 is an E-class sedan manufactured by VinFast. The car is equipped with a turbocharged 2.0L I4 engine, 8-speed automatic transmission and rear-wheel drive system. Lux A2.0 has a luxurious, elegant design with soft and flexible lines. The car interior is spacious and comfortable with many modern features. The car is also equipped with many safety features such as ABS anti-lock braking system, EBD electronic brake force distribution system, ESC electronic stability system and TCS traction control system.\",\"Year\":\"2023\",\"Price\":\"$50,000\",\"Color\":\"Black\",\"Seat\":\"5\",\"Manufacturing_country\":\"Vietnam\"} ",
+  "error": "Information not found",
+  "success": "Information found",
+  "press": "Press \"Detect now\" to receive information right now",
+  "image_progress": "Image processing",
+  "object_analyse": "Object analyse",
+  "detect_info": "Information processing"
+}
