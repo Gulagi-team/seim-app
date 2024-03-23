@@ -21,63 +21,76 @@ import mobileAds, {
   RewardedAd,
   RewardedAdEventType,
 } from 'react-native-google-mobile-ads';
-import {useEffect, useState} from 'react';
-import {showToast} from '@/helpers/toast';
-import MiningCard from '@/components/MiningCard/MiningCard';
+import {useEffect, useRef, useState} from 'react';
 import LottieView from 'lottie-react-native';
 import IconPool from '@/assets/icons/icon_pool.svg';
 import IconSpeed from '@/assets/icons/icon_speed.svg';
 import IconDiamond from '@/assets/icons/icon_diamond.svg';
 import IconUser from '@/assets/icons/icon_user.svg';
+import {deviceWidth} from '@/constants/layout';
+import {COLORS} from '@/theme';
+import * as Progress from 'react-native-progress';
 
 const adUnitId = 'ca-app-pub-4899008737130339/7604879423';
 
 const rewarded = RewardedAd.createForAdRequest(adUnitId);
 
 const MiningScreen = () => {
-  const [loaded, setLoaded] = useState(false);
+  const [isMining, setIsMining] = useState(false);
+  const anim = useRef<LottieView>(null);
 
   useEffect(() => {
     // setInitAdDone(false);
-    mobileAds()
-      .initialize()
-      .then(() => {
-        // setLoaded(true);
-      })
-      .catch(err => console.log('Init error: ', err))
-      .finally(() => console.log('Init Ads success'));
+    // mobileAds()
+    //   .initialize()
+    //   .then(() => {
+    //     // setLoaded(true);
+    //   })
+    //   .catch(err => console.log('Init error: ', err))
+    //   .finally(() => console.log('Init Ads success'));
 
-    const unsubscribeLoaded = rewarded.addAdEventListener(
-      RewardedAdEventType.LOADED,
-      () => {
-        console.log('Load ads success');
-        setLoaded(true);
-      },
-    );
-    const unsubscribeEarned = rewarded.addAdEventListener(
-      RewardedAdEventType.EARNED_REWARD,
-      reward => {
-        // reduxStorage.setItem('turnLeftLocal', 2);
-        // dispatch(updateTurnLeftNumber(2));
-        // props.callbackChangeVisible();
-        showToast('success', 'Success');
-        // setLoaded(false);
-      },
-    );
-    rewarded.load();
+    // const unsubscribeLoaded = rewarded.addAdEventListener(
+    //   RewardedAdEventType.LOADED,
+    //   () => {
+    //     console.log('Load ads success');
+    //     setLoaded(true);
+    //   },
+    // );
+    // const unsubscribeEarned = rewarded.addAdEventListener(
+    //   RewardedAdEventType.EARNED_REWARD,
+    //   reward => {
+    //     // reduxStorage.setItem('turnLeftLocal', 2);
+    //     // dispatch(updateTurnLeftNumber(2));
+    //     // props.callbackChangeVisible();
+    //     showToast('success', 'Success');
+    //     // setLoaded(false);
+    //   },
+    // );
+    // rewarded.load();
 
     return () => {
-      unsubscribeLoaded();
-      unsubscribeEarned();
+      // unsubscribeLoaded();
+      // unsubscribeEarned();
     };
   }, []);
 
-  const showAds = () => {
-    if (loaded) {
-      rewarded.show();
+  const onPlayPress = () => {
+    if (isMining) {
+      anim.current?.pause();
     } else {
-      showToast('error', 'No advert ready to show yet');
+      anim.current?.play();
     }
+    setIsMining(p => !p);
+  };
+
+  const showAds = () => {
+    // if (loaded) {
+    //   rewarded.show();
+    // } else {
+    //   showToast('error', 'No advert ready to show yet');
+    // }
+    console.log(isMining);
+    setIsMining(!isMining);
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -91,6 +104,7 @@ const MiningScreen = () => {
               style={styles.imagePoint}
               resizeMode={'contain'}
             />
+
             <Text style={styles.pointText}>0.0267</Text>
           </View>
           <Image
@@ -101,20 +115,32 @@ const MiningScreen = () => {
         </View>
         {/* <MiningCard /> */}
         <View style={styles.actionMiningContainer}>
-          <View style={styles.plugContainer}>
+          {/* <View style={styles.plugContainer}>
             <Image
               source={PLUG}
               style={styles.imagePlug}
               resizeMode={'contain'}
             />
-          </View>
-          {/* <LottieView
-            source={require('@/assets/lotties/mining_animation.json')}
-            autoPlay
+          </View> */}
+          {/* <SVGatorComponent props={}/> */}
+          <LottieView
+            ref={anim}
+            source={require('@/assets/lotties/gpu_animation.json')}
             loop
-            style={{width: '100%', height: '100%'}}
-          /> */}
-          <TouchableOpacity style={styles.btnMint} onPress={showAds}>
+            style={{height: '50%', width: '100%'}}
+          />
+          <View style={styles.levelContainer}>
+            <Text style={styles.levelText}>25%</Text>
+            <Text style={styles.percentText}>00:00:00</Text>
+          </View>
+          <Progress.Bar
+            progress={0.4}
+            width={deviceWidth - 121}
+            color={COLORS.primary_A400}
+            unfilledColor={COLORS.text_A100}
+            borderWidth={0}
+          />
+          <TouchableOpacity style={styles.btnMint} onPress={onPlayPress}>
             <Text style={styles.mintText}>START MINT</Text>
           </TouchableOpacity>
         </View>

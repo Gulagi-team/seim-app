@@ -1,3 +1,4 @@
+import {deviceWidth} from '@/constants/layout';
 import {
   COLORS,
   FONT_SIZE,
@@ -84,30 +85,35 @@ export const styles = StyleSheet.create({
     borderColor: COLORS.text_A200,
     borderWidth: 1,
     marginTop: 15,
+    paddingTop: 15,
     alignItems: 'center',
-
-    // flex: 1,
   },
-  plugContainer: {
-    width: 160,
-    height: 160,
-    backgroundColor: '#FFFFFF',
+  levelContainer: {
+    width: deviceWidth - 121,
+    // height: '100%',
     marginTop: 15,
-    borderColor: 'silver',
-    borderWidth: 12,
-    borderRadius: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
+    // marginBottom: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+
+    // backgroundColor: '#fff',
   },
-  imagePlug: {
-    width: 100,
-    height: 100,
-    // marginLeft: 10,
+  levelText: {
+    fontSize: FONT_SIZE.tiny0,
+    fontFamily: POPPINS_MEDIUM,
+    fontWeight: '600',
+    color: COLORS.primary_A500,
+  },
+  percentText: {
+    fontSize: FONT_SIZE.tiny0,
+    fontFamily: POPPINS_MEDIUM,
+    fontWeight: '600',
+    color: COLORS.black,
   },
   btnMint: {
     width: 200,
-    height: 48,
-    backgroundColor: '#06C270',
+    height: 44,
+    backgroundColor: COLORS.primary_A500,
     borderRadius: 10,
     marginTop: 10,
     alignItems: 'center',

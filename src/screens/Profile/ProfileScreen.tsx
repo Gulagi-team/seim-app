@@ -32,9 +32,6 @@ const ProfileScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const width = Dimensions.get('window').width;
 
-  const [loading, setLoading] = useState(true);
-  // const [lessions, setLessions] = useState<LessionType[]>([]);
-
   const lessionsSelected = useAppSelector(
     (state: StoreState) => state.LessionSlice.lessionsSelected,
   );
