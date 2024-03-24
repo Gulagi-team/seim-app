@@ -1,5 +1,8 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {getListHabit as getListHabitAPI} from '@/api/habit';
+import {
+  getListHabit as getListHabitAPI,
+  putStartHabit as putStartHabitAPI,
+} from '@/api/habit';
 // import {setToken} from '@/api/index';
 import {Habit} from '@/types/colection';
 
@@ -14,5 +17,15 @@ export const fetchHabits = createAsyncThunk(
     // const token = await getData(KEY_AUTHEN);
     // setToken(token);
     return await getListHabitAPI();
+  },
+);
+
+export const startHabit = createAsyncThunk(
+  'habit/startHabit',
+  async (habitId: string): Promise<any> => {
+    // const token = await getData(KEY_AUTHEN);
+    // setToken(token);
+    await putStartHabitAPI(habitId);
+    return habitId;
   },
 );

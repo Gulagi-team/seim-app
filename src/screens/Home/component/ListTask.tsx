@@ -1,95 +1,55 @@
-import React, {useRef, useState} from 'react';
-import {
-  Text,
-  View,
-  Button,
-  TextInput,
-  Pressable,
-  StyleSheet,
-  Touchable,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
-import FastImage from 'react-native-fast-image';
+import React from 'react';
+import {Text, View, FlatList, TouchableOpacity} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {updateTaskStatus} from '@/store/habits/index';
-import IconSleep from '@/assets/icons/sleep.svg';
-import {styles, dayStyles} from './ListTask.styles';
-import {
-  CheckIcon,
-  Checkbox,
-  CheckboxIcon,
-  CheckboxIndicator,
-} from '@gluestack-ui/themed';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import {startHabit} from '@/store/habits/action';
+import {styles} from './ListTask.styles';
+import ListDate from './ListDate';
+import Point from './Point';
+import Task from './Task';
+import DisableTask from './DisableTask';
 import {Habit} from '@/types/colection';
 
-export interface Props {
+interface Props {
   habitSelected: Habit;
 }
 const ListTaskContent = ({habitSelected}: Props) => {
-  const dispatch = useDispatch();
-
-  const listDay = [];
-  for (let i = 1; i <= habitSelected.habit.days; i++) {
-    listDay.push(i);
-  }
-
-  const renderDayItem = (item: number) => {
-    return (
-      <View key={item} style={dayStyles.failedDayContainer}>
-        <Text style={dayStyles.failedDayText}>{item}</Text>
-      </View>
-    );
-  };
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const enable: boolean =
+    habitSelected.startDate !== null && habitSelected.startDate !== undefined;
 
   return (
     <View style={styles.container}>
       <View style={styles.question}>
         <Text style={styles.howOldAre1}>{habitSelected.habit.name}</Text>
-        <ScrollView horizontal={true}>{listDay.map(renderDayItem)}</ScrollView>
-        <ScrollView style={{height: '70%'}}>
-          {habitSelected.habit.tasks.map((task, index) => (
-            <TouchableOpacity
-              accessible={true}
-              onPress={() =>
-                dispatch(
-                  updateTaskStatus({
-                    task_id: task.id,
-                    habit_id: habitSelected.habit.id,
-                  }),
-                )
+        {habitSelected.startDate && (
+          <>
+            <ListDate habitSelected={habitSelected} />
+            <View style={styles.breakLine} />
+            <Point />
+          </>
+        )}
+        {!habitSelected.startDate && (
+          <TouchableOpacity
+            style={styles.startBtn}
+            onPress={() => {
+              dispatch(startHabit(habitSelected.habit.id));
+            }}>
+            <Text style={styles.startText}>Let's started &gt;</Text>
+          </TouchableOpacity>
+        )}
+        <View style={styles.itemContainer}>
+          <FlatList
+            data={habitSelected.habit.tasks}
+            renderItem={({item}) => {
+              if (enable) {
+                return <Task task={item} habitId={habitSelected.habit.id} />;
+              } else {
+                return <DisableTask task={item} />;
               }
-              style={styles.item}
-              key={index}>
-              {task.icon && (
-                <FastImage
-                  style={styles.itemImgF}
-                  source={{
-                    uri: task.icon,
-                  }}
-                  resizeMode={FastImage.resizeMode.contain}
-                />
-              )}
-              {!task.icon && <IconSleep />}
-              <View style={styles.itemText}>
-                <Text style={styles.itemTextContent} numberOfLines={1}>
-                  {task.name}
-                </Text>
-                <Text style={styles.itemTextSub}>{task.description}</Text>
-              </View>
-              <Checkbox
-                aria-label={task.name}
-                size="lg"
-                value="12"
-                isChecked={task.isFinished}>
-                <CheckboxIndicator style={styles.itemCbxIndicator} mr="$2">
-                  <CheckboxIcon as={CheckIcon} />
-                </CheckboxIndicator>
-              </Checkbox>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+            }}
+          />
+        </View>
       </View>
     </View>
   );

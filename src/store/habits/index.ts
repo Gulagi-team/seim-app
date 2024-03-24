@@ -1,6 +1,7 @@
+import moment from 'moment';
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {union, unionWith} from 'lodash';
-import {fetchHabits, HabitResponse} from './action';
+import {fetchHabits, HabitResponse, startHabit} from './action';
 import {Habit, TaskToUpdate} from '@/types/colection';
 
 export type HabitsState = {
@@ -50,6 +51,22 @@ const HabitSlice = createSlice({
           state.habits = action.payload.data ?? [];
       })
       .addCase(fetchHabits.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+
+      .addCase(startHabit.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(startHabit.fulfilled, (state, action: PayloadAction<string>) => {
+        state.status = 'succeeded';
+
+        const habitIndex = state.habits.findIndex(
+          el => el.habit.id === action.payload,
+        );
+        state.habits[habitIndex].startDate = moment().toISOString();
+      })
+      .addCase(startHabit.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });
