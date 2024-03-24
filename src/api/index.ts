@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {API_URL} from '@/constants/environtment';
+
+const API_URL = process.env.API_URL;
 
 // Add a request interceptor
 axios.interceptors.request.use(
@@ -7,7 +8,7 @@ axios.interceptors.request.use(
     // Do something before request is sent
     // config.headers.Authorization = `Bearer ${your_token}`;
     // OR config.headers.common['Authorization'] = `Bearer ${your_token}`;
-    config.baseURL = 'https://api-dev.seim.today';
+    config.baseURL = API_URL;
 
     return config;
   },
@@ -23,7 +24,7 @@ axios.interceptors.response.use(
     return res;
   },
   async err => {
-    console.log('Api url is:', 'https://api-dev.seim.today');
+    console.log('Api url is:', API_URL);
     console.log('Error when call: ', err.response);
     console.log(
       'Message when call api is: ',
@@ -36,7 +37,7 @@ axios.interceptors.response.use(
   },
 );
 
-export const setToken = token => {
+export const setToken = (token: string) => {
   const auth = `Bearer ${token}`;
   axios.defaults.headers.common['Authorization'] = auth;
 };

@@ -11,33 +11,31 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {useDispatch} from 'react-redux';
-import {updateTaskStatus} from '@/store/lessions';
-import {styled} from '@gluestack-style/react';
+import {updateTaskStatus} from '@/store/habits/index';
 import IconSleep from '@/assets/icons/sleep.svg';
 import {styles, dayStyles} from './ListTask.styles';
 import {
   CheckIcon,
   Checkbox,
-  CheckboxGroup,
   CheckboxIcon,
   CheckboxIndicator,
-  CheckboxLabel,
 } from '@gluestack-ui/themed';
-import {LessionSelectedType} from '@/types/colection';
+import {Habit} from '@/types/colection';
 
-export interface props {
-  lessionSelected: LessionSelectedType;
+export interface Props {
+  habitSelected: Habit;
 }
-const ListTaskContent = ({lessionSelected}: props) => {
+const ListTaskContent = ({habitSelected}: Props) => {
   const dispatch = useDispatch();
 
   const listDay = [];
-  for (let i = 1; i <= lessionSelected.lession_day_total; i++) {
+  for (let i = 1; i <= habitSelected.habit.days; i++) {
     listDay.push(i);
   }
 
-  const renderDayItem = (item: any) => {
+  const renderDayItem = (item: number) => {
     return (
       <View key={item} style={dayStyles.failedDayContainer}>
         <Text style={dayStyles.failedDayText}>{item}</Text>
@@ -48,49 +46,43 @@ const ListTaskContent = ({lessionSelected}: props) => {
   return (
     <View style={styles.container}>
       <View style={styles.question}>
-        <Text style={styles.howOldAre1}>{lessionSelected.lession_title}</Text>
+        <Text style={styles.howOldAre1}>{habitSelected.habit.name}</Text>
         <ScrollView horizontal={true}>{listDay.map(renderDayItem)}</ScrollView>
         <ScrollView style={{height: '70%'}}>
-          {lessionSelected.items.map((item, index) => (
+          {habitSelected.habit.tasks.map((task, index) => (
             <TouchableOpacity
               accessible={true}
               onPress={() =>
                 dispatch(
                   updateTaskStatus({
-                    lession_key: lessionSelected.lession_key,
-                    index: index,
+                    task_id: task.id,
+                    habit_id: habitSelected.habit.id,
                   }),
                 )
               }
               style={styles.item}
-              key={item.item_trans_title}>
-              <IconSleep />
+              key={index}>
+              {task.icon && (
+                <FastImage
+                  style={styles.itemImgF}
+                  source={{
+                    uri: task.icon,
+                  }}
+                  resizeMode={FastImage.resizeMode.contain}
+                />
+              )}
+              {!task.icon && <IconSleep />}
               <View style={styles.itemText}>
                 <Text style={styles.itemTextContent} numberOfLines={1}>
-                  {item.item_trans_title}
+                  {task.name}
                 </Text>
-                <Text style={styles.itemTextSub}>6-8 hours</Text>
+                <Text style={styles.itemTextSub}>{task.description}</Text>
               </View>
-              {/* <View
-                style={{
-                  borderColor: 'black',
-                  borderWidth: 1,
-                  width: 25,
-                  height: 25,
-                  borderRadius: 100,
-                  marginRight: 20,
-                  marginVertical: 30,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                {item.isDone && <IconCheck  />}
-              </View> */}
-
               <Checkbox
-                aria-label={item.item_trans_title}
+                aria-label={task.name}
                 size="lg"
                 value="12"
-                isChecked={item.isDone}>
+                isChecked={task.isFinished}>
                 <CheckboxIndicator style={styles.itemCbxIndicator} mr="$2">
                   <CheckboxIcon as={CheckIcon} />
                 </CheckboxIndicator>

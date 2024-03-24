@@ -36,6 +36,11 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: COLORS.text_A200,
   },
+  itemImgF: {
+    height: 40,
+    width: 40,
+    borderRadius: 8,
+  },
   itemText: {
     flex: 1,
     display: 'flex',
