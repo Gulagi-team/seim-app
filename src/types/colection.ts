@@ -71,3 +71,13 @@ export interface Task {
   history: any | null;
   isFinished: boolean;
 }
+
+export type LanguageType =
+  | 'vi'
+  | 'en'
+  | 'de'
+  | 'id'
+  | 'cn'
+  | 'jp'
+  | 'kr'
+  | 'ru';

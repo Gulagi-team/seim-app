@@ -1,0 +1,11 @@
+{
+  "try_again": "重试",
+  "using_this": "扫描",
+  "prompt": "检测信息，有效字段有 Name, Description, Year, Brand,Price, Color, Seat, Manufacturing_country. \ntext: 我想要根据表格获取照片中汽车的信息. \nJSON: {\"Name\":\"VinFast Lux A2.0\",\"Brand\":\"VinFast\",\"Description\":\"VinFast Lux A2.0是VinFast生产的E级轿车。 该车搭载涡轮增压2.0L I4发动机、8速自动变速箱和后轮驱动系统。 Lux A2.0设计豪华典雅，线条柔和灵动。 车内宽敞舒适，具有许多现代功能。 该车还配备了ABS防抱死制动系统、EBD电子制动力分配系统、ESC电子平衡系统和TCS牵引力控制系统等多项安全配置。\",\"Year\":\"2023\",\"Price\":\"293111 CNY\",\"Color\":\"黑色的\",\"Seat\":\"5\",\"Manufacturing_country\":\"VietNam\"} ",
+  "error": "没有找到信息",
+  "success": "找到信息",
+  "press": "按 \"扫描\" 获取信息",
+  "image_progress": "图像处理",
+  "object_analyse": "对象分析",
+  "detect_info": "信息处理"
+}

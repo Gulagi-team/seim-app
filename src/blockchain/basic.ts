@@ -1,8 +1,6 @@
 import Web3 from 'web3';
 
-export const web3Instance = new Web3(
-  'https://bsc-testnet.nodereal.io/v1/e9a36765eb8a40b9bd12e680a1fd2bc5',
-);
+export const web3Instance = new Web3('https://rpc.seim.today');
 
 export const importWalletFromPK = async (privateKey: string) => {
   console.log('importWalletFromPK');

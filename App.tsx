@@ -7,6 +7,7 @@ import {Provider} from 'react-redux';
 import {GluestackUIProvider} from '@gluestack-ui/themed';
 import {config} from '@gluestack-ui/config';
 import ToastContainer, {getToastConfig} from '@/components/Toast/Toast';
+import './src/translations';
 
 const App = () => {
   return (
