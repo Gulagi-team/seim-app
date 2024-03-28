@@ -39,7 +39,7 @@ const LoginScreen = () => {
         showPlayServicesUpdateDialog: true,
       });
       const result = await GoogleSignin.signIn();
-      console.log('result', result);
+      // console.log('result', result);
       // if (result) {
       //   const data = await login(result.idToken);
       //   console.log('data', data);

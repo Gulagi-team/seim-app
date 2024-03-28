@@ -30,6 +30,8 @@ import IconUser from '@/assets/icons/icon_user.svg';
 import {deviceWidth} from '@/constants/layout';
 import {COLORS} from '@/theme';
 import * as Progress from 'react-native-progress';
+import CountdownTimer from '@/components/TimerCountdown/TimerCountdown';
+import {useAppSelector} from '@/store';
 
 const adUnitId = 'ca-app-pub-4899008737130339/7604879423';
 
@@ -38,6 +40,8 @@ const rewarded = RewardedAd.createForAdRequest(adUnitId);
 const MiningScreen = () => {
   const [isMining, setIsMining] = useState(false);
   const anim = useRef<LottieView>(null);
+  const endDate = useAppSelector(state => state.MiningSlice.endDate);
+  const [timeLeft, setTimeLeft] = useState(endDate - new Date().getTime());
 
   useEffect(() => {
     // setInitAdDone(false);
@@ -113,35 +117,21 @@ const MiningScreen = () => {
             resizeMode={'contain'}
           />
         </View>
-        {/* <MiningCard /> */}
         <View style={styles.actionMiningContainer}>
-          {/* <View style={styles.plugContainer}>
-            <Image
-              source={PLUG}
-              style={styles.imagePlug}
-              resizeMode={'contain'}
-            />
-          </View> */}
-          {/* <SVGatorComponent props={}/> */}
           <LottieView
             ref={anim}
             source={require('@/assets/lotties/gpu_animation.json')}
             loop
-            style={{height: '50%', width: '100%'}}
+            style={{height: '55%', width: '100%'}}
           />
-          <View style={styles.levelContainer}>
-            <Text style={styles.levelText}>25%</Text>
-            <Text style={styles.percentText}>00:00:00</Text>
-          </View>
-          <Progress.Bar
-            progress={0.4}
-            width={deviceWidth - 121}
-            color={COLORS.primary_A400}
-            unfilledColor={COLORS.text_A100}
-            borderWidth={0}
-          />
-          <TouchableOpacity style={styles.btnMint} onPress={onPlayPress}>
-            <Text style={styles.mintText}>START MINT</Text>
+          <CountdownTimer />
+          <TouchableOpacity
+            style={styles.btnMint}
+            onPress={onPlayPress}
+            disabled={timeLeft > 0}>
+            <Text style={styles.mintText}>
+              {timeLeft == 0 ? 'START MINT' : 'MINING...'}
+            </Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.miningText}>Mining Info</Text>
@@ -175,14 +165,6 @@ const MiningScreen = () => {
             }}>
             <View
               style={{width: '45%', height: 1, backgroundColor: '#000'}}></View>
-            {/* <Image
-              source={LOGO}
-              style={{
-                width: 20,
-                height: 20,
-              }}
-              resizeMode={'contain'}
-            /> */}
             <View
               style={{width: '45%', height: 1, backgroundColor: '#000'}}></View>
           </View>

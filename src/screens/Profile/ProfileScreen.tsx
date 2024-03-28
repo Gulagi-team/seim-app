@@ -20,17 +20,19 @@ import {navigate} from '@/helpers/navigation';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import {Spinner} from '@gluestack-ui/themed';
 import {styles} from './ProfileScreen.styles';
-import {LinearGradient} from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import * as Progress from 'react-native-progress';
 import IconBarChart from '@/assets/icons/icon_bar_chart.svg';
 import Header from '@/components/Header';
 import {deviceWidth} from '@/constants/layout';
 import {COLORS} from '@/theme';
+import {useNavigation} from '@react-navigation/native';
 
 const ProfileScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const width = Dimensions.get('window').width;
+  const navigation = useNavigation();
+  const goBack = () => navigation.goBack();
 
   const lessionsSelected = useAppSelector(
     (state: StoreState) => state.LessionSlice.lessionsSelected,
@@ -44,10 +46,9 @@ const ProfileScreen = () => {
     dispatch(fetchLessions());
   }, []);
 
-  //------
-
   return (
     <SafeAreaView style={styles.container}>
+      <Header title="PROFILE" canGoBack={true} handleGoBack={goBack} />
       <ScrollView style={styles.scrollviewContainer}>
         <View style={styles.profileContainer}>
           <FastImage
@@ -63,7 +64,7 @@ const ProfileScreen = () => {
             <Text style={styles.userName}>{name}</Text>
 
             <View style={styles.levelContainer}>
-              <Text style={styles.levelText}>Level.2</Text>
+              <Text style={styles.levelText}>Level: Bronze</Text>
               <Text style={styles.percentText}>115/500</Text>
             </View>
             <Progress.Bar
@@ -76,73 +77,32 @@ const ProfileScreen = () => {
           </View>
         </View>
         <View style={styles.infoContainer}>
-          <View style={styles.bmiContainer}>
-            <Text style={styles.infoText}>Age: 21</Text>
-            <Text style={styles.infoText}>BMI: 23,15</Text>
-          </View>
-          <View style={styles.bmiContainer}>
-            <Text style={styles.infoText}>Height: 175</Text>
-            <Text style={styles.infoText}>Weight: 70</Text>
-          </View>
-        </View>
-
-        <View style={styles.processingContainer}>
-          <View style={styles.processingTitleContainer}>
-            <View style={styles.iconContainer}>
-              <IconBarChart />
-              <Text style={styles.processingText}>Processing</Text>
+          <View style={styles.infoContainer1}>
+            <View style={styles.bmiContainer}>
+              <Text style={styles.keyInfoText}>Weight</Text>
+              <Text style={styles.valueInfoText}>60 kg</Text>
             </View>
-            <Text style={styles.seeAllText}>See all</Text>
-          </View>
-          <View style={styles.physicalContainer}>
-            <View style={styles.physicalConatiner}>
-              <View style={styles.circle} />
-              <Text style={styles.physicalText}>Physical</Text>
+            <View style={styles.bmiContainer}>
+              <Text style={styles.keyInfoText}>Height</Text>
+              <Text style={styles.valueInfoText}>170 cm</Text>
             </View>
-
-            <Text style={styles.physical1Text}>310/700</Text>
           </View>
-          <Progress.Bar
-            progress={0.6}
-            width={width - 72}
-            color="#47A0FF"
-            unfilledColor="#F7F7F7"
-            borderWidth={0}
-          />
-          <View style={styles.physicalContainer}>
-            <View style={styles.physicalConatiner}>
-              <View style={styles.square} />
-              <Text style={styles.intellectualText}>Intellectual</Text>
+          <View style={styles.infoContainer1}>
+            <View style={styles.bmiContainer}>
+              <Text style={styles.keyInfoText}>Age</Text>
+              <Text style={styles.valueInfoText}>21</Text>
             </View>
-
-            <Text style={styles.physical1Text}>305/600</Text>
-          </View>
-          <Progress.Bar
-            progress={0.7}
-            width={width - 72}
-            color="#1BE9A5"
-            unfilledColor="#F7F7F7"
-            borderWidth={0}
-          />
-          <View style={styles.physicalContainer}>
-            <View style={styles.physicalConatiner}>
-              <View style={styles.triangle} />
-              <Text style={styles.mentalText}>Mental</Text>
+            <View style={styles.bmiContainer}>
+              <Text style={styles.keyInfoText}>BMI</Text>
+              <Text style={styles.valueInfoText}>19.7</Text>
             </View>
-
-            <Text style={styles.physical1Text}>65/200</Text>
           </View>
-          <Progress.Bar
-            progress={0.4}
-            width={width - 72}
-            color="#FAD059"
-            unfilledColor="#F7F7F7"
-            borderWidth={0}
-          />
         </View>
         <View style={styles.recentContainer}>
           <Text style={styles.recentText}>Recent packs</Text>
-          <Text style={styles.seeMoreText}>See more</Text>
+          <TouchableOpacity>
+            <Text style={styles.seeMoreText}>See all</Text>
+          </TouchableOpacity>
         </View>
 
         {lessionsSelected.map(item => (

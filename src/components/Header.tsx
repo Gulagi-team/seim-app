@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/core';
+import {useNavigation} from '@react-navigation/core';
 import React from 'react';
 import {
   Image,
@@ -12,11 +12,11 @@ import {
 
 import Logo from '@/assets/images/logo.png';
 import IconBack from '@/assets/icons/icon_back.svg';
-import { ArrowLeftIcon, Icon } from '@gluestack-ui/themed';
+import {COLORS, POPPINS_BOLD} from '@/theme';
 
 export interface HeaderProps {
   style?: StyleProp<ViewStyle>;
-  title?: string | React.ReactNode;
+  title?: string;
   renderLogo?: boolean;
   canGoBack?: boolean;
   handleGoBack?: () => void;
@@ -43,12 +43,11 @@ const Header = ({
         <TouchableOpacity
           onPress={handleGoBack}
           style={[styles.back, backStyle]}>
-          <Icon as={ArrowLeftIcon} size='xl' />
+          <IconBack />
         </TouchableOpacity>
-      ):null}
-      <View style={{ flexDirection: 'row' }}>
-        {/* <Text style={styles.title}>{'title?.toString()'}</Text> */}
-
+      ) : null}
+      <View style={{flexDirection: 'row'}}>
+        {title && <Text style={styles.title}>{title}</Text>}
         {renderLogo && (
           <Image
             testID={'logo-header'}
@@ -78,17 +77,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 'auto',
-    padding: 14,
-    minHeight: 40
-
+    padding: 10,
+    minHeight: 40,
   },
   back: {
     position: 'absolute',
-    left: 10,
+    left: 14,
   },
   title: {
-    color: '#FCFCFD',
-    minHeight: 34,
+    fontFamily: POPPINS_BOLD,
+    fontSize: 16,
+    fontWeight: '600',
+    color: COLORS.text_A900,
   },
   rightContent: {
     // position: 'absolute',
