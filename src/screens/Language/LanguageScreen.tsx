@@ -9,7 +9,6 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import IconEnglish from '@/assets/icons/icon_english.svg';
@@ -29,13 +28,15 @@ import {LanguageType} from '@/types/colection';
 import {styles} from './LanguageScreen.styles';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import {COLORS} from '@/theme';
+import {useNavigation} from '@react-navigation/native';
 
 const LanguageScreen = () => {
-  const dispatch = useDispatch();
   const {t} = useTranslation(['startup']);
   const language = useAppSelector(
     (state: StoreState) => state.userInfo.language,
   );
+  const navigation = useNavigation();
+  const goBack = () => navigation.goBack();
   const onChangeLanguage = (lang: LanguageType) => {
     // dispatch(updateLanguage(lang));
     // void i18next.changeLanguage(lang);
@@ -43,11 +44,8 @@ const LanguageScreen = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Header
-        title={t('screens:language')}
-        handleGoBack={() => navigation.goBack()}
-      /> */}
-      <View style={styles.containerView}>
+      <Header title="LANGUAGE" canGoBack={true} handleGoBack={goBack} />
+      <View style={styles.contentContainer}>
         <TouchableOpacity
           style={{
             ...styles.itemContainer,

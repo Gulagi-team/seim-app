@@ -5,18 +5,11 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  containerView: {
-    // flex: 1,
-    height: '90%',
-    padding: 15,
-    // backgroundColor: 'red',
-  },
   contentContainer: {
     width: '100%',
     // height: '100%',
     flex: 1,
     paddingHorizontal: 16,
-    paddingTop: 16,
   },
   itemContainer: {
     backgroundColor: COLORS.white,

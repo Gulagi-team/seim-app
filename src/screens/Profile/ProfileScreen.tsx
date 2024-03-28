@@ -27,10 +27,10 @@ import Header from '@/components/Header';
 import {deviceWidth} from '@/constants/layout';
 import {COLORS} from '@/theme';
 import {useNavigation} from '@react-navigation/native';
+import {BarChart} from 'react-native-gifted-charts';
 
 const ProfileScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-  const width = Dimensions.get('window').width;
   const navigation = useNavigation();
   const goBack = () => navigation.goBack();
 
@@ -45,6 +45,16 @@ const ProfileScreen = () => {
   useEffect(() => {
     dispatch(fetchLessions());
   }, []);
+
+  const barData = [
+    {value: 250, label: 'Mo'},
+    {value: 500, label: 'Tu'},
+    {value: 745, label: 'We'},
+    {value: 320, label: 'Th'},
+    {value: 600, label: 'Fr'},
+    {value: 256, label: 'Sa'},
+    {value: 300, label: 'Su'},
+  ];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -75,6 +85,27 @@ const ProfileScreen = () => {
               borderWidth={0}
             />
           </View>
+        </View>
+        <View style={styles.activityContainer}>
+          <View style={styles.activityTitleContainer}>
+            <Text style={styles.recentText}>Activity</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeMoreText}>See all</Text>
+            </TouchableOpacity>
+          </View>
+          <BarChart
+            barWidth={20}
+            stepHeight={5}
+            // xAxisLength={12}
+            // noOfSections={4}
+            hideAxesAndRules={true}
+            rulesLength={0}
+            // barBorderRadius={4}
+            frontColor={COLORS.primary_A500}
+            xAxisLabelTextStyle={styles.weekdayText}
+            data={barData}
+            dashWidth={0}
+          />
         </View>
         <View style={styles.infoContainer}>
           <View style={styles.infoContainer1}>

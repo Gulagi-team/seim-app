@@ -24,11 +24,14 @@ import React, {useRef, useState} from 'react';
 import {showToast} from '@/helpers/toast';
 import {styles} from './FeedbackScreen.styles';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
+import {useNavigation} from '@react-navigation/native';
 
 const FeedbackScreen = () => {
   const {t} = useTranslation(['startup']);
   const [name, setName] = useState('');
   const [feedback, setFeedback] = useState('');
+  const navigation = useNavigation();
+  const goBack = () => navigation.goBack();
   // const scrollViewRef = useRef<KeyboardAwareScrollView>(null);
 
   const handleSubmit = () => {
@@ -65,10 +68,7 @@ const FeedbackScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Header
-        title={t('screens:feedback')}
-        handleGoBack={() => navigation.goBack()}
-      /> */}
+      <Header title="Feedback" canGoBack={true} handleGoBack={goBack} />
       <View style={styles.containerView}>
         <FastImage
           style={styles.logo}
@@ -91,7 +91,7 @@ const FeedbackScreen = () => {
         <View style={styles.feedbackContainer}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={styles.nameTitle}>{t('feedback:feedback')}</Text>
-            <Text style={styles.nameTitle}>{`${feedback.length}/500`}</Text>
+            <Text style={styles.nameTitle}>{`${feedback.length}/200`}</Text>
           </View>
 
           <TextInput
@@ -100,8 +100,8 @@ const FeedbackScreen = () => {
             // placeholder="Name"
             multiline
             placeholderTextColor={'#fff'}
-            numberOfLines={6}
-            maxLength={500}
+            numberOfLines={5}
+            maxLength={200}
           />
         </View>
         <TouchableOpacity style={styles.getStartParent} onPress={handleSubmit}>

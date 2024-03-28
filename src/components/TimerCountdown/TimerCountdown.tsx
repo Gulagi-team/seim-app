@@ -8,7 +8,6 @@ import * as Progress from 'react-native-progress';
 const CountdownTimer = () => {
   const endDate = useAppSelector(state => state.MiningSlice.endDate);
   const [timeLeft, setTimeLeft] = useState(endDate - new Date().getTime());
-  // const [timeRuning, setTimeRuning] = useState(endDate - new Date().getTime());
 
   useEffect(() => {
     // Update the time left every second

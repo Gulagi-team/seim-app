@@ -35,13 +35,10 @@ const LoginScreen = () => {
           '474737740853-4iohtlair4u6bbp7b60k9hta9v00vuut.apps.googleusercontent.com',
         offlineAccess: true,
       });
-      const a = await GoogleSignin.hasPlayServices({
-        showPlayServicesUpdateDialog: true,
-      });
       const result = await GoogleSignin.signIn();
-      // console.log('result', result);
+      console.log('result', result);
       // if (result) {
-      //   const data = await login(result.idToken);
+      //   const data = await login({token: result.idToken});
       //   console.log('data', data);
       // }
 

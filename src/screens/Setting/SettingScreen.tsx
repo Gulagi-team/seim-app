@@ -93,7 +93,9 @@ const SettingScreen = () => {
             <IconProfile />
             <Text style={styles.itemText}>Level.2</Text>
           </View> */}
-          <TouchableOpacity style={styles.itemContainer}>
+          <TouchableOpacity
+            style={styles.itemContainer}
+            onPress={() => navigate(SCREENS.REFERRAL)}>
             <IconGift />
             <Text style={styles.itemText}>Refferal</Text>
           </TouchableOpacity>

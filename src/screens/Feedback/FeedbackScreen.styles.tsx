@@ -8,10 +8,10 @@ export const styles = StyleSheet.create({
   },
   containerView: {
     height: '90%',
-    padding: 15,
+    paddingHorizontal: 15,
     alignItems: 'center',
   },
-  logo: {width: 64, height: 64, marginTop: 24},
+  logo: {width: 64, height: 64},
   seecar: {
     // marginTop: 10,
     fontSize: 16,
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   seeCarIs1: {
-    marginTop: 30,
+    marginTop: 10,
     fontSize: 14,
     fontFamily: POPPINS_MEDIUM,
     color: COLORS.text_A700,
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     width: deviceWidth * 0.715,
   },
   nameContainer: {
-    marginTop: 22,
+    marginTop: 20,
     borderRadius: 12,
     backgroundColor: COLORS.white,
     borderColor: COLORS.text_A200,
