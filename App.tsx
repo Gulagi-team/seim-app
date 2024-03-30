@@ -1,5 +1,6 @@
 import * as React from 'react';
 // import {NavigationContainer} from '@react-navigation/native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import ApplicationNavigator from '@/navigation';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, stateStore} from '@/store';
@@ -19,8 +20,10 @@ const App = () => {
     <Provider store={stateStore}>
       <PersistGate loading={null} persistor={persistor}>
         <GluestackUIProvider config={config}>
-          <ApplicationNavigator />
-          <ToastContainer config={getToastConfig()} />
+          <GestureHandlerRootView>
+            <ApplicationNavigator />
+            <ToastContainer config={getToastConfig()} />
+          </GestureHandlerRootView>
         </GluestackUIProvider>
       </PersistGate>
     </Provider>

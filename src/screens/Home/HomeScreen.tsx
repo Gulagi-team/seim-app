@@ -75,7 +75,7 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.banner} source={HomeBaner} resizeMode={'stretch'} />
+      <Image style={styles.banner} source={HomeBaner} resizeMode={'contain'} />
       <View style={styles.containerView}>
         {/* <HeaderMain
           canGoBack={false}

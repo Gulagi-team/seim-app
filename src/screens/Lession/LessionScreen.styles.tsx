@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {COLORS, POPPINS_MEDIUM, POPPINS_REGULAR} from '@/theme/index';
+import {COLORS, POPPINS_MEDIUM, POPPINS_REGULAR, POPPINS_BOLD} from '@/theme/index';
 
 export const styles = StyleSheet.create({
   container: {
@@ -105,5 +105,57 @@ export const styles = StyleSheet.create({
     zIndex: -1,
     height: '25%',
     bottom: 0,
+  },
+
+  bottomContainer: {
+    padding: 16,
+  },
+  bottomTitle: {
+    marginTop: 10,
+    fontFamily: POPPINS_BOLD,
+    fontWeight: '600',
+    fontSize: 16,
+    color: COLORS.text_A900,
+  },
+  bottomScroll: {
+    height: 250,
+  },
+  bottomAction: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  saveBtn: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 140,
+    padding: 10,
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: COLORS.text_A300,
+  },
+  saveTxt: {
+    fontFamily: POPPINS_MEDIUM,
+    fontWeight: '500',
+    fontSize: 14,
+    color: COLORS.text_A900,
+  },
+  startBtn: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 140,
+    padding: 10,
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: COLORS.text_A300,
+    backgroundColor: COLORS.primary_A500,
+  },
+  startTxt: {
+    fontFamily: POPPINS_MEDIUM,
+    fontWeight: '500',
+    fontSize: 14,
+    color: COLORS.white,
   },
 });

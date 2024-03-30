@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {union, unionWith} from 'lodash';
-import {fetchHabits, HabitResponse, startHabit} from './action';
+import {fetchHabits, HabitResponse, startHabit, saveHabit} from './action';
 import {Habit, TaskToUpdate} from '@/types/colection';
 
 export type HabitsState = {
@@ -28,10 +28,10 @@ const HabitSlice = createSlice({
       );
       if (habitIndex !== -1) {
         const habit = state.habits[habitIndex];
-        const taskIndex = habit.habit.tasks.findIndex(
+        const taskIndex = habit.habit.tasks?.findIndex(
           el => el.id === action.payload.task_id,
         );
-        if (taskIndex != -1) {
+        if (taskIndex !== -1) {
           state.habits[habitIndex].habit.tasks[taskIndex].isFinished =
             !state.habits[habitIndex].habit.tasks[taskIndex].isFinished;
         }
@@ -49,7 +49,8 @@ const HabitSlice = createSlice({
           state.status = 'succeeded';
           state.today = action.payload.today ?? '';
           state.habits = action.payload.data ?? [];
-      })
+        },
+      )
       .addCase(fetchHabits.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
@@ -67,6 +68,22 @@ const HabitSlice = createSlice({
         state.habits[habitIndex].startDate = moment().toISOString();
       })
       .addCase(startHabit.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+
+      .addCase(saveHabit.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(
+        saveHabit.fulfilled,
+        (state, action: PayloadAction<HabitResponse>) => {
+          state.status = 'succeeded';
+          state.today = action.payload.today ?? '';
+          state.habits = action.payload.data ?? [];
+        },
+      )
+      .addCase(saveHabit.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });
