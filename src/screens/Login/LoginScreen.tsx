@@ -25,6 +25,7 @@ import {UserProfileType} from '@/types/colection';
 import {useDispatch} from 'react-redux';
 import {updateUserProfile} from '@/store/userInfo';
 import {login} from '@/api/auth';
+import auth from '@react-native-firebase/auth';
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -37,8 +38,15 @@ const LoginScreen = () => {
       });
       const result = await GoogleSignin.signIn();
       console.log('result', result);
+      const googleCredential = auth.GoogleAuthProvider.credential(
+        result.idToken,
+      );
+      const aaa = await auth().signInWithCredential(googleCredential);
+      console.log('aaa', aaa);
+      const idtoken = await aaa.user.getIdTokenResult();
+      console.log('idtoken', idtoken);
       // if (result) {
-      //   const data = await login({token: result.idToken});
+      //   const data = await login({token: idtoken});
       //   console.log('data', data);
       // }
 

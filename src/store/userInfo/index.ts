@@ -11,6 +11,8 @@ export type InfoState = {
   old: string;
   height: string;
   weight: string;
+  referralCode: string;
+  referralLink: string;
 };
 
 const initialState: InfoState = {
@@ -22,6 +24,8 @@ const initialState: InfoState = {
   old: '',
   height: '',
   weight: '',
+  referralCode: 'LCY9345MGY',
+  referralLink: 'get.seim.io/ref=FDFAA',
 };
 
 const Infoslice = createSlice({
