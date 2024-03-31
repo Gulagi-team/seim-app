@@ -50,7 +50,7 @@ const GetInfoStep4Content = () => {
             onValueChange={(data, selectedIndex) => {
               //
               console.log('data', data);
-              dispatch(updateHeight(`${selectedHeight} CM`));
+              dispatch(updateHeight(selectedHeight));
               setSelectedHeight(+data);
             }}
             wrapperHeight={300}

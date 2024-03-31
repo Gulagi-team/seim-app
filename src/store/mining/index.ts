@@ -1,35 +1,54 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import {fetchMining} from './action';
+import {MiningData} from '@/types/colection';
 
 export type MiningState = {
-  startDate: number;
-  endDate: number;
-  point: number;
-  level: number;
-  miningRate: string;
-  totalInvite: number;
-  totalPoolMined: number;
+  miningData: MiningData;
+  status: string;
+  error: any;
 };
 
 const initialState: MiningState = {
-  startDate: 1711437768425,
-  endDate: 1711524168425,
-  point: 0,
-  level: 0,
-  miningRate: '',
-  totalInvite: 0,
-  totalPoolMined: 0,
+  miningData: {
+    startDate: 0,
+    endDate: 0,
+    point: 0,
+    level: 0,
+    miningRate: '',
+    totalInvite: 0,
+    totalPoolMined: 0,
+  },
+  status: 'idle',
+  error: null,
 };
 
 const Miningslice = createSlice({
   name: 'mining',
   initialState,
   reducers: {
-    updateWeight: (state, action: PayloadAction<number>) => {
-      state.startDate = action.payload;
+    updateMiningState: (state, action: PayloadAction<MiningData>) => {
+      state.miningData = action.payload;
     },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchMining.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(
+        fetchMining.fulfilled,
+        (state, action: PayloadAction<MiningData>) => {
+          state.status = 'succeeded';
+          state.miningData = action.payload;
+        },
+      )
+      .addCase(fetchMining.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      });
   },
 });
 
-export const {updateWeight} = Miningslice.actions;
+export const {updateMiningState} = Miningslice.actions;
 
 export default Miningslice.reducer;

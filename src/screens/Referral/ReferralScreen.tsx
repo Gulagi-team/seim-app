@@ -31,7 +31,7 @@ const ReferralScreen = () => {
   );
 
   const handleCopyRefCode = () => {
-    Clipboard.setString(refCode);
+    Clipboard.setString(referralCode);
     showToast('info', 'Referral code is saved to Clipboard');
   };
 
@@ -150,6 +150,7 @@ const ReferralScreen = () => {
               placeholder="Enter code here"
               placeholderTextColor={COLORS.text_A400}
               numberOfLines={1}
+              value={refCode}
             />
             <TouchableOpacity
               style={styles.pasteContainer}

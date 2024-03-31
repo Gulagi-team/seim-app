@@ -40,7 +40,7 @@ const rewarded = RewardedAd.createForAdRequest(adUnitId);
 const MiningScreen = () => {
   const [isMining, setIsMining] = useState(false);
   const anim = useRef<LottieView>(null);
-  const endDate = useAppSelector(state => state.MiningSlice.endDate);
+  const endDate = useAppSelector(state => state.MiningSlice.miningData.endDate);
   const [timeLeft, setTimeLeft] = useState(endDate - new Date().getTime());
 
   useEffect(() => {
@@ -77,6 +77,14 @@ const MiningScreen = () => {
       // unsubscribeEarned();
     };
   }, []);
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      anim.current?.play();
+    } else {
+      anim.current?.pause();
+    }
+  }, [timeLeft]);
 
   const onPlayPress = () => {
     if (isMining) {

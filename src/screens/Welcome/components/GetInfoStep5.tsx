@@ -65,7 +65,7 @@ const GetInfoStep5Content = () => {
             onValueChange={(data, selectedIndex) => {
               //
               console.log('data', data);
-              dispatch(updateWeight(`${selectedWeight} KG`));
+              dispatch(updateWeight(selectedWeight));
               setSelectedWeight(+data);
             }}
             wrapperHeight={300}

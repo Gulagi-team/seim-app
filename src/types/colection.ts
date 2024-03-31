@@ -72,6 +72,16 @@ export interface Task {
   isFinished: boolean;
 }
 
+export interface MiningData {
+  startDate: number;
+  endDate: number;
+  point: number;
+  level: number;
+  miningRate: string;
+  totalInvite: number;
+  totalPoolMined: number;
+}
+
 export type LanguageType =
   | 'vi'
   | 'en'

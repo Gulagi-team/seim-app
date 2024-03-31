@@ -6,7 +6,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import * as Progress from 'react-native-progress';
 
 const CountdownTimer = () => {
-  const endDate = useAppSelector(state => state.MiningSlice.endDate);
+  const endDate = useAppSelector(state => state.MiningSlice.miningData.endDate);
   const [timeLeft, setTimeLeft] = useState(endDate - new Date().getTime());
 
   useEffect(() => {
