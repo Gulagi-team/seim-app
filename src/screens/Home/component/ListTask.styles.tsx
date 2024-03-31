@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
   },
   question: {
     width: '100%',
+    height: '100%',
   },
   howOldAre1: {
     marginBottom: 10,
@@ -45,8 +46,12 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.text_A100,
     marginBottom: 10,
   },
-  itemContainer: {
+  itemContainerStarted: {
     height: '63%',
+    marginTop: 15,
+  },
+  itemContainerNotStart: {
+    height: '80%',
     marginTop: 15,
   },
   item: {

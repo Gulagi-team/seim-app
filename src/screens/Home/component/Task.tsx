@@ -2,7 +2,9 @@ import React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useDispatch} from 'react-redux';
+import {ThunkDispatch} from '@reduxjs/toolkit';
 import {updateTaskStatus} from '@/store/habits/index';
+import {completeTask} from '@/store/habits/action';
 import IconSleep from '@/assets/icons/sleep.svg';
 import {styles} from './Task.styles';
 import {
@@ -18,19 +20,28 @@ interface Props {
   habitId: string;
 }
 const TaskContent = ({task, habitId}: Props) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   return (
     <TouchableOpacity
       accessible={true}
-      onPress={() =>
+      onPress={() => {
         dispatch(
           updateTaskStatus({
             task_id: task.id,
             habit_id: habitId,
           }),
-        )
-      }
+        );
+
+        const isFinish: boolean = !task.isFinished;
+        dispatch(
+          completeTask({
+            taskId: task.id,
+            userHabitId: habitId,
+            isFinish,
+          }),
+        );
+      }}
       style={styles.item}>
       {task.icon && (
         <FastImage

@@ -24,6 +24,7 @@ import HomeBaner from '@/assets/images/home_banner.png';
 import {styles, rightMenuStyles, topicStyles} from './HomeScreen.styles';
 import {navigate} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
+import {formatLongDate, getPartOfDay} from '@/helpers/conversion';
 
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -84,8 +85,10 @@ const HomeScreen = () => {
           rightContentStyle={rightMenuStyles.rightContent}
         /> */}
         <View style={styles.welcomeTop}>
-          <Text style={styles.welcomeTitle}>Good morning</Text>
-          <Text style={styles.currentDate}>Today is 25 Jan 2024</Text>
+          <Text style={styles.welcomeTitle}>Good {getPartOfDay()}</Text>
+          <Text style={styles.currentDate}>
+            Today is {formatLongDate(new Date())}
+          </Text>
         </View>
         <View style={styles.viewBody}>
           <View>

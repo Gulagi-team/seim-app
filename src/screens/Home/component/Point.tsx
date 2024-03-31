@@ -5,8 +5,17 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ICON_ENERGY from '@/assets/icons/icon_energy.svg';
 import POINT_SEIM from '@/assets/images/point_seim.png';
 import {styles} from './Point.styles';
+import {HabitData} from '@/types/colection';
 
-const PointContent = () => {
+interface Props {
+  habit: HabitData;
+}
+const PointContent = ({habit}: Props) => {
+  const total: number = habit.tasks?.length || 0;
+  const totalFinish: number =
+    habit.tasks?.filter(et => et.isFinished).length || 0;
+  const percent = ((totalFinish / total) * 100).toFixed();
+
   return (
     <View style={styles.pointContainer}>
       <LinearGradient
@@ -16,7 +25,7 @@ const PointContent = () => {
         useAngle={true}
         angle={180}>
         <ICON_ENERGY />
-        <Text style={styles.percentText}>100%</Text>
+        <Text style={styles.percentText}>{percent}%</Text>
       </LinearGradient>
       <View style={styles.pointInfoContainer}>
         <View style={styles.pointInfoLeft}>

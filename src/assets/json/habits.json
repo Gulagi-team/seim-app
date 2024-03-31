@@ -1,5 +1,5 @@
 {
-  "today": "2024-03-25T14:51:26.647Z",
+  "today": "2024-03-31T14:51:26.647Z",
   "data": [
     {
       "startDate": null,
@@ -40,6 +40,22 @@
           {
             "id": "e4b37fd8-5a91-43f3-8507-c4e027bbfb05",
             "name": "Thiền 30 phút",
+            "icon": null,
+            "description": "30 minues",
+            "history": null,
+            "isFinished": true
+          },
+          {
+            "id": "e4b37fd8-5a91-43f3-8507-c4e027bbfb06",
+            "name": "Nhậu 30 phút",
+            "icon": null,
+            "description": "30 minues",
+            "history": null,
+            "isFinished": true
+          },
+          {
+            "id": "e4b37fd8-5a91-43f3-8507-c4e027bbfb07",
+            "name": "Đi ẻ đúng giờ",
             "icon": null,
             "description": "30 minues",
             "history": null,

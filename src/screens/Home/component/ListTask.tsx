@@ -26,7 +26,7 @@ const ListTaskContent = ({habitSelected}: Props) => {
           <>
             <ListDate habitSelected={habitSelected} />
             <View style={styles.breakLine} />
-            <Point />
+            <Point habit={habitSelected.habit} />
           </>
         )}
         {!habitSelected.startDate && (
@@ -38,7 +38,12 @@ const ListTaskContent = ({habitSelected}: Props) => {
             <Text style={styles.startText}>Let's started &gt;</Text>
           </TouchableOpacity>
         )}
-        <View style={styles.itemContainer}>
+        <View
+          style={
+            !habitSelected.startDate
+              ? styles.itemContainerNotStart
+              : styles.itemContainerStarted
+          }>
           <FlatList
             data={habitSelected.habit.tasks}
             renderItem={({item}) => {

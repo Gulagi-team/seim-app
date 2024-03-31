@@ -4,6 +4,10 @@ import {
   putStartHabit as putStartHabitAPI,
   postSaveHabit as postSaveHabitAPI,
 } from '@/api/habit';
+import {
+  postTaskComplete as postTaskCompleteAPI,
+  deleteTaskUnComplete as deleteTaskUnCompleteAPI,
+} from '@/api/task';
 import {setToken} from '@/api/index';
 import {getStringLocal} from '@/helpers/localStorage';
 import {KEY_AUTHEN} from '@/constants/LocalStoreKey';
@@ -45,5 +49,23 @@ export const saveHabit = createAsyncThunk(
     await postSaveHabitAPI(habitId, isStart);
 
     return await getListHabitAPI();
+  },
+);
+
+export interface TaskCompleteParam {
+  userHabitId: string;
+  taskId: string;
+  isFinish: boolean;
+}
+export const completeTask = createAsyncThunk(
+  'habit/completeTask',
+  async ({userHabitId, taskId, isFinish}: TaskCompleteParam): Promise<any> => {
+    const token = getStringLocal(KEY_AUTHEN) || '';
+    setToken(token);
+    if (isFinish) {
+      return await postTaskCompleteAPI(userHabitId, taskId);
+    } else {
+      return await deleteTaskUnCompleteAPI(taskId);
+    }
   },
 );

@@ -1,12 +1,19 @@
 import moment from 'moment';
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {union, unionWith} from 'lodash';
-import {fetchHabits, HabitResponse, startHabit, saveHabit} from './action';
-import {Habit, TaskToUpdate} from '@/types/colection';
+import {
+  fetchHabits,
+  HabitResponse,
+  startHabit,
+  saveHabit,
+  completeTask,
+} from './action';
+import {Habit, TaskToUpdate, Task} from '@/types/colection';
 
 export type HabitsState = {
   today: string;
   habits: Habit[];
+  taskStack: Task[];
   status: string;
   error: any;
 };
@@ -14,6 +21,7 @@ export type HabitsState = {
 const initialState: HabitsState = {
   today: '',
   habits: [],
+  taskStack: [],
   status: 'idle',
   error: null,
 };
@@ -32,6 +40,7 @@ const HabitSlice = createSlice({
           el => el.id === action.payload.task_id,
         );
         if (taskIndex !== -1) {
+          state.taskStack.push(state.habits[habitIndex].habit.tasks[taskIndex]);
           state.habits[habitIndex].habit.tasks[taskIndex].isFinished =
             !state.habits[habitIndex].habit.tasks[taskIndex].isFinished;
         }
@@ -86,6 +95,37 @@ const HabitSlice = createSlice({
       .addCase(saveHabit.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+
+      .addCase(completeTask.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(completeTask.fulfilled, (state, action: PayloadAction<any>) => {
+        state.status = 'succeeded';
+        delete state.taskStack[state.taskStack.length];
+      })
+      .addCase(completeTask.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+
+        // revert status Task
+        const oldTask = state.taskStack[state.taskStack.length];
+        if (oldTask) {
+          const habitIndex: number = state.habits.findIndex(el =>
+            el.habit.tasks?.some(et => et.id === oldTask.id),
+          );
+          if (habitIndex !== -1) {
+            const habit = state.habits[habitIndex];
+            const taskIndex: number =
+              habit.habit.tasks?.findIndex(el => el.id === oldTask.id) || -1;
+
+            if (taskIndex !== -1) {
+              state.habits[habitIndex].habit.tasks[taskIndex] = oldTask;
+            }
+          }
+
+          delete state.taskStack[state.taskStack.length];
+        }
       });
   },
 });
