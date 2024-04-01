@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   itemContainerStarted: {
-    height: '63%',
+    height: '75%',
     marginTop: 15,
   },
   itemContainerNotStart: {
