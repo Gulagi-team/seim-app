@@ -2,9 +2,7 @@ import React, {useEffect} from 'react';
 import {View, Image, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '@/screens/Home/HomeScreen';
-import ProfileScreen from '@/screens/Profile/ProfileScreen';
 import NotificationScreen from '@/screens/Notification/NotificationScreen';
-import MyWalletScreen from '@/screens/Wallet/MyWallet/MyWalletScreen';
 import {
   HOME,
   HOME_SELECTED,
@@ -16,12 +14,14 @@ import {
   SETTING_SELECTED,
 } from '@/assets/icons/bottom';
 import {COLORS} from '@/theme/index';
+import MiningScreen from '@/screens/Mining/MiningScreen';
+import SettingScreen from '@/screens/Setting/SettingScreen';
 
 export const KEY_BOTTOM_SCREEN = {
   HOME: 'Home',
-  WALLET: 'Mining',
+  MINING: 'Mining',
   NOTIFICATION: 'Notify',
-  PROFILE: 'Setting',
+  SETTING: 'Setting',
 };
 
 const ACTIVE_COLOR = COLORS.primary_A500;
@@ -37,9 +37,9 @@ const BottomTabConstant = {
     activeColor: COLORS.primary_A500,
     deactiveColor: DEACTIVE_COLOR,
   },
-  [KEY_BOTTOM_SCREEN.WALLET]: {
-    name: KEY_BOTTOM_SCREEN.WALLET,
-    component: MyWalletScreen,
+  [KEY_BOTTOM_SCREEN.MINING]: {
+    name: KEY_BOTTOM_SCREEN.MINING,
+    component: MiningScreen,
     activeIcon: MINING_SELECTED,
     deactiveIcon: MINING,
     index: 1,
@@ -56,9 +56,9 @@ const BottomTabConstant = {
     deactiveColor: DEACTIVE_COLOR,
   },
 
-  [KEY_BOTTOM_SCREEN.PROFILE]: {
-    name: KEY_BOTTOM_SCREEN.PROFILE,
-    component: ProfileScreen,
+  [KEY_BOTTOM_SCREEN.SETTING]: {
+    name: KEY_BOTTOM_SCREEN.SETTING,
+    component: SettingScreen,
     activeIcon: SETTING_SELECTED,
     deactiveIcon: SETTING,
     index: 2,

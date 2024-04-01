@@ -1,0 +1,12 @@
+{
+  "description": "설명하다",
+  "see_more": "더보기",
+  "see_less": "간략히 보기",
+  "detail_information": "세부",
+  "brand": "자동차 회사",
+  "year": "년도",
+  "price": "자동차 가격",
+  "national": "제조국",
+  "color": "색상",
+  "seat": "좌석"
+}

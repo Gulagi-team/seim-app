@@ -1,0 +1,11 @@
+{
+  "try_again": "Thử lại",
+  "using_this": "Quét",
+  "prompt": "Phát hiện thông tin, các trường hợp lệ là Name, Description, Year, Brand,Price, Color, Seat, Manufacturing_country. \ntext: Tôi muốn thông tin chiếc xe trong ảnh theo mẫu. \nJSON: {\"Name\":\"VinFast Lux A2.0\",\"Brand\":\"VinFast\",\"Description\":\"VinFast Lux A2.0 là mẫu sedan hạng E được sản xuất bởi VinFast. Xe được trang bị động cơ I4 2.0L tăng áp, hộp số tự động 8 cấp và hệ dẫn động cầu sau. Lux A2.0 có thiết kế sang trọng, lịch lãm với các đường nét mềm mại và uyển chuyển. Nội thất xe rộng rãi, tiện nghi với nhiều tính năng hiện đại. Xe cũng được trang bị nhiều tính năng an toàn như hệ thống chống bó cứng phanh ABS, hệ thống phân phối lực phanh điện tử EBD, hệ thống cân bằng điện tử ESC và hệ thống kiểm soát lực kéo TCS.\",\"Year\":\"2023\",\"Price\":\"1 tỷ đồng\",\"Color\":\"Đen\",\"Seat\":\"5\",\"Manufacturing_country\":\"Việt Nam\"} ",
+  "error": "Không tìm thấy thông tin",
+  "success": "Đã tìm thấy thông tin",
+  "press": "Nhấn \"Quét\" để nhận thông tin",
+  "image_progress": "Đang xử lý hình ảnh",
+  "object_analyse": "Phân tích đối tượng",
+  "detect_info": "Xử lý thông tin"
+}

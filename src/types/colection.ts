@@ -79,3 +79,12 @@ export interface Topic {
   description: string | null;
   habits: HabitData[];
 }
+export type LanguageType =
+  | 'vi'
+  | 'en'
+  | 'de'
+  | 'id'
+  | 'cn'
+  | 'jp'
+  | 'kr'
+  | 'ru';

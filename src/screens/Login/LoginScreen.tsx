@@ -24,6 +24,7 @@ import SCREENS from '@/constants/screen';
 import {UserProfileType} from '@/types/colection';
 import {useDispatch} from 'react-redux';
 import {updateUserProfile} from '@/store/userInfo';
+import {login} from '@/api/auth';
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,12 @@ const LoginScreen = () => {
         showPlayServicesUpdateDialog: true,
       });
       const result = await GoogleSignin.signIn();
+      console.log('result', result);
+      // if (result) {
+      //   const data = await login(result.idToken);
+      //   console.log('data', data);
+      // }
+
       const userProfile: UserProfileType = {
         email: result.user.email,
         name: result.user.name || '',
