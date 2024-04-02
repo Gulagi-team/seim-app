@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: SPACING.small,
     paddingVertical: Platform.OS === 'android' ? 0 : SPACING.small,
     width: '100%',
-    backgroundColor: COLORS.gray_light,
+    backgroundColor: COLORS.text_A50,
     borderRadius: 10,
   },
   horizontal: {
@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
+    width: '100%',
     marginStart: 10,
     fontSize: 14,
   },

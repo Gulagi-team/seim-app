@@ -7,6 +7,7 @@ import userInfo from './userInfo/index';
 import LessionSlice from './lessions/index';
 import walletSlice from './wallet/index';
 import HabitsSlide from './habits/index';
+import TopicSlice from './topics/index';
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
 // import theme from './theme';
 
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   LessionSlice,
   walletSlice,
   HabitsSlide,
+  TopicSlice,
 });
 
 export const reducersType = typeof reducers;

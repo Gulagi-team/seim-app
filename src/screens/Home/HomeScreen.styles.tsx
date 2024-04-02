@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   },
   banner: {
     position: 'absolute',
-    top: 0,
+    top: -200,
     left: 0,
     right: 0,
     width: '100%',

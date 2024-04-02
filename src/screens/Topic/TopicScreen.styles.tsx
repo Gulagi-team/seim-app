@@ -16,6 +16,13 @@ export const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
   },
+  searchBar: {
+    width: '90%',
+    borderWidth: 1,
+    borderColor: COLORS.text_A200,
+    borderRadius: 20,
+    marginTop: 20,
+  },
   textTitle: {
     fontFamily: POPPINS_MEDIUM,
     fontSize: 16,

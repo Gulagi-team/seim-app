@@ -1,0 +1,143 @@
+{
+  "data": [
+      {
+          "id": "304920b3-507a-48b7-925b-77f4720b025a",
+          "name": "Thói quen hàng ngày",
+          "icon": "ic_health.png",
+          "description": null,
+          "habits": [
+              {
+                  "id": "8cd535b6-7a04-4e71-be97-b83758028207",
+                  "name": "30 Bữa sáng năng lượng",
+                  "icon": "ic_health.png",
+                  "description": "descriptionription ....",
+                  "days": 0,
+                  "exp": 0,
+                  "rating": 0
+              },
+              {
+                  "id": "f2e1905c-fdec-4e37-893d-f6e05d73ae6c",
+                  "name": "Cải thiện giấc ngủ 7 ngày",
+                  "icon": "ic_health.png",
+                  "description": "descriptionription ....",
+                  "days": 0,
+                  "exp": 0,
+                  "rating": 0
+              }
+          ]
+      },
+      {
+          "id": "4c0091a4-e942-47f4-9db6-ea499d10d19c",
+          "name": "Bỏ thói quen xấu",
+          "icon": "ic_health.png",
+          "description": null,
+          "habits": [
+              {
+                  "id": "eface55e-d969-4186-b21f-301243d86079",
+                  "name": "Từ bỏ MXH 7/14 ngày",
+                  "icon": "ic_health.png",
+                  "description": "descriptionription ....",
+                  "days": 0,
+                  "exp": 0,
+                  "rating": 0
+              },
+              {
+                  "id": "f4ddddd1-15ca-442b-9ff9-19c81166fdbb",
+                  "name": "Bỏ thuốc lá 30 ngày",
+                  "icon": "ic_health.png",
+                  "description": "descriptionription ....",
+                  "days": 0,
+                  "exp": 0,
+                  "rating": 0
+              }
+          ]
+      },
+      {
+          "id": "884d8eb8-18e3-4cb1-8460-923ba692e8be",
+          "name": "Chăm sóc sức khỏe",
+          "icon": "ic_health.png",
+          "description": null,
+          "habits": [
+              {
+                  "id": "3a290f09-e2ba-406c-b3bf-707967a8ba91",
+                  "name": "Nâng cấp cơ thể 14 ngày",
+                  "icon": "ic_health.png",
+                  "description": "descriptionription ....",
+                  "days": 0,
+                  "exp": 0,
+                  "rating": 0
+              },
+              {
+                  "id": "aca2715d-cbdd-41c4-b193-08eab53e59f2",
+                  "name": "14 ngày chăm sóc da",
+                  "icon": "ic_health.png",
+                  "description": "descriptionription ....",
+                  "days": 0,
+                  "exp": 0,
+                  "rating": 0
+              },
+              {
+                  "id": "b46f47ab-720c-4b27-969b-5fe5aa3aebf0",
+                  "name": "Nâng cấp cơ thể 30 ngày",
+                  "icon": "ic_health.png",
+                  "description": "descriptionription ....",
+                  "days": 0,
+                  "exp": 0,
+                  "rating": 0
+              }
+          ]
+      },
+      {
+          "id": "94bd93ba-7b56-48c1-99e5-bfa33cbb1aef",
+          "name": "Nâng cao kiến thức",
+          "icon": "ic_health.png",
+          "description": null,
+          "habits": [
+              {
+                  "id": "3b57b36f-a514-4a28-96e8-8a45d95b174e",
+                  "name": "60 ngày tự học",
+                  "icon": "ic_health.png",
+                  "description": "descriptionription ....",
+                  "days": 0,
+                  "exp": 0,
+                  "rating": 0
+              },
+              {
+                  "id": "3eb56052-4150-4fdc-8d8c-b9994590e2ae",
+                  "name": "7 ngày nâng cao kiến thức",
+                  "icon": "ic_health.png",
+                  "description": "descriptionription ....",
+                  "days": 0,
+                  "exp": 0,
+                  "rating": 0
+              }
+          ]
+      },
+      {
+          "id": "fa8303c0-299c-4d56-bad1-9515ac781819",
+          "name": "Thư giản tinh thần",
+          "icon": "ic_health.png",
+          "description": null,
+          "habits": [
+              {
+                  "id": "276f87ba-f74d-4cf0-bb5a-0cd2dc7213e6",
+                  "name": "7 ngày giảm năng lượng xấu",
+                  "icon": "ic_health.png",
+                  "description": "descriptionription ....",
+                  "days": 0,
+                  "exp": 0,
+                  "rating": 0
+              },
+              {
+                  "id": "b207140b-94e8-4c26-b0ec-6980ec786666",
+                  "name": "14 ngày tự do",
+                  "icon": "ic_health.png",
+                  "description": "descriptionription ....",
+                  "days": 0,
+                  "exp": 0,
+                  "rating": 0
+              }
+          ]
+      }
+  ]
+}

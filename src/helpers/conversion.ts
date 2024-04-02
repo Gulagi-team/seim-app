@@ -24,6 +24,31 @@ export const formatLongDateTime = (date: Date) => {
   )}, ${year} at ${date.toLocaleTimeString()}`;
 };
 
+export const formatLongDate = (date: Date) => {
+  const day = date.getDate();
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  return `${getLastTwoLetters(day)} ${MONTH_NAME[month]} ${year}`;
+};
+
+export const getPartOfDay = (): string => {
+  const day = new Date();
+  const curHour: number = day.getHours();
+  if (curHour >= 5 && curHour < 12) {
+    return 'morning';
+  }
+
+  if (curHour => 12 && curHour < 17) {
+    return 'afternoon';
+  }
+
+  if (curHour => 17 && curHour < 21) {
+    return 'evening';
+  }
+
+  return 'night';
+};
+
 const MONTH_NAME = [
   'Jan',
   'Feb',
