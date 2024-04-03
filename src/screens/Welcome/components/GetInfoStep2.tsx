@@ -1,5 +1,6 @@
 import {StoreState, useAppSelector} from '@/store';
 import {updateGender} from '@/store/userInfo';
+import {POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
 import {useState} from 'react';
 
 import {
@@ -105,13 +106,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     letterSpacing: 0,
     fontWeight: '700',
-    fontFamily: 'Inter-Bold',
+    fontFamily: POPPINS_BOLD,
     color: '#171717',
     textAlign: 'left',
   },
   letUsKnow1: {
     fontSize: 14,
-    fontFamily: 'Inter-Regular',
+    fontFamily: POPPINS_MEDIUM,
     color: '#525252',
     marginTop: 8,
     textAlign: 'left',
@@ -128,14 +129,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth:1,
-    borderColor:'#ddd'
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
   optionContent: {
     fontSize: 16,
     letterSpacing: 0,
     fontWeight: '600',
-    fontFamily: 'Inter-SemiBold',
+    fontFamily: POPPINS_MEDIUM,
     // color: "#fff",
     textAlign: 'left',
     // backgroundColor: "red",

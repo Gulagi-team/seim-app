@@ -35,6 +35,7 @@ const Infoslice = createSlice({
   initialState,
   reducers: {
     updateUserProfile: (state, action: PayloadAction<UserProfileType>) => {
+      state.access_token = action.payload.access_token;
       state.email = action.payload.email;
       state.name = action.payload.name;
       state.avatar = action.payload.avatar;

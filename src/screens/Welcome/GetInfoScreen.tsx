@@ -26,6 +26,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import PaginationItem from '@/components/pagination/Pagination';
 import SCREENS from '@/constants/screen';
 import {updateProfile} from '@/api/auth';
+import {POPPINS_MEDIUM} from '@/theme';
 
 const GetInfoScreen = () => {
   const width = Dimensions.get('window').width;
@@ -42,17 +43,17 @@ const GetInfoScreen = () => {
     } else {
       reduxStorage.setItem('isGetInfoDone', 'true');
       reduxStorage.setItem('userInfo', JSON.stringify(userInfo));
-      // const profile = {
-      //   phone: '0336015016',
-      //   avatar: userInfo.avatar,
-      //   referBy: 'seim',
-      //   gender: userInfo.gender,
-      //   old: userInfo.old,
-      //   height: userInfo.height,
-      //   weight: userInfo.weight,
-      // };
-      // const respone = await updateProfile(profile);
-      // console.log('respone', respone);
+      const profile = {
+        phone: '0336015016',
+        avatar: userInfo.avatar,
+        referBy: 'seim',
+        gender: userInfo.gender,
+        old: userInfo.old,
+        height: userInfo.height,
+        weight: userInfo.weight,
+      };
+      const respone = await updateProfile(profile);
+      console.log('respone', respone.data);
       navigateReset(SCREENS.PACK);
     }
   };
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     letterSpacing: 0,
     fontWeight: '500',
-    fontFamily: 'Inter-Medium',
+    fontFamily: POPPINS_MEDIUM,
     color: '#fff',
     textAlign: 'left',
   },

@@ -41,6 +41,7 @@ export interface TaskToUpdate {
 }
 
 export interface UserProfileType {
+  access_token: string;
   email: string;
   name: string;
   avatar: string;

@@ -43,20 +43,20 @@ const LoginScreen = () => {
       );
       const aaa = await auth().signInWithCredential(googleCredential);
       const idtoken = await aaa.user.getIdTokenResult();
-      // if (result) {
-      //   const respone = await login(idtoken);
-      //   setToken(respone.data.accessToken);
-      //   console.log('data', respone.data);
-      // }
+      if (result) {
+        const respone = await login(idtoken);
+        setToken(respone.data.accessToken);
+        console.log('data', respone.data);
+        const userProfile: UserProfileType = {
+          access_token: respone.data.accessToken,
+          email: result.user.email,
+          name: result.user.name || '',
+          avatar: result.user.photo || '',
+        };
+        dispatch(updateUserProfile(userProfile));
 
-      const userProfile: UserProfileType = {
-        email: result.user.email,
-        name: result.user.name || '',
-        avatar: result.user.photo || '',
-      };
-      dispatch(updateUserProfile(userProfile));
-
-      navigate(SCREENS.WELCOME);
+        navigate(SCREENS.WELCOME);
+      }
 
       // if (token?.accessToken) {
       //   // loginViaGoogleMiddleware(token.accessToken, (res) =>
@@ -82,15 +82,19 @@ const LoginScreen = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <Image
-        source={LogoSeim}
-        style={{height: 120, width: 120}}
-        resizeMode={'contain'}
-      />
-      <TouchableOpacity style={styles.googleButton} onPress={onLoginViaGoogle}>
-        <IconGoogle />
-        <Text style={styles.loginText}>Log in with Google</Text>
-      </TouchableOpacity>
+      <View style={styles.containerView}>
+        <Image
+          source={LogoSeim}
+          style={{height: 120, width: 120}}
+          resizeMode={'contain'}
+        />
+        <TouchableOpacity
+          style={styles.googleButton}
+          onPress={onLoginViaGoogle}>
+          <IconGoogle />
+          <Text style={styles.loginText}>Log in with Google</Text>
+        </TouchableOpacity>
+      </View>
 
       <Image
         style={styles.welcomeBottom}

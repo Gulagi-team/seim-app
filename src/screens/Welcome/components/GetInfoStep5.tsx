@@ -17,6 +17,7 @@ import {StoreState, useAppSelector} from '@/store';
 import {updateWeight} from '@/store/userInfo';
 import {Input, InputField} from '@gluestack-ui/themed';
 import ScrollPicker from 'react-native-wheel-scrollview-picker';
+import {POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
 
 const GetInfoStep5Content = () => {
   const dispatch = useDispatch();
@@ -106,13 +107,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     letterSpacing: 0,
     fontWeight: '700',
-    fontFamily: 'Inter-Bold',
+    fontFamily: POPPINS_BOLD,
     color: '#171717',
     textAlign: 'left',
   },
   letUsKnow1: {
     fontSize: 14,
-    fontFamily: 'Inter-Regular',
+    fontFamily: POPPINS_MEDIUM,
     color: '#525252',
     marginTop: 8,
     textAlign: 'left',
@@ -131,13 +132,13 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: '700',
     color: 'black',
-    fontFamily: 'Inter-Bold',
+    fontFamily: POPPINS_BOLD,
     marginStart: 10,
   },
   question2: {
     fontSize: 32,
     fontWeight: '700',
-    fontFamily: 'Inter-Bold',
+    fontFamily: POPPINS_BOLD,
     color: '#000',
     textAlign: 'left',
   },
