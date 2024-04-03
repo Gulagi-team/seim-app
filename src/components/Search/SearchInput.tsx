@@ -25,6 +25,7 @@ const Search = (props: Props) => {
         <TextInput
           style={styles.input}
           editable
+          focusable
           textAlign="left"
           inputMode="text"
           value={text}

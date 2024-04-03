@@ -61,7 +61,7 @@ export interface HabitData {
   days: number;
   exp: number;
   rating: number;
-  tasks: Task[];
+  tasks?: Task[];
 }
 
 export interface Task {
@@ -73,6 +73,13 @@ export interface Task {
   isFinished: boolean;
 }
 
+export interface Topic {
+  id: string;
+  name: string;
+  icon: string;
+  description: string | null;
+  habits: HabitData[];
+}
 export interface MiningData {
   startDate: number;
   endDate: number;

@@ -9,3 +9,17 @@ export const getListHabit = () => {
   console.log('false');
   return api.get('/users/habits');
 };
+
+export const putStartHabit = (id: string) => {
+  if (process.env.DEBUG) {
+    return {};
+  }
+  return api.put('/users/habits', {id});
+};
+
+export const postSaveHabit = (habitId: string, isStart: boolean) => {
+  if (process.env.DEBUG) {
+    return {};
+  }
+  return api.put('/users/habits', {habitId, isStart});
+};
