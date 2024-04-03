@@ -1,4 +1,4 @@
-import {UserProfileType} from '@/types/colection';
+import {LanguageType, UserProfileType} from '@/types/colection';
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 // import themes from '../../theme/themes';
 
@@ -7,7 +7,7 @@ export type InfoState = {
   email: string;
   name: string;
   avatar: string;
-  language: string;
+  language: LanguageType;
   gender: string;
   old: number;
   height: number;
@@ -21,7 +21,7 @@ const initialState: InfoState = {
   email: '',
   name: '',
   avatar: '',
-  language: '',
+  language: 'en',
   gender: '',
   old: 0,
   height: 0,
@@ -49,7 +49,7 @@ const Infoslice = createSlice({
       state.height = action.payload.height;
       state.weight = action.payload.weight;
     },
-    updateLanguage: (state, action: PayloadAction<string>) => {
+    updateLanguage: (state, action: PayloadAction<LanguageType>) => {
       state.language = action.payload;
     },
     updateGender: (state, action: PayloadAction<string>) => {

@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     width: '100%',
     overflow: 'hidden',
-    padding: 16,
+    padding: 12,
     // height: 76,
   },
   nameTitle: {
@@ -64,8 +64,9 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     width: '100%',
     overflow: 'hidden',
-    padding: 16,
+    padding: 12,
   },
+
   getStart: {
     fontSize: 16,
     fontWeight: '500',

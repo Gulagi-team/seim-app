@@ -15,7 +15,6 @@ import {StoreState, reduxStorage, useAppSelector} from '@/store';
 import {useDispatch} from 'react-redux';
 import {fetchLessions} from '@/store/lessions';
 import {ThunkDispatch} from '@reduxjs/toolkit';
-import {Spinner} from '@gluestack-ui/themed';
 import {styles} from './SettingScreen.styles';
 import FastImage from 'react-native-fast-image';
 import * as Progress from 'react-native-progress';
@@ -24,9 +23,15 @@ import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import {deviceWidth} from '@/constants/layout';
 import {COLORS} from '@/theme';
 import IconProfile from '@/assets/icons/icon_profile.svg';
+import IconDarkProfile from '@/assets/icons/darkmode/icon_profile_dark.svg';
 import IconLanguage from '@/assets/icons/icon_language.svg';
+import IconDarkLanguage from '@/assets/icons/darkmode/icon_language_dark.svg';
+import IconTheme from '@/assets/icons/icon_theme.svg';
+import IconDarkTheme from '@/assets/icons/darkmode/icon_theme_dark.svg';
 import IconGift from '@/assets/icons/icon_gift.svg';
+import IconDarkGift from '@/assets/icons/darkmode/icon_gift_dark.svg';
 import IconFeedback from '@/assets/icons/icon_feedback.svg';
+import IconDarkFeedback from '@/assets/icons/darkmode/icon_feedback_dark.svg';
 import IconLogout from '@/assets/icons/icon_logout.svg';
 import {navigate, navigateReset} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
@@ -35,6 +40,14 @@ const SettingScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   const {avatar, name} = useAppSelector((state: StoreState) => state.userInfo);
+  const {
+    isDarkMode,
+    backgroundColor,
+    containerColor,
+    textColor,
+    textOutstandingColor,
+    borderColor,
+  } = useAppSelector((state: StoreState) => state.ThemeSlice);
 
   useEffect(() => {
     dispatch(fetchLessions());
@@ -47,11 +60,17 @@ const SettingScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={{...styles.container, backgroundColor: backgroundColor}}>
       <View style={styles.containerView}>
         <WalletCard />
-        <View style={styles.bodyContainer}>
-          <View style={styles.profileConatiner}>
+        <View
+          style={{
+            ...styles.bodyContainer,
+            backgroundColor: containerColor,
+            borderColor: borderColor,
+          }}>
+          <View style={styles.profileContainer}>
             <FastImage
               style={styles.avatar}
               source={{
@@ -62,17 +81,22 @@ const SettingScreen = () => {
               resizeMode={FastImage.resizeMode.contain}
             />
             <View style={styles.nameContainer}>
-              <Text style={styles.userName}>{name}</Text>
+              <Text style={{...styles.userName, color: textOutstandingColor}}>
+                {name}
+              </Text>
 
               <View style={styles.levelContainer}>
                 <Text style={styles.levelText}>Level.2</Text>
-                <Text style={styles.percentText}>115/500</Text>
+                <Text
+                  style={{...styles.percentText, color: textOutstandingColor}}>
+                  115/500
+                </Text>
               </View>
               <Progress.Bar
                 progress={0.4}
                 width={deviceWidth - 121}
                 color={COLORS.secondary_orange1}
-                unfilledColor={COLORS.text_A100}
+                unfilledColor={borderColor}
                 borderWidth={0}
               />
             </View>
@@ -80,14 +104,22 @@ const SettingScreen = () => {
           <TouchableOpacity
             style={styles.itemContainer}
             onPress={() => navigate(SCREENS.PROFILE)}>
-            <IconProfile />
-            <Text style={styles.itemText}>My profile</Text>
+            {isDarkMode ? <IconDarkProfile /> : <IconProfile />}
+            <Text style={{...styles.itemText, color: textColor}}>
+              My profile
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.itemContainer}
             onPress={() => navigate(SCREENS.LANGUAGE)}>
-            <IconLanguage />
-            <Text style={styles.itemText}>Language</Text>
+            {isDarkMode ? <IconDarkLanguage /> : <IconLanguage />}
+            <Text style={{...styles.itemText, color: textColor}}>Language</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.itemContainer}
+            onPress={() => navigate(SCREENS.DISPLAY)}>
+            {isDarkMode ? <IconDarkTheme /> : <IconTheme />}
+            <Text style={{...styles.itemText, color: textColor}}>Theme</Text>
           </TouchableOpacity>
           {/* <View style={styles.itemContainer}>
             <IconProfile />
@@ -96,18 +128,20 @@ const SettingScreen = () => {
           <TouchableOpacity
             style={styles.itemContainer}
             onPress={() => navigate(SCREENS.REFERRAL)}>
-            <IconGift />
-            <Text style={styles.itemText}>Refferal</Text>
+            {isDarkMode ? <IconDarkGift /> : <IconGift />}
+
+            <Text style={{...styles.itemText, color: textColor}}>Refferal</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.itemContainer}
             onPress={() => navigate(SCREENS.FEEDBACK)}>
-            <IconFeedback />
-            <Text style={styles.itemText}>Feedback</Text>
+            {isDarkMode ? <IconDarkFeedback /> : <IconFeedback />}
+
+            <Text style={{...styles.itemText, color: textColor}}>Feedback</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.itemContainer} onPress={handleLogout}>
             <IconLogout />
-            <Text style={styles.itemText}>Log out</Text>
+            <Text style={{...styles.itemText, color: textColor}}>Log out</Text>
           </TouchableOpacity>
         </View>
       </View>

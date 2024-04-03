@@ -27,8 +27,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: COLORS.text_A200,
-    backgroundColor: COLORS.white,
   },
   avatar: {
     height: 56,
@@ -47,7 +45,6 @@ export const styles = StyleSheet.create({
     fontSize: FONT_SIZE.small0,
     fontFamily: POPPINS_BOLD,
     fontWeight: '600',
-    color: COLORS.black,
   },
   levelContainer: {
     width: deviceWidth - 121,
@@ -63,21 +60,17 @@ export const styles = StyleSheet.create({
     fontSize: FONT_SIZE.small1,
     fontFamily: POPPINS_MEDIUM,
     fontWeight: '500',
-    color: COLORS.text_A500,
   },
   percentText: {
     fontSize: FONT_SIZE.small1,
     fontFamily: POPPINS_MEDIUM,
     fontWeight: '500',
-    color: COLORS.black,
   },
   activityContainer: {
     marginTop: 10,
     paddingBottom: 5,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: COLORS.text_A200,
-    backgroundColor: COLORS.white,
   },
   activityTitleContainer: {
     width: '100%',
@@ -91,7 +84,6 @@ export const styles = StyleSheet.create({
     fontSize: FONT_SIZE.tiny0,
     fontFamily: POPPINS_MEDIUM,
     fontWeight: '400',
-    color: COLORS.primary_A500,
   },
   infoContainer: {
     width: '100%',
@@ -108,11 +100,9 @@ export const styles = StyleSheet.create({
     width: '48%',
     height: 60,
     // paddingLeft: 10,
-    backgroundColor: COLORS.white,
     alignItems: 'center',
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: COLORS.text_A200,
     justifyContent: 'center',
   },
   keyInfoText: {
@@ -122,13 +112,11 @@ export const styles = StyleSheet.create({
     fontSize: FONT_SIZE.small1,
     fontFamily: POPPINS_REGULAR,
     fontWeight: '400',
-    color: COLORS.text_A600,
   },
   valueInfoText: {
     fontSize: FONT_SIZE.small1,
     fontFamily: POPPINS_BOLD,
     fontWeight: '600',
-    color: COLORS.text_A900,
   },
   recentContainer: {
     width: '100%',
@@ -142,7 +130,6 @@ export const styles = StyleSheet.create({
     fontFamily: POPPINS_BOLD,
     fontSize: FONT_SIZE.small1,
     fontWeight: '600',
-    color: COLORS.text_A600,
   },
   seeMoreText: {
     fontFamily: POPPINS_MEDIUM,

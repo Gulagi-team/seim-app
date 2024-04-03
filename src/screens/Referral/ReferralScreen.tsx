@@ -29,6 +29,15 @@ const ReferralScreen = () => {
   const {referralCode, referralLink} = useAppSelector(
     (state: StoreState) => state.userInfo,
   );
+  const {
+    backgroundColor,
+    containerColor,
+    textColor,
+    textOutstandingColor,
+    borderColor,
+    textContainerColor,
+    textBorderColor,
+  } = useAppSelector((state: StoreState) => state.ThemeSlice);
 
   const handleCopyRefCode = () => {
     Clipboard.setString(referralCode);
@@ -47,7 +56,8 @@ const ReferralScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={{...styles.container, backgroundColor: backgroundColor}}>
       <Header title="Referral" canGoBack={true} handleGoBack={goBack} />
       <View style={styles.containerView}>
         <LinearGradient
@@ -73,10 +83,21 @@ const ReferralScreen = () => {
             resizeMode={FastImage.resizeMode.contain}
           />
         </LinearGradient>
-        <View style={styles.bodyContainer}>
-          <Text style={styles.titleText}>Referral code</Text>
+        <View
+          style={{
+            ...styles.bodyContainer,
+            backgroundColor: containerColor,
+            borderColor: borderColor,
+          }}>
+          <Text style={{...styles.titleText, color: textColor}}>
+            Referral code
+          </Text>
           <TouchableOpacity
-            style={styles.referralCodeContainer}
+            style={{
+              ...styles.referralCodeContainer,
+              backgroundColor: textContainerColor,
+              borderColor: textBorderColor,
+            }}
             onPress={handleCopyRefCode}>
             <Text style={styles.referralCodeText}>{referralCode}</Text>
             <Icon
@@ -84,11 +105,19 @@ const ReferralScreen = () => {
               style={{fontSize: 20, color: '#1B9CFC'}}
             />
           </TouchableOpacity>
-          <Text style={styles.titleText}>Referral link</Text>
+          <Text style={{...styles.titleText, color: textColor}}>
+            Referral link
+          </Text>
           <TouchableOpacity
-            style={styles.referralCodeContainer}
+            style={{
+              ...styles.referralCodeContainer,
+              backgroundColor: textContainerColor,
+              borderColor: textBorderColor,
+            }}
             onPress={handleCopyRefLink}>
-            <Text style={styles.referralLinkText}>{referralLink}</Text>
+            <Text style={{...styles.referralLinkText, color: textColor}}>
+              {referralLink}
+            </Text>
             <Icon
               name="content-copy"
               style={{fontSize: 20, color: '#1B9CFC'}}
@@ -102,13 +131,23 @@ const ReferralScreen = () => {
                 source={EARN_REAWARD}
                 resizeMode={FastImage.resizeMode.contain}
               />
-              <Text style={styles.referralLinkText}>Earned</Text>
+              <Text
+                style={{
+                  ...styles.referralLinkText,
+                  color: textOutstandingColor,
+                }}>
+                Earned
+              </Text>
             </View>
 
             <Text style={styles.earnedPointsText}>240 Points</Text>
           </View>
-          <View style={styles.referralAmountContainer}>
-            <Text style={styles.paraText}>
+          <View
+            style={{
+              ...styles.referralAmountContainer,
+              backgroundColor: textContainerColor,
+            }}>
+            <Text style={{...styles.paraText, color: textColor}}>
               Your friend needs to complete at least 01 swap transaction to
               become a valid referral.
             </Text>
@@ -116,36 +155,67 @@ const ReferralScreen = () => {
               <View style={styles.miningDetailLeft}>
                 <View style={styles.miningDetailTextContainer}>
                   <IconInvited />
-                  <Text style={styles.miningInfoText}>INVITED</Text>
+                  <Text style={{...styles.miningInfoText, color: textColor}}>
+                    INVITED
+                  </Text>
                 </View>
 
-                <Text style={styles.miningInfoValue}>15</Text>
+                <Text
+                  style={{
+                    ...styles.miningInfoValue,
+                    color: textOutstandingColor,
+                  }}>
+                  15
+                </Text>
               </View>
               <View style={styles.miningDetailRight}>
                 <View style={styles.miningDetailTextContainer}>
                   <IconValid />
-                  <Text style={styles.miningInfoText}>VALID</Text>
+                  <Text style={{...styles.miningInfoText, color: textColor}}>
+                    VALID
+                  </Text>
                 </View>
-                <Text style={styles.miningInfoValue}>10</Text>
+                <Text
+                  style={{
+                    ...styles.miningInfoValue,
+                    color: textOutstandingColor,
+                  }}>
+                  10
+                </Text>
               </View>
             </View>
           </View>
         </View>
-        <View style={styles.enterCodeContainer}>
-          <FastImage
-            style={styles.imageGiftReferral}
-            source={GIFT_REFERRAL}
-            resizeMode={FastImage.resizeMode.contain}
-          />
+        <View
+          style={{
+            ...styles.enterCodeContainer,
+            backgroundColor: containerColor,
+            borderColor: borderColor,
+          }}>
+          <View style={{flex: 1, alignItems: 'center', width: '100%'}}>
+            <FastImage
+              style={styles.imageGiftReferral}
+              source={GIFT_REFERRAL}
+              resizeMode={FastImage.resizeMode.contain}
+            />
 
-          <Text style={styles.whoInviteText}>Who invited you?</Text>
-          <Text style={styles.paraInviteText}>
-            Enter your friend’s referral code to send them a gift from SEIM
-          </Text>
+            <Text
+              style={{...styles.whoInviteText, color: textOutstandingColor}}>
+              Who invited you?
+            </Text>
+            <Text style={{...styles.paraInviteText, color: textColor}}>
+              Enter your friend’s referral code to send them a gift from SEIM
+            </Text>
+          </View>
 
-          <View style={styles.codeContainer}>
+          <View
+            style={{
+              ...styles.codeContainer,
+              backgroundColor: textContainerColor,
+              borderColor: textBorderColor,
+            }}>
             <TextInput
-              style={styles.codeInput}
+              style={{...styles.codeInput, color: textOutstandingColor}}
               onChangeText={value => setRefCode(value)}
               placeholder="Enter code here"
               placeholderTextColor={COLORS.text_A400}

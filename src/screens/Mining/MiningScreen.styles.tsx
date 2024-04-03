@@ -64,7 +64,6 @@ export const styles = StyleSheet.create({
   pointText: {
     fontSize: FONT_SIZE.medium0,
     fontWeight: '700',
-    color: '#000',
     marginLeft: 5,
     fontFamily: POPPINS_BOLD,
   },
@@ -72,21 +71,17 @@ export const styles = StyleSheet.create({
     width: '50%',
     height: 70,
     position: 'absolute',
-    // backgroundColor: 'red',
     right: 0,
-
-    // marginLeft: 10,
   },
   actionMiningContainer: {
     height: '40%',
     width: '100%',
-    backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    borderColor: COLORS.text_A200,
     borderWidth: 1,
     marginTop: 15,
-    paddingTop: 10,
+    paddingVertical: 10,
     alignItems: 'center',
+    flex: 1,
   },
   btnMint: {
     width: 200,
@@ -113,9 +108,7 @@ export const styles = StyleSheet.create({
   miningInfoContainer: {
     height: '30%',
     width: '100%',
-    backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    borderColor: COLORS.text_A200,
     borderWidth: 1,
     marginTop: 5,
     alignItems: 'center',
@@ -139,14 +132,12 @@ export const styles = StyleSheet.create({
   miningInfoText: {
     fontSize: FONT_SIZE.tiny0,
     fontWeight: '500',
-    color: COLORS.black,
     fontFamily: POPPINS_MEDIUM,
     marginLeft: 5,
   },
   miningInfoValue: {
     fontSize: FONT_SIZE.medium1,
     fontWeight: '600',
-    color: COLORS.black,
     fontFamily: POPPINS_MEDIUM,
     marginTop: 5,
     marginLeft: 10,

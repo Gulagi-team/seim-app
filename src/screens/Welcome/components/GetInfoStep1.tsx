@@ -43,45 +43,45 @@ const GetInfoStep1Content = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => dispatch(updateLanguage('vn'))}
+          onPress={() => dispatch(updateLanguage('vi'))}
           style={{
             ...styles.options,
-            backgroundColor: language === 'vn' ? '#1b9cfc' : '#ffffff',
+            backgroundColor: language === 'vi' ? '#1b9cfc' : '#ffffff',
           }}>
           <Text
             style={{
               ...styles.optionContent,
-              color: language === 'vn' ? '#fff' : 'black',
+              color: language === 'vi' ? '#fff' : 'black',
             }}>
             Tiếng Việt
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => dispatch(updateLanguage('fr'))}
+          onPress={() => dispatch(updateLanguage('kr'))}
           style={{
             ...styles.options,
-            backgroundColor: language === 'fr' ? '#1b9cfc' : '#ffffff',
+            backgroundColor: language === 'kr' ? '#1b9cfc' : '#ffffff',
           }}>
           <Text
             style={{
               ...styles.optionContent,
-              color: language === 'fr' ? '#fff' : 'black',
+              color: language === 'kr' ? '#fff' : 'black',
             }}>
-            France
+            Korea
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => dispatch(updateLanguage('por'))}
+          onPress={() => dispatch(updateLanguage('cn'))}
           style={{
             ...styles.options,
-            backgroundColor: language === 'por' ? '#1b9cfc' : '#ffffff',
+            backgroundColor: language === 'cn' ? '#1b9cfc' : '#ffffff',
           }}>
           <Text
             style={{
               ...styles.optionContent,
-              color: language === 'por' ? '#fff' : 'black',
+              color: language === 'cn' ? '#fff' : 'black',
             }}>
-            Portugal
+            Chinese
           </Text>
         </TouchableOpacity>
       </View>
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 24,
     flex: 1,
-    backgroundColor:'white'
+    backgroundColor: 'white',
   },
   question: {
     width: '100%',
@@ -131,8 +131,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth:1,
-    borderColor:'#ddd'
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
   optionContent: {
     fontSize: 16,

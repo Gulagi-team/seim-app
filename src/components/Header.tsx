@@ -12,7 +12,9 @@ import {
 
 import Logo from '@/assets/images/logo.png';
 import IconBack from '@/assets/icons/icon_back.svg';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS, POPPINS_BOLD} from '@/theme';
+import {StoreState, useAppSelector} from '@/store';
 
 export interface HeaderProps {
   style?: StyleProp<ViewStyle>;
@@ -37,17 +39,28 @@ const Header = ({
 }: HeaderProps) => {
   const navigation = useNavigation();
 
+  const {
+    isDarkMode,
+    backgroundColor,
+    containerColor,
+    textColor,
+    borderColor,
+    borderSelectedColor,
+  } = useAppSelector((state: StoreState) => state.ThemeSlice);
+
   return (
     <View style={[styles.container, style]}>
       {canGoBack ? (
         <TouchableOpacity
           onPress={handleGoBack}
           style={[styles.back, backStyle]}>
-          <IconBack />
+          <Icon name="arrow-back" style={{fontSize: 24, color: textColor}} />
         </TouchableOpacity>
       ) : null}
       <View style={{flexDirection: 'row'}}>
-        {title && <Text style={styles.title}>{title}</Text>}
+        {title && (
+          <Text style={{...styles.title, color: textColor}}>{title}</Text>
+        )}
         {renderLogo && (
           <Image
             testID={'logo-header'}
@@ -88,7 +101,6 @@ const styles = StyleSheet.create({
     fontFamily: POPPINS_BOLD,
     fontSize: 16,
     fontWeight: '600',
-    color: COLORS.text_A900,
   },
   rightContent: {
     // position: 'absolute',

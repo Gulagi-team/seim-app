@@ -1,4 +1,4 @@
-import {COLORS, POPPINS_MEDIUM} from '@/theme';
+import {POPPINS_MEDIUM} from '@/theme';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -7,15 +7,14 @@ export const styles = StyleSheet.create({
   },
   contentContainer: {
     width: '100%',
-    // height: '100%',
     flex: 1,
     paddingHorizontal: 16,
+    paddingTop: 10,
   },
   itemContainer: {
-    backgroundColor: COLORS.white,
     // borderColor: '#404040',
     borderWidth: 1,
-    height: 64,
+    height: 48,
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 0,
@@ -24,14 +23,13 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   text: {
     fontSize: 15,
     letterSpacing: 0,
     fontWeight: '600',
     fontFamily: POPPINS_MEDIUM,
-    color: COLORS.black,
     textAlign: 'center',
     marginLeft: 8,
   },
@@ -44,7 +42,6 @@ export const styles = StyleSheet.create({
     left: '0%',
     borderWidth: 1.5,
     // position: 'absolute',
-    borderColor: COLORS.black,
     borderStyle: 'solid',
     borderRadius: 12,
     alignItems: 'center',
@@ -53,7 +50,6 @@ export const styles = StyleSheet.create({
   checkDot: {
     height: '66.67%',
     width: '66.67%',
-    backgroundColor: COLORS.black,
     borderRadius: 12,
   },
   welcomeBottom: {

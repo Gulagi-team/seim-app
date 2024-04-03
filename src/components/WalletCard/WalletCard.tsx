@@ -28,6 +28,16 @@ export const WalletBalance = () => {
   const currentAccount = useAppSelector(
     state => state.walletSlice.currentAccount,
   );
+  const {
+    backgroundColor,
+    containerColor,
+    textColor,
+    borderColor,
+    borderSelectedColor,
+    cardWalletBackgroundColor,
+    cardWalletBorderColor,
+    cardWalletTitleColor,
+  } = useAppSelector((state: StoreState) => state.ThemeSlice);
   return (
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
       <Text
@@ -35,12 +45,15 @@ export const WalletBalance = () => {
           fontFamily: POPPINS_MEDIUM,
           fontSize: FONT_SIZE.small1,
           fontWeight: '500',
-          color: COLORS.black,
+          color: textColor,
           paddingRight: 5,
         }}>
         {getShortAddress(currentAccount)}
       </Text>
-      <Icon name="content-copy" style={{fontSize: 14, color: '#1B9CFC'}} />
+      <Icon
+        name="content-copy"
+        style={{fontSize: FONT_SIZE.small1, color: cardWalletTitleColor}}
+      />
     </View>
   );
 };
@@ -50,6 +63,16 @@ const WalletCard = () => {
   const {currentAccount, balance, tokenBalance} = useAppSelector(
     (state: StoreState) => state.walletSlice,
   );
+  const {
+    backgroundColor,
+    containerColor,
+    textColor,
+    borderColor,
+    borderSelectedColor,
+    cardWalletBackgroundColor,
+    cardWalletBorderColor,
+    cardWalletTitleColor,
+  } = useAppSelector((state: StoreState) => state.ThemeSlice);
   const [modalVisible, setModalVisible] = useState(false);
   useEffect(() => {
     if (currentAccount) {
@@ -70,7 +93,12 @@ const WalletCard = () => {
   };
 
   return (
-    <View style={styles.cardContainer}>
+    <View
+      style={{
+        ...styles.cardContainer,
+        backgroundColor: cardWalletBackgroundColor,
+        borderColor: cardWalletBorderColor,
+      }}>
       <Image
         source={BACKGROUND_REWARD}
         style={styles.imageBackgroundReward}
@@ -84,14 +112,16 @@ const WalletCard = () => {
             <WalletBalance />
           </TouchableOpacity>
           <View style={{marginTop: 20}}>
-            <Text style={styles.balanceText}>Your balance</Text>
+            <Text style={{...styles.balanceText, color: cardWalletTitleColor}}>
+              Your balance
+            </Text>
             <View style={styles.balanceContainer}>
               <Image
                 source={POINT_SEIM}
                 style={styles.imagePoint}
                 resizeMode={'contain'}
               />
-              <Text style={styles.balanceTokenText}>
+              <Text style={{...styles.balanceTokenText, color: textColor}}>
                 {formatPricing(balance)}
               </Text>
             </View>
@@ -100,11 +130,11 @@ const WalletCard = () => {
             onPress={handleDisconnect}
             delayLongPress={0}
             style={{
-              backgroundColor: COLORS.white,
+              backgroundColor: backgroundColor,
               padding: 7,
               borderRadius: 10,
               borderWidth: 1,
-              borderColor: '#1B9CFC',
+              borderColor: cardWalletBorderColor,
               alignItems: 'center',
               position: 'absolute',
               top: '50%',
@@ -116,7 +146,7 @@ const WalletCard = () => {
               style={{
                 fontSize: FONT_SIZE.small1,
                 fontWeight: '500',
-                color: COLORS.black,
+                color: textColor,
               }}>
               Disconnect
             </Text>
@@ -135,18 +165,18 @@ const WalletCard = () => {
             delayLongPress={0}>
             <View
               style={{
-                backgroundColor: COLORS.white,
+                backgroundColor: backgroundColor,
                 padding: 10,
                 borderRadius: 10,
                 borderWidth: 1,
-                borderColor: '#1B9CFC',
+                borderColor: cardWalletBorderColor,
                 width: 200,
               }}>
               <Text
                 style={{
                   fontSize: FONT_SIZE.small0,
                   fontWeight: '600',
-                  color: COLORS.black,
+                  color: textColor,
                   // marginTop: 10,
                   fontFamily: POPPINS_MEDIUM,
                   alignSelf: 'center',
@@ -167,12 +197,10 @@ const styles = StyleSheet.create({
   cardContainer: {
     width: '100%',
     height: 150,
-    backgroundColor: COLORS.primary_A50,
     position: 'relative',
     borderWidth: 1,
-    borderColor: COLORS.primary_A100,
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 12,
     borderRadius: 10,
   },
   imageBackgroundReward: {
@@ -185,7 +213,6 @@ const styles = StyleSheet.create({
     fontFamily: POPPINS_MEDIUM,
     fontSize: FONT_SIZE.tiny0,
     fontWeight: '500',
-    color: COLORS.primary_A500,
   },
   balanceContainer: {
     flexDirection: 'row',
@@ -201,6 +228,5 @@ const styles = StyleSheet.create({
     fontFamily: POPPINS_MEDIUM,
     fontSize: FONT_SIZE.medium0,
     fontWeight: '600',
-    color: COLORS.black,
   },
 });

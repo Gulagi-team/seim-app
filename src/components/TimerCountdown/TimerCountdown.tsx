@@ -1,12 +1,17 @@
 import {deviceWidth} from '@/constants/layout';
-import {useAppSelector} from '@/store';
+import {StoreState, useAppSelector} from '@/store';
 import {COLORS, FONT_SIZE, POPPINS_MEDIUM} from '@/theme';
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import * as Progress from 'react-native-progress';
 
 const CountdownTimer = () => {
-  const endDate = useAppSelector(state => state.MiningSlice.miningData.endDate);
+  const endDate = useAppSelector(
+    (state: StoreState) => state.MiningSlice.miningData.endDate,
+  );
+  const {borderColor, textOutstandingColor} = useAppSelector(
+    (state: StoreState) => state.ThemeSlice,
+  );
   const [timeLeft, setTimeLeft] = useState(endDate - new Date().getTime());
 
   useEffect(() => {
@@ -34,7 +39,7 @@ const CountdownTimer = () => {
         <Text style={styles.levelText}>
           {(timeRuning / (24 * 3600 * 10)).toFixed(1)}%
         </Text>
-        <Text style={styles.timerText}>
+        <Text style={{...styles.timerText, color: textOutstandingColor}}>
           {hours}:{minutes}:{seconds}
         </Text>
         {/* <Text style={styles.percentText}>00:00:00</Text> */}
@@ -43,7 +48,7 @@ const CountdownTimer = () => {
         progress={timeRuning / (24 * 3600 * 100 * 10)}
         width={deviceWidth - 121}
         color={COLORS.primary_A400}
-        unfilledColor={COLORS.text_A100}
+        unfilledColor={borderColor}
         borderWidth={0}
       />
     </View>

@@ -19,6 +19,7 @@ import MiningScreen from '@/screens/Mining/MiningScreen';
 import LanguageScreen from '@/screens/Language/LanguageScreen';
 import FeedbackScreen from '@/screens/Feedback/FeedbackScreen';
 import ReferralScreen from '@/screens/Referral/ReferralScreen';
+import DisplayScreen from '@/screens/Display/Display';
 
 export const route = [
   {
@@ -96,5 +97,9 @@ export const route = [
   {
     name: CONST_SCREEN.REFERRAL,
     component: ReferralScreen,
+  },
+  {
+    name: CONST_SCREEN.DISPLAY,
+    component: DisplayScreen,
   },
 ];

@@ -21,13 +21,11 @@ export const styles = StyleSheet.create({
   },
   bodyContainer: {
     width: '100%',
-    height: 340,
-    backgroundColor: COLORS.white,
+    height: 390,
     borderRadius: 12,
-    borderColor: COLORS.text_A200,
     borderWidth: 1,
   },
-  profileConatiner: {
+  profileContainer: {
     height: 90,
     flexDirection: 'row',
     alignItems: 'center',

@@ -25,6 +25,7 @@ import {showToast} from '@/helpers/toast';
 import {styles} from './FeedbackScreen.styles';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import {useNavigation} from '@react-navigation/native';
+import {StoreState, useAppSelector} from '@/store';
 
 const FeedbackScreen = () => {
   const {t} = useTranslation(['startup']);
@@ -32,6 +33,13 @@ const FeedbackScreen = () => {
   const [feedback, setFeedback] = useState('');
   const navigation = useNavigation();
   const goBack = () => navigation.goBack();
+  const {
+    backgroundColor,
+    textColor,
+    textOutstandingColor,
+    textContainerColor,
+    textBorderColor,
+  } = useAppSelector((state: StoreState) => state.ThemeSlice);
   // const scrollViewRef = useRef<KeyboardAwareScrollView>(null);
 
   const handleSubmit = () => {
@@ -67,7 +75,8 @@ const FeedbackScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={{...styles.container, backgroundColor: backgroundColor}}>
       <Header title="Feedback" canGoBack={true} handleGoBack={goBack} />
       <View style={styles.containerView}>
         <FastImage
@@ -75,33 +84,56 @@ const FeedbackScreen = () => {
           source={LogoSeim}
           resizeMode={FastImage.resizeMode.contain}
         />
-        <Text style={styles.seecar}>SEIM</Text>
-        <Text style={styles.seeCarIs1}>{t('feedback:speech')}</Text>
+        <Text style={{...styles.seecar, color: textOutstandingColor}}>
+          SEIM
+        </Text>
+        <Text style={{...styles.seeCarIs1, color: textColor}}>
+          {t('feedback:speech')}
+        </Text>
 
-        <View style={styles.nameContainer}>
-          <Text style={styles.nameTitle}>{t('feedback:name')}</Text>
+        <View
+          style={{
+            ...styles.nameContainer,
+            backgroundColor: textContainerColor,
+            borderColor: textBorderColor,
+          }}>
+          <Text style={{...styles.nameTitle, color: textOutstandingColor}}>
+            {t('feedback:name')}
+          </Text>
           <TextInput
-            style={styles.nameInput}
+            style={{...styles.nameInput, color: textColor}}
             onChangeText={value => setName(value)}
-            // placeholder="Name"
-            placeholderTextColor={'#fff'}
+            placeholder="Name"
+            placeholderTextColor={'#A3A3A3'}
             numberOfLines={1}
           />
         </View>
-        <View style={styles.feedbackContainer}>
+        <View
+          style={{
+            ...styles.feedbackContainer,
+            backgroundColor: textContainerColor,
+            borderColor: textBorderColor,
+          }}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.nameTitle}>{t('feedback:feedback')}</Text>
-            <Text style={styles.nameTitle}>{`${feedback.length}/200`}</Text>
+            <Text style={{...styles.nameTitle, color: textOutstandingColor}}>
+              {t('feedback:feedback')}
+            </Text>
+            <Text
+              style={{
+                ...styles.nameTitle,
+                color: textOutstandingColor,
+              }}>{`${feedback.length}/200`}</Text>
           </View>
 
           <TextInput
-            style={styles.nameInput}
+            style={{...styles.nameInput, color: textColor}}
             onChangeText={value => setFeedback(value)}
-            // placeholder="Name"
+            placeholder="Feedback"
             multiline
-            placeholderTextColor={'#fff'}
+            placeholderTextColor={'#A3A3A3'}
             numberOfLines={5}
             maxLength={200}
+            textAlignVertical={'top'}
           />
         </View>
         <TouchableOpacity style={styles.getStartParent} onPress={handleSubmit}>

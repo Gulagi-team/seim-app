@@ -43,11 +43,11 @@ const LoginScreen = () => {
       );
       const aaa = await auth().signInWithCredential(googleCredential);
       const idtoken = await aaa.user.getIdTokenResult();
-      if (result) {
-        const respone = await login(idtoken);
-        setToken(respone.data.accessToken);
-        console.log('data', respone.data);
-      }
+      // if (result) {
+      //   const respone = await login(idtoken);
+      //   setToken(respone.data.accessToken);
+      //   console.log('data', respone.data);
+      // }
 
       const userProfile: UserProfileType = {
         email: result.user.email,

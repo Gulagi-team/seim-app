@@ -2,6 +2,8 @@ import {LessionType} from '@/types/colection';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import IconCheck from '@/assets/icons/icon_checkmark.svg';
+import {StoreState, useAppSelector} from '@/store';
+import {FONT_SIZE, POPPINS_MEDIUM} from '@/theme';
 
 interface Props {
   lession: LessionType;
@@ -10,11 +12,16 @@ interface Props {
 
 const PackItem = (props: Props) => {
   const {lession} = props;
+  const {containerColor, textColor, textOutstandingColor} = useAppSelector(
+    (state: StoreState) => state.ThemeSlice,
+  );
   return (
-    <TouchableOpacity
+    <View
       // onPress={onSelect}
       style={{
         ...styles.container,
+        backgroundColor: containerColor,
+        shadowColor: textOutstandingColor,
       }}>
       <View style={{flex: 1, flexDirection: 'row'}}>
         <FastImage
@@ -31,8 +38,10 @@ const PackItem = (props: Props) => {
           resizeMode={FastImage.resizeMode.contain}
         />
         <View style={{marginTop: 12, marginLeft: 12}}>
-          <Text style={styles.titleText}>{lession.lession_title}</Text>
-          <View style={{marginTop: 13, flexDirection: 'row'}}>
+          <Text style={{...styles.titleText, color: textColor}}>
+            {lession.lession_title}
+          </Text>
+          <View style={{marginTop: 10, flexDirection: 'row'}}>
             <FastImage
               style={{width: 25, height: 25, marginRight: 5}}
               source={{
@@ -57,7 +66,7 @@ const PackItem = (props: Props) => {
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -68,19 +77,15 @@ const styles = StyleSheet.create({
     height: 85,
     flex: 1,
     marginBottom: 10,
-    // backgroundColor: 'red',
-    backgroundColor: 'white',
     borderRadius: 10,
 
     elevation: 5,
-    shadowColor: '#000',
   },
   textContainer: {width: '100%'},
   titleText: {
-    fontSize: 13,
+    fontSize: FONT_SIZE.small1,
     fontWeight: '500',
-    fontFamily: 'Montserrat-Medium',
-    color: '#000',
+    fontFamily: POPPINS_MEDIUM,
     textAlign: 'left',
   },
 });
