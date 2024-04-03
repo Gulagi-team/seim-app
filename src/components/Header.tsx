@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/core';
+import {useNavigation} from '@react-navigation/core';
 import React from 'react';
 import {
   Image,
@@ -12,11 +12,13 @@ import {
 
 import Logo from '@/assets/images/logo.png';
 import IconBack from '@/assets/icons/icon_back.svg';
-import { ArrowLeftIcon, Icon } from '@gluestack-ui/themed';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {COLORS, POPPINS_BOLD} from '@/theme';
+import {StoreState, useAppSelector} from '@/store';
 
 export interface HeaderProps {
   style?: StyleProp<ViewStyle>;
-  title?: string | React.ReactNode;
+  title?: string;
   renderLogo?: boolean;
   canGoBack?: boolean;
   handleGoBack?: () => void;
@@ -37,18 +39,28 @@ const Header = ({
 }: HeaderProps) => {
   const navigation = useNavigation();
 
+  const {
+    isDarkMode,
+    backgroundColor,
+    containerColor,
+    textColor,
+    borderColor,
+    borderSelectedColor,
+  } = useAppSelector((state: StoreState) => state.ThemeSlice);
+
   return (
     <View style={[styles.container, style]}>
       {canGoBack ? (
         <TouchableOpacity
           onPress={handleGoBack}
           style={[styles.back, backStyle]}>
-          <Icon as={ArrowLeftIcon} size='xl' />
+          <Icon name="arrow-back" style={{fontSize: 24, color: textColor}} />
         </TouchableOpacity>
-      ):null}
-      <View style={{ flexDirection: 'row' }}>
-        {/* <Text style={styles.title}>{'title?.toString()'}</Text> */}
-
+      ) : null}
+      <View style={{flexDirection: 'row'}}>
+        {title && (
+          <Text style={{...styles.title, color: textColor}}>{title}</Text>
+        )}
         {renderLogo && (
           <Image
             testID={'logo-header'}
@@ -78,17 +90,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 'auto',
-    padding: 14,
-    minHeight: 40
-
+    padding: 10,
+    minHeight: 40,
   },
   back: {
     position: 'absolute',
-    left: 10,
+    left: 14,
   },
   title: {
-    color: '#FCFCFD',
-    minHeight: 34,
+    fontFamily: POPPINS_BOLD,
+    fontSize: 16,
+    fontWeight: '600',
   },
   rightContent: {
     // position: 'absolute',
