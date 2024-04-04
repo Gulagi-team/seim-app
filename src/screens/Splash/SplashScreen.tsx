@@ -24,14 +24,14 @@ const SplashScreen = () => {
         resolve(true);
       }, 1000),
     );
-    const getInfoDone = getBooleanLocal('isGetInfoDone');
+    // const getInfoDone = getBooleanLocal('isGetInfoDone');
     const getUserInfoLocal = getStringLocal('userInfo');
     const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
     const getKeyLessionsSelectedLocal = getStringLocal('keyLessionsSelected');
     const address = getStringLocal('address');
 
     console.log(getLessionsSelectedLocal);
-    if (getInfoDone && getUserInfoLocal) {
+    if (getUserInfoLocal) {
       console.log('getUserInfoLocal', getUserInfoLocal);
       dispatch(updateInfoUser(JSON.parse(getUserInfoLocal)));
       if (getLessionsSelectedLocal && getKeyLessionsSelectedLocal) {
@@ -49,7 +49,7 @@ const SplashScreen = () => {
 
   useEffect(() => {
     init();
-    dispatch(fetchMining());
+    // dispatch(fetchMining());
   }, []);
 
   return (

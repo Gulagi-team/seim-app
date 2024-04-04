@@ -21,8 +21,8 @@ export interface HabitResponse {
 export const fetchHabits = createAsyncThunk(
   'habit/fetchHabits',
   async (): Promise<HabitResponse> => {
-    const token = getStringLocal(KEY_AUTHEN) || '';
-    setToken(token);
+    // const token = getStringLocal(KEY_AUTHEN) || '';
+    // setToken(token);
     return await getListHabitAPI();
   },
 );
@@ -31,7 +31,7 @@ export const startHabit = createAsyncThunk(
   'habit/startHabit',
   async (habitId: string): Promise<any> => {
     const token = getStringLocal(KEY_AUTHEN) || '';
-    setToken(token);
+    // setToken(token);
     await putStartHabitAPI(habitId);
     return habitId;
   },
@@ -45,7 +45,7 @@ export const saveHabit = createAsyncThunk(
   'habit/saveHabit',
   async ({habitId, isStart}: SaveHabitParam): Promise<HabitResponse> => {
     const token = getStringLocal(KEY_AUTHEN) || '';
-    setToken(token);
+    // setToken(token);
     await postSaveHabitAPI(habitId, isStart);
 
     return await getListHabitAPI();
@@ -61,7 +61,7 @@ export const completeTask = createAsyncThunk(
   'habit/completeTask',
   async ({userHabitId, taskId, isFinish}: TaskCompleteParam): Promise<any> => {
     const token = getStringLocal(KEY_AUTHEN) || '';
-    setToken(token);
+    // setToken(token);
     if (isFinish) {
       return await postTaskCompleteAPI(userHabitId, taskId);
     } else {

@@ -41,7 +41,6 @@ const GetInfoScreen = () => {
       }
       ref.current?.next();
     } else {
-      reduxStorage.setItem('isGetInfoDone', 'true');
       reduxStorage.setItem('userInfo', JSON.stringify(userInfo));
       const profile = {
         phone: '0336015016',
@@ -65,13 +64,13 @@ const GetInfoScreen = () => {
     if (idxContent === 1 && !userInfo.gender) {
       return true;
     }
-    if (idxContent === 2 && !userInfo.old) {
+    if (idxContent === 2 && userInfo.old === 0) {
       return true;
     }
-    if (idxContent === 3 && !userInfo.height) {
+    if (idxContent === 3 && userInfo.height === 0) {
       return true;
     }
-    if (idxContent === 4 && !userInfo.weight) {
+    if (idxContent === 4 && userInfo.weight === 0) {
       return true;
     }
     return false;

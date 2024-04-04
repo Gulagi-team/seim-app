@@ -1,38 +1,33 @@
-import axios from 'axios';
+import {stateStore} from '@/store';
+import axios, {AxiosError} from 'axios';
 
 const API_URL = process.env.API_URL;
 
 // Add a request interceptor
-axios.interceptors.request.use(
-  function (config) {
-    // Do something before request is sent
-    // config.headers.Authorization = `Bearer ${your_token}`;
-    // OR config.headers.common['Authorization'] = `Bearer ${your_token}`;
-    config.baseURL = API_URL;
+axios.interceptors.request.use(function (config) {
+  const accessToken = stateStore.getState().userInfo.access_token;
+  // Do something before request is sent
+  // config.headers.Authorization = `Bearer ${your_token}`;
 
-    return config;
-  },
-  function (error) {
-    console.log('error:', error);
-    // Do something with request error
-    return Promise.reject(error);
-  },
-);
+  config.baseURL = API_URL;
+  if (accessToken) {
+    console.log('accessToken', accessToken);
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  console.log('config', config.headers);
+  return config;
+});
 
 axios.interceptors.response.use(
   function (res) {
     return res;
   },
-  async err => {
+  async (err: AxiosError) => {
     console.log('Api url is:', API_URL);
-    console.log('Error when call: ', err.response);
-    console.log(
-      'Message when call api is: ',
-      JSON.stringify(err.response?.data?.message),
-    );
+    console.log('Error when call: ', err);
 
     return Promise.reject({
-      message: err?.response?.data?.message,
+      message: err?.message,
     });
   },
 );

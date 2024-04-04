@@ -1,15 +1,4 @@
-import {
-  ActivityIndicator,
-  Button,
-  Dimensions,
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles} from './LoginScreen.styles';
 import LogoSeim from '@/assets/images/logoSeim.png';
@@ -19,14 +8,14 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import IconGoogle from '@/assets/icons/icon_google.svg';
-import {navigate} from '@/helpers/navigation';
+import {navigate, navigateReset} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
 import {UserProfileType} from '@/types/colection';
 import {useDispatch} from 'react-redux';
 import {updateUserProfile} from '@/store/userInfo';
-import {login} from '@/api/auth';
+import {getUserProfileMiddleware, login} from '@/api/auth';
 import auth from '@react-native-firebase/auth';
-import {setToken} from '@/api';
+import {showToast} from '@/helpers/toast';
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -41,12 +30,10 @@ const LoginScreen = () => {
       const googleCredential = auth.GoogleAuthProvider.credential(
         result.idToken,
       );
-      const aaa = await auth().signInWithCredential(googleCredential);
-      const idtoken = await aaa.user.getIdTokenResult();
+      const firebaseAuth = await auth().signInWithCredential(googleCredential);
+      const idtoken = await firebaseAuth.user.getIdTokenResult();
       if (result) {
-        const respone = await login(idtoken);
-        setToken(respone.data.accessToken);
-        console.log('data', respone.data);
+        const respone = await login(idtoken.token);
         const userProfile: UserProfileType = {
           access_token: respone.data.accessToken,
           email: result.user.email,
@@ -54,30 +41,18 @@ const LoginScreen = () => {
           avatar: result.user.photo || '',
         };
         dispatch(updateUserProfile(userProfile));
+        if (respone.data?.isNewUser) {
+          navigate(SCREENS.WELCOME);
+        } else {
+          await getUserProfileMiddleware();
 
-        navigate(SCREENS.WELCOME);
+          navigateReset(SCREENS.MAIN);
+        }
       }
-
-      // if (token?.accessToken) {
-      //   // loginViaGoogleMiddleware(token.accessToken, (res) =>
-      //   //   handleLoginSuccessViaThirdParty(res, LoginThirdPartyType.GOOGLE),
-      //   // );
-      //   console.log('token.accessToken:', token.accessToken);
-      // }
     } catch (error: any) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log('SIGN_IN_CANCELLED');
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log('IN_PROGRESS', error);
-        // operation (e.g. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log('PLAY_SERVICES_NOT_AVAILABLE');
-        // play services not available or outdated
-      } else {
-        console.log('error', {error});
-        // some other error happened
-      }
+      console.log('onLoginViaGoogle error', {error});
+      error.code !== statusCodes.SIGN_IN_CANCELLED &&
+        showToast('error', 'Fail to login via Google. Please try again!');
     }
   };
   return (

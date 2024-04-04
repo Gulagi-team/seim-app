@@ -35,6 +35,8 @@ import IconDarkFeedback from '@/assets/icons/darkmode/icon_feedback_dark.svg';
 import IconLogout from '@/assets/icons/icon_logout.svg';
 import {navigate, navigateReset} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {logOut} from '@/store/userInfo';
 
 const SettingScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -55,7 +57,9 @@ const SettingScreen = () => {
 
   //------
   const handleLogout = () => {
+    dispatch(logOut());
     reduxStorage.setItem('userInfo', '');
+    GoogleSignin.revokeAccess();
     navigateReset(SCREENS.LOGIN);
   };
 

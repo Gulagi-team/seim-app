@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
-import {StoreState, useAppSelector} from '@/store';
+import {StoreState, reduxStorage, useAppSelector} from '@/store';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import {fetchHabits} from '@/store/habits/action';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -29,9 +29,11 @@ import {formatLongDate, getPartOfDay} from '@/helpers/conversion';
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const width = Dimensions.get('window').width;
+  const userInfo = useAppSelector((state: StoreState) => state.userInfo);
 
   useEffect(() => {
     dispatch(fetchHabits());
+    reduxStorage.setItem('userInfo', JSON.stringify(userInfo));
   }, []);
 
   const habits = useAppSelector(
@@ -51,7 +53,7 @@ const HomeScreen = () => {
           onPress={() => navigate(SCREENS.TOPIC)}
           style={topicStyles.itemAdd}>
           <IconAdd />
-        </TouchableOpacity>
+        </TouchableOpacity>,
       );
     }
     return items;

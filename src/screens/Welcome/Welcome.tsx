@@ -13,7 +13,7 @@ import {
 
 import {navigate} from '@/helpers/navigation';
 
-import LogoSeim from '@/assets/images/logo.png';
+import LogoSeim from '@/assets/images/logoSeim.png';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SCREENS from '@/constants/screen';
 import {COLORS, POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
@@ -33,10 +33,10 @@ const WelcomeScreen = () => {
         }}>
         <Image
           source={LogoSeim}
-          style={{height: 80, width: 80}}
+          style={{height: 120, width: 120}}
           resizeMode={'contain'}
         />
-        <Text style={styles.seimText}>SEIM</Text>
+        {/* <Text style={styles.seimText}>SEIM</Text> */}
       </View>
       <Text style={styles.welcomeText}>Welcome!</Text>
 

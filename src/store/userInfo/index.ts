@@ -1,4 +1,5 @@
 import {LanguageType, UserProfileType} from '@/types/colection';
+import {GetUserProfileResponse} from '@/types/user';
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 // import themes from '../../theme/themes';
 
@@ -34,6 +35,15 @@ const Infoslice = createSlice({
   name: 'info',
   initialState,
   reducers: {
+    getUserProfile: (state, action: PayloadAction<GetUserProfileResponse>) => {
+      state.email = action.payload.email;
+      state.name = action.payload.name;
+      state.avatar = action.payload.avatar;
+      state.gender = action.payload.gender;
+      state.old = action.payload.old;
+      state.height = action.payload.height;
+      state.weight = action.payload.weight;
+    },
     updateUserProfile: (state, action: PayloadAction<UserProfileType>) => {
       state.access_token = action.payload.access_token;
       state.email = action.payload.email;
@@ -65,10 +75,24 @@ const Infoslice = createSlice({
     updateWeight: (state, action: PayloadAction<number>) => {
       state.weight = action.payload;
     },
+    logOut: state => {
+      state.access_token = '';
+      state.email = '';
+      state.name = '';
+      state.avatar = '';
+      state.language = 'en';
+      state.gender = '';
+      state.old = 0;
+      state.height = 0;
+      state.weight = 0;
+      state.referralCode = 'LCY9345MGY';
+      state.referralLink = 'get.seim.io/ref=FDFAA';
+    },
   },
 });
 
 export const {
+  getUserProfile,
   updateUserProfile,
   updateInfoUser,
   updateLanguage,
@@ -76,6 +100,7 @@ export const {
   updateOld,
   updateHeight,
   updateWeight,
+  logOut,
 } = Infoslice.actions;
 
 export default Infoslice.reducer;
