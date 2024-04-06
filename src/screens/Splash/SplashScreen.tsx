@@ -12,9 +12,11 @@ import {styles} from './SplashScreen.styles';
 import CONST_SCREEN from '@/constants/screen';
 import {updateWalletState} from '@/store/wallet';
 import {updateInfoUser} from '@/store/userInfo';
+import {fetchMining} from '@/store/mining/action';
+import {ThunkDispatch} from '@reduxjs/toolkit';
 
 const SplashScreen = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   const init = async () => {
     await new Promise(resolve =>
@@ -47,6 +49,7 @@ const SplashScreen = () => {
 
   useEffect(() => {
     init();
+    dispatch(fetchMining());
   }, []);
 
   return (

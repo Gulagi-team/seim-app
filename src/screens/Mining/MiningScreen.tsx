@@ -1,15 +1,4 @@
-import {
-  ActivityIndicator,
-  Button,
-  Dimensions,
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles} from './MiningScreen.styles';
 import POINT_SEIM from '@/assets/images/point_seim.png';
@@ -27,9 +16,8 @@ import IconPool from '@/assets/icons/icon_pool.svg';
 import IconSpeed from '@/assets/icons/icon_speed.svg';
 import IconDiamond from '@/assets/icons/icon_diamond.svg';
 import IconUser from '@/assets/icons/icon_user.svg';
-import {deviceWidth} from '@/constants/layout';
-import {COLORS} from '@/theme';
-import * as Progress from 'react-native-progress';
+import CountdownTimer from '@/components/TimerCountdown/TimerCountdown';
+import {StoreState, useAppSelector} from '@/store';
 
 const adUnitId = 'ca-app-pub-4899008737130339/7604879423';
 
@@ -38,6 +26,19 @@ const rewarded = RewardedAd.createForAdRequest(adUnitId);
 const MiningScreen = () => {
   const [isMining, setIsMining] = useState(false);
   const anim = useRef<LottieView>(null);
+  const endDate = useAppSelector(
+    (state: StoreState) => state.MiningSlice.miningData.endDate,
+  );
+  const {
+    backgroundColor,
+    containerColor,
+    textColor,
+    textOutstandingColor,
+    borderColor,
+    cardWalletBackgroundColor,
+    cardWalletBorderColor,
+  } = useAppSelector((state: StoreState) => state.ThemeSlice);
+  const [timeLeft, setTimeLeft] = useState(endDate - new Date().getTime());
 
   useEffect(() => {
     // setInitAdDone(false);
@@ -74,6 +75,14 @@ const MiningScreen = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (timeLeft > 0) {
+      anim.current?.play();
+    } else {
+      anim.current?.pause();
+    }
+  }, [timeLeft]);
+
   const onPlayPress = () => {
     if (isMining) {
       anim.current?.pause();
@@ -93,10 +102,16 @@ const MiningScreen = () => {
     setIsMining(!isMining);
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={{...styles.container, backgroundColor: backgroundColor}}>
       <View style={styles.containerView}>
-        <Text style={styles.titleText}>Mining</Text>
-        <View style={styles.rewardContainer}>
+        <Text style={{...styles.titleText, color: textColor}}>Mining</Text>
+        <View
+          style={{
+            ...styles.rewardContainer,
+            backgroundColor: cardWalletBackgroundColor,
+            borderColor: cardWalletBorderColor,
+          }}>
           <Text style={styles.rewardText}>Current Rewards</Text>
           <View style={styles.pointContainer}>
             <Image
@@ -105,7 +120,9 @@ const MiningScreen = () => {
               resizeMode={'contain'}
             />
 
-            <Text style={styles.pointText}>0.0267</Text>
+            <Text style={{...styles.pointText, color: textOutstandingColor}}>
+              0.0267
+            </Text>
           </View>
           <Image
             source={BACKGROUND_REWARD}
@@ -113,55 +130,76 @@ const MiningScreen = () => {
             resizeMode={'contain'}
           />
         </View>
-        {/* <MiningCard /> */}
-        <View style={styles.actionMiningContainer}>
-          {/* <View style={styles.plugContainer}>
-            <Image
-              source={PLUG}
-              style={styles.imagePlug}
-              resizeMode={'contain'}
-            />
-          </View> */}
-          {/* <SVGatorComponent props={}/> */}
+        <View
+          style={{
+            ...styles.actionMiningContainer,
+            backgroundColor: containerColor,
+            borderColor: borderColor,
+          }}>
+          {/* <View style={{flex: 1, width: '100%', alignItems: 'center'}}> */}
           <LottieView
             ref={anim}
             source={require('@/assets/lotties/gpu_animation.json')}
             loop
-            style={{height: '50%', width: '100%'}}
+            style={{height: '40%', width: '60%', flex: 1}}
           />
-          <View style={styles.levelContainer}>
-            <Text style={styles.levelText}>25%</Text>
-            <Text style={styles.percentText}>00:00:00</Text>
-          </View>
-          <Progress.Bar
-            progress={0.4}
-            width={deviceWidth - 121}
-            color={COLORS.primary_A400}
-            unfilledColor={COLORS.text_A100}
-            borderWidth={0}
-          />
-          <TouchableOpacity style={styles.btnMint} onPress={onPlayPress}>
-            <Text style={styles.mintText}>START MINT</Text>
+          {/* </View> */}
+
+          <CountdownTimer />
+          <TouchableOpacity
+            style={styles.btnMint}
+            onPress={onPlayPress}
+            disabled={timeLeft > 0}>
+            <Text style={styles.mintText}>
+              {timeLeft == 0 ? 'START MINT' : 'MINING...'}
+            </Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.miningText}>Mining Info</Text>
-        <View style={styles.miningInfoContainer}>
+        <Text style={{...styles.miningText, color: textOutstandingColor}}>
+          Mining Info
+        </Text>
+        <View
+          style={{
+            ...styles.miningInfoContainer,
+            backgroundColor: containerColor,
+            borderColor: borderColor,
+          }}>
           <View style={{flexDirection: 'row'}}>
             <View style={styles.miningDetailLeft}>
               <View style={styles.miningDetailTextContainer}>
                 <IconPool />
-                <Text style={styles.miningInfoText}>Total Pools Mined</Text>
+                <Text style={{...styles.miningInfoText, color: textColor}}>
+                  Total Pools Mined
+                </Text>
               </View>
 
-              <Text style={styles.miningInfoValue}>5</Text>
+              <Text
+                style={{
+                  ...styles.miningInfoValue,
+                  color: textOutstandingColor,
+                }}>
+                5
+              </Text>
             </View>
-            <View style={styles.miningDetailRight}>
+            <View
+              style={{
+                ...styles.miningDetailRight,
+                borderColor: textOutstandingColor,
+              }}>
               <View style={styles.miningDetailTextContainer}>
                 <IconSpeed />
-                <Text style={styles.miningInfoText}>Mining amount (24h)</Text>
+                <Text style={{...styles.miningInfoText, color: textColor}}>
+                  Mining amount (24h)
+                </Text>
               </View>
 
-              <Text style={styles.miningInfoValue}>0.03</Text>
+              <Text
+                style={{
+                  ...styles.miningInfoValue,
+                  color: textOutstandingColor,
+                }}>
+                0.03
+              </Text>
             </View>
           </View>
           <View
@@ -174,34 +212,54 @@ const MiningScreen = () => {
               marginTop: 10,
             }}>
             <View
-              style={{width: '45%', height: 1, backgroundColor: '#000'}}></View>
-            {/* <Image
-              source={LOGO}
               style={{
-                width: 20,
-                height: 20,
-              }}
-              resizeMode={'contain'}
-            /> */}
+                width: '45%',
+                height: 1,
+                backgroundColor: textOutstandingColor,
+              }}></View>
             <View
-              style={{width: '45%', height: 1, backgroundColor: '#000'}}></View>
+              style={{
+                width: '45%',
+                height: 1,
+                backgroundColor: textOutstandingColor,
+              }}></View>
           </View>
           <View style={{flexDirection: 'row', marginTop: 10}}>
             <View style={styles.miningDetailLeft}>
               <View style={styles.miningDetailTextContainer}>
                 <IconDiamond />
-                <Text style={styles.miningInfoText}>Level</Text>
+                <Text style={{...styles.miningInfoText, color: textColor}}>
+                  Level
+                </Text>
               </View>
 
-              <Text style={styles.miningInfoValue}>5</Text>
+              <Text
+                style={{
+                  ...styles.miningInfoValue,
+                  color: textOutstandingColor,
+                }}>
+                5
+              </Text>
             </View>
-            <View style={styles.miningDetailRight}>
+            <View
+              style={{
+                ...styles.miningDetailRight,
+                borderColor: textOutstandingColor,
+              }}>
               <View style={styles.miningDetailTextContainer}>
                 <IconUser />
-                <Text style={styles.miningInfoText}>Invited Peoples</Text>
+                <Text style={{...styles.miningInfoText, color: textColor}}>
+                  Invited Peoples
+                </Text>
               </View>
 
-              <Text style={styles.miningInfoValue}>8</Text>
+              <Text
+                style={{
+                  ...styles.miningInfoValue,
+                  color: textOutstandingColor,
+                }}>
+                8
+              </Text>
             </View>
           </View>
         </View>

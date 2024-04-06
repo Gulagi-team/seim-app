@@ -64,7 +64,6 @@ export const styles = StyleSheet.create({
   pointText: {
     fontSize: FONT_SIZE.medium0,
     fontWeight: '700',
-    color: '#000',
     marginLeft: 5,
     fontFamily: POPPINS_BOLD,
   },
@@ -72,43 +71,17 @@ export const styles = StyleSheet.create({
     width: '50%',
     height: 70,
     position: 'absolute',
-    // backgroundColor: 'red',
     right: 0,
-
-    // marginLeft: 10,
   },
   actionMiningContainer: {
     height: '40%',
     width: '100%',
-    backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    borderColor: COLORS.text_A200,
     borderWidth: 1,
     marginTop: 15,
-    paddingTop: 15,
+    paddingVertical: 10,
     alignItems: 'center',
-  },
-  levelContainer: {
-    width: deviceWidth - 121,
-    // height: '100%',
-    marginTop: 15,
-    // marginBottom: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-
-    // backgroundColor: '#fff',
-  },
-  levelText: {
-    fontSize: FONT_SIZE.tiny0,
-    fontFamily: POPPINS_MEDIUM,
-    fontWeight: '600',
-    color: COLORS.primary_A500,
-  },
-  percentText: {
-    fontSize: FONT_SIZE.tiny0,
-    fontFamily: POPPINS_MEDIUM,
-    fontWeight: '600',
-    color: COLORS.black,
+    flex: 1,
   },
   btnMint: {
     width: 200,
@@ -135,9 +108,7 @@ export const styles = StyleSheet.create({
   miningInfoContainer: {
     height: '30%',
     width: '100%',
-    backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    borderColor: COLORS.text_A200,
     borderWidth: 1,
     marginTop: 5,
     alignItems: 'center',
@@ -146,17 +117,12 @@ export const styles = StyleSheet.create({
   },
   miningDetailLeft: {
     width: '45%',
-    // paddingLeft: 5,
-    // flexDirection: 'row',
-    // alignItems: 'center',
   },
   miningDetailRight: {
     width: '45%',
     borderLeftWidth: 1,
     borderColor: 'black',
     paddingLeft: 10,
-    // flexDirection: 'row',
-    // alignItems: 'center',
   },
   miningDetailTextContainer: {
     flexDirection: 'row',
@@ -166,14 +132,12 @@ export const styles = StyleSheet.create({
   miningInfoText: {
     fontSize: FONT_SIZE.tiny0,
     fontWeight: '500',
-    color: COLORS.black,
     fontFamily: POPPINS_MEDIUM,
     marginLeft: 5,
   },
   miningInfoValue: {
     fontSize: FONT_SIZE.medium1,
     fontWeight: '600',
-    color: COLORS.black,
     fontFamily: POPPINS_MEDIUM,
     marginTop: 5,
     marginLeft: 10,

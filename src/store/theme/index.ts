@@ -1,50 +1,77 @@
-// import { createSlice } from '@reduxjs/toolkit';
-// // import themes from '../../theme/themes';
+import {COLORS} from '@/theme';
+import {ThemeType} from '@/types/Appearance';
+import {LanguageType, UserProfileType} from '@/types/colection';
+import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
-// const slice = createSlice({
-//   name: 'theme',
-//   initialState: { theme: 'default', darkMode: null } as ThemeState,
-//   reducers: {
-//     changeTheme: (state, { payload: { theme, darkMode } }: ThemePayload) => {
-//       if (typeof theme !== 'undefined') {
-//         state.theme = theme;
-//       }
-//       if (typeof darkMode !== 'undefined') {
-//         state.darkMode = darkMode;
-//       }
-//     },
-//     setDefaultTheme: (
-//       state,
-//       { payload: { theme, darkMode } }: ThemePayload,
-//     ) => {
-//       if (!state.theme) {
-//         if (typeof theme !== 'undefined') {
-//           state.theme = theme;
-//         }
-//         if (typeof darkMode !== 'undefined') {
-//           state.darkMode = darkMode;
-//         }
-//       }
-//     },
-//   },
-// });
+export type ThemeState = {
+  isDarkMode: boolean;
+  backgroundColor: string;
+  containerColor: string;
+  textColor: string;
+  textOutstandingColor: string;
+  borderColor: string;
+  borderSelectedColor: string;
+  cardWalletBackgroundColor: string;
+  cardWalletBorderColor: string;
+  cardWalletTitleColor: string;
+  textContainerColor: string;
+  textBorderColor: string;
+};
 
-// export const { changeTheme, setDefaultTheme } = slice.actions;
+const initialState: ThemeState = {
+  isDarkMode: false,
+  backgroundColor: COLORS.white,
+  containerColor: COLORS.white,
+  textColor: COLORS.black,
+  textOutstandingColor: COLORS.black,
+  borderColor: COLORS.text_A200,
+  borderSelectedColor: COLORS.black,
+  cardWalletBackgroundColor: COLORS.primary_A50,
+  cardWalletBorderColor: COLORS.primary_A100,
+  cardWalletTitleColor: COLORS.primary_A500,
+  textContainerColor: COLORS.text_A50,
+  textBorderColor: COLORS.text_A100,
+};
 
-// export default slice.reducer;
+const ThemeSlice = createSlice({
+  name: 'theme',
+  initialState,
+  reducers: {
+    updateTheme: (state, action: PayloadAction<ThemeType>) => {
+      if (action.payload === 'dark') {
+        state.isDarkMode = true;
+        state.backgroundColor = COLORS.darkmode_1;
+        state.containerColor = COLORS.darkmode_2;
+        state.textColor = COLORS.text_A200;
+        state.textOutstandingColor = COLORS.white;
+        state.borderColor = COLORS.darkmode_3;
+        state.borderSelectedColor = COLORS.white;
+        state.cardWalletBackgroundColor = 'rgba(27, 156, 252, 0.45)';
+        state.cardWalletBorderColor = COLORS.primary_A400;
+        state.cardWalletTitleColor = COLORS.primary_A300;
+        state.textContainerColor = COLORS.darkmode_3;
+        state.textBorderColor = 'rgba(107, 114, 128, 0.45)';
+      } else {
+        state.isDarkMode = false;
+        state.backgroundColor = COLORS.white;
+        state.containerColor = COLORS.white;
+        state.textColor = COLORS.text_A800;
+        state.textOutstandingColor = COLORS.black;
+        state.borderColor = COLORS.text_A200;
+        state.borderSelectedColor = COLORS.black;
+        state.cardWalletBackgroundColor = 'rgba(181, 220, 251, 1)';
+        state.cardWalletBorderColor = COLORS.primary_A100;
+        state.cardWalletTitleColor = COLORS.primary_A500;
+        state.textContainerColor = COLORS.text_A50;
+        state.textBorderColor = COLORS.text_A100;
+      }
+      //   state.email = action.payload.email;
+      //   state.name = action.payload.name;
+      //   state.avatar = action.payload.avatar;
+    },
+  },
+});
 
-// type DarkProps<T> = {
-//   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//   [K in keyof T]: K extends `${infer Prefix}_dark` ? K : never;
-// }[keyof T];
+export const {updateTheme} = ThemeSlice.actions;
 
-// type PropsWithoutDark<T> = Omit<T, DarkProps<T>>;
-
-// // export type ThemeState = {
-// //   theme: 'default' | keyof PropsWithoutDark<typeof themes>;
-// //   darkMode: boolean | null;
-// // };
-
-// // type ThemePayload = {
-// //   payload: Partial<ThemeState>;
-// // };
+export default ThemeSlice.reducer;

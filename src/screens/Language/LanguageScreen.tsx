@@ -9,17 +9,12 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import IconEnglish from '@/assets/icons/icon_english.svg';
 import IconVietNam from '@/assets/icons/icon_vietnam.svg';
 import IconChina from '@/assets/icons/icon_china.svg';
-import IconIndonesia from '@/assets/icons/icon_indonesia.svg';
-import IconGemany from '@/assets/icons/icon_germany.svg';
-import IconJapan from '@/assets/icons/icon_japan.svg';
 import IconKorea from '@/assets/icons/icon_indonesia.svg';
-import IconRussia from '@/assets/icons/icon_russia.svg';
 import {useTranslation} from 'react-i18next';
 // import i18next from 'i18next';
 import {StoreState, reduxStorage, useAppSelector} from '@/store';
@@ -29,79 +24,144 @@ import {LanguageType} from '@/types/colection';
 import {styles} from './LanguageScreen.styles';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import {COLORS} from '@/theme';
+import {useNavigation} from '@react-navigation/native';
 
 const LanguageScreen = () => {
-  const dispatch = useDispatch();
   const {t} = useTranslation(['startup']);
   const language = useAppSelector(
     (state: StoreState) => state.userInfo.language,
   );
+  const {
+    backgroundColor,
+    containerColor,
+    textColor,
+    borderColor,
+    borderSelectedColor,
+    cardWalletTitleColor,
+  } = useAppSelector((state: StoreState) => state.ThemeSlice);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const goBack = () => navigation.goBack();
   const onChangeLanguage = (lang: LanguageType) => {
-    // dispatch(updateLanguage(lang));
+    dispatch(updateLanguage(lang));
     // void i18next.changeLanguage(lang);
     // reduxStorage.setItem('language', lang);
   };
   return (
-    <SafeAreaView style={styles.container}>
-      {/* <Header
-        title={t('screens:language')}
-        handleGoBack={() => navigation.goBack()}
-      /> */}
-      <View style={styles.containerView}>
+    <SafeAreaView
+      style={{...styles.container, backgroundColor: backgroundColor}}>
+      <Header title="Language" canGoBack={true} handleGoBack={goBack} />
+      <View style={styles.contentContainer}>
         <TouchableOpacity
           style={{
             ...styles.itemContainer,
-            borderColor: language === 'en' ? COLORS.black : COLORS.text_A200,
+            backgroundColor: containerColor,
+            borderColor: language === 'en' ? cardWalletTitleColor : borderColor,
           }}
           onPress={() => onChangeLanguage('en')}>
           <View style={{flexDirection: 'row'}}>
             <IconEnglish />
-            <Text style={styles.text}>English (US)</Text>
+            <Text style={{...styles.text, color: textColor}}>English (US)</Text>
           </View>
           <View
             style={{
               ...styles.checkBox,
-              borderColor: language === 'en' ? COLORS.black : '#404040',
+              borderColor:
+                language === 'en' ? cardWalletTitleColor : borderColor,
             }}>
-            {language === 'en' && <View style={styles.checkDot} />}
+            {language === 'en' && (
+              <View
+                style={{
+                  ...styles.checkDot,
+                  backgroundColor: cardWalletTitleColor,
+                }}
+              />
+            )}
           </View>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
             ...styles.itemContainer,
-            borderColor: language === 'vi' ? COLORS.black : COLORS.text_A200,
+            backgroundColor: containerColor,
+            borderColor: language === 'vi' ? cardWalletTitleColor : borderColor,
           }}
           onPress={() => onChangeLanguage('vi')}>
           <View style={{flexDirection: 'row'}}>
             <IconVietNam />
-            <Text style={styles.text}>Tiếng Việt</Text>
+            <Text style={{...styles.text, color: textColor}}>Tiếng Việt</Text>
           </View>
           <View
             style={{
               ...styles.checkBox,
-              borderColor: language === 'vi' ? COLORS.black : '#404040',
+              borderColor:
+                language === 'vi' ? cardWalletTitleColor : borderColor,
             }}>
-            {language === 'vi' && <View style={styles.checkDot} />}
+            {language === 'vi' && (
+              <View
+                style={{
+                  ...styles.checkDot,
+                  backgroundColor: cardWalletTitleColor,
+                }}
+              />
+            )}
           </View>
         </TouchableOpacity>
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={{
             ...styles.itemContainer,
-            borderColor: language === 'cn' ? '#2dd4bf' : '#404040',
+            backgroundColor: containerColor,
+            borderColor: language === 'cn' ? cardWalletTitleColor : borderColor,
           }}
           onPress={() => onChangeLanguage('cn')}>
           <View style={{flexDirection: 'row'}}>
             <IconChina />
-            <Text style={styles.text}>Chinese</Text>
+            <Text style={{...styles.text, color: textColor}}>Chinese</Text>
           </View>
           <View
             style={{
               ...styles.checkBox,
-              borderColor: language === 'cn' ? '#2dd4bf' : '#404040',
+
+              borderColor:
+                language === 'cn' ? cardWalletTitleColor : borderColor,
             }}>
-            {language === 'cn' && <View style={styles.checkDot} />}
+            {language === 'cn' && (
+              <View
+                style={{
+                  ...styles.checkDot,
+                  backgroundColor: cardWalletTitleColor,
+                }}
+              />
+            )}
           </View>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            ...styles.itemContainer,
+            backgroundColor: containerColor,
+            borderColor: language === 'kr' ? cardWalletTitleColor : borderColor,
+          }}
+          onPress={() => onChangeLanguage('kr')}>
+          <View style={{flexDirection: 'row'}}>
+            <IconKorea />
+            <Text style={{...styles.text, color: textColor}}>Korea</Text>
+          </View>
+          <View
+            style={{
+              ...styles.checkBox,
+              borderColor:
+                language === 'kr' ? cardWalletTitleColor : borderColor,
+            }}>
+            {language === 'kr' && (
+              <View
+                style={{
+                  ...styles.checkDot,
+                  backgroundColor: cardWalletTitleColor,
+                }}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
+        {/* 
         <TouchableOpacity
           style={{
             ...styles.itemContainer,
@@ -156,24 +216,7 @@ const LanguageScreen = () => {
             {language === 'jp' && <View style={styles.checkDot} />}
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            ...styles.itemContainer,
-            borderColor: language === 'kr' ? '#2dd4bf' : '#404040',
-          }}
-          onPress={() => onChangeLanguage('kr')}>
-          <View style={{flexDirection: 'row'}}>
-            <IconKorea />
-            <Text style={styles.text}>Korea</Text>
-          </View>
-          <View
-            style={{
-              ...styles.checkBox,
-              borderColor: language === 'kr' ? '#2dd4bf' : '#404040',
-            }}>
-            {language === 'kr' && <View style={styles.checkDot} />}
-          </View>
-        </TouchableOpacity>
+        
         <TouchableOpacity
           style={{
             ...styles.itemContainer,

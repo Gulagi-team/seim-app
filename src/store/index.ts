@@ -8,6 +8,8 @@ import LessionSlice from './lessions/index';
 import walletSlice from './wallet/index';
 import HabitsSlide from './habits/index';
 import TopicSlice from './topics/index';
+import MiningSlice from './mining/index';
+import ThemeSlice from './theme/index';
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
 // import theme from './theme';
 
@@ -19,6 +21,8 @@ const reducers = combineReducers({
   walletSlice,
   HabitsSlide,
   TopicSlice,
+  MiningSlice,
+  ThemeSlice,
 });
 
 export const reducersType = typeof reducers;

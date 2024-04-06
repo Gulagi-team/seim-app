@@ -6,16 +6,21 @@ import NotificationScreen from '@/screens/Notification/NotificationScreen';
 import {
   HOME,
   HOME_SELECTED,
+  HOME_DARK,
   MINING,
   MINING_SELECTED,
+  MINING_DARK,
   NOTIFICATION,
   NOTIFICATION_SELECTED,
+  NOTIFICATION_DARK,
   SETTING,
   SETTING_SELECTED,
+  SETTING_DARK,
 } from '@/assets/icons/bottom';
 import {COLORS} from '@/theme/index';
 import MiningScreen from '@/screens/Mining/MiningScreen';
 import SettingScreen from '@/screens/Setting/SettingScreen';
+import {StoreState, useAppSelector} from '@/store';
 
 export const KEY_BOTTOM_SCREEN = {
   HOME: 'Home',
@@ -24,72 +29,68 @@ export const KEY_BOTTOM_SCREEN = {
   SETTING: 'Setting',
 };
 
-const ACTIVE_COLOR = COLORS.primary_A500;
-const DEACTIVE_COLOR = COLORS.text_A700;
-
-const BottomTabConstant = {
-  [KEY_BOTTOM_SCREEN.HOME]: {
-    name: KEY_BOTTOM_SCREEN.HOME,
-    component: HomeScreen,
-    activeIcon: HOME_SELECTED,
-    deactiveIcon: HOME,
-    index: 0,
-    activeColor: COLORS.primary_A500,
-    deactiveColor: DEACTIVE_COLOR,
-  },
-  [KEY_BOTTOM_SCREEN.MINING]: {
-    name: KEY_BOTTOM_SCREEN.MINING,
-    component: MiningScreen,
-    activeIcon: MINING_SELECTED,
-    deactiveIcon: MINING,
-    index: 1,
-    activeColor: COLORS.secondary_violet2,
-    deactiveColor: DEACTIVE_COLOR,
-  },
-  [KEY_BOTTOM_SCREEN.NOTIFICATION]: {
-    name: KEY_BOTTOM_SCREEN.NOTIFICATION,
-    component: NotificationScreen,
-    activeIcon: NOTIFICATION_SELECTED,
-    deactiveIcon: NOTIFICATION,
-    index: 1,
-    activeColor: COLORS.secondary_orange2,
-    deactiveColor: DEACTIVE_COLOR,
-  },
-
-  [KEY_BOTTOM_SCREEN.SETTING]: {
-    name: KEY_BOTTOM_SCREEN.SETTING,
-    component: SettingScreen,
-    activeIcon: SETTING_SELECTED,
-    deactiveIcon: SETTING,
-    index: 2,
-    activeColor: COLORS.secondary_green1,
-    deactiveColor: DEACTIVE_COLOR,
-  },
-};
-
-const Tab = createBottomTabNavigator();
-
-const renderBottomTab = Object.values(BottomTabConstant)
-  .sort((a, b) => a.index - b.index)
-  .map(item => (
-    <Tab.Screen
-      options={{
-        headerShown: false,
-        // animationEnabled: true,
-      }}
-      key={item.name}
-      name={item.name}
-      component={item.component}
-    />
-  ));
-
 const BottomTab = () => {
-  // const dispatch = useDispatch();
+  const {isDarkMode, containerColor, textColor} = useAppSelector(
+    (state: StoreState) => state.ThemeSlice,
+  );
+  const ACTIVE_COLOR = COLORS.primary_A500;
+  const DEACTIVE_COLOR = textColor;
 
-  // useEffect(() => {
-  //   dispatch(updateRegistrationToken());
-  // }, []);
+  const BottomTabConstant = {
+    [KEY_BOTTOM_SCREEN.HOME]: {
+      name: KEY_BOTTOM_SCREEN.HOME,
+      component: HomeScreen,
+      activeIcon: HOME_SELECTED,
+      deactiveIcon: isDarkMode ? HOME_DARK : HOME,
+      index: 0,
+      activeColor: COLORS.primary_A500,
+      deactiveColor: DEACTIVE_COLOR,
+    },
+    [KEY_BOTTOM_SCREEN.MINING]: {
+      name: KEY_BOTTOM_SCREEN.MINING,
+      component: MiningScreen,
+      activeIcon: MINING_SELECTED,
+      deactiveIcon: isDarkMode ? MINING_DARK : MINING,
+      index: 1,
+      activeColor: COLORS.secondary_violet2,
+      deactiveColor: DEACTIVE_COLOR,
+    },
+    [KEY_BOTTOM_SCREEN.NOTIFICATION]: {
+      name: KEY_BOTTOM_SCREEN.NOTIFICATION,
+      component: NotificationScreen,
+      activeIcon: NOTIFICATION_SELECTED,
+      deactiveIcon: isDarkMode ? NOTIFICATION_DARK : NOTIFICATION,
+      index: 1,
+      activeColor: COLORS.secondary_orange2,
+      deactiveColor: DEACTIVE_COLOR,
+    },
 
+    [KEY_BOTTOM_SCREEN.SETTING]: {
+      name: KEY_BOTTOM_SCREEN.SETTING,
+      component: SettingScreen,
+      activeIcon: SETTING_SELECTED,
+      deactiveIcon: isDarkMode ? SETTING_DARK : SETTING,
+      index: 2,
+      activeColor: COLORS.secondary_green1,
+      deactiveColor: DEACTIVE_COLOR,
+    },
+  };
+
+  const Tab = createBottomTabNavigator();
+
+  const renderBottomTab = Object.values(BottomTabConstant)
+    .sort((a, b) => a.index - b.index)
+    .map(item => (
+      <Tab.Screen
+        options={{
+          headerShown: false,
+          // animationEnabled: true,
+        }}
+        key={item.name}
+        name={item.name}
+        component={item.component}
+      />
+    ));
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -101,6 +102,7 @@ const BottomTab = () => {
           height: 70,
           paddingTop: 10,
           paddingBottom: 10,
+          backgroundColor: containerColor,
         },
         tabBarLabel: ({children, color, focused}) => {
           const newColor = focused

@@ -1,27 +1,33 @@
-import {UserProfileType} from '@/types/colection';
+import {LanguageType, UserProfileType} from '@/types/colection';
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 // import themes from '../../theme/themes';
 
 export type InfoState = {
+  access_token: string;
   email: string;
   name: string;
   avatar: string;
-  language: string;
+  language: LanguageType;
   gender: string;
-  old: string;
-  height: string;
-  weight: string;
+  old: number;
+  height: number;
+  weight: number;
+  referralCode: string;
+  referralLink: string;
 };
 
 const initialState: InfoState = {
+  access_token: '',
   email: '',
   name: '',
   avatar: '',
-  language: '',
+  language: 'en',
   gender: '',
-  old: '',
-  height: '',
-  weight: '',
+  old: 0,
+  height: 0,
+  weight: 0,
+  referralCode: 'LCY9345MGY',
+  referralLink: 'get.seim.io/ref=FDFAA',
 };
 
 const Infoslice = createSlice({
@@ -29,6 +35,7 @@ const Infoslice = createSlice({
   initialState,
   reducers: {
     updateUserProfile: (state, action: PayloadAction<UserProfileType>) => {
+      state.access_token = action.payload.access_token;
       state.email = action.payload.email;
       state.name = action.payload.name;
       state.avatar = action.payload.avatar;
@@ -43,19 +50,19 @@ const Infoslice = createSlice({
       state.height = action.payload.height;
       state.weight = action.payload.weight;
     },
-    updateLanguage: (state, action: PayloadAction<string>) => {
+    updateLanguage: (state, action: PayloadAction<LanguageType>) => {
       state.language = action.payload;
     },
     updateGender: (state, action: PayloadAction<string>) => {
       state.gender = action.payload;
     },
-    updateOld: (state, action: PayloadAction<string>) => {
+    updateOld: (state, action: PayloadAction<number>) => {
       state.old = action.payload;
     },
-    updateHeight: (state, action: PayloadAction<string>) => {
+    updateHeight: (state, action: PayloadAction<number>) => {
       state.height = action.payload;
     },
-    updateWeight: (state, action: PayloadAction<string>) => {
+    updateWeight: (state, action: PayloadAction<number>) => {
       state.weight = action.payload;
     },
   },

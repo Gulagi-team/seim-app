@@ -25,6 +25,8 @@ import {UserProfileType} from '@/types/colection';
 import {useDispatch} from 'react-redux';
 import {updateUserProfile} from '@/store/userInfo';
 import {login} from '@/api/auth';
+import auth from '@react-native-firebase/auth';
+import {setToken} from '@/api';
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -35,23 +37,26 @@ const LoginScreen = () => {
           '474737740853-4iohtlair4u6bbp7b60k9hta9v00vuut.apps.googleusercontent.com',
         offlineAccess: true,
       });
-      const a = await GoogleSignin.hasPlayServices({
-        showPlayServicesUpdateDialog: true,
-      });
       const result = await GoogleSignin.signIn();
-      console.log('result', result);
-      // if (result) {
-      //   const data = await login(result.idToken);
-      //   console.log('data', data);
-      // }
+      const googleCredential = auth.GoogleAuthProvider.credential(
+        result.idToken,
+      );
+      const aaa = await auth().signInWithCredential(googleCredential);
+      const idtoken = await aaa.user.getIdTokenResult();
+      if (result) {
+        const respone = await login(idtoken);
+        setToken(respone.data.accessToken);
+        console.log('data', respone.data);
+        const userProfile: UserProfileType = {
+          access_token: respone.data.accessToken,
+          email: result.user.email,
+          name: result.user.name || '',
+          avatar: result.user.photo || '',
+        };
+        dispatch(updateUserProfile(userProfile));
 
-      const userProfile: UserProfileType = {
-        email: result.user.email,
-        name: result.user.name || '',
-        avatar: result.user.photo || '',
-      };
-      dispatch(updateUserProfile(userProfile));
-      navigate(SCREENS.WELCOME);
+        navigate(SCREENS.WELCOME);
+      }
 
       // if (token?.accessToken) {
       //   // loginViaGoogleMiddleware(token.accessToken, (res) =>
@@ -77,15 +82,19 @@ const LoginScreen = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <Image
-        source={LogoSeim}
-        style={{height: 120, width: 120}}
-        resizeMode={'contain'}
-      />
-      <TouchableOpacity style={styles.googleButton} onPress={onLoginViaGoogle}>
-        <IconGoogle />
-        <Text style={styles.loginText}>Log in with Google</Text>
-      </TouchableOpacity>
+      <View style={styles.containerView}>
+        <Image
+          source={LogoSeim}
+          style={{height: 120, width: 120}}
+          resizeMode={'contain'}
+        />
+        <TouchableOpacity
+          style={styles.googleButton}
+          onPress={onLoginViaGoogle}>
+          <IconGoogle />
+          <Text style={styles.loginText}>Log in with Google</Text>
+        </TouchableOpacity>
+      </View>
 
       <Image
         style={styles.welcomeBottom}
