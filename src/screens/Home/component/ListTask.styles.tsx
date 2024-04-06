@@ -17,6 +17,11 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  titleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   howOldAre1: {
     marginBottom: 10,
     fontSize: 16,

@@ -18,6 +18,7 @@ import LoginScreen from '@/screens/Login/LoginScreen';
 import MiningScreen from '@/screens/Mining/MiningScreen';
 import LanguageScreen from '@/screens/Language/LanguageScreen';
 import FeedbackScreen from '@/screens/Feedback/FeedbackScreen';
+import HabitDetailScreen from '@/screens/HabitDetail/HabitDetailScreen';
 
 export const route = [
   {
@@ -91,5 +92,9 @@ export const route = [
   {
     name: CONST_SCREEN.FEEDBACK,
     component: FeedbackScreen,
+  },
+  {
+    name: CONST_SCREEN.HABIT_DETAIL,
+    component: HabitDetailScreen,
   },
 ];
