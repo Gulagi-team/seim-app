@@ -20,6 +20,7 @@ import LanguageScreen from '@/screens/Language/LanguageScreen';
 import FeedbackScreen from '@/screens/Feedback/FeedbackScreen';
 import ReferralScreen from '@/screens/Referral/ReferralScreen';
 import DisplayScreen from '@/screens/Display/Display';
+import HabitDetailScreen from '@/screens/HabitDetail/HabitDetailScreen';
 
 export const route = [
   {
@@ -101,5 +102,9 @@ export const route = [
   {
     name: CONST_SCREEN.DISPLAY,
     component: DisplayScreen,
+  },
+  {
+    name: CONST_SCREEN.HABIT_DETAIL,
+    component: HabitDetailScreen,
   },
 ];

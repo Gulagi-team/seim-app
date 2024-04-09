@@ -3,12 +3,15 @@ import {Text, View, FlatList, TouchableOpacity} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import {startHabit} from '@/store/habits/action';
+import {navigate} from '@/helpers/navigation';
+import SCREENS from '@/constants/screen';
 import {styles} from './ListTask.styles';
 import ListDate from './ListDate';
 import Point from './Point';
 import Task from './Task';
 import DisableTask from './DisableTask';
 import {Habit} from '@/types/colection';
+import ThreeDot from '@/assets/icons/icon_three_dots.svg';
 
 interface Props {
   habitSelected: Habit;
@@ -21,7 +24,12 @@ const ListTaskContent = ({habitSelected}: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.question}>
-        <Text style={styles.howOldAre1}>{habitSelected.habit.name}</Text>
+        <TouchableOpacity
+          style={styles.titleContainer}
+          onPress={() => navigate(SCREENS.HABIT_DETAIL, habitSelected)}>
+          <Text style={styles.howOldAre1}>{habitSelected.habit.name}</Text>
+          <ThreeDot />
+        </TouchableOpacity>
         {habitSelected.startDate && (
           <>
             <ListDate habitSelected={habitSelected} />
