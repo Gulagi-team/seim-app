@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.API_URL;
+const API_URL = 'http://192.168.1.6:3001/';
 
 // Add a request interceptor
 axios.interceptors.request.use(
