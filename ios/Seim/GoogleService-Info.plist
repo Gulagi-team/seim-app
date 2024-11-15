@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>474737740853-2ai3uoaulom0e3gksd9cbgrd1ketrant.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.474737740853-2ai3uoaulom0e3gksd9cbgrd1ketrant</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>474737740853-4b1es2hnf6vr0ijj5qgp4lct5fnnjg6j.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBkYjKTvnzFYKofJKFIN6tvrLFGMIbU1s8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>474737740853</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.SeimMobile</string>
+	<key>PROJECT_ID</key>
+	<string>seim-gulagi</string>
+	<key>STORAGE_BUCKET</key>
+	<string>seim-gulagi.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:474737740853:ios:30d5cf2262b7eb88a8357c</string>
+</dict>
+</plist>
