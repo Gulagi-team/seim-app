@@ -1,32 +1,33 @@
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useEffect, useState} from 'react';
-import {LessionType} from '@/types/colection';
 import LessionItem from '@/components/listItem/LessionItem';
+import SCREENS from '@/constants/screen';
+import {navigate} from '@/helpers/navigation';
 import {StoreState, reduxStorage, useAppSelector} from '@/store';
-import {useDispatch} from 'react-redux';
 import {
   addKeyLession,
-  removeKeyLession,
   addLessionSelected,
+  removeKeyLession,
   updateLessionSelected,
-  fetchLessions,
 } from '@/store/lessions';
-import {navigate} from '@/helpers/navigation';
-import {ThunkDispatch} from '@reduxjs/toolkit';
+import {fetchTopics} from '@/store/topics/action';
+import {LessionType} from '@/types/colection';
 import {Spinner} from '@gluestack-ui/themed';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import {useEffect, useState} from 'react';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch} from 'react-redux';
 import {styles} from './LessionTypeScreen.styles';
-import SCREENS from '@/constants/screen';
 
 const LessionTypeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   const [loading, setLoading] = useState(true);
 
-  const {lessions, lessionsSelected, status, keyLessionSelected} = useAppSelector((state: StoreState) => state.LessionSlice);
+  const {lessions, lessionsSelected, status, keyLessionSelected} =
+    useAppSelector((state: StoreState) => state.LessionSlice);
 
   useEffect(() => {
-    dispatch(fetchLessions());
+    dispatch(fetchTopics());
   }, []);
 
   //------
@@ -68,7 +69,13 @@ const LessionTypeScreen = () => {
             isSelect={keyLessionSelected.indexOf(item.lession_key) >= 0}
           />
         ))}
-        {lessions.length == 0 ? (<View><Spinner size="large" /></View>) : ''}
+        {lessions.length == 0 ? (
+          <View>
+            <Spinner size="large" />
+          </View>
+        ) : (
+          ''
+        )}
       </ScrollView>
     </SafeAreaView>
   );

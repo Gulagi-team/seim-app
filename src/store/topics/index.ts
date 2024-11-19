@@ -43,8 +43,9 @@ const TopicSlice = createSlice({
         fetchTopics.fulfilled,
         (state, action: PayloadAction<TopicResponse>) => {
           state.status = 'succeeded';
-          state.topics = action.payload.data ?? [];
-      })
+          state.topics = (action.payload as unknown as Topic[]) ?? [];
+        },
+      )
       .addCase(fetchTopics.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;

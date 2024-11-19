@@ -1,10 +1,10 @@
-import {LessionType} from '@/types/colection';
+import {Habit, LessionType} from '@/types/colection';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import IconCheck from '@/assets/icons/icon_checkmark.svg';
-
+import React from 'react';
 interface Props {
-  lession: LessionType;
+  lession: Habit;
   key: string;
   onSelect?: () => void;
   isSelect: boolean;
@@ -33,7 +33,7 @@ const LessionItem = (props: Props) => {
           resizeMode={FastImage.resizeMode.contain}
         />
         <View style={{marginTop: 12, marginLeft: 12}}>
-          <Text style={styles.titleText}>{lession.lession_title}</Text>
+          <Text style={styles.titleText}>{lession.habit.name}</Text>
           <View style={{marginTop: 13, flexDirection: 'row'}}>
             {/* <FastImage
               style={{width: 25, height: 25, marginRight: 5}}

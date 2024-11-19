@@ -1,29 +1,19 @@
-import {
-  ActivityIndicator,
-  Dimensions,
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useEffect, useState} from 'react';
-import PackItem from '@/components/listItem/PackItem';
-import {StoreState, reduxStorage, useAppSelector} from '@/store';
-import {useDispatch} from 'react-redux';
-import {fetchLessions} from '@/store/lessions';
-import {ThunkDispatch} from '@reduxjs/toolkit';
-import {styles} from './ProfileScreen.styles';
-import FastImage from 'react-native-fast-image';
-import * as Progress from 'react-native-progress';
 import Header from '@/components/Header';
+import PackItem from '@/components/listItem/PackItem';
 import {deviceWidth} from '@/constants/layout';
+import {StoreState, useAppSelector} from '@/store';
+import {fetchTopics} from '@/store/topics/action';
 import {COLORS} from '@/theme';
 import {useNavigation} from '@react-navigation/native';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import {useEffect} from 'react';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {BarChart} from 'react-native-gifted-charts';
+import * as Progress from 'react-native-progress';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch} from 'react-redux';
+import {styles} from './ProfileScreen.styles';
 
 const ProfileScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -45,7 +35,7 @@ const ProfileScreen = () => {
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
 
   useEffect(() => {
-    dispatch(fetchLessions());
+    dispatch(fetchTopics());
   }, []);
 
   const barData = [

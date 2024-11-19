@@ -25,6 +25,8 @@ import {styles, rightMenuStyles, topicStyles} from './HomeScreen.styles';
 import {navigate} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
 import {formatLongDate, getPartOfDay} from '@/helpers/conversion';
+import {getStringLocal} from '@/helpers/localStorage';
+import {Habit} from '@/types/colection';
 
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -34,9 +36,11 @@ const HomeScreen = () => {
     dispatch(fetchHabits());
   }, []);
 
-  const habits = useAppSelector(
-    (state: StoreState) => state.HabitsSlide.habits,
-  );
+  const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
+
+  const habits = getLessionsSelectedLocal
+    ? JSON.parse(getLessionsSelectedLocal)
+    : [];
 
   const [idxContent, setIdxContent] = useState<number>(0);
   const ref = useRef<ICarouselInstance>(null);
@@ -51,7 +55,7 @@ const HomeScreen = () => {
           onPress={() => navigate(SCREENS.TOPIC)}
           style={topicStyles.itemAdd}>
           <IconAdd />
-        </TouchableOpacity>
+        </TouchableOpacity>,
       );
     }
     return items;
@@ -122,12 +126,14 @@ const HomeScreen = () => {
             ref={ref}
             loop={false}
             width={width * 0.92}
-            enabled={false}
+            enabled={true} // Enable the carousel
             data={habits}
             onSnapToItem={index => {
               setIdxContent(index);
             }}
-            renderItem={({item}) => <ListTaskContent habitSelected={item} />}
+            renderItem={({item}: {item: Habit}) => (
+              <ListTaskContent habitSelected={item} />
+            )}
           />
         </View>
       </View>

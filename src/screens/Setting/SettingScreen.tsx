@@ -1,45 +1,40 @@
-import {
-  ActivityIndicator,
-  Dimensions,
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useEffect, useState} from 'react';
+import IconDarkFeedback from '@/assets/icons/darkmode/icon_feedback_dark.svg';
+import IconDarkGift from '@/assets/icons/darkmode/icon_gift_dark.svg';
+import IconDarkLanguage from '@/assets/icons/darkmode/icon_language_dark.svg';
+import IconDarkProfile from '@/assets/icons/darkmode/icon_profile_dark.svg';
+import IconDarkTheme from '@/assets/icons/darkmode/icon_theme_dark.svg';
+import IconFeedback from '@/assets/icons/icon_feedback.svg';
+import IconGift from '@/assets/icons/icon_gift.svg';
+import IconLanguage from '@/assets/icons/icon_language.svg';
+import IconLogout from '@/assets/icons/icon_logout.svg';
+import IconProfile from '@/assets/icons/icon_profile.svg';
+import IconTheme from '@/assets/icons/icon_theme.svg';
+import WelcomeBottom from '@/assets/images/welcomeBottom.png';
+import WalletCard from '@/components/WalletCard/WalletCard';
+import {deviceWidth} from '@/constants/layout';
+import SCREENS from '@/constants/screen';
+import {navigate, navigateReset} from '@/helpers/navigation';
 import {StoreState, reduxStorage, useAppSelector} from '@/store';
-import {useDispatch} from 'react-redux';
-import {fetchLessions} from '@/store/lessions';
+import {fetchTopics} from '@/store/topics/action';
+import {COLORS} from '@/theme';
 import {ThunkDispatch} from '@reduxjs/toolkit';
-import {styles} from './SettingScreen.styles';
+import {useEffect} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import * as Progress from 'react-native-progress';
-import WalletCard from '@/components/WalletCard/WalletCard';
-import WelcomeBottom from '@/assets/images/welcomeBottom.png';
-import {deviceWidth} from '@/constants/layout';
-import {COLORS} from '@/theme';
-import IconProfile from '@/assets/icons/icon_profile.svg';
-import IconDarkProfile from '@/assets/icons/darkmode/icon_profile_dark.svg';
-import IconLanguage from '@/assets/icons/icon_language.svg';
-import IconDarkLanguage from '@/assets/icons/darkmode/icon_language_dark.svg';
-import IconTheme from '@/assets/icons/icon_theme.svg';
-import IconDarkTheme from '@/assets/icons/darkmode/icon_theme_dark.svg';
-import IconGift from '@/assets/icons/icon_gift.svg';
-import IconDarkGift from '@/assets/icons/darkmode/icon_gift_dark.svg';
-import IconFeedback from '@/assets/icons/icon_feedback.svg';
-import IconDarkFeedback from '@/assets/icons/darkmode/icon_feedback_dark.svg';
-import IconLogout from '@/assets/icons/icon_logout.svg';
-import {navigate, navigateReset} from '@/helpers/navigation';
-import SCREENS from '@/constants/screen';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch} from 'react-redux';
+import {styles} from './SettingScreen.styles';
+import localStorage from 'redux-persist/es/storage';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const SettingScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
-  const {avatar, name} = useAppSelector((state: StoreState) => state.userInfo);
+  const {avatar, name, access_token} = useAppSelector(
+    (state: StoreState) => state.userInfo,
+  );
+
   const {
     isDarkMode,
     backgroundColor,
@@ -49,8 +44,27 @@ const SettingScreen = () => {
     borderColor,
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
 
+  console.log('access_token:', access_token);
+
+  const getUser = async () => {
+    try {
+      const user = await AsyncStorage.getItem('userInfo');
+      if (user) {
+        const info = JSON.parse(user);
+        if (info.access_token === '') {
+          navigateReset(SCREENS.LOGIN);
+        }
+      } else {
+        navigateReset(SCREENS.LOGIN);
+      }
+    } catch (error) {
+      console.error('Failed to load user info:', error);
+      navigateReset(SCREENS.LOGIN);
+    }
+  };
   useEffect(() => {
-    dispatch(fetchLessions());
+    getUser();
+    dispatch(fetchTopics());
   }, []);
 
   //------

@@ -20,6 +20,8 @@ const ListTaskContent = ({habitSelected}: Props) => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const enable: boolean =
     habitSelected.startDate !== null && habitSelected.startDate !== undefined;
+  console.log('habitSelected:', habitSelected);
+  console.log('enable:', enable);
 
   return (
     <View style={styles.container}>

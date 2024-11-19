@@ -26,13 +26,13 @@ const SplashScreen = () => {
     );
     const getInfoDone = getBooleanLocal('isGetInfoDone');
     const getUserInfoLocal = getStringLocal('userInfo');
+    console.log('getUserInfoLocal:', getUserInfoLocal);
+    console.log('getInfoDone:', getInfoDone);
     const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
     const getKeyLessionsSelectedLocal = getStringLocal('keyLessionsSelected');
     const address = getStringLocal('address');
 
-    console.log(getLessionsSelectedLocal);
     if (getInfoDone && getUserInfoLocal) {
-      console.log('getUserInfoLocal', getUserInfoLocal);
       dispatch(updateInfoUser(JSON.parse(getUserInfoLocal)));
       if (getLessionsSelectedLocal && getKeyLessionsSelectedLocal) {
         dispatch(getLessionSelected(JSON.parse(getLessionsSelectedLocal)));
@@ -43,7 +43,7 @@ const SplashScreen = () => {
         navigateReset(CONST_SCREEN.MAIN);
       }
     } else {
-      navigateReset(CONST_SCREEN.LOGIN);
+      navigateReset(CONST_SCREEN.WELCOME);
     }
   };
 

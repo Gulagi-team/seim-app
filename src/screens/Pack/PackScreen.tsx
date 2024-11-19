@@ -1,32 +1,24 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import firestore from '@react-native-firebase/firestore';
-import { useEffect, useState } from 'react';
-import { LessionType } from '@/types/colection';
+import React from 'react';
+
 import LessionItem from '@/components/listItem/LessionItem';
-import { StoreState, reduxStorage, useAppSelector } from '@/store';
-import { useDispatch } from 'react-redux';
+import SCREENS from '@/constants/screen';
+import {navigate} from '@/helpers/navigation';
+import {StoreState, reduxStorage, useAppSelector} from '@/store';
 import {
   addKeyLession,
-  removeKeyLession,
   addLessionSelected,
+  removeKeyLession,
   updateLessionSelected,
-  fetchLessions,
 } from '@/store/lessions';
-import { navigate } from '@/helpers/navigation';
-import { ThunkDispatch } from '@reduxjs/toolkit';
-import { Spinner } from '@gluestack-ui/themed';
-import { styles } from './PackScreen.styles';
-import SCREENS from '@/constants/screen';
+import {fetchTopics} from '@/store/topics/action';
+import {Habit, LessionType} from '@/types/colection';
+import {Spinner} from '@gluestack-ui/themed';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import {useEffect, useState} from 'react';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch} from 'react-redux';
+import {styles} from './PackScreen.styles';
 
 const PackScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -34,19 +26,16 @@ const PackScreen = () => {
   const [loading, setLoading] = useState(true);
   // const [lessions, setLessions] = useState<LessionType[]>([]);
 
-  const { lessions, lessionsSelected, status, keyLessionSelected } = useAppSelector(
-    (state: StoreState) => state.LessionSlice,
-  );
+  const {lessions, lessionsSelected, status, keyLessionSelected} =
+    useAppSelector((state: StoreState) => state.LessionSlice);
 
   useEffect(() => {
-    dispatch(fetchLessions());
+    dispatch(fetchTopics());
   }, []);
 
   //------
 
-
-
-  const handleSelectLession = (key: string, lesson: LessionType) => {
+  const handleSelectLession = (key: string, lesson: Habit) => {
     if (keyLessionSelected.indexOf(key) >= 0) {
       dispatch(removeKeyLession(key));
     } else {
@@ -72,19 +61,25 @@ const PackScreen = () => {
         <TouchableOpacity
           style={styles.finishContainer}
           onPress={handleFinishSelect}>
-          <Text style={styles.finishText}>{`Finish >`}</Text>
+          <Text style={styles.finishText}>{'Finish >'}</Text>
         </TouchableOpacity>
       </View>
       <ScrollView style={styles.contentContainer}>
         {lessions.map(item => (
           <LessionItem
             lession={item}
-            key={item.lession_key}
-            onSelect={() => handleSelectLession(item.lession_key, item)}
-            isSelect={keyLessionSelected.indexOf(item.lession_key) >= 0}
+            key={item.habit.id}
+            onSelect={() => handleSelectLession(item.habit.id, item)}
+            isSelect={keyLessionSelected.indexOf(item.habit.id) >= 0}
           />
         ))}
-        {lessions.length == 0 ? (<View><Spinner size="large" /></View>) : ''}
+        {lessions.length === 0 ? (
+          <View>
+            <Spinner size="large" />
+          </View>
+        ) : (
+          ''
+        )}
       </ScrollView>
     </SafeAreaView>
   );

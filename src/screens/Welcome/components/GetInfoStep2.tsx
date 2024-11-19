@@ -1,18 +1,9 @@
 import {StoreState, useAppSelector} from '@/store';
 import {updateGender} from '@/store/userInfo';
 import {POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
-import {useState} from 'react';
+import React from 'react';
 
-import {
-  Text,
-  View,
-  Button,
-  TextInput,
-  Pressable,
-  StyleSheet,
-  Touchable,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 
 const GetInfoStep2Content = () => {

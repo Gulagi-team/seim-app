@@ -1,23 +1,12 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 
-import {
-  Text,
-  View,
-  Button,
-  TextInput,
-  Pressable,
-  StyleSheet,
-  Touchable,
-  TouchableOpacity,
-} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
 import {generateArray} from '@/helpers/others';
-import {useDispatch} from 'react-redux';
 import {StoreState, useAppSelector} from '@/store';
 import {updateWeight} from '@/store/userInfo';
-import {Input, InputField} from '@gluestack-ui/themed';
-import ScrollPicker from 'react-native-wheel-scrollview-picker';
 import {POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
+import {StyleSheet, Text, View} from 'react-native';
+import ScrollPicker from 'react-native-wheel-scrollview-picker';
+import {useDispatch} from 'react-redux';
 
 const GetInfoStep5Content = () => {
   const dispatch = useDispatch();

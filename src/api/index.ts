@@ -1,13 +1,21 @@
 import axios from 'axios';
 
-const API_URL = 'http://192.168.1.6:3001/';
+const API_URL = process.env.REACT_APP_API_URL;
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Add a request interceptor
 axios.interceptors.request.use(
-  function (config) {
+  async function (config) {
     // Do something before request is sent
     // config.headers.Authorization = `Bearer ${your_token}`;
     // OR config.headers.common['Authorization'] = `Bearer ${your_token}`;
+    const user = await AsyncStorage.getItem('userInfo');
+
+    if (user) {
+      const info = JSON.parse(user);
+      config.headers.Authorization = `Bearer ${info.access_token}`;
+    }
+
     config.baseURL = API_URL;
 
     return config;
@@ -39,7 +47,7 @@ axios.interceptors.response.use(
 
 export const setToken = (token: string) => {
   const auth = `Bearer ${token}`;
-  axios.defaults.headers.common['Authorization'] = auth;
+  axios.defaults.headers.Authorization = auth;
 };
 
 const API = {
