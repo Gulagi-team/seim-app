@@ -55,7 +55,6 @@ const HabitSlice = createSlice({
       .addCase(
         fetchHabits.fulfilled,
         (state, action: PayloadAction<HabitResponse>) => {
-          console.log('action.payload:', action.payload);
           state.status = 'succeeded';
           state.today = action.payload.today ?? '';
           state.habits = action.payload.data ?? [];
@@ -71,21 +70,11 @@ const HabitSlice = createSlice({
       })
       .addCase(startHabit.fulfilled, (state, action: PayloadAction<string>) => {
         state.status = 'succeeded';
-        if (state.habits.length === 0) {
-          //call fetchHabits
-          fetchHabits();
-          console.log('fetchHabits');
-        }
-        console.log('action.payload:', action.payload);
-        console.log('state.habits:', state.habits);
-        console.log('state.habits:', state.habits[0].habit.id);
 
         const habitIndex = state.habits.findIndex(
           el => el.habit.id === action.payload,
         );
-        console.log('habitIndex:', habitIndex);
         state.habits[habitIndex].startDate = moment().toISOString();
-        console.log('state.habits:after', state.habits);
       })
       .addCase(startHabit.rejected, (state, action) => {
         state.status = 'failed';

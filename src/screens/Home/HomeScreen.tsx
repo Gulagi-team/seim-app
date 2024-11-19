@@ -27,6 +27,7 @@ import SCREENS from '@/constants/screen';
 import {formatLongDate, getPartOfDay} from '@/helpers/conversion';
 import {getStringLocal} from '@/helpers/localStorage';
 import {Habit} from '@/types/colection';
+import RNFS from 'react-native-fs';
 
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -41,7 +42,43 @@ const HomeScreen = () => {
   const habits = getLessionsSelectedLocal
     ? JSON.parse(getLessionsSelectedLocal)
     : [];
+  const directoryPath = RNFS.DocumentDirectoryPath + 'json';
+  const filePath = directoryPath + '/habits.json';
 
+  const writeHabitsToFile = async (data: any) => {
+    try {
+      // Ensure the directory exists
+      await RNFS.mkdir(directoryPath);
+      // Write the file
+      await RNFS.writeFile(filePath, JSON.stringify(data), 'utf8');
+      console.log('File saved successfully at', filePath);
+    } catch (error) {
+      console.error('Failed to save file:', error);
+    }
+  };
+  const readHabitsFromFile = async () => {
+    try {
+      const fileContent = await RNFS.readFile(filePath, 'utf8');
+      const habitsFromFile = JSON.parse(fileContent);
+      console.log('Habits read from file:', habitsFromFile);
+      return habitsFromFile;
+    } catch (error) {
+      console.error('Failed to read file:', error);
+      return [];
+    }
+  };
+  useEffect(() => {
+    const fetchHabitsFromFile = async () => {
+      const habitsFromFile = await readHabitsFromFile();
+      // Do something with the habits read from the file
+      console.log('Fetched habits from file:', habitsFromFile);
+    };
+
+    // fetchHabitsFromFile();
+  }, []);
+  // useEffect(() => {
+  //   writeHabitsToFile(habits);
+  // }, []);
   const [idxContent, setIdxContent] = useState<number>(0);
   const ref = useRef<ICarouselInstance>(null);
 
