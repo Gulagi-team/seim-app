@@ -24,10 +24,13 @@ import {navigate} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
 import {UserProfileType} from '@/types/colection';
 import {useDispatch} from 'react-redux';
-import {updateUserProfile} from '@/store/userInfo';
+import {updateInfoUser, updateUserProfile} from '@/store/userInfo';
 import {login} from '@/api/auth';
 import auth from '@react-native-firebase/auth';
 import {setToken} from '@/api';
+import {getStringLocal} from '@/helpers/localStorage';
+import localStorage from 'redux-persist/es/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -38,6 +41,7 @@ const LoginScreen = () => {
           '474737740853-4iohtlair4u6bbp7b60k9hta9v00vuut.apps.googleusercontent.com',
         offlineAccess: true,
       });
+
       const result = await GoogleSignin.signIn();
       const googleCredential = auth.GoogleAuthProvider.credential(
         result.idToken,
@@ -45,18 +49,18 @@ const LoginScreen = () => {
       const aaa = await auth().signInWithCredential(googleCredential);
       const idtoken = await aaa.user.getIdTokenResult();
       if (result) {
-        const respone = await login(idtoken);
-        setToken(respone.data.accessToken);
-        console.log('data', respone.data);
+        const response = await login(idtoken);
+        setToken(response.data.accessToken);
+
         const userProfile: UserProfileType = {
-          access_token: respone.data.accessToken,
-          email: result.user.email,
+          access_token: response.data.accessToken,
           name: result.user.name || '',
           avatar: result.user.photo || '',
+          email: result.user.email,
         };
+        await AsyncStorage.setItem('userInfo', JSON.stringify(userProfile));
         dispatch(updateUserProfile(userProfile));
-
-        navigate(SCREENS.WELCOME);
+        navigate(SCREENS.MAIN);
       }
 
       // if (token?.accessToken) {

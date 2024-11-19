@@ -1,18 +1,18 @@
-import firestore from '@react-native-firebase/firestore';
 import {
-  LessionSelectedType,
-  LessionType,
+  Habit,
+  HabitData,
   TaskSelectedItem,
   TaskToUpdate,
 } from '@/types/colection';
-import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {union, unionWith} from 'lodash';
+import {fetchTopics} from '../topics/action';
 
 export type LessionsState = {
-  lessions: LessionSelectedType[];
+  lessions: Habit[];
   status: string;
   error: any;
-  lessionsSelected: LessionSelectedType[];
+  lessionsSelected: Habit[];
   keyLessionSelected: string[];
 };
 
@@ -23,35 +23,6 @@ const initialState: LessionsState = {
   lessionsSelected: [],
   keyLessionSelected: [],
 };
-
-//  Thunks fetchLessions
-export const fetchLessions = createAsyncThunk(
-  'lession/fetchLessions',
-  async () => {
-    const allLession: any = [];
-    const unsubscribe = await firestore()
-      .collection('lessions')
-      .get()
-      .then(
-        querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            allLession.push({
-              ...documentSnapshot.data(),
-              key: documentSnapshot.data().lession_key,
-            });
-          });
-
-          return allLession;
-        },
-        err => {
-          return JSON.stringify(err);
-        },
-      );
-
-    const data = await unsubscribe;
-    return data;
-  },
-);
 
 const LessionSlice = createSlice({
   name: 'lession',
@@ -70,71 +41,86 @@ const LessionSlice = createSlice({
     getKeyLession: (state, action: PayloadAction<string[]>) => {
       state.keyLessionSelected = action.payload;
     },
-    addLessionSelected: (state, action: PayloadAction<LessionType>) => {
+    addLessionSelected: (state, action: PayloadAction<Habit>) => {
+      console.log('addLessionSelected', action.payload);
       const index = state.lessionsSelected.findIndex(
-        el => el.lession_key === action.payload.lession_key,
+        el => el.habit.id === action.payload.habit.id,
       );
       if (index === -1) {
-        const arrTemp: TaskSelectedItem[] = [];
-        action.payload.items.forEach(item => {
-          arrTemp.push({
-            item_trans_title: item.item_trans_title,
-            isDone: false,
-          });
-        });
+        const arrTeemp: TaskSelectedItem[] = [];
+        // action.payload.items.forEach(item => {
+        //   arrTemp.push({
+        //     item_trans_title: item.item_trans_title,
+        //     isDone: false,
+        //   });
+        // });
         state.lessionsSelected = unionWith(state.lessionsSelected, [
           {
-            items: arrTemp,
-            lession_active: action.payload.lession_active,
-            lession_color: action.payload.lession_color,
-            lession_day_total: action.payload.lession_day_total,
-            lession_detail: action.payload.lession_detail,
-            lession_detail_sort: action.payload.lession_detail_sort,
-            lession_img: action.payload.lession_img,
-            lession_key: action.payload.lession_key,
-            lession_title: action.payload.lession_title,
-            lession_type_key: action.payload.lession_type_key,
-            type: action.payload.type,
+            habit: action.payload.habit,
+            startDate: null,
+            endDate: null,
           },
         ]);
-      } else return;
+      } else {
+        return;
+      }
     },
     updateLessionSelected: state => {
-      let temp: LessionSelectedType[] = [];
+      let temp: Habit[] = [];
       state.keyLessionSelected.map(item => {
         const itemSelected = state.lessionsSelected.filter(
-          el => el.lession_key === item,
+          el => el.habit.id === item,
         );
         temp = unionWith(temp, itemSelected);
       });
       state.lessionsSelected = temp;
+
+      //save to file json local
     },
-    getLessionSelected: (
-      state,
-      action: PayloadAction<LessionSelectedType[]>,
-    ) => {
+    getLessionSelected: (state, action: PayloadAction<Habit[]>) => {
       state.lessionsSelected = action.payload;
     },
     updateTaskStatus: (state, action: PayloadAction<TaskToUpdate>) => {
       const index = state.lessionsSelected.findIndex(
-        el => el.lession_key === action.payload.lession_key,
+        el => el.habit.id === action.payload.habit_id,
       );
       if (index !== -1) {
-        state.lessionsSelected[index].items[action.payload.index].isDone =
-          !state.lessionsSelected[index].items[action.payload.index].isDone;
+        if (state.lessionsSelected[index].habit.tasks) {
+          state.lessionsSelected[index].habit.tasks[
+            action.payload.index
+          ].isFinished =
+            !state.lessionsSelected[index].habit.tasks[action.payload.index]
+              .isFinished;
+        }
       }
     },
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchLessions.pending, (state, action) => {
+      .addCase(fetchTopics.pending, (state, action) => {
         state.status = 'loading';
       })
-      .addCase(fetchLessions.fulfilled, (state, action) => {
+      .addCase(fetchTopics.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.lessions = action.payload;
+
+        const transferData: HabitData[] = [];
+        action.payload.forEach((item: any) => {
+          transferData.push(...item.habits);
+        });
+
+        const final: Habit[] = transferData.map((item: any) => {
+          const data = {
+            habit: item,
+            startDate: null,
+            endDate: null,
+          };
+
+          return data;
+        });
+
+        state.lessions = final;
       })
-      .addCase(fetchLessions.rejected, (state, action) => {
+      .addCase(fetchTopics.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });

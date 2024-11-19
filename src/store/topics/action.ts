@@ -14,6 +14,7 @@ export const fetchTopics = createAsyncThunk(
   async (): Promise<TopicResponse> => {
     const token = getStringLocal(KEY_AUTHEN) || '';
     setToken(token);
-    return await getListTopicAPI();
+    const response = await getListTopicAPI();
+    return response.data.data;
   },
 );

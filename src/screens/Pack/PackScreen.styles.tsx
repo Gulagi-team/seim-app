@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -14,12 +14,12 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height:80
+    height: 80,
   },
   chooseText: {
     fontSize: 20,
     fontWeight: '700',
-    height:30,
+    height: 30,
     fontFamily: 'Montserrat-Bold',
     color: '#000',
     textAlign: 'left',

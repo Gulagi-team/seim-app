@@ -52,8 +52,8 @@ const GetInfoScreen = () => {
         height: userInfo.height,
         weight: userInfo.weight,
       };
-      const respone = await updateProfile(profile);
-      console.log('respone', respone.data);
+      // const respone = await updateProfile(profile);
+      // console.log('respone', respone.data);
       navigateReset(SCREENS.PACK);
     }
   };

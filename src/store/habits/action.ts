@@ -23,12 +23,24 @@ export const fetchHabits = createAsyncThunk(
   async (): Promise<HabitResponse> => {
     const token = getStringLocal(KEY_AUTHEN) || '';
     setToken(token);
-    return await getListHabitAPI();
+    // return await getListHabitAPI();
+    const response = await getListHabitAPI();
+    return response.data;
   },
 );
 
 export const startHabit = createAsyncThunk(
   'habit/startHabit',
+  async (habitId: string): Promise<any> => {
+    const token = getStringLocal(KEY_AUTHEN) || '';
+    setToken(token);
+    await putStartHabitAPI(habitId);
+    return habitId;
+  },
+);
+
+export const uploadHabit = createAsyncThunk(
+  'habit/uploadHabit',
   async (habitId: string): Promise<any> => {
     const token = getStringLocal(KEY_AUTHEN) || '';
     setToken(token);
