@@ -19,6 +19,7 @@ import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './PackScreen.styles';
+import {writeToFile} from '@/helpers/file';
 
 const PackScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -51,6 +52,10 @@ const PackScreen = () => {
       'keyLessionsSelected',
       JSON.stringify(keyLessionSelected),
     );
+
+    //update to file
+    writeToFile(lessionsSelected, 'habits.json');
+
     navigate(SCREENS.MAIN);
   };
 

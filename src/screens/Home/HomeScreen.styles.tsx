@@ -80,6 +80,9 @@ export const rightMenuStyles = StyleSheet.create({
 export const topicStyles = StyleSheet.create({
   itemContainer: {
     marginRight: 15,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   selectedLine: {
     width: '100%',

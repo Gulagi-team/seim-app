@@ -12,18 +12,20 @@ import {setToken} from '@/api/index';
 import {getStringLocal} from '@/helpers/localStorage';
 import {KEY_AUTHEN} from '@/constants/LocalStoreKey';
 import {Habit} from '@/types/colection';
+import {getAuth} from '../auth';
+import {readFromFile, removeByIdInFile, updateByIdInFile} from '@/helpers/file';
+import moment from 'moment';
 
 export interface HabitResponse {
   today?: string;
   data?: Habit[];
 }
-
+const FILE_NAME = 'habits.json';
 export const fetchHabits = createAsyncThunk(
   'habit/fetchHabits',
   async (): Promise<HabitResponse> => {
     const token = getStringLocal(KEY_AUTHEN) || '';
     setToken(token);
-    // return await getListHabitAPI();
     const response = await getListHabitAPI();
     return response.data;
   },
@@ -32,10 +34,30 @@ export const fetchHabits = createAsyncThunk(
 export const startHabit = createAsyncThunk(
   'habit/startHabit',
   async (habitId: string): Promise<any> => {
-    const token = getStringLocal(KEY_AUTHEN) || '';
-    setToken(token);
-    await putStartHabitAPI(habitId);
+    const auth = await getAuth();
+    if (auth && auth.access_token) {
+      await putStartHabitAPI(habitId);
+    }
+    await updateByIdInFile(FILE_NAME, habitId, {
+      startDate: moment().toISOString(),
+    });
     return habitId;
+  },
+);
+
+export const deleteHabit = createAsyncThunk(
+  'habit/deleteHabit',
+  async (habitId: string): Promise<any> => {
+    const auth = await getAuth();
+    if (auth && auth.access_token) {
+      await putStartHabitAPI(habitId);
+    }
+
+    const result = await removeByIdInFile(FILE_NAME, habitId);
+
+    if (result) {
+      return habitId;
+    }
   },
 );
 
@@ -55,12 +77,32 @@ export interface SaveHabitParam {
 }
 export const saveHabit = createAsyncThunk(
   'habit/saveHabit',
-  async ({habitId, isStart}: SaveHabitParam): Promise<HabitResponse> => {
-    const token = getStringLocal(KEY_AUTHEN) || '';
-    setToken(token);
-    await postSaveHabitAPI(habitId, isStart);
+  async ({habitId, isStart}: SaveHabitParam): Promise<any> => {
+    const auth = await getAuth();
+    if (auth && auth.access_token) {
+      postSaveHabitAPI(habitId, isStart);
+    }
 
-    return await getListHabitAPI();
+    //handle in local
+    const topics = await readFromFile('topics.json');
+
+    const habitExist = topics.find((item: any) => item.habit.id === habitId);
+
+    const data = {
+      ...habitExist,
+      habit: {
+        ...habitExist.habit,
+        startDate: isStart ? moment().toISOString() : null,
+      },
+    };
+
+    await updateByIdInFile(FILE_NAME, habitId, data);
+    const dataLocal = await readFromFile(FILE_NAME);
+    const today = new Date().toISOString();
+    return {
+      data: dataLocal,
+      today,
+    };
   },
 );
 

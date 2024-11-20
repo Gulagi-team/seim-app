@@ -1,30 +1,32 @@
-import React from 'react';
-import {Text, View} from 'react-native';
-import FastImage from 'react-native-fast-image';
 import IconSleep from '@/assets/icons/sleep.svg';
-import {styles} from './DisableTask.styles';
+import {iconMap} from '@/helpers/icon';
+import {Task} from '@/types/colection';
 import {
   CheckIcon,
   Checkbox,
   CheckboxIcon,
   CheckboxIndicator,
 } from '@gluestack-ui/themed';
-import {Task} from '@/types/colection';
+import React from 'react';
+import {Text, View} from 'react-native';
+import {styles} from './DisableTask.styles';
 
 interface Props {
   task: Task;
 }
 const DisableTaskContent = ({task}: Props) => {
+  const ICON = iconMap[task.icon as keyof typeof iconMap];
   return (
     <View style={styles.item}>
       {task.icon && (
-        <FastImage
-          style={styles.itemImgF}
-          source={{
-            uri: task.icon,
-          }}
-          resizeMode={FastImage.resizeMode.contain}
-        />
+        // <FastImage
+        //   style={styles.itemImgF}
+        //   source={{
+        //     uri: task.icon,
+        //   }}
+        //   resizeMode={FastImage.resizeMode.contain}
+        // />
+        <>{typeof ICON === 'function' ? <ICON /> : ICON}</>
       )}
       {!task.icon && <IconSleep />}
       <View style={styles.itemText}>

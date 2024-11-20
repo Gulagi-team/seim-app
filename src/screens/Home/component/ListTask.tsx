@@ -1,35 +1,85 @@
-import React from 'react';
-import {Text, View, FlatList, TouchableOpacity} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {ThunkDispatch} from '@reduxjs/toolkit';
-import {startHabit} from '@/store/habits/action';
-import {navigate} from '@/helpers/navigation';
-import SCREENS from '@/constants/screen';
-import {styles} from './ListTask.styles';
-import ListDate from './ListDate';
-import Point from './Point';
-import Task from './Task';
-import DisableTask from './DisableTask';
-import {Habit} from '@/types/colection';
 import ThreeDot from '@/assets/icons/icon_three_dots.svg';
+import SCREENS from '@/constants/screen';
+import {navigate} from '@/helpers/navigation';
+import {StoreState} from '@/store';
+import {deleteHabit, startHabit} from '@/store/habits/action';
+import {Habit} from '@/types/colection';
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+  BottomSheetModal,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {FlatList, Modal, Text, TouchableOpacity, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import DisableTask from './DisableTask';
+import ListDate from './ListDate';
+import {styles} from './ListTask.styles';
+import Task from './Task';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 interface Props {
   habitSelected: Habit;
 }
+// onPress={() => navigate(SCREENS.HABIT_DETAIL, habitSelected)}
+
 const ListTaskContent = ({habitSelected}: Props) => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const snapPoints = useMemo(() => ['60%', '60%'], []);
+
+  const habitStatus = useSelector(
+    (state: StoreState) => state.HabitsSlide.status,
+  );
+
+  useEffect(() => {
+    if (habitStatus === 'succeeded') {
+      setModalVisible(false);
+      bottomSheetRef.current?.close();
+    }
+  }, [habitStatus]);
+
+  const renderBackdrop = useCallback(
+    (props: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={0}
+        appearsOnIndex={1}
+      />
+    ),
+    [],
+  );
+
+  const handleOpenModal = () => {
+    bottomSheetRef.current?.collapse();
+  };
+
+  const handleConfirmDelete = () => {
+    setModalVisible(true);
+  };
+
+  const handleCancelDelete = () => {
+    setModalVisible(false);
+  };
+
   const enable: boolean =
     habitSelected.startDate !== null && habitSelected.startDate !== undefined;
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.question}>
-        <TouchableOpacity
-          style={styles.titleContainer}
-          onPress={() => navigate(SCREENS.HABIT_DETAIL, habitSelected)}>
+        <View style={styles.titleContainer}>
           <Text style={styles.howOldAre1}>{habitSelected.habit.name}</Text>
-          <ThreeDot />
-        </TouchableOpacity>
+          {enable && (
+            <TouchableOpacity onPress={handleOpenModal}>
+              <ThreeDot />
+            </TouchableOpacity>
+          )}
+        </View>
         {habitSelected.startDate && (
           <>
             <ListDate habitSelected={habitSelected} />
@@ -64,7 +114,55 @@ const ListTaskContent = ({habitSelected}: Props) => {
           />
         </View>
       </View>
-    </View>
+      <BottomSheet
+        index={-1}
+        ref={bottomSheetRef}
+        snapPoints={snapPoints}
+        style={{
+          marginTop: 230,
+        }}
+        backdropComponent={renderBackdrop}>
+        <BottomSheetView style={styles.bottomAction}>
+          <TouchableOpacity
+            onPress={() => navigate(SCREENS.HABIT_DETAIL, habitSelected)}
+            style={styles.bottonBtn}>
+            <Text style={styles.show}>Show history</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleConfirmDelete}
+            style={styles.bottonBtn}>
+            <Text style={styles.deleteProcess}>Delete process</Text>
+          </TouchableOpacity>
+        </BottomSheetView>
+      </BottomSheet>
+      <Modal
+        transparent={true}
+        animationType="slide"
+        visible={isModalVisible}
+        onRequestClose={handleCancelDelete}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              Are you sure you want to delete this process?
+            </Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonCancel]}
+                onPress={handleCancelDelete}>
+                <Text>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonDelete]}
+                onPress={() => {
+                  dispatch(deleteHabit(habitSelected.habit.id));
+                }}>
+                <Text>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </SafeAreaView>
   );
 };
 export default ListTaskContent;

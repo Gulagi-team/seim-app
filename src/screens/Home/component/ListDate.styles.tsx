@@ -81,4 +81,8 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     lineHeight: 21,
   },
+  scrollViewContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 });

@@ -3,7 +3,8 @@ import {getListTopic as getListTopicAPI} from '@/api/topic';
 import {setToken} from '@/api/index';
 import {getStringLocal} from '@/helpers/localStorage';
 import {KEY_AUTHEN} from '@/constants/LocalStoreKey';
-import {Topic} from '@/types/colection';
+import {Habit, HabitData, Topic} from '@/types/colection';
+import {removeFile, writeToFile} from '@/helpers/file';
 
 export interface TopicResponse {
   data: Topic[];
@@ -15,6 +16,24 @@ export const fetchTopics = createAsyncThunk(
     const token = getStringLocal(KEY_AUTHEN) || '';
     setToken(token);
     const response = await getListTopicAPI();
+    //save package to local
+    const transferData: HabitData[] = [];
+    response.data.data.forEach((item: any) => {
+      transferData.push(...item.habits);
+    });
+
+    const final: Habit[] = transferData.map((item: any) => {
+      const data = {
+        habit: item,
+        startDate: null,
+        endDate: null,
+      };
+
+      return data;
+    });
+
+    await writeToFile(final, 'topics.json');
+
     return response.data.data;
   },
 );

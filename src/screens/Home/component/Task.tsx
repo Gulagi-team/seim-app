@@ -1,19 +1,19 @@
-import React from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
-import FastImage from 'react-native-fast-image';
-import {useDispatch} from 'react-redux';
-import {ThunkDispatch} from '@reduxjs/toolkit';
-import {updateTaskStatus} from '@/store/habits/index';
-import {completeTask} from '@/store/habits/action';
 import IconSleep from '@/assets/icons/sleep.svg';
-import {styles} from './Task.styles';
+import {iconMap} from '@/helpers/icon';
+import {completeTask} from '@/store/habits/action';
+import {updateTaskStatus} from '@/store/habits/index';
+import {Task} from '@/types/colection';
 import {
   CheckIcon,
   Checkbox,
   CheckboxIcon,
   CheckboxIndicator,
 } from '@gluestack-ui/themed';
-import {Task} from '@/types/colection';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import React from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {styles} from './Task.styles';
 
 interface Props {
   task: Task;
@@ -21,6 +21,8 @@ interface Props {
 }
 const TaskContent = ({task, habitId}: Props) => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
+  const ICON = iconMap[task.icon as keyof typeof iconMap];
 
   return (
     <TouchableOpacity
@@ -44,13 +46,14 @@ const TaskContent = ({task, habitId}: Props) => {
       }}
       style={styles.item}>
       {task.icon && (
-        <FastImage
-          style={styles.itemImgF}
-          source={{
-            uri: task.icon,
-          }}
-          resizeMode={FastImage.resizeMode.contain}
-        />
+        // <FastImage
+        //   style={styles.itemImgF}
+        //   source={{
+        //     uri: task.icon,
+        //   }}
+        //   resizeMode={FastImage.resizeMode.contain}
+        // />
+        <>{typeof ICON === 'function' ? <ICON /> : ICON}</>
       )}
       {!task.icon && <IconSleep />}
       <View style={styles.itemText}>

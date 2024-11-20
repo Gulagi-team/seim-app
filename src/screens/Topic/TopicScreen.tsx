@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {ScrollView, Text, TouchableOpacity, View, Image} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {StoreState, useAppSelector} from '@/store';
-import {ThunkDispatch} from '@reduxjs/toolkit';
-import {fetchTopics} from '@/store/topics/action';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
-import {navigate} from '@/helpers/navigation';
+import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import Header from '@/components/Header';
 import Search from '@/components/Search/SearchInput';
-import {styles} from './TopicScreen.styles';
-import HealthCare from '@/assets/images/health.png';
-import WelcomeBottom from '@/assets/images/welcomeBottom.png';
-import {Topic} from '@/types/colection';
 import SCREENS from '@/constants/screen';
+import {navigate} from '@/helpers/navigation';
+import {StoreState, useAppSelector} from '@/store';
+import {fetchTopics} from '@/store/topics/action';
+import {Topic} from '@/types/colection';
+import {useNavigation} from '@react-navigation/native';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import React, {useEffect, useState} from 'react';
+import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch} from 'react-redux';
+import {styles} from './TopicScreen.styles';
+import {iconMap} from '@/helpers/icon';
 
 const TopicScreen = () => {
   const navigation = useNavigation();
@@ -54,25 +54,25 @@ const TopicScreen = () => {
         rightContent={<Text style={styles.textTitle}>Categories</Text>}
       />
       <ScrollView style={styles.ScrollView}>
-        {filteredData.map(topic => (
-          <TouchableOpacity
-            key={topic.id}
-            style={styles.item}
-            onPress={() => navigate(SCREENS.LESSION, topic)}>
-            <Image
-              style={styles.itemImg}
-              source={{uri: topic.icon}}
-              resizeMode={'stretch'}
-            />
-            <View style={styles.itemTitle}>
-              <Text style={styles.title}>{topic.name}</Text>
-              <Text style={styles.secondTitle}>{topic.description}</Text>
-              <Text style={styles.thridTitle}>
-                {topic.habits.length} lession
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ))}
+        {filteredData.map(topic => {
+          const ICON = iconMap[topic.icon as keyof typeof iconMap];
+
+          return (
+            <TouchableOpacity
+              key={topic.id}
+              style={styles.item}
+              onPress={() => navigate(SCREENS.LESSION, topic)}>
+              {typeof ICON === 'function' ? <ICON /> : ICON}
+              <View style={styles.itemTitle}>
+                <Text style={styles.title}>{topic.name}</Text>
+                <Text style={styles.secondTitle}>{topic.description}</Text>
+                <Text style={styles.thridTitle}>
+                  {topic.habits.length} lession
+                </Text>
+              </View>
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
       <Image
         style={styles.welcomeBottom}

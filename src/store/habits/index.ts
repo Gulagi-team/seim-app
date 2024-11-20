@@ -7,6 +7,7 @@ import {
   startHabit,
   saveHabit,
   completeTask,
+  deleteHabit,
 } from './action';
 import {Habit, TaskToUpdate, Task} from '@/types/colection';
 
@@ -19,7 +20,7 @@ export type HabitsState = {
 };
 
 const initialState: HabitsState = {
-  today: '',
+  today: new Date().toISOString(),
   habits: [],
   taskStack: [],
   status: 'idle',
@@ -45,6 +46,12 @@ const HabitSlice = createSlice({
             !state.habits[habitIndex].habit.tasks[taskIndex].isFinished;
         }
       }
+    },
+    updateState: (state, action: PayloadAction<Habit[]>) => {
+      return {
+        ...state,
+        habits: action.payload,
+      };
     },
   },
   extraReducers(builder) {
@@ -97,6 +104,23 @@ const HabitSlice = createSlice({
         state.error = action.error.message;
       })
 
+      .addCase(deleteHabit.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(
+        deleteHabit.fulfilled,
+        (state, action: PayloadAction<string>) => {
+          state.status = 'succeeded';
+          state.habits = state.habits.filter(
+            el => el.habit.id !== action.payload,
+          );
+        },
+      )
+      .addCase(deleteHabit.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+
       .addCase(completeTask.pending, (state, action) => {
         state.status = 'loading';
       })
@@ -130,6 +154,6 @@ const HabitSlice = createSlice({
   },
 });
 
-export const {updateTaskStatus} = HabitSlice.actions;
+export const {updateTaskStatus, updateState} = HabitSlice.actions;
 
 export default HabitSlice.reducer;

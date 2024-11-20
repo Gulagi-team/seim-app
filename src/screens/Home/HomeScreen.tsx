@@ -1,4 +1,21 @@
+import IconAdd from '@/assets/icons/icon_add.svg';
+import IconSearch from '@/assets/icons/icon_search.svg';
+import IconSetting from '@/assets/icons/icon_settings.svg';
+import HomeBaner from '@/assets/images/home_banner.png';
+import WelcomeBottom from '@/assets/images/welcomeBottom.png';
+import SCREENS from '@/constants/screen';
+import {formatLongDate, getPartOfDay} from '@/helpers/conversion';
+import {readFromFile} from '@/helpers/file';
+import {navigate} from '@/helpers/navigation';
+import {StoreState, useAppSelector} from '@/store';
+import {getAuth} from '@/store/auth';
+import {updateState} from '@/store/habits';
+import {fetchHabits} from '@/store/habits/action';
+import {Habit} from '@/types/colection';
+import {ThunkDispatch} from '@reduxjs/toolkit';
 import React, {useEffect, useRef, useState} from 'react';
+import YOUTUBE from '@/assets/icons/tasks/Youtube.svg';
+
 import {
   Dimensions,
   Image,
@@ -7,78 +24,37 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
-import {StoreState, useAppSelector} from '@/store';
-import {ThunkDispatch} from '@reduxjs/toolkit';
-import {fetchHabits} from '@/store/habits/action';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import FastImage from 'react-native-fast-image';
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch} from 'react-redux';
 import ListTaskContent from './component/ListTask';
-import HeaderMain from '@/components/HeaderMain';
-import WelcomeBottom from '@/assets/images/welcomeBottom.png';
-import IconAdd from '@/assets/icons/icon_add.svg';
-import IconSearch from '@/assets/icons/icon_search.svg';
-import IconSetting from '@/assets/icons/icon_settings.svg';
-import HomeBaner from '@/assets/images/home_banner.png';
-import {styles, rightMenuStyles, topicStyles} from './HomeScreen.styles';
-import {navigate} from '@/helpers/navigation';
-import SCREENS from '@/constants/screen';
-import {formatLongDate, getPartOfDay} from '@/helpers/conversion';
-import {getStringLocal} from '@/helpers/localStorage';
-import {Habit} from '@/types/colection';
-import RNFS from 'react-native-fs';
+import {rightMenuStyles, styles, topicStyles} from './HomeScreen.styles';
+import {iconMap} from '@/helpers/icon';
 
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const width = Dimensions.get('window').width;
+  const habits = useAppSelector(
+    (state: StoreState) => state.HabitsSlide.habits,
+  );
+  const getData = async () => {
+    const user = await getAuth();
 
-  useEffect(() => {
-    dispatch(fetchHabits());
-  }, []);
+    if (user) {
+      dispatch(fetchHabits());
+    } else {
+      const habitsFromFile = await readFromFile('habits.json');
+      console.log('habitsFromFile:', habitsFromFile);
 
-  const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
-
-  const habits = getLessionsSelectedLocal
-    ? JSON.parse(getLessionsSelectedLocal)
-    : [];
-  const directoryPath = RNFS.DocumentDirectoryPath + 'json';
-  const filePath = directoryPath + '/habits.json';
-
-  const writeHabitsToFile = async (data: any) => {
-    try {
-      // Ensure the directory exists
-      await RNFS.mkdir(directoryPath);
-      // Write the file
-      await RNFS.writeFile(filePath, JSON.stringify(data), 'utf8');
-      console.log('File saved successfully at', filePath);
-    } catch (error) {
-      console.error('Failed to save file:', error);
+      dispatch(updateState(habitsFromFile));
     }
   };
-  const readHabitsFromFile = async () => {
-    try {
-      const fileContent = await RNFS.readFile(filePath, 'utf8');
-      const habitsFromFile = JSON.parse(fileContent);
-      console.log('Habits read from file:', habitsFromFile);
-      return habitsFromFile;
-    } catch (error) {
-      console.error('Failed to read file:', error);
-      return [];
-    }
-  };
-  useEffect(() => {
-    const fetchHabitsFromFile = async () => {
-      const habitsFromFile = await readHabitsFromFile();
-      // Do something with the habits read from the file
-      console.log('Fetched habits from file:', habitsFromFile);
-    };
 
-    // fetchHabitsFromFile();
+  useEffect(() => {
+    getData();
   }, []);
-  // useEffect(() => {
-  //   writeHabitsToFile(habits);
-  // }, []);
+
   const [idxContent, setIdxContent] = useState<number>(0);
   const ref = useRef<ICarouselInstance>(null);
 
@@ -137,23 +113,28 @@ const HomeScreen = () => {
               horizontal={true}
               // showsHorizontalScrollIndicator={false}
               style={styles.ScrollView}>
-              {habits.map((item, index) => (
-                <TouchableOpacity
-                  style={topicStyles.itemContainer}
-                  onPress={() => handleChangeTask(index)}
-                  key={item.habit.id}>
-                  <FastImage
-                    style={styles.imgF}
-                    source={{
-                      uri: item.habit.icon,
-                    }}
-                    resizeMode={FastImage.resizeMode.contain}
-                  />
-                  {index === idxContent && (
-                    <View style={topicStyles.selectedLine} />
-                  )}
-                </TouchableOpacity>
-              ))}
+              {habits.map((item, index) => {
+                const ICON = iconMap[item.habit.icon as keyof typeof iconMap];
+                return (
+                  <TouchableOpacity
+                    style={topicStyles.itemContainer}
+                    onPress={() => handleChangeTask(index)}
+                    key={item.habit.id}>
+                    {/* <FastImage
+                      style={styles.imgF}
+                      source={{
+                        uri: item.habit.icon,
+                      }}
+                      resizeMode={FastImage.resizeMode.contain}
+                    /> */}
+                    {typeof ICON === 'function' ? <ICON /> : ICON}
+
+                    {index === idxContent && (
+                      <View style={topicStyles.selectedLine} />
+                    )}
+                  </TouchableOpacity>
+                );
+              })}
 
               {renderAddTopicButton()}
             </ScrollView>
@@ -163,7 +144,7 @@ const HomeScreen = () => {
             ref={ref}
             loop={false}
             width={width * 0.92}
-            enabled={true} // Enable the carousel
+            enabled={false}
             data={habits}
             onSnapToItem={index => {
               setIdxContent(index);
