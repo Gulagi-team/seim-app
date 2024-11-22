@@ -1,0 +1,114 @@
+[
+  {
+    "name": "youtube",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090388/seim/tasks/Youtube_sl3wab.svg"
+  },
+  {
+    "name": "watching",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090388/seim/tasks/Watching_woq1n1.svg"
+  },
+  {
+    "name": "washing",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090388/seim/tasks/Washing_ylzjku.svg"
+  },
+  {
+    "name": "veganFood",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090387/seim/tasks/VeganFood_yb3ia6.svg"
+  },
+  {
+    "name": "walking",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090387/seim/tasks/Walking_m90cxp.svg"
+  },
+  {
+    "name": "smoking",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090387/seim/tasks/Smoking_jt96i0.svg"
+  },
+  {
+    "name": "reading",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090386/seim/tasks/Reading_hn2yzv.svg"
+  },
+  {
+    "name": "run",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090386/seim/tasks/Running_evcifi.svg"
+  },
+  {
+    "name": "sleep",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090386/seim/tasks/Sleep_yguqys.svg"
+  },
+  {
+    "name": "pushup",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090386/seim/tasks/Pushup_lv4omf.svg"
+  },
+  {
+    "name": "podcast",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090385/seim/tasks/Podcast_ivxujj.svg"
+  },
+  {
+    "name": "playGame",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090385/seim/tasks/PlayGame_pgkmm7.svg"
+  },
+  {
+    "name": "meditation",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090384/seim/tasks/Meditation_ydblpq.svg"
+  },
+  {
+    "name": "music",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090384/seim/tasks/Music_rj9ses.svg"
+  },
+  {
+    "name": "fruit",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090384/seim/tasks/Fruit_fkwdsg.svg"
+  },
+  {
+    "name": "tiktok",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090642/seim/tasks/Tiktok_xfrnuw.svg"
+  },
+  {
+    "name": "faceMask",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090383/seim/tasks/FaceMask_hyufft.svg"
+  },
+  {
+    "name": "cofffee",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090382/seim/tasks/DrinkCofffee_qyox2g.svg"
+  },
+  {
+    "name": "alcohol",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090382/seim/tasks/Alcohol_kyr3td.svg"
+  },
+  {
+    "name": "facebook",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090382/seim/tasks/Facebook_ne4k77.svg"
+  },
+  {
+    "name": "drink",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090382/seim/tasks/Drink_s4e0r5.svg"
+  },
+  {
+    "name": "chat",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090382/seim/tasks/Chat_uwrr3n.svg"
+  },
+  {
+    "name": "vegetable",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090344/seim/topics/Vegetable_antznd.svg"
+  },
+  {
+    "name": "meditation_topic",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090343/seim/topics/Meditation_dao6zh.svg"
+  },
+  {
+    "name": "muscles",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090343/seim/topics/Muscles_jhpubb.svg"
+  },
+  {
+    "name": "running",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090343/seim/topics/Running_ehutqh.svg"
+  },
+  {
+    "name": "cardio",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090343/seim/topics/Cardio_pqlow6.svg"
+  },
+  {
+    "name": "cycle",
+    "url": "https://res.cloudinary.com/dkh1ozkvt/image/upload/v1732090343/seim/topics/Cycle_wln9b6.svg"
+  }
+]

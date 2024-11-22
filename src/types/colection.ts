@@ -36,7 +36,7 @@ export interface LessionSelectedType {
 }
 
 export interface TaskToUpdate {
-  habit_id: string;
+  habit: HabitData;
   task_id: string;
 }
 

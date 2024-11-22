@@ -7,6 +7,7 @@ import {
   startHabit,
   saveHabit,
   completeTask,
+  deleteHabit,
 } from './action';
 import {Habit, TaskToUpdate, Task} from '@/types/colection';
 
@@ -19,7 +20,7 @@ export type HabitsState = {
 };
 
 const initialState: HabitsState = {
-  today: '',
+  today: new Date().toISOString(),
   habits: [],
   taskStack: [],
   status: 'idle',
@@ -31,20 +32,18 @@ const HabitSlice = createSlice({
   initialState,
   reducers: {
     updateTaskStatus: (state, action: PayloadAction<TaskToUpdate>) => {
-      const habitIndex = state.habits.findIndex(
-        el => el.habit.id === action.payload.habit_id,
-      );
-      if (habitIndex !== -1) {
-        const habit = state.habits[habitIndex];
-        const taskIndex = habit.habit.tasks?.findIndex(
-          el => el.id === action.payload.task_id,
-        );
-        if (taskIndex !== -1) {
-          state.taskStack.push(state.habits[habitIndex].habit.tasks[taskIndex]);
-          state.habits[habitIndex].habit.tasks[taskIndex].isFinished =
-            !state.habits[habitIndex].habit.tasks[taskIndex].isFinished;
-        }
+      const habit = action.payload.habit;
+      const task = habit.tasks?.find(el => el.id === action.payload.task_id);
+      if (task) {
+        state.taskStack.push(task);
+        task.isFinished = !task.isFinished;
       }
+    },
+    updateState: (state, action: PayloadAction<Habit[]>) => {
+      return {
+        ...state,
+        habits: action.payload,
+      };
     },
   },
   extraReducers(builder) {
@@ -55,7 +54,6 @@ const HabitSlice = createSlice({
       .addCase(
         fetchHabits.fulfilled,
         (state, action: PayloadAction<HabitResponse>) => {
-          console.log('action.payload:', action.payload);
           state.status = 'succeeded';
           state.today = action.payload.today ?? '';
           state.habits = action.payload.data ?? [];
@@ -71,21 +69,11 @@ const HabitSlice = createSlice({
       })
       .addCase(startHabit.fulfilled, (state, action: PayloadAction<string>) => {
         state.status = 'succeeded';
-        if (state.habits.length === 0) {
-          //call fetchHabits
-          fetchHabits();
-          console.log('fetchHabits');
-        }
-        console.log('action.payload:', action.payload);
-        console.log('state.habits:', state.habits);
-        console.log('state.habits:', state.habits[0].habit.id);
 
         const habitIndex = state.habits.findIndex(
           el => el.habit.id === action.payload,
         );
-        console.log('habitIndex:', habitIndex);
         state.habits[habitIndex].startDate = moment().toISOString();
-        console.log('state.habits:after', state.habits);
       })
       .addCase(startHabit.rejected, (state, action) => {
         state.status = 'failed';
@@ -104,6 +92,23 @@ const HabitSlice = createSlice({
         },
       )
       .addCase(saveHabit.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+
+      .addCase(deleteHabit.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(
+        deleteHabit.fulfilled,
+        (state, action: PayloadAction<string>) => {
+          state.status = 'succeeded';
+          state.habits = state.habits.filter(
+            el => el.habit.id !== action.payload,
+          );
+        },
+      )
+      .addCase(deleteHabit.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       })
@@ -141,6 +146,6 @@ const HabitSlice = createSlice({
   },
 });
 
-export const {updateTaskStatus} = HabitSlice.actions;
+export const {updateTaskStatus, updateState} = HabitSlice.actions;
 
 export default HabitSlice.reducer;

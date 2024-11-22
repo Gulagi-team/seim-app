@@ -75,7 +75,7 @@ const ListDateContent = ({habitSelected}: Props) => {
   };
 
   return (
-    <View style={{marginBottom: 10,}}>
+    <View style={{marginBottom: 10}}>
       <ScrollView horizontal={true}>
         {getDateList(today, habitSelected).map(renderDayItem)}
       </ScrollView>

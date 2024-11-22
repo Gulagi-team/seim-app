@@ -1,57 +1,43 @@
-import React from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
-import FastImage from 'react-native-fast-image';
-import {useDispatch} from 'react-redux';
-import {ThunkDispatch} from '@reduxjs/toolkit';
-import {updateTaskStatus} from '@/store/habits/index';
-import {completeTask} from '@/store/habits/action';
 import IconSleep from '@/assets/icons/sleep.svg';
-import {styles} from './Task.styles';
+import {iconMap} from '@/helpers/icon';
+import {updateTaskStatus} from '@/store/habits/index';
+import {HabitData, Task} from '@/types/colection';
 import {
   CheckIcon,
   Checkbox,
   CheckboxIcon,
   CheckboxIndicator,
 } from '@gluestack-ui/themed';
-import {Task} from '@/types/colection';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import React, {useState} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {styles} from './Task.styles';
 
 interface Props {
   task: Task;
-  habitId: string;
+  habit: HabitData;
 }
-const TaskContent = ({task, habitId}: Props) => {
+const TaskContent = ({task, habit}: Props) => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const ICON = iconMap[task.icon as keyof typeof iconMap];
+  const [isChecked, setIsChecked] = useState(task.isFinished ?? false);
 
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+    dispatch(
+      updateTaskStatus({
+        task_id: task.id,
+        habit,
+      }),
+    );
+  };
   return (
     <TouchableOpacity
+      onPress={handleCheckboxChange}
       accessible={true}
-      onPress={() => {
-        dispatch(
-          updateTaskStatus({
-            task_id: task.id,
-            habit_id: habitId,
-          }),
-        );
-
-        const isFinish: boolean = !task.isFinished;
-        dispatch(
-          completeTask({
-            taskId: task.id,
-            userHabitId: habitId,
-            isFinish,
-          }),
-        );
-      }}
       style={styles.item}>
-      {task.icon && (
-        <FastImage
-          style={styles.itemImgF}
-          source={{
-            uri: task.icon,
-          }}
-          resizeMode={FastImage.resizeMode.contain}
-        />
-      )}
+      {task.icon && <>{typeof ICON === 'function' ? <ICON /> : ICON}</>}
       {!task.icon && <IconSleep />}
       <View style={styles.itemText}>
         <Text style={styles.itemTextContent} numberOfLines={1}>
@@ -63,7 +49,8 @@ const TaskContent = ({task, habitId}: Props) => {
         aria-label={task.name}
         size="lg"
         value="12"
-        isChecked={task.isFinished}>
+        onChange={handleCheckboxChange}
+        isChecked={isChecked}>
         <CheckboxIndicator style={styles.itemCbxIndicator} mr="$2">
           <CheckboxIcon as={CheckIcon} />
         </CheckboxIndicator>

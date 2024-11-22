@@ -1,3 +1,5 @@
+import React from 'react';
+
 import IconDarkFeedback from '@/assets/icons/darkmode/icon_feedback_dark.svg';
 import IconDarkGift from '@/assets/icons/darkmode/icon_gift_dark.svg';
 import IconDarkLanguage from '@/assets/icons/darkmode/icon_language_dark.svg';
@@ -25,7 +27,6 @@ import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './SettingScreen.styles';
-import localStorage from 'redux-persist/es/storage';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const SettingScreen = () => {
@@ -44,10 +45,9 @@ const SettingScreen = () => {
     borderColor,
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
 
-  console.log('access_token:', access_token);
-
   const getUser = async () => {
     try {
+      // await AsyncStorage.removeItem('userInfo');
       const user = await AsyncStorage.getItem('userInfo');
       if (user) {
         const info = JSON.parse(user);

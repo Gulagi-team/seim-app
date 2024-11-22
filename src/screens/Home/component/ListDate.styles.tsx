@@ -1,10 +1,5 @@
+import {COLORS, POPPINS_MEDIUM} from '@/theme/index';
 import {StyleSheet} from 'react-native';
-import {
-  COLORS,
-  POPPINS_MEDIUM,
-  POPPINS_REGULAR,
-  POPPINS_BOLD,
-} from '@/theme/index';
 
 export const styles = StyleSheet.create({
   doneDayContainer: {
@@ -33,11 +28,13 @@ export const styles = StyleSheet.create({
     height: 36,
     borderRadius: 20,
     padding: 8,
-    backgroundColor: COLORS.text_A300,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: COLORS.text_A300,
     marginEnd: 12,
   },
   failedDayText: {
-    color: COLORS.text_A500,
+    color: COLORS.text_A300,
     fontSize: 14,
     fontFamily: POPPINS_MEDIUM,
     fontWeight: '500',
@@ -80,5 +77,9 @@ export const styles = StyleSheet.create({
     fontFamily: POPPINS_MEDIUM,
     fontWeight: '500',
     lineHeight: 21,
+  },
+  scrollViewContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

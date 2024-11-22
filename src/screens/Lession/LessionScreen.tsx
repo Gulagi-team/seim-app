@@ -1,27 +1,28 @@
-import React, {useRef, useMemo, useCallback, useState, useEffect} from 'react';
-import {ScrollView, Text, TouchableOpacity, View, Image} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {StoreState, useAppSelector} from '@/store';
-import {ThunkDispatch} from '@reduxjs/toolkit';
-import {saveHabit} from '@/store/habits/action';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
-import {navigateReset} from '@/helpers/navigation';
-import BottomSheet, {
-  BottomSheetModal,
-  BottomSheetView,
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
-} from '@gorhom/bottom-sheet';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+
+import StarIcon from '@/assets/icons/star.svg';
+import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import Header from '@/components/Header';
 import Search from '@/components/Search/SearchInput';
-import {styles} from './LessionScreen.styles';
-import {AddIcon, Icon} from '@gluestack-ui/themed';
-import WelcomeBottom from '@/assets/images/welcomeBottom.png';
-import LessionIcon from '@/assets/icons/lession.svg';
-import StarIcon from '@/assets/icons/star.svg';
-import {Topic, HabitData} from '@/types/colection';
 import SCREENS from '@/constants/screen';
+import {iconMap} from '@/helpers/icon';
+import {navigateReset} from '@/helpers/navigation';
+import {StoreState, useAppSelector} from '@/store';
+import {saveHabit} from '@/store/habits/action';
+import {HabitData, Topic} from '@/types/colection';
+import {AddIcon, Icon} from '@gluestack-ui/themed';
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+  BottomSheetModal,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet';
+import {useNavigation} from '@react-navigation/native';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch} from 'react-redux';
+import {styles} from './LessionScreen.styles';
 
 const LessionScreen = ({route}: any) => {
   const topic: Topic = route.params;
@@ -84,37 +85,41 @@ const LessionScreen = ({route}: any) => {
         rightContent={<Text style={styles.textTitle}>{topic.name}</Text>}
       />
       <ScrollView style={styles.ScrollView}>
-        {filteredData.map(habit => (
-          <TouchableOpacity
-            key={habit.id}
-            style={styles.item}
-            onPress={() => {
-              if (!habits.some(item => item.habit.id === habit.id)) {
-                handleOpenModal(habit);
-              }
-            }}>
-            {/* <LessionIcon style={styles.itemImg} /> */}
-            <Image
-              style={styles.itemImg}
-              source={{uri: habit.icon}}
-              resizeMode={'stretch'}
-            />
-            <View style={styles.itemTitle}>
-              <Text style={styles.title}>{habit.name}</Text>
-              <Text style={styles.secondTitle}>{habit.description}</Text>
-              <View style={styles.statIcon}>
-                <StarIcon />
-                <Text style={styles.statText}>{habit.rating}</Text>
+        {filteredData.map(habit => {
+          const ICON = iconMap[habit.icon as keyof typeof iconMap];
+          return (
+            <TouchableOpacity
+              key={habit.id}
+              style={styles.item}
+              onPress={() => {
+                if (!habits.some(item => item.habit.id === habit.id)) {
+                  handleOpenModal(habit);
+                }
+              }}>
+              {/* <LessionIcon style={styles.itemImg} /> */}
+              {/* <Image
+                style={styles.itemImg}
+                source={{uri: habit.icon}}
+                resizeMode={'stretch'}
+              /> */}
+              <ICON />
+              <View style={styles.itemTitle}>
+                <Text style={styles.title}>{habit.name}</Text>
+                <Text style={styles.secondTitle}>{habit.description}</Text>
+                <View style={styles.statIcon}>
+                  <StarIcon />
+                  <Text style={styles.statText}>{habit.rating}</Text>
+                </View>
               </View>
-            </View>
-            {!habits.some(item => item.habit.id === habit.id) && (
-              <View style={styles.addStyle}>
-                <Icon as={AddIcon} color="#FFFFFF" size="sm" />
-                <Text style={styles.addText}>Save</Text>
-              </View>
-            )}
-          </TouchableOpacity>
-        ))}
+              {!habits.some(item => item.habit.id === habit.id) && (
+                <View style={styles.addStyle}>
+                  <Icon as={AddIcon} color="#FFFFFF" size="sm" />
+                  <Text style={styles.addText}>Save</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
       <Image
         style={styles.welcomeBottom}
@@ -129,11 +134,15 @@ const LessionScreen = ({route}: any) => {
         <BottomSheetView style={styles.bottomContainer}>
           <View>
             {/* <LessionIcon /> */}
-            <Image
+            {/* <Image
               style={styles.itemImg}
               source={{uri: habitSelected?.icon}}
               resizeMode={'stretch'}
-            />
+            /> */}
+
+            {habitSelected?.icon && (
+              <Icon as={iconMap[habitSelected.icon as keyof typeof iconMap]} />
+            )}
           </View>
           <Text style={styles.bottomTitle}>{habitSelected?.name}</Text>
           <ScrollView style={styles.bottomScroll}>

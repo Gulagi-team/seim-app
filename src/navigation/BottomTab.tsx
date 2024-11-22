@@ -21,6 +21,7 @@ import {COLORS} from '@/theme/index';
 import MiningScreen from '@/screens/Mining/MiningScreen';
 import SettingScreen from '@/screens/Setting/SettingScreen';
 import {StoreState, useAppSelector} from '@/store';
+import IconProfile from '@/assets/icons/icon_profile.svg';
 
 export const KEY_BOTTOM_SCREEN = {
   HOME: 'Home',

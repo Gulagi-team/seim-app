@@ -1,39 +1,30 @@
-import React from 'react';
-import {
-  ActivityIndicator,
-  Button,
-  Dimensions,
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {styles} from './LoginScreen.styles';
+import {setToken} from '@/api';
+import {login, updateProfile} from '@/api/auth';
+import IconGoogle from '@/assets/icons/icon_google.svg';
 import LogoSeim from '@/assets/images/logoSeim.png';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
+import {StoreState, useAppSelector} from '@/store';
+import {updateUserProfile} from '@/store/userInfo';
+import {UserProfileType} from '@/types/colection';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth from '@react-native-firebase/auth';
 import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import IconGoogle from '@/assets/icons/icon_google.svg';
+import React from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch} from 'react-redux';
+import {styles} from './LoginScreen.styles';
+import {readFromFile} from '@/helpers/file';
+import {uploadHabit} from '@/api/habit';
 import {navigate} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
-import {UserProfileType} from '@/types/colection';
-import {useDispatch} from 'react-redux';
-import {updateInfoUser, updateUserProfile} from '@/store/userInfo';
-import {login} from '@/api/auth';
-import auth from '@react-native-firebase/auth';
-import {setToken} from '@/api';
-import {getStringLocal} from '@/helpers/localStorage';
-import localStorage from 'redux-persist/es/storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
+  const userInfo = useAppSelector((state: StoreState) => state.userInfo);
   const onLoginViaGoogle = async () => {
     try {
       GoogleSignin.configure({
@@ -58,7 +49,33 @@ const LoginScreen = () => {
           avatar: result.user.photo || '',
           email: result.user.email,
         };
+
+        const profile = {
+          gender: userInfo.gender,
+          old: userInfo.old,
+          height: userInfo.height,
+          weight: userInfo.weight,
+        };
+
+        const habitsFromFile = await readFromFile('habits.json');
+
+        const dataUpdateHabit: {
+          habitId: string;
+          startDate: string;
+          endDate: string;
+        }[] = [];
+
+        habitsFromFile.forEach(item => {
+          dataUpdateHabit.push({
+            habitId: item.habit.id,
+            startDate: item.startDate,
+            endDate: item.endDate,
+          });
+        });
+
         await AsyncStorage.setItem('userInfo', JSON.stringify(userProfile));
+        await updateProfile(profile);
+        await uploadHabit(dataUpdateHabit);
         dispatch(updateUserProfile(userProfile));
         navigate(SCREENS.MAIN);
       }
