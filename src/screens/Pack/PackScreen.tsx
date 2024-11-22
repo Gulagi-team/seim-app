@@ -20,6 +20,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './PackScreen.styles';
 import {writeToFile} from '@/helpers/file';
+import {showToast} from '@/helpers/toast';
 
 const PackScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -46,6 +47,10 @@ const PackScreen = () => {
   };
 
   const handleFinishSelect = () => {
+    if (keyLessionSelected.length > 5) {
+      showToast('error', 'You can only select 5 habits');
+      return;
+    }
     dispatch(updateLessionSelected());
     reduxStorage.setItem('lessionsSelected', JSON.stringify(lessionsSelected));
     reduxStorage.setItem(

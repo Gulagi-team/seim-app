@@ -18,17 +18,10 @@ const DisableTaskContent = ({task}: Props) => {
   const ICON = iconMap[task.icon as keyof typeof iconMap];
   return (
     <View style={styles.item}>
-      {task.icon && (
-        // <FastImage
-        //   style={styles.itemImgF}
-        //   source={{
-        //     uri: task.icon,
-        //   }}
-        //   resizeMode={FastImage.resizeMode.contain}
-        // />
-        <>{typeof ICON === 'function' ? <ICON /> : ICON}</>
-      )}
-      {!task.icon && <IconSleep />}
+      <View style={styles.iconContainer}>
+        {task.icon && <>{typeof ICON === 'function' ? <ICON /> : ICON}</>}
+        <View style={styles.overlay} />
+      </View>
       <View style={styles.itemText}>
         <Text style={styles.itemTextContent} numberOfLines={1}>
           {task.name}

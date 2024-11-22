@@ -37,23 +37,19 @@ const LessionSlice = createSlice({
       state.keyLessionSelected = state.keyLessionSelected.filter(
         el => el !== action.payload.toLocaleLowerCase(),
       );
+
+      state.lessionsSelected = state.lessionsSelected.filter(
+        el => el.habit.id !== action.payload,
+      );
     },
     getKeyLession: (state, action: PayloadAction<string[]>) => {
       state.keyLessionSelected = action.payload;
     },
     addLessionSelected: (state, action: PayloadAction<Habit>) => {
-      console.log('addLessionSelected', action.payload);
       const index = state.lessionsSelected.findIndex(
         el => el.habit.id === action.payload.habit.id,
       );
       if (index === -1) {
-        const arrTeemp: TaskSelectedItem[] = [];
-        // action.payload.items.forEach(item => {
-        //   arrTemp.push({
-        //     item_trans_title: item.item_trans_title,
-        //     isDone: false,
-        //   });
-        // });
         state.lessionsSelected = unionWith(state.lessionsSelected, [
           {
             habit: action.payload.habit,
@@ -81,17 +77,23 @@ const LessionSlice = createSlice({
       state.lessionsSelected = action.payload;
     },
     updateTaskStatus: (state, action: PayloadAction<TaskToUpdate>) => {
+      const habit = action.payload.habit;
       const index = state.lessionsSelected.findIndex(
-        el => el.habit.id === action.payload.habit_id,
+        el => el.habit.id === habit.id,
       );
-      if (index !== -1) {
-        if (state.lessionsSelected[index].habit.tasks) {
-          state.lessionsSelected[index].habit.tasks[
-            action.payload.index
-          ].isFinished =
-            !state.lessionsSelected[index].habit.tasks[action.payload.index]
-              .isFinished;
-        }
+
+      if (index === -1) {
+        return;
+      }
+
+      const tasks = state.lessionsSelected[index].habit.tasks;
+      if (!tasks) {
+        return;
+      }
+
+      const task = tasks[action.payload.index];
+      if (task) {
+        task.isFinished = !task.isFinished;
       }
     },
   },

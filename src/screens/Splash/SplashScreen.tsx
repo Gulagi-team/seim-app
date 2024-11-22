@@ -14,6 +14,8 @@ import {updateWalletState} from '@/store/wallet';
 import {updateInfoUser} from '@/store/userInfo';
 import {fetchMining} from '@/store/mining/action';
 import {ThunkDispatch} from '@reduxjs/toolkit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {removeFile} from '@/helpers/file';
 
 const SplashScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -31,6 +33,11 @@ const SplashScreen = () => {
     const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
     const getKeyLessionsSelectedLocal = getStringLocal('keyLessionsSelected');
     const address = getStringLocal('address');
+    // await AsyncStorage.removeItem('userInfo');
+    // await removeFile('topics.json');
+    // await removeFile('habits.json');
+
+    // navigateReset(CONST_SCREEN.PACK);
 
     if (getInfoDone && getUserInfoLocal) {
       dispatch(updateInfoUser(JSON.parse(getUserInfoLocal)));

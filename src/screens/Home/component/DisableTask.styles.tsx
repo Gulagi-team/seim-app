@@ -1,10 +1,5 @@
+import {COLORS, POPPINS_MEDIUM, POPPINS_REGULAR} from '@/theme/index';
 import {StyleSheet} from 'react-native';
-import {
-  COLORS,
-  POPPINS_MEDIUM,
-  POPPINS_REGULAR,
-  POPPINS_BOLD,
-} from '@/theme/index';
 
 export const styles = StyleSheet.create({
   item: {
@@ -20,6 +15,18 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: COLORS.text_A200,
+  },
+  iconContainer: {
+    position: 'relative',
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(207, 207, 207, 0.5)', // Semi-transparent overlay
+    borderRadius: 8,
   },
   itemImgF: {
     height: 40,
@@ -38,7 +45,7 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     fontFamily: POPPINS_MEDIUM,
-    color: '#b3b3b3',
+    color: '#cccbcb',
   },
   itemTextSub: {
     fontSize: 12,
@@ -51,5 +58,6 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     width: 20,
     height: 20,
+    borderColor: COLORS.text_A200,
   },
 });

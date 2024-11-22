@@ -40,7 +40,6 @@ const MiningScreen = () => {
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
   const [timeLeft, setTimeLeft] = useState(endDate - new Date().getTime());
   const habit = useAppSelector((state: StoreState) => state.HabitsSlide.habits);
-  console.log('habits:', habit);
 
   useEffect(() => {
     // setInitAdDone(false);

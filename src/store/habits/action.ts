@@ -3,6 +3,7 @@ import {
   getListHabit as getListHabitAPI,
   putStartHabit as putStartHabitAPI,
   postSaveHabit as postSaveHabitAPI,
+  deleteHabitById,
 } from '@/api/habit';
 import {
   postTaskComplete as postTaskCompleteAPI,
@@ -27,6 +28,14 @@ export const fetchHabits = createAsyncThunk(
     const token = getStringLocal(KEY_AUTHEN) || '';
     setToken(token);
     const response = await getListHabitAPI();
+
+    if (!response.data) {
+      const habitsFromFile = await readFromFile('habits.json');
+      return {
+        data: habitsFromFile,
+        today: new Date().toISOString(),
+      };
+    }
     return response.data;
   },
 );
@@ -50,7 +59,7 @@ export const deleteHabit = createAsyncThunk(
   async (habitId: string): Promise<any> => {
     const auth = await getAuth();
     if (auth && auth.access_token) {
-      await putStartHabitAPI(habitId);
+      await deleteHabitById(habitId);
     }
 
     const result = await removeByIdInFile(FILE_NAME, habitId);
@@ -80,7 +89,7 @@ export const saveHabit = createAsyncThunk(
   async ({habitId, isStart}: SaveHabitParam): Promise<any> => {
     const auth = await getAuth();
     if (auth && auth.access_token) {
-      postSaveHabitAPI(habitId, isStart);
+      await postSaveHabitAPI(habitId, isStart);
     }
 
     //handle in local
@@ -90,10 +99,7 @@ export const saveHabit = createAsyncThunk(
 
     const data = {
       ...habitExist,
-      habit: {
-        ...habitExist.habit,
-        startDate: isStart ? moment().toISOString() : null,
-      },
+      startDate: isStart ? moment().toISOString() : null,
     };
 
     await updateByIdInFile(FILE_NAME, habitId, data);

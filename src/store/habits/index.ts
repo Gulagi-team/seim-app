@@ -32,19 +32,11 @@ const HabitSlice = createSlice({
   initialState,
   reducers: {
     updateTaskStatus: (state, action: PayloadAction<TaskToUpdate>) => {
-      const habitIndex = state.habits.findIndex(
-        el => el.habit.id === action.payload.habit_id,
-      );
-      if (habitIndex !== -1) {
-        const habit = state.habits[habitIndex];
-        const taskIndex = habit.habit.tasks?.findIndex(
-          el => el.id === action.payload.task_id,
-        );
-        if (taskIndex !== -1) {
-          state.taskStack.push(state.habits[habitIndex].habit.tasks[taskIndex]);
-          state.habits[habitIndex].habit.tasks[taskIndex].isFinished =
-            !state.habits[habitIndex].habit.tasks[taskIndex].isFinished;
-        }
+      const habit = action.payload.habit;
+      const task = habit.tasks?.find(el => el.id === action.payload.task_id);
+      if (task) {
+        state.taskStack.push(task);
+        task.isFinished = !task.isFinished;
       }
     },
     updateState: (state, action: PayloadAction<Habit[]>) => {

@@ -1,10 +1,16 @@
 import {StyleSheet} from 'react-native';
-import {COLORS, POPPINS_MEDIUM, POPPINS_REGULAR, POPPINS_BOLD} from '@/theme/index';
+import {
+  COLORS,
+  POPPINS_MEDIUM,
+  POPPINS_REGULAR,
+  POPPINS_BOLD,
+} from '@/theme/index';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
+    backgroundColor: '#fff',
   },
   habitContainer: {
     padding: 15,

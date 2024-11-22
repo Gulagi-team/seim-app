@@ -85,6 +85,7 @@ export const topicStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   selectedLine: {
+    marginTop: 4,
     width: '100%',
     height: 4,
     backgroundColor: 'black',

@@ -13,12 +13,12 @@ import BottomSheet, {
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {FlatList, Modal, Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import DisableTask from './DisableTask';
 import ListDate from './ListDate';
 import {styles} from './ListTask.styles';
 import Task from './Task';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 interface Props {
   habitSelected: Habit;
@@ -106,7 +106,7 @@ const ListTaskContent = ({habitSelected}: Props) => {
             data={habitSelected.habit.tasks}
             renderItem={({item}) => {
               if (enable) {
-                return <Task task={item} habitId={habitSelected.habit.id} />;
+                return <Task task={item} habit={habitSelected.habit} />;
               } else {
                 return <DisableTask task={item} />;
               }

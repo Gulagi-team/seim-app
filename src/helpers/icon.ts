@@ -28,7 +28,10 @@ import MEDITATION_TOPIC from '@/assets/icons/topics/Meditation.svg';
 import MUSCLES from '@/assets/icons/topics/Muscles.svg';
 import RUNNING from '@/assets/icons/topics/Running.svg';
 import VEGETABLE from '@/assets/icons/topics/Vegetable.svg';
-
+import ANTI_SOCIAL from '@/assets/icons/tasks/AntiSocial.svg';
+import BREAKFAST from '@/assets/icons/tasks/Breakfast.svg';
+import CHARITY from '@/assets/icons/tasks/Charity.svg';
+import FREEDOM from '@/assets/icons/tasks/Freedom.svg';
 export const iconMap = {
   youtube: YOUTUBE,
   watching: WATCHING,
@@ -58,7 +61,11 @@ export const iconMap = {
   running: RUNNING,
   cardio: CARDIO,
   cycle: CYCLE,
-  empty: YOUTUBE,
+  antiSocial: ANTI_SOCIAL,
+  breakfast: BREAKFAST,
+  charity: CHARITY,
+  freedom: FREEDOM,
+  habit: FREEDOM,
 };
 
 export function generateArray(start: number, end: number): number[] {

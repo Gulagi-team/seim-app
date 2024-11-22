@@ -1,3 +1,4 @@
+import moment from 'moment';
 import RNFS from 'react-native-fs';
 
 const ROOT_DIR = RNFS.DocumentDirectoryPath + 'json';
@@ -9,9 +10,15 @@ const writeToFile = async (data: any, fileName: string) => {
       await RNFS.mkdir(ROOT_DIR);
     }
 
+    const transferData = data.map((item: any) => {
+      return {
+        ...item,
+        updatedAt: moment().toISOString(),
+      };
+    });
     // Write the file
     const filePath = `${ROOT_DIR}/${fileName}`;
-    await RNFS.writeFile(filePath, JSON.stringify(data), 'utf8');
+    await RNFS.writeFile(filePath, JSON.stringify(transferData), 'utf8');
     console.log('File saved successfully at', fileName);
   } catch (error) {
     console.error('Failed to save file:', error);
@@ -42,6 +49,10 @@ const removeFile = async (fileName: string) => {
 
 const updateByIdInFile = async (fileName: string, id: string, data: any) => {
   try {
+    const updateData = {
+      ...data,
+      updatedAt: moment().toISOString(),
+    };
     const filePath = `${ROOT_DIR}/${fileName}`;
     const fileContent = await RNFS.readFile(filePath, 'utf8');
     const parsedData = JSON.parse(fileContent);
@@ -51,10 +62,10 @@ const updateByIdInFile = async (fileName: string, id: string, data: any) => {
 
     if (itemIndex !== -1) {
       // Update the existing item
-      parsedData[itemIndex] = {...parsedData[itemIndex], ...data};
+      parsedData[itemIndex] = {...parsedData[itemIndex], ...updateData};
     } else {
       // Add a new item
-      parsedData.push(data);
+      parsedData.push(updateData);
     }
 
     await RNFS.writeFile(filePath, JSON.stringify(parsedData), 'utf8');

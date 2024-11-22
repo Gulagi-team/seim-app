@@ -10,6 +10,7 @@ import {styles} from './HabitDetailScreen.styles';
 import StarIcon from '@/assets/icons/star.svg';
 import StreakIcon from '@/assets/icons/icon_streak.svg';
 import {Habit} from '@/types/colection';
+import {iconMap} from '@/helpers/icon';
 
 const HabitDetailScreen = ({route}: any) => {
   const habit: Habit = route.params;
@@ -51,16 +52,19 @@ const HabitDetailScreen = ({route}: any) => {
   const partNum = !habit.startDate
     ? 0
     : moment(today).diff(moment(habit.startDate), 'days') + 1;
+  const ICON = iconMap[habit.habit.icon as keyof typeof iconMap];
 
   return (
     <SafeAreaView style={styles.container}>
       <Header renderLogo={false} canGoBack={true} handleGoBack={goBack} />
       <View style={styles.habitContainer}>
-        <Image
+        {/* <Image
           style={styles.itemImg}
           source={{uri: habit.habit.icon}}
           resizeMode={'stretch'}
-        />
+        /> */}
+        {typeof ICON === 'function' ? <ICON /> : ICON}
+
         <View style={styles.itemTitle}>
           <Text style={styles.title}>{habit.habit.name}</Text>
           <Text style={styles.secondTitle}>{habit.habit.description}</Text>

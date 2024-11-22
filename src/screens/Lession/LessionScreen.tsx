@@ -86,7 +86,7 @@ const LessionScreen = ({route}: any) => {
       />
       <ScrollView style={styles.ScrollView}>
         {filteredData.map(habit => {
-          const ICON = iconMap[topic.icon as keyof typeof iconMap];
+          const ICON = iconMap[habit.icon as keyof typeof iconMap];
           return (
             <TouchableOpacity
               key={habit.id}
@@ -102,7 +102,7 @@ const LessionScreen = ({route}: any) => {
                 source={{uri: habit.icon}}
                 resizeMode={'stretch'}
               /> */}
-              {typeof ICON === 'function' ? <ICON /> : ICON}
+              <ICON />
               <View style={styles.itemTitle}>
                 <Text style={styles.title}>{habit.name}</Text>
                 <Text style={styles.secondTitle}>{habit.description}</Text>
@@ -134,11 +134,15 @@ const LessionScreen = ({route}: any) => {
         <BottomSheetView style={styles.bottomContainer}>
           <View>
             {/* <LessionIcon /> */}
-            <Image
+            {/* <Image
               style={styles.itemImg}
               source={{uri: habitSelected?.icon}}
               resizeMode={'stretch'}
-            />
+            /> */}
+
+            {habitSelected?.icon && (
+              <Icon as={iconMap[habitSelected.icon as keyof typeof iconMap]} />
+            )}
           </View>
           <Text style={styles.bottomTitle}>{habitSelected?.name}</Text>
           <ScrollView style={styles.bottomScroll}>

@@ -1,11 +1,9 @@
-import {Habit, LessionType} from '@/types/colection';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import FastImage from 'react-native-fast-image';
 import IconCheck from '@/assets/icons/icon_checkmark.svg';
-import YOUTUBE from '@/assets/icons/tasks/Youtube.svg';
+import {Habit} from '@/types/colection';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-import React from 'react';
 import {iconMap} from '@/helpers/icon';
+import React from 'react';
 interface Props {
   lession: Habit;
   key: string;

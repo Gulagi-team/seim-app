@@ -56,7 +56,6 @@ const TopicScreen = () => {
       <ScrollView style={styles.ScrollView}>
         {filteredData.map(topic => {
           const ICON = iconMap[topic.icon as keyof typeof iconMap];
-
           return (
             <TouchableOpacity
               key={topic.id}
