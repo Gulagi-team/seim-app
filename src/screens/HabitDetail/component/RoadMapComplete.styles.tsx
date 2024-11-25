@@ -84,7 +84,7 @@ export const styles = StyleSheet.create({
   dayText: {
     position: 'absolute',
     top: '35%',
-    left: '40%',
+    left: '45%',
     color: COLORS.white,
     fontSize: 14,
     fontFamily: POPPINS_MEDIUM,

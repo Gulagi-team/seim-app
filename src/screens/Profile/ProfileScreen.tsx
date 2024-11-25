@@ -14,7 +14,7 @@ import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './ProfileScreen.styles';
-
+import React from 'react';
 const ProfileScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const navigation = useNavigation();

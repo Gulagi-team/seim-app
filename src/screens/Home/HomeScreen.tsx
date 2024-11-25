@@ -28,6 +28,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import ListTaskContent from './component/ListTask';
 import {styles, topicStyles} from './HomeScreen.styles';
+import moment from 'moment';
 
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -40,11 +41,42 @@ const HomeScreen = () => {
     const getData = async () => {
       const user = await getAuth();
       if (user) {
+        console.log('fetching habits');
         dispatch(fetchHabits());
       } else {
         const habitsFromFile = await readFromFile('habits.json');
-
+        console.log('habitsFromFile', habitsFromFile[0].habit.tasks);
+        const taskhabitsFromFile = await readFromFile('task_histories.json');
+        console.log('taskhabitsFromFile', taskhabitsFromFile);
         dispatch(updateState(habitsFromFile));
+
+        console.log('habitsFromFile', habitsFromFile);
+
+        const resetHabits = habitsFromFile.map(habit => {
+          const updatedTasks = habit.habit.tasks.map(task => ({
+            ...task,
+            isFinished: false,
+          }));
+          return {
+            ...habit,
+            habit: {
+              ...habit.habit,
+              tasks: updatedTasks,
+            },
+          };
+        });
+
+        console.log('resetHabits', resetHabits);
+
+        //reset task status of current day
+        // for (const habit of habitsFromFile) {
+        //   for (const task of habit.habit.tasks) {
+        //     task.isFinished = false;
+        //     console.log('task', task);
+        //   }
+        // }
+
+        // console.log('habitsFromFile', habitsFromFile[0].habit.tasks);
       }
     };
     getData();
