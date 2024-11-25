@@ -1,21 +1,21 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
 import {
-  getListHabit as getListHabitAPI,
-  putStartHabit as putStartHabitAPI,
-  postSaveHabit as postSaveHabitAPI,
   deleteHabitById,
+  getListHabit as getListHabitAPI,
+  postSaveHabit as postSaveHabitAPI,
+  putStartHabit as putStartHabitAPI,
 } from '@/api/habit';
-import {
-  postTaskComplete as postTaskCompleteAPI,
-  deleteTaskUnComplete as deleteTaskUnCompleteAPI,
-} from '@/api/task';
 import {setToken} from '@/api/index';
-import {getStringLocal} from '@/helpers/localStorage';
+import {
+  deleteTaskUnComplete as deleteTaskUnCompleteAPI,
+  postTaskComplete as postTaskCompleteAPI,
+} from '@/api/task';
 import {KEY_AUTHEN} from '@/constants/LocalStoreKey';
-import {Habit} from '@/types/colection';
-import {getAuth} from '../auth';
 import {readFromFile, removeByIdInFile, updateByIdInFile} from '@/helpers/file';
+import {getStringLocal} from '@/helpers/localStorage';
+import {Habit} from '@/types/colection';
+import {createAsyncThunk} from '@reduxjs/toolkit';
 import moment from 'moment';
+import {getAuth} from '../auth';
 
 export interface HabitResponse {
   today?: string;
@@ -123,9 +123,9 @@ export const completeTask = createAsyncThunk(
     const token = getStringLocal(KEY_AUTHEN) || '';
     setToken(token);
     if (isFinish) {
-      return await postTaskCompleteAPI(userHabitId, taskId);
+      return postTaskCompleteAPI(userHabitId, taskId);
     } else {
-      return await deleteTaskUnCompleteAPI(taskId);
+      return deleteTaskUnCompleteAPI(taskId);
     }
   },
 );

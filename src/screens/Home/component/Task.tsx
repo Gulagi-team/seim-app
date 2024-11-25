@@ -29,6 +29,7 @@ const TaskContent = ({task, habit}: Props) => {
       updateTaskStatus({
         task_id: task.id,
         habit,
+        isFinished: !isChecked,
       }),
     );
   };

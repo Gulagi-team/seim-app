@@ -1,15 +1,19 @@
-import moment from 'moment';
-import {PayloadAction, createSlice} from '@reduxjs/toolkit';
-import {union, unionWith} from 'lodash';
 import {
-  fetchHabits,
-  HabitResponse,
-  startHabit,
-  saveHabit,
+  readFromFile,
+  updateByIdInFile,
+  updateTaskHistory,
+} from '@/helpers/file';
+import {Habit, Task, TaskToUpdate} from '@/types/colection';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import moment from 'moment';
+import {
   completeTask,
   deleteHabit,
+  fetchHabits,
+  HabitResponse,
+  saveHabit,
+  startHabit,
 } from './action';
-import {Habit, TaskToUpdate, Task} from '@/types/colection';
 
 export type HabitsState = {
   today: string;
@@ -33,10 +37,40 @@ const HabitSlice = createSlice({
   reducers: {
     updateTaskStatus: (state, action: PayloadAction<TaskToUpdate>) => {
       const habit = action.payload.habit;
-      const task = habit.tasks?.find(el => el.id === action.payload.task_id);
-      if (task) {
-        state.taskStack.push(task);
-        task.isFinished = !task.isFinished;
+      const taskIndex = habit.tasks?.findIndex(
+        el => el.id === action.payload.task_id,
+      );
+
+      if (taskIndex !== undefined && taskIndex !== -1 && habit.tasks) {
+        const isFinished = action.payload.isFinished;
+
+        const updatedTasks = habit.tasks.map(el =>
+          el.id === action.payload.task_id ? {...el, isFinished} : el,
+        );
+        const updatedHabit = {
+          ...habit,
+          tasks: updatedTasks,
+        };
+        //update status of task in state habits
+        const habitIndex = state.habits.findIndex(
+          el => el.habit.id === updatedHabit.id,
+        );
+        state.habits[habitIndex].habit = updatedHabit;
+
+        updateByIdInFile('habits.json', habit.id, {habit: updatedHabit});
+
+        //update to file history:createdAt, updatedAt, isFinished, taskId
+        const taskHistory = {
+          createdAt: moment().toISOString(),
+          updatedAt: moment().toISOString(),
+          isFinished,
+          taskId: action.payload.task_id,
+        };
+        updateTaskHistory(
+          'task_histories.json',
+          taskHistory.taskId,
+          taskHistory,
+        );
       }
     },
     updateState: (state, action: PayloadAction<Habit[]>) => {

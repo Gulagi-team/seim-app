@@ -15,7 +15,8 @@ import {updateInfoUser} from '@/store/userInfo';
 import {fetchMining} from '@/store/mining/action';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {removeFile} from '@/helpers/file';
+import {readFromFile, removeFile} from '@/helpers/file';
+import {checkStateOfTaskPreviousDay, updateState} from '@/store/habits';
 
 const SplashScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -28,16 +29,17 @@ const SplashScreen = () => {
     );
     const getInfoDone = getBooleanLocal('isGetInfoDone');
     const getUserInfoLocal = getStringLocal('userInfo');
-    console.log('getUserInfoLocal:', getUserInfoLocal);
-    console.log('getInfoDone:', getInfoDone);
     const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
     const getKeyLessionsSelectedLocal = getStringLocal('keyLessionsSelected');
     const address = getStringLocal('address');
     // await AsyncStorage.removeItem('userInfo');
     // await removeFile('topics.json');
     // await removeFile('habits.json');
+    // await removeFile('task_histories.json');
 
     // navigateReset(CONST_SCREEN.PACK);
+
+    // dispatch(checkStateOfTaskPreviousDay());
 
     if (getInfoDone && getUserInfoLocal) {
       dispatch(updateInfoUser(JSON.parse(getUserInfoLocal)));

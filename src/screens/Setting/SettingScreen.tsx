@@ -129,23 +129,23 @@ const SettingScreen = () => {
             {isDarkMode ? <IconDarkLanguage /> : <IconLanguage />}
             <Text style={{...styles.itemText, color: textColor}}>Language</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.itemContainer}
             onPress={() => navigate(SCREENS.DISPLAY)}>
             {isDarkMode ? <IconDarkTheme /> : <IconTheme />}
             <Text style={{...styles.itemText, color: textColor}}>Theme</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {/* <View style={styles.itemContainer}>
             <IconProfile />
             <Text style={styles.itemText}>Level.2</Text>
           </View> */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.itemContainer}
             onPress={() => navigate(SCREENS.REFERRAL)}>
             {isDarkMode ? <IconDarkGift /> : <IconGift />}
 
             <Text style={{...styles.itemText, color: textColor}}>Refferal</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={styles.itemContainer}
             onPress={() => navigate(SCREENS.FEEDBACK)}>

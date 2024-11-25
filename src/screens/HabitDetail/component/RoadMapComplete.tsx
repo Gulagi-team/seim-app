@@ -94,6 +94,7 @@ const RoadMapComplete = ({items}: Props) => {
           source={StateGray}
           resizeMode={'contain'}
         />
+
         <Text style={styles.dayText}>{item.num}</Text>
       </View>
     );

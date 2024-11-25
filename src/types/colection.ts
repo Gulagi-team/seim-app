@@ -38,6 +38,7 @@ export interface LessionSelectedType {
 export interface TaskToUpdate {
   habit: HabitData;
   task_id: string;
+  isFinished: boolean;
 }
 
 export interface UserProfileType {

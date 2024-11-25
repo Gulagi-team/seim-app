@@ -28,6 +28,13 @@ const writeToFile = async (data: any, fileName: string) => {
 const readFromFile = async (fileName: string) => {
   try {
     const filePath = `${ROOT_DIR}/${fileName}`;
+    const fileExists = await RNFS.exists(filePath);
+
+    if (!fileExists) {
+      console.log('File does not exist:', fileName);
+      return [];
+    }
+
     const fileContent = await RNFS.readFile(filePath, 'utf8');
     console.log('File read successfully at', fileName);
     return JSON.parse(fileContent);
@@ -40,6 +47,13 @@ const readFromFile = async (fileName: string) => {
 const removeFile = async (fileName: string) => {
   try {
     const filePath = `${ROOT_DIR}/${fileName}`;
+    const fileExists = await RNFS.exists(filePath);
+
+    if (!fileExists) {
+      console.log('File does not exist, nothing to remove:', fileName);
+      return;
+    }
+
     await RNFS.unlink(filePath);
     console.log('File removed successfully at', fileName);
   } catch (error) {
@@ -51,14 +65,63 @@ const updateByIdInFile = async (fileName: string, id: string, data: any) => {
   try {
     const updateData = {
       ...data,
+
       updatedAt: moment().toISOString(),
     };
+
     const filePath = `${ROOT_DIR}/${fileName}`;
-    const fileContent = await RNFS.readFile(filePath, 'utf8');
-    const parsedData = JSON.parse(fileContent);
+    const fileExists = await RNFS.exists(filePath);
+
+    let parsedData = [];
+    if (fileExists) {
+      const fileContent = await RNFS.readFile(filePath, 'utf8');
+      parsedData = JSON.parse(fileContent);
+    } else {
+      console.log('File does not exist, creating new file:', fileName);
+
+      await writeToFile([updateData], fileName);
+    }
 
     // Check if the id exists
     const itemIndex = parsedData.findIndex((item: any) => item.habit.id === id);
+
+    if (itemIndex !== -1) {
+      // Update the existing item
+      parsedData[itemIndex] = {...parsedData[itemIndex], ...updateData};
+    } else {
+      // Add a new item
+      parsedData.push(updateData);
+    }
+
+    await RNFS.writeFile(filePath, JSON.stringify(parsedData), 'utf8');
+    console.log('File updated successfully at', fileName);
+  } catch (error) {
+    console.error('Failed to update file:', error);
+  }
+};
+
+const updateTaskHistory = async (fileName: string, id: string, data: any) => {
+  try {
+    const updateData = {
+      ...data,
+      updatedAt: moment().toISOString(),
+    };
+
+    const filePath = `${ROOT_DIR}/${fileName}`;
+    const fileExists = await RNFS.exists(filePath);
+
+    let parsedData = [];
+    if (fileExists) {
+      const fileContent = await RNFS.readFile(filePath, 'utf8');
+      parsedData = JSON.parse(fileContent);
+    } else {
+      console.log('File does not exist, creating new file:', fileName);
+
+      await writeToFile([updateData], fileName);
+    }
+
+    // Check if the id exists
+    const itemIndex = parsedData.findIndex((item: any) => item.taskId === id);
 
     if (itemIndex !== -1) {
       // Update the existing item
@@ -111,4 +174,5 @@ export {
   updateByIdInFile,
   removeByIdInFile,
   getByIdInFile,
+  updateTaskHistory,
 };
