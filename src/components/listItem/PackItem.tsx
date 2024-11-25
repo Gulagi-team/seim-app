@@ -4,7 +4,7 @@ import FastImage from 'react-native-fast-image';
 import IconCheck from '@/assets/icons/icon_checkmark.svg';
 import {StoreState, useAppSelector} from '@/store';
 import {FONT_SIZE, POPPINS_MEDIUM} from '@/theme';
-
+import React from 'react';
 interface Props {
   lession: LessionType;
   key: string;

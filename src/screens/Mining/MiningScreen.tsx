@@ -1,30 +1,28 @@
-import {Image, Text, TouchableOpacity, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {styles} from './MiningScreen.styles';
-import POINT_SEIM from '@/assets/images/point_seim.png';
-import LOGO from '@/assets/images/logo.png';
-import BACKGROUND_REWARD from '@/assets/images/background_reward.png';
-import PLUG from '@/assets/images/plug.png';
-import WelcomeBottom from '@/assets/images/welcomeBottom.png';
-import mobileAds, {
-  RewardedAd,
-  RewardedAdEventType,
-} from 'react-native-google-mobile-ads';
-import {useEffect, useRef, useState} from 'react';
-import LottieView from 'lottie-react-native';
+import IconDiamond from '@/assets/icons/icon_diamond.svg';
 import IconPool from '@/assets/icons/icon_pool.svg';
 import IconSpeed from '@/assets/icons/icon_speed.svg';
-import IconDiamond from '@/assets/icons/icon_diamond.svg';
 import IconUser from '@/assets/icons/icon_user.svg';
+import BACKGROUND_REWARD from '@/assets/images/background_reward.png';
+import POINT_SEIM from '@/assets/images/point_seim.png';
+import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import CountdownTimer from '@/components/TimerCountdown/TimerCountdown';
 import {StoreState, useAppSelector} from '@/store';
+import LottieView from 'lottie-react-native';
+import {useEffect, useRef, useState} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {RewardedAd} from 'react-native-google-mobile-ads';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {styles} from './MiningScreen.styles';
+import React from 'react';
+import {useTranslation} from 'react-i18next';
 
-const adUnitId = 'ca-app-pub-4899008737130339/7604879423';
+const adUnitId = process.env.REACT_APP_AD_UNIT_ID;
 
-const rewarded = RewardedAd.createForAdRequest(adUnitId);
+const rewarded = RewardedAd.createForAdRequest(adUnitId as string);
 
 const MiningScreen = () => {
   const [isMining, setIsMining] = useState(false);
+  const {t} = useTranslation(['mining']);
   const anim = useRef<LottieView>(null);
   const endDate = useAppSelector(
     (state: StoreState) => state.MiningSlice.miningData.endDate,
@@ -106,14 +104,16 @@ const MiningScreen = () => {
     <SafeAreaView
       style={{...styles.container, backgroundColor: backgroundColor}}>
       <View style={styles.containerView}>
-        <Text style={{...styles.titleText, color: textColor}}>Mining</Text>
+        <Text style={{...styles.titleText, color: textColor}}>
+          {t('mining')}
+        </Text>
         <View
           style={{
             ...styles.rewardContainer,
             backgroundColor: cardWalletBackgroundColor,
             borderColor: cardWalletBorderColor,
           }}>
-          <Text style={styles.rewardText}>Current Rewards</Text>
+          <Text style={styles.rewardText}>{t('currentReward')}</Text>
           <View style={styles.pointContainer}>
             <Image
               source={POINT_SEIM}
@@ -152,12 +152,12 @@ const MiningScreen = () => {
             onPress={onPlayPress}
             disabled={timeLeft > 0}>
             <Text style={styles.mintText}>
-              {timeLeft == 0 ? 'START MINT' : 'MINING...'}
+              {timeLeft === 0 ? t('startMining') : `${t('mining')}...`}
             </Text>
           </TouchableOpacity>
         </View>
         <Text style={{...styles.miningText, color: textOutstandingColor}}>
-          Mining Info
+          {t('infor')}
         </Text>
         <View
           style={{
@@ -170,7 +170,7 @@ const MiningScreen = () => {
               <View style={styles.miningDetailTextContainer}>
                 <IconPool />
                 <Text style={{...styles.miningInfoText, color: textColor}}>
-                  Total Pools Mined
+                  {t('totalPool')}
                 </Text>
               </View>
 
@@ -190,7 +190,7 @@ const MiningScreen = () => {
               <View style={styles.miningDetailTextContainer}>
                 <IconSpeed />
                 <Text style={{...styles.miningInfoText, color: textColor}}>
-                  Mining amount (24h)
+                  {t('miningAmount')} (24h)
                 </Text>
               </View>
 
@@ -230,7 +230,7 @@ const MiningScreen = () => {
               <View style={styles.miningDetailTextContainer}>
                 <IconDiamond />
                 <Text style={{...styles.miningInfoText, color: textColor}}>
-                  Level
+                  {t('level')}
                 </Text>
               </View>
 
@@ -250,7 +250,7 @@ const MiningScreen = () => {
               <View style={styles.miningDetailTextContainer}>
                 <IconUser />
                 <Text style={{...styles.miningInfoText, color: textColor}}>
-                  Invited Peoples
+                  {t('referral')}
                 </Text>
               </View>
 

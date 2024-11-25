@@ -1,26 +1,17 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 
-import {
-  Text,
-  View,
-  Button,
-  TextInput,
-  Pressable,
-  StyleSheet,
-  Touchable,
-  TouchableOpacity,
-} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
 import {generateArray} from '@/helpers/others';
-import {useDispatch} from 'react-redux';
 import {StoreState, useAppSelector} from '@/store';
 import {updateHeight} from '@/store/userInfo';
-import {Input, InputField} from '@gluestack-ui/themed';
-import ScrollPicker from 'react-native-wheel-scrollview-picker';
 import {POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
+import {StyleSheet, Text, View} from 'react-native';
+import ScrollPicker from 'react-native-wheel-scrollview-picker';
+import {useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const GetInfoStep4Content = () => {
   const dispatch = useDispatch();
+  const {t} = useTranslation(['welcome']);
   const height = useAppSelector((state: StoreState) => state.userInfo.height);
 
   const [selectedHeight, setSelectedHeight] = useState(150);
@@ -31,11 +22,8 @@ const GetInfoStep4Content = () => {
   return (
     <View style={styles.container}>
       <View style={styles.question}>
-        <Text style={styles.howOldAre1}>What’s your height?</Text>
-        <Text style={styles.letUsKnow1}>
-          Let us know more about you, so we can craft a personalized experience
-          just for you.
-        </Text>
+        <Text style={styles.howOldAre1}>{t('titleStep4')}</Text>
+        <Text style={styles.letUsKnow1}>{t('descStep4')}</Text>
       </View>
       <View style={styles.content}>
         <View style={styles.pickerContainer1}>

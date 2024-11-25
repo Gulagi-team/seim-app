@@ -1,0 +1,21 @@
+{
+  "welcome": "welcome !",
+  "description": "We are glad that you are interested in this application. Surely you Want to upgrade your health and spirit. Let us help you, Seim will be your companion and help you get stronger every day.",
+  "getStarted": "Let's get started",
+  "start": "Start",
+  "titleStep1": "What’s your language?",
+  "descStep1": "Let us know more about you, so we can craft a personalized experience just for you.",
+  "titleStep2": "What’s your gender?",
+  "descStep2": "Let us know more about you, so we can craft a personalized experience just for you.",
+  "male": "Male",
+  "female": "Female",
+  "nonBinary": "Non-binary",
+  "other": "Other",
+  "titleStep3": "How old are you?",
+  "descStep3": "Let us know more about you, so we can craft a personalized experience just for you.",
+  "titleStep4": "What’s your height?",
+  "descStep4": "Let us know more about you, so we can craft a personalized experience just for you.",
+  "titleStep5": "What’s your weight?",
+  "descStep5": "Let us know more about you, so we can craft a personalized experience just for you.",
+  "countinue": "Countinue"
+}

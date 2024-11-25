@@ -2,5 +2,8 @@
   "speech": "Seim 仍在开发中，请给我们您的反馈",
   "name": "你的名字",
   "feedback": "反馈",
-  "submit": "发送"
+  "submit": "发送",
+  "title": "反馈",
+  "namePlace": "姓名",
+  "feedbackPlace": "反馈"
 }

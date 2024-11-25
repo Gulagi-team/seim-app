@@ -14,11 +14,13 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './TopicScreen.styles';
 import {iconMap} from '@/helpers/icon';
+import {useTranslation} from 'react-i18next';
 
 const TopicScreen = () => {
   const navigation = useNavigation();
   const goBack = () => navigation.pop();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const {t} = useTranslation(['home']);
 
   const [searchText, onChangeSearch] = useState<string>('');
   const [filteredData, setFilteredData] = useState<Topic[]>([]);
@@ -51,7 +53,7 @@ const TopicScreen = () => {
         renderLogo={false}
         canGoBack={true}
         handleGoBack={goBack}
-        rightContent={<Text style={styles.textTitle}>Categories</Text>}
+        rightContent={<Text style={styles.textTitle}>{t('categories')}</Text>}
       />
       <ScrollView style={styles.ScrollView}>
         {filteredData.map(topic => {
@@ -66,7 +68,7 @@ const TopicScreen = () => {
                 <Text style={styles.title}>{topic.name}</Text>
                 <Text style={styles.secondTitle}>{topic.description}</Text>
                 <Text style={styles.thridTitle}>
-                  {topic.habits.length} lession
+                  {topic.habits.length} {t('lession')}
                 </Text>
               </View>
             </TouchableOpacity>

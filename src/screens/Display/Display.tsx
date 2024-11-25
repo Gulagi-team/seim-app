@@ -1,33 +1,22 @@
 import Header from '@/components/Header';
-import navigation from '@/navigation';
-import {ApplicationScreenProps} from '@/types/navigation';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ScrollView,
-  Image,
-} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-
-import {useTranslation} from 'react-i18next';
+import React from 'react';
 // import i18next from 'i18next';
-import {StoreState, reduxStorage, useAppSelector} from '@/store';
-import {useDispatch} from 'react-redux';
-import {styles} from './Display.styles';
-import WelcomeBottom from '@/assets/images/welcomeBottom.png';
-import {COLORS} from '@/theme';
-import {useNavigation} from '@react-navigation/native';
-import {updateTheme} from '@/store/theme';
-import {ThemeType} from '@/types/Appearance';
-import IconSun from '@/assets/icons/icon_sun.svg';
+import IconDarkMoon from '@/assets/icons/darkmode/icon_moon_dark.svg';
 import IconDarkSun from '@/assets/icons/darkmode/icon_sun_dark.svg';
 import IconMoon from '@/assets/icons/icon_moon.svg';
-import IconDarkMoon from '@/assets/icons/darkmode/icon_moon_dark.svg';
+import IconSun from '@/assets/icons/icon_sun.svg';
+import WelcomeBottom from '@/assets/images/welcomeBottom.png';
+import {StoreState, useAppSelector} from '@/store';
+import {updateTheme} from '@/store/theme';
+import {ThemeType} from '@/types/Appearance';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {styles} from './Display.styles';
 
 const DisplayScreen = () => {
-  // const {t} = useTranslation(['startup']);
+  const {t} = useTranslation(['other']);
   const {
     isDarkMode,
     backgroundColor,
@@ -59,7 +48,7 @@ const DisplayScreen = () => {
           onPress={() => onChangeMode('light')}>
           <View style={{flexDirection: 'row'}}>
             {isDarkMode ? <IconDarkSun /> : <IconSun />}
-            <Text style={{...styles.text, color: textColor}}>Light</Text>
+            <Text style={{...styles.text, color: textColor}}>{t('light')}</Text>
           </View>
 
           <View
@@ -84,7 +73,7 @@ const DisplayScreen = () => {
           onPress={() => onChangeMode('dark')}>
           <View style={{flexDirection: 'row'}}>
             {isDarkMode ? <IconDarkMoon /> : <IconMoon />}
-            <Text style={{...styles.text, color: textColor}}>Dark</Text>
+            <Text style={{...styles.text, color: textColor}}>{t('dark')}</Text>
           </View>
           <View
             style={{

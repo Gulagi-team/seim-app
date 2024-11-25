@@ -18,6 +18,7 @@ import IconInvited from '@/assets/icons/icon_invited.svg';
 import IconValid from '@/assets/icons/icon_valid.svg';
 import {showToast} from '@/helpers/toast';
 import Clipboard from '@react-native-clipboard/clipboard';
+import React from 'react';
 import {StoreState, useAppSelector} from '@/store';
 
 const ReferralScreen = () => {

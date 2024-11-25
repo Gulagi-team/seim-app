@@ -1,6 +1,18 @@
 {
-  "turn_remaining": "남은 턴 수",
-  "reward_title": "매일 2번의 무료 스캔을 받을 수 있습니다",
-  "click_ads": "2번 더 스캔하려면 광고를 시청하세요.",
-  "reward_success": "2개의 추가 스캔을 받았습니다."
+  "morning": "좋은 아침입니다",
+  "afternoon": "좋은 오후입니다",
+  "evening": "좋은 저녁입니다",
+  "night": "안녕히 주무세요",
+  "today": "오늘은",
+  "started": "시작합시다",
+  "show": "기록 보기",
+  "delete": "프로세스 삭제",
+  "confirmDelete": "이 프로세스를 삭제하시겠습니까?",
+  "delete_2": "삭제",
+  "cancel": "취소",
+  "categories": "카테고리",
+  "lession": "레슨",
+  "save": "저장",
+  "start": "지금 시작",
+  "day": "일"
 }

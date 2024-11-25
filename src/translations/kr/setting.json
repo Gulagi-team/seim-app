@@ -1,5 +1,17 @@
 {
   "languages": "언어",
   "feedback": "지원 및 피드백",
-  "locale": "Korean"
+  "locale": "Korean",
+  "level": "레벨: {{level}}",
+  "myProfile": "내 프로필",
+  "logout": "로그아웃",
+  "connectWallet": "지갑 연결",
+
+  "profile": "프로필",
+  "seeAll": "모두 보기",
+  "activity": "활동",
+  "weight": "체중",
+  "height": "키",
+  "age": "나이",
+  "recentPacks": "최근 팩"
 }

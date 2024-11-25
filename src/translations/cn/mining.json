@@ -1,0 +1,13 @@
+{
+  "mining": "挖矿",
+  "currentReward": "当前奖励",
+  "startMining": "开始挖矿",
+  "infor": "挖矿信息",
+  "totalPool": "总挖矿池",
+  "miningAmount": "挖矿数量",
+  "level": "等级",
+  "referral": "邀请的人",
+  "balance": "您的余额",
+  "disconnect": "断开连接",
+  "connectWallet": "连接钱包"
+}

@@ -1,0 +1,15 @@
+{
+  "welcome": "欢迎来到Seim钱包",
+  "createWallet": "创建钱包",
+  "importWallet": "导入钱包",
+  "password": "密码",
+  "confirmPassword": "确认密码",
+  "minPassword": "密码至少为6个字符",
+  "confirm": "确认",
+  "saveKey": "保存私钥 !!!",
+  "desc": "如果丢失它，您将无法恢复您的钱包。",
+  "connect": "连接到钱包",
+  "copy": "私钥已保存到剪贴板",
+  "importTitle": "输入私钥以连接钱包。",
+  "pKey": "私钥"
+}

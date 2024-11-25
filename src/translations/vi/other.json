@@ -1,0 +1,10 @@
+{
+  "light": "Sáng",
+  "dark": "Tối",
+  "chooseChallenge": "Chọn thách thức",
+  "finish": "Hoàn thành",
+  "login": "Đăng nhập với Google",
+  "noti": "Thông báo",
+  "maxChallenge": "Bạn chỉ có thể chọn 5 thói quen",
+  "develop": "Phát triển bởi {{name}}"
+}

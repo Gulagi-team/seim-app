@@ -1,5 +1,17 @@
 {
   "languages": "Ngôn ngữ",
   "feedback": "Hỗ trợ & Phản hồi",
-  "locale": "Tiếng Việt"
+  "locale": "Tiếng Việt",
+  "level": "Cấp độ: {{level}}",
+  "myProfile": "Hồ sơ của tôi",
+  "logout": "Đăng xuất",
+  "connectWallet": "Kết nối Ví",
+
+  "profile": "Hồ sơ",
+  "seeAll": "Xem tất cả",
+  "activity": "Hoạt động",
+  "weight": "Cân nặng",
+  "height": "Chiều cao",
+  "age": "Tuổi",
+  "recentPacks": "Gói gần đây"
 }

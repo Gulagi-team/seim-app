@@ -2,22 +2,21 @@ import {StoreState, useAppSelector} from '@/store';
 import {updateGender} from '@/store/userInfo';
 import {POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 
 const GetInfoStep2Content = () => {
+  const {t} = useTranslation(['welcome']);
   const dispatch = useDispatch();
   const gender = useAppSelector((state: StoreState) => state.userInfo.gender);
 
   return (
     <View style={styles.container}>
       <View style={styles.question}>
-        <Text style={styles.howOldAre1}>What’s your gender?</Text>
-        <Text style={styles.letUsKnow1}>
-          Let us know more about you, so we can craft a personalized experience
-          just for you.
-        </Text>
+        <Text style={styles.howOldAre1}>{t('titleStep2')}</Text>
+        <Text style={styles.letUsKnow1}>{t('descStep2')}</Text>
       </View>
       <View style={styles.content}>
         <TouchableOpacity
@@ -31,7 +30,7 @@ const GetInfoStep2Content = () => {
               ...styles.optionContent,
               color: gender === 'male' ? '#fff' : 'black',
             }}>
-            Male
+            {t('male')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -45,7 +44,7 @@ const GetInfoStep2Content = () => {
               ...styles.optionContent,
               color: gender === 'female' ? '#fff' : 'black',
             }}>
-            Female
+            {t('female')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -59,7 +58,7 @@ const GetInfoStep2Content = () => {
               ...styles.optionContent,
               color: gender === 'nonBinary' ? '#fff' : 'black',
             }}>
-            Non-binary
+            {t('nonBinary')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -73,7 +72,7 @@ const GetInfoStep2Content = () => {
               ...styles.optionContent,
               color: gender === 'other' ? '#fff' : 'black',
             }}>
-            Other
+            {t('other')}
           </Text>
         </TouchableOpacity>
       </View>

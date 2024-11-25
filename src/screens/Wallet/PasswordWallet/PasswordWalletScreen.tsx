@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles} from './PasswordWalletScreen.styles';
 import LogoSeim from '@/assets/images/logoSeim.png';
@@ -25,12 +26,15 @@ import Header from '@/components/Header';
 import {ApplicationScreenProps} from '@/types/navigation';
 import {navigate} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
+import {useTranslation} from 'react-i18next';
 
 const PasswordWalletScreen = ({
   route,
   navigation,
 }: ApplicationScreenProps<'PasswordWalletScreen'>) => {
   const {to} = route.params;
+
+  const {t} = useTranslation(['wallet']);
   console.log('to', to);
 
   const [password, setPassword] = useState('');
@@ -58,14 +62,14 @@ const PasswordWalletScreen = ({
             width: '80%',
           }}>
           <PasswordInput
-            placeholder={'Mật khẩu'}
+            placeholder={t('password')}
             onChangeText={value => setPassword(value)}
           />
-          <Text style={styles.warningText}>Nhập ít nhất 6 kí tự</Text>
+          <Text style={styles.warningText}>{t('minPassword')}</Text>
         </View>
         <View style={{width: '80%', marginTop: 15}}>
           <PasswordInput
-            placeholder="Nhập lại mật khẩu"
+            placeholder={t('confirmPassword')}
             onChangeText={value => setConfirmPassword(value)}
           />
         </View>
@@ -76,7 +80,7 @@ const PasswordWalletScreen = ({
             ...styles.continueButton,
             opacity: disabled ? 0.25 : 1,
           }}>
-          <Text style={styles.continueText}>Xác nhận</Text>
+          <Text style={styles.continueText}>{t('confirm<')}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

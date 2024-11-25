@@ -21,6 +21,7 @@ import {
 } from '@/store/wallet';
 import {navigate} from '@/helpers/navigation';
 import {getWalletBalance} from '@/blockchain/basic';
+import {useTranslation} from 'react-i18next';
 
 // import MyWalletModal from '@/components/Modal/MyWalletModal.js';
 // import LoadingModal from '@/components/Modal/LoadingModal.js';
@@ -52,6 +53,7 @@ export const WalletBalance = () => {
 
 const MiningCard = () => {
   const dispatch = useDispatch();
+  const {t} = useTranslation(['mining']);
   const {currentAccount, balance, tokenBalance} = useAppSelector(
     (state: StoreState) => state.walletSlice,
   );
@@ -114,7 +116,7 @@ const MiningCard = () => {
                 fontSize: 14,
                 color: '#fff',
               }}>
-              Your balance
+              {t('balance')}
             </Text>
             <Text
               style={{
@@ -162,7 +164,7 @@ const MiningCard = () => {
                 fontSize: 14,
                 fontWeight: '600',
               }}>
-              Disconnect
+              {t('disconnect')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -192,7 +194,7 @@ const MiningCard = () => {
                   color: 'black',
                   paddingVertical: 5,
                 }}>
-                Connect wallet
+                {t('connectWallet')}
               </Text>
             </View>
           </TouchableOpacity>

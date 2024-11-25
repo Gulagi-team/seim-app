@@ -28,7 +28,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StoreState, useAppSelector} from '@/store';
 
 const FeedbackScreen = () => {
-  const {t} = useTranslation(['startup']);
+  const {t} = useTranslation(['feedback']);
   const [name, setName] = useState('');
   const [feedback, setFeedback] = useState('');
   const navigation = useNavigation();
@@ -77,7 +77,11 @@ const FeedbackScreen = () => {
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: backgroundColor}}>
-      <Header title="Feedback" canGoBack={true} handleGoBack={goBack} />
+      <Header
+        title={t('feedback:title')}
+        canGoBack={true}
+        handleGoBack={goBack}
+      />
       <View style={styles.containerView}>
         <FastImage
           style={styles.logo}
@@ -103,7 +107,7 @@ const FeedbackScreen = () => {
           <TextInput
             style={{...styles.nameInput, color: textColor}}
             onChangeText={value => setName(value)}
-            placeholder="Name"
+            placeholder={t('feedback:namePlace')}
             placeholderTextColor={'#A3A3A3'}
             numberOfLines={1}
           />
@@ -128,7 +132,7 @@ const FeedbackScreen = () => {
           <TextInput
             style={{...styles.nameInput, color: textColor}}
             onChangeText={value => setFeedback(value)}
-            placeholder="Feedback"
+            placeholder={t('feedback:feedbackPlace')}
             multiline
             placeholderTextColor={'#A3A3A3'}
             numberOfLines={5}

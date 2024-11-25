@@ -1,42 +1,25 @@
-import {
-  ActivityIndicator,
-  Button,
-  Dimensions,
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {styles} from './CreateWalletScreen.styles';
-import LogoSeim from '@/assets/images/logoSeim.png';
-import WelcomeBottom from '@/assets/images/welcomeBottom.png';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-import IconGoogle from '@/assets/icons/icon_google.svg';
-import {ApplicationScreenProps} from '@/types/navigation';
-import React, {useEffect, useState} from 'react';
-import {createAccount, importWalletFromPK} from '@/blockchain/basic';
-import Clipboard from '@react-native-clipboard/clipboard';
-import {showToast} from '@/helpers/toast';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import {ThunkDispatch} from '@reduxjs/toolkit';
-import {useDispatch} from 'react-redux';
-import {addPassword, addPrivateKey, updateWalletState} from '@/store/wallet';
-import {reduxStorage} from '@/store';
-import {navigate} from '@/helpers/navigation';
+import {createAccount} from '@/blockchain/basic';
 import SCREENS from '@/constants/screen';
+import {navigate} from '@/helpers/navigation';
+import {showToast} from '@/helpers/toast';
+import {reduxStorage} from '@/store';
+import {addPassword, addPrivateKey, updateWalletState} from '@/store/wallet';
+import {ApplicationScreenProps} from '@/types/navigation';
+import Clipboard from '@react-native-clipboard/clipboard';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import React, {useEffect, useState} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch} from 'react-redux';
+import {styles} from './CreateWalletScreen.styles';
+import {useTranslation} from 'react-i18next';
 
 const CreateWalletScreen = ({
   route,
   navigation,
 }: ApplicationScreenProps<'CreateWalletScreen'>) => {
+  const {t} = useTranslation('wallet');
   const {password} = route.params;
   const [privateKey, setPrivateKey] = useState<string>('');
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -55,7 +38,7 @@ const CreateWalletScreen = ({
   };
   const handlePressCopy = () => {
     Clipboard.setString(privateKey.slice(2));
-    showToast('info', 'Private key is saved to Clipboard');
+    showToast('info', t('copy'));
   };
 
   const handlePressFinish = () => {
@@ -90,7 +73,7 @@ const CreateWalletScreen = ({
               fontWeight: '500',
               // color: COLORS.secondary3,
             }}>
-            Save the private key !!!
+            {t('saveKey')}
           </Text>
           <Text
             // variant="body2Bold"
@@ -102,7 +85,7 @@ const CreateWalletScreen = ({
               marginTop: 5,
               // marginRight: 5,
             }}>
-            If you lose it you won't be able to recover your wallet.
+            {t('desc')}
           </Text>
           <View
             style={{
@@ -142,7 +125,7 @@ const CreateWalletScreen = ({
         <TouchableOpacity
           onPress={handlePressFinish}
           style={styles.continueButton}>
-          <Text style={styles.continueText}>Kết nối ví</Text>
+          <Text style={styles.continueText}>{t('connect')}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

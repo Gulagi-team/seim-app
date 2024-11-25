@@ -21,10 +21,11 @@ import {useDispatch} from 'react-redux';
 import {styles} from './PackScreen.styles';
 import {writeToFile} from '@/helpers/file';
 import {showToast} from '@/helpers/toast';
+import {useTranslation} from 'react-i18next';
 
 const PackScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-
+  const {t} = useTranslation(['other']);
   const [loading, setLoading] = useState(true);
   // const [lessions, setLessions] = useState<LessionType[]>([]);
 
@@ -48,7 +49,7 @@ const PackScreen = () => {
 
   const handleFinishSelect = () => {
     if (keyLessionSelected.length > 5) {
-      showToast('error', 'You can only select 5 habits');
+      showToast('error', t('maxChallenge'));
       return;
     }
     dispatch(updateLessionSelected());
@@ -67,11 +68,11 @@ const PackScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.textContainer}>
-        <Text style={styles.chooseText}>Choose challenge</Text>
+        <Text style={styles.chooseText}>{t('chooseChallenge')}</Text>
         <TouchableOpacity
           style={styles.finishContainer}
           onPress={handleFinishSelect}>
-          <Text style={styles.finishText}>{'Finish >'}</Text>
+          <Text style={styles.finishText}>{t('finish')} &gt;</Text>
         </TouchableOpacity>
       </View>
       <ScrollView style={styles.contentContainer}>

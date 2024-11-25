@@ -1,0 +1,13 @@
+{
+  "mining": "Mining",
+  "currentReward": "Current reward",
+  "startMining": "Start mining",
+  "infor": "Mining information",
+  "totalPool": "Total pools mined",
+  "miningAmount": "Mining amount",
+  "level": "Level",
+  "referral": "Invited Peoples",
+  "balance": "Your balance",
+  "disconnect": "Disconnect",
+  "connectWallet": "Connect Wallet"
+}

@@ -38,11 +38,11 @@ export const getPartOfDay = (): string => {
     return 'morning';
   }
 
-  if (curHour => 12 && curHour < 17) {
+  if (curHour >= 12 && curHour < 17) {
     return 'afternoon';
   }
 
-  if (curHour => 17 && curHour < 21) {
+  if (curHour >= 17 && curHour < 21) {
     return 'evening';
   }
 

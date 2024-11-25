@@ -1,0 +1,15 @@
+{
+  "welcome": "Chào mừng bạn đến với ví của Seim",
+  "createWallet": "Tạo Ví",
+  "importWallet": "Nhập Ví",
+  "password": "Mật khẩu",
+  "confirmPassword": "Nhập lại mật khẩu",
+  "minPassword": "Mật khẩu phải có ít nhất 6 ký tự",
+  "confirm": "Xác nhận",
+  "saveKey": "Lưu khóa riêng !!!",
+  "desc": "Nếu bạn mất nó, bạn sẽ không thể khôi phục ví của mình.",
+  "connect": "Kết nối với ví",
+  "copy": "Khóa riêng đã được lưu vào clipboard",
+  "importTitle": "Nhập khóa riêng để kết nối ví.",
+  "pKey": "Khóa riêng"
+}

@@ -1,28 +1,18 @@
-import React, {useEffect, useCallback, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  Modal,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
-import {formatPricing, getShortAddress} from '@/helpers/conversion';
-import {StoreState, reduxStorage, useAppSelector} from '@/store';
-import {
-  disconnectWallet,
-  updateWalletBalance,
-  updateWalletTokenBalance,
-} from '@/store/wallet';
-import {navigate} from '@/helpers/navigation';
-import {getWalletBalance} from '@/blockchain/basic';
-import {COLORS, FONT_SIZE, POPPINS_MEDIUM} from '@/theme';
-import POINT_SEIM from '@/assets/images/point_seim.png';
 import BACKGROUND_REWARD from '@/assets/images/background_reward.png';
+import POINT_SEIM from '@/assets/images/point_seim.png';
+import {getWalletBalance} from '@/blockchain/basic';
 import SCREENS from '@/constants/screen';
+import {formatPricing, getShortAddress} from '@/helpers/conversion';
+import {navigate} from '@/helpers/navigation';
+import {StoreState, reduxStorage, useAppSelector} from '@/store';
+import {disconnectWallet, updateWalletBalance} from '@/store/wallet';
+import {FONT_SIZE, POPPINS_MEDIUM} from '@/theme';
+import {useTranslation} from 'react-i18next';
 
 export const WalletBalance = () => {
   const currentAccount = useAppSelector(
@@ -63,6 +53,8 @@ const WalletCard = () => {
   const {currentAccount, balance, tokenBalance} = useAppSelector(
     (state: StoreState) => state.walletSlice,
   );
+  const {t} = useTranslation(['setting', 'mining']);
+
   const {
     backgroundColor,
     containerColor,
@@ -113,7 +105,7 @@ const WalletCard = () => {
           </TouchableOpacity>
           <View style={{marginTop: 20}}>
             <Text style={{...styles.balanceText, color: cardWalletTitleColor}}>
-              Your balance
+              {t('mining:balance')}
             </Text>
             <View style={styles.balanceContainer}>
               <Image
@@ -148,7 +140,7 @@ const WalletCard = () => {
                 fontWeight: '500',
                 color: textColor,
               }}>
-              Disconnect
+              {t('mining:disconnect')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -181,7 +173,7 @@ const WalletCard = () => {
                   fontFamily: POPPINS_MEDIUM,
                   alignSelf: 'center',
                 }}>
-                Connect wallet
+                {t('mining:connectWallet')}
               </Text>
             </View>
           </TouchableOpacity>
