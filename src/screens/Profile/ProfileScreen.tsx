@@ -16,18 +16,22 @@ import {useDispatch} from 'react-redux';
 import {styles} from './ProfileScreen.styles';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
+import {getStringLocal} from '@/helpers/localStorage';
+import {getAuth} from '@/store/auth';
+import {UserProfileType} from '@/types/colection';
 const ProfileScreen = () => {
   const {t} = useTranslation(['setting']);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const navigation = useNavigation();
   const goBack = () => navigation.goBack();
-
-  const lessionsSelected = useAppSelector(
-    (state: StoreState) => state.LessionSlice.lessionsSelected,
+  const habits = useAppSelector(
+    (state: StoreState) => state.HabitsSlide.habits,
   );
+  console.log('habits', habits);
+  const getUserInfoLocal = getStringLocal('userInfo');
+  const {avatar, weight, height, old} = JSON.parse(getUserInfoLocal as string);
 
-  const {name, avatar} = useAppSelector((state: StoreState) => state.userInfo);
-
+  const [userInfor, setUserInfor] = React.useState<UserProfileType>();
   const {
     backgroundColor,
     containerColor,
@@ -37,6 +41,15 @@ const ProfileScreen = () => {
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
 
   useEffect(() => {
+    const getInfo = async () => {
+      const user = await getAuth();
+      if (user) {
+        setUserInfor(user);
+      }
+      console.log('user', user);
+    };
+    getInfo();
+
     dispatch(fetchTopics());
   }, []);
 
@@ -64,15 +77,15 @@ const ProfileScreen = () => {
           <FastImage
             style={styles.avatar}
             source={{
-              uri: avatar
-                ? avatar
+              uri: userInfor?.avatar
+                ? userInfor.avatar
                 : 'https://p16-sg.tiktokcdn.com/aweme/720x720/tos-alisg-avt-0068/a6f08bb5d661b2839f5be9f2fb755f47.jpeg',
             }}
             resizeMode={FastImage.resizeMode.contain}
           />
           <View style={styles.nameContainer}>
             <Text style={{...styles.userName, color: textOutstandingColor}}>
-              {name}
+              {userInfor?.name}
             </Text>
 
             <View style={styles.levelContainer}>
@@ -134,7 +147,7 @@ const ProfileScreen = () => {
               </Text>
               <Text
                 style={{...styles.valueInfoText, color: textOutstandingColor}}>
-                60 kg
+                {weight} kg
               </Text>
             </View>
             <View
@@ -148,7 +161,7 @@ const ProfileScreen = () => {
               </Text>
               <Text
                 style={{...styles.valueInfoText, color: textOutstandingColor}}>
-                170 cm
+                {height} cm
               </Text>
             </View>
           </View>
@@ -162,7 +175,7 @@ const ProfileScreen = () => {
               <Text style={{...styles.keyInfoText, color: textColor}}>Age</Text>
               <Text
                 style={{...styles.valueInfoText, color: textOutstandingColor}}>
-                21
+                {old}
               </Text>
             </View>
             <View
@@ -174,7 +187,9 @@ const ProfileScreen = () => {
               <Text style={{...styles.keyInfoText, color: textColor}}>BMI</Text>
               <Text
                 style={{...styles.valueInfoText, color: textOutstandingColor}}>
-                19.7
+                {Math.round(
+                  (Number(weight) / Math.pow(Number(height) / 100, 2)) * 10,
+                ) / 10}
               </Text>
             </View>
           </View>
@@ -188,8 +203,8 @@ const ProfileScreen = () => {
           </TouchableOpacity>
         </View>
 
-        {lessionsSelected.map(item => (
-          <PackItem lession={item} key={item.lession_key} />
+        {habits.map(item => (
+          <PackItem lession={item} key={item.habit.id} />
         ))}
       </ScrollView>
     </SafeAreaView>

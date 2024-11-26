@@ -36,28 +36,28 @@ const SplashScreen = () => {
     const getKeyLessionsSelectedLocal = getStringLocal('keyLessionsSelected');
     const address = getStringLocal('address');
 
-    // await AsyncStorage.removeItem('userInfo');
+    await AsyncStorage.removeItem('userInfo');
     // await removeFile('topics.json');
     // await removeFile('habits.json');
     // await removeFile('task_histories.json');
 
-    navigateReset(CONST_SCREEN.WELCOME);
+    // navigateReset(CONST_SCREEN.WELCOME);
 
     // dispatch(checkStateOfTaskPreviousDay());
 
-    // if (getInfoDone && getUserInfoLocal) {
-    //   dispatch(updateInfoUser(JSON.parse(getUserInfoLocal)));
-    //   if (getLessionsSelectedLocal && getKeyLessionsSelectedLocal) {
-    //     dispatch(getLessionSelected(JSON.parse(getLessionsSelectedLocal)));
-    //     dispatch(getKeyLession(JSON.parse(getKeyLessionsSelectedLocal)));
-    //     address && dispatch(updateWalletState({chainId: 97, account: address}));
-    //     navigateReset(CONST_SCREEN.MAIN);
-    //   } else {
-    //     navigateReset(CONST_SCREEN.MAIN);
-    //   }
-    // } else {
-    //   navigateReset(CONST_SCREEN.WELCOME);
-    // }
+    if (getInfoDone && getUserInfoLocal) {
+      dispatch(updateInfoUser(JSON.parse(getUserInfoLocal)));
+      if (getLessionsSelectedLocal && getKeyLessionsSelectedLocal) {
+        dispatch(getLessionSelected(JSON.parse(getLessionsSelectedLocal)));
+        dispatch(getKeyLession(JSON.parse(getKeyLessionsSelectedLocal)));
+        address && dispatch(updateWalletState({chainId: 97, account: address}));
+        navigateReset(CONST_SCREEN.MAIN);
+      } else {
+        navigateReset(CONST_SCREEN.MAIN);
+      }
+    } else {
+      navigateReset(CONST_SCREEN.WELCOME);
+    }
   };
 
   useEffect(() => {
