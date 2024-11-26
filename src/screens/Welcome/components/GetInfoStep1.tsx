@@ -1,19 +1,9 @@
 import {StoreState, useAppSelector} from '@/store';
-import {InfoState, updateLanguage} from '@/store/userInfo';
+import {updateLanguage} from '@/store/userInfo';
 import {POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
-import {useState} from 'react';
+import React from 'react';
 import {useTranslation} from 'react-i18next';
-
-import {
-  Text,
-  View,
-  Button,
-  TextInput,
-  Pressable,
-  StyleSheet,
-  Touchable,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 const GetInfoStep1Content = () => {
   const dispatch = useDispatch();

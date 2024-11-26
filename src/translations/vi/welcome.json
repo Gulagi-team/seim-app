@@ -1,7 +1,7 @@
 {
-  "welcome": "Chào mừng !",
-  "description": "Chúng tôi rất vui khi bạn quan tâm đến ứng dụng này. Chắc chắn bạn muốn nâng cao sức khỏe và tinh thần. Hãy để chúng tôi giúp bạn, Seim sẽ là người bạn đồng hành và giúp bạn mạnh mẽ hơn mỗi ngày.",
-  "getStarted": "Hãy bắt đầu",
+  "welcome": "Chào mừng!",
+  "description": "Chúng tôi rất vui vì bạn quan tâm đến ứng dụng này. Chắc chắn bạn muốn nâng cấp sức khỏe và tinh thần của mình. Hãy để chúng tôi giúp bạn, Seim sẽ là người đồng hành và giúp bạn trở nên mạnh mẽ hơn mỗi ngày.",
+  "getStarted": "Hãy bắt đầu nào",
   "start": "Bắt đầu",
   "titleStep1": "Ngôn ngữ của bạn là gì?",
   "descStep1": "Hãy cho chúng tôi biết thêm về bạn, để chúng tôi có thể tạo ra một trải nghiệm cá nhân hóa dành riêng cho bạn.",
@@ -9,13 +9,13 @@
   "descStep2": "Hãy cho chúng tôi biết thêm về bạn, để chúng tôi có thể tạo ra một trải nghiệm cá nhân hóa dành riêng cho bạn.",
   "male": "Nam",
   "female": "Nữ",
-  "nonBinary": "Không nhị phân",
+  "nonBinary": "Phi nhị nguyên",
   "other": "Khác",
   "titleStep3": "Bạn bao nhiêu tuổi?",
   "descStep3": "Hãy cho chúng tôi biết thêm về bạn, để chúng tôi có thể tạo ra một trải nghiệm cá nhân hóa dành riêng cho bạn.",
-  "titleStep4": "Chiều cao của bạn là gì?",
+  "titleStep4": "Chiều cao của bạn là bao nhiêu?",
   "descStep4": "Hãy cho chúng tôi biết thêm về bạn, để chúng tôi có thể tạo ra một trải nghiệm cá nhân hóa dành riêng cho bạn.",
-  "titleStep5": "Cân nặng của bạn là gì?",
+  "titleStep5": "Cân nặng của bạn là bao nhiêu?",
   "descStep5": "Hãy cho chúng tôi biết thêm về bạn, để chúng tôi có thể tạo ra một trải nghiệm cá nhân hóa dành riêng cho bạn.",
   "countinue": "Tiếp tục"
 }

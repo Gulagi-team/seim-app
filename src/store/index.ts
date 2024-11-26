@@ -10,6 +10,7 @@ import HabitsSlide from './habits/index';
 import TopicSlice from './topics/index';
 import MiningSlice from './mining/index';
 import ThemeSlice from './theme/index';
+import FeedbackSlice from './feedback/index';
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
 // import theme from './theme';
 
@@ -23,6 +24,7 @@ const reducers = combineReducers({
   TopicSlice,
   MiningSlice,
   ThemeSlice,
+  FeedbackSlice,
 });
 
 export const reducersType = typeof reducers;
