@@ -1,0 +1,10 @@
+{
+  "light": "Light",
+  "dark": "Dark",
+  "chooseChallenge": "Choose Challenge",
+  "finish": "Finish",
+  "login": "Log in with Google",
+  "noti": "Notification",
+  "maxChallenge": "You can only select 5 habits",
+  "develop": "Developed by {{name}}"
+}

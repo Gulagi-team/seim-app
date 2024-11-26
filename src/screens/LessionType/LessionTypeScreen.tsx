@@ -12,7 +12,8 @@ import {fetchTopics} from '@/store/topics/action';
 import {LessionType} from '@/types/colection';
 import {Spinner} from '@gluestack-ui/themed';
 import {ThunkDispatch} from '@reduxjs/toolkit';
-import {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
@@ -20,8 +21,7 @@ import {styles} from './LessionTypeScreen.styles';
 
 const LessionTypeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-
-  const [loading, setLoading] = useState(true);
+  const {t} = useTranslation(['other']);
 
   const {lessions, lessionsSelected, status, keyLessionSelected} =
     useAppSelector((state: StoreState) => state.LessionSlice);
@@ -53,11 +53,11 @@ const LessionTypeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.textContainer}>
-        <Text style={styles.chooseText}>Choose challenge</Text>
+        <Text style={styles.chooseText}>{t('chooseChallenge')}</Text>
         <TouchableOpacity
           style={styles.finishContainer}
           onPress={handleFinishSelect}>
-          <Text style={styles.finishText}>{`Finish >`}</Text>
+          <Text style={styles.finishText}>{t('finish')} &gt;</Text>
         </TouchableOpacity>
       </View>
       <ScrollView style={styles.contentContainer}>
@@ -69,7 +69,7 @@ const LessionTypeScreen = () => {
             isSelect={keyLessionSelected.indexOf(item.lession_key) >= 0}
           />
         ))}
-        {lessions.length == 0 ? (
+        {lessions.length === 0 ? (
           <View>
             <Spinner size="large" />
           </View>

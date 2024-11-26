@@ -1,6 +1,18 @@
 {
-  "turn_remaining": "Số lượt còn lại",
-  "reward_title": "Bạn nhận được 2 lượt quét miễn phí mỗi ngày",
-  "click_ads": "Xem quảng cáo để nhận thêm 2 lượt quét",
-  "reward_success": "Bạn đã được nhận thêm 2 lượt quét"
+  "morning": "Chào buổi sáng",
+  "afternoon": "Chào buổi chiều",
+  "evening": "Chào buổi tối",
+  "night": "Chúc ngủ ngon",
+  "today": "Hôm nay là",
+  "started": "Hãy bắt đầu",
+  "show": "Hiển thị lịch sử",
+  "delete": "Xóa quy trình",
+  "confirmDelete": "Bạn có chắc chắn muốn xóa quy trình này không?",
+  "delete_2": "Xóa",
+  "cancel": "Hủy",
+  "categories": "Danh mục",
+  "lession": "Bài học",
+  "save": "Lưu",
+  "start": "Bắt đầu ngay",
+  "day": "Ngày"
 }

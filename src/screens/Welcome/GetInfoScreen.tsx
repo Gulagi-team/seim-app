@@ -1,14 +1,13 @@
 import {useMemo, useRef, useState} from 'react';
 
+import React from 'react';
 import {
-  Text,
-  View,
-  Button,
-  TextInput,
   Dimensions,
-  TouchableOpacity,
-  StyleSheet,
   Keyboard,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 import Header from '@/components/Header';
@@ -17,19 +16,20 @@ import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
 import GetInfoStep1Content from './components/GetInfoStep1';
 import GetInfoStep2Content from './components/GetInfoStep2';
 // import PaginationItem from '@/components/pagination/Pagination';
-import {navigate, navigateReset} from '@/helpers/navigation';
+import PaginationItem from '@/components/pagination/Pagination';
+import SCREENS from '@/constants/screen';
+import {navigateReset} from '@/helpers/navigation';
+import {StoreState, reduxStorage, useAppSelector} from '@/store';
+import {POPPINS_MEDIUM} from '@/theme';
+import {useTranslation} from 'react-i18next';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import GetInfoStep3Content from './components/GetInfoStep3';
 import GetInfoStep4Content from './components/GetInfoStep4';
 import GetInfoStep5Content from './components/GetInfoStep5';
-import {StoreState, reduxStorage, useAppSelector} from '@/store';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import PaginationItem from '@/components/pagination/Pagination';
-import SCREENS from '@/constants/screen';
-import {updateProfile} from '@/api/auth';
-import {POPPINS_MEDIUM} from '@/theme';
 
 const GetInfoScreen = () => {
   const width = Dimensions.get('window').width;
+  const {t} = useTranslation(['welcome', 'other']);
   const [idxContent, setIdxContent] = useState<number>(0);
   const ref = useRef<ICarouselInstance>(null);
   const userInfo = useAppSelector((state: StoreState) => state.userInfo);
@@ -142,7 +142,7 @@ const GetInfoScreen = () => {
           }}
           disabled={disableContinue}>
           <Text style={styles.continue}>
-            {idxContent < 4 ? 'Continue' : 'Finish'}
+            {idxContent < 4 ? t('welcome:continue') : t('other:finish')}
           </Text>
         </TouchableOpacity>
       </View>

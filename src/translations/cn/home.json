@@ -1,6 +1,18 @@
 {
-  "turn_remaining": "剩余圈数",
-  "reward_title": "每天您可以获得 2 次免费扫描",
-  "click_ads": "观看广告可再获得 2 次扫描",
-  "reward_success": "您已收到 2 次额外扫描"
+  "morning": "早上好",
+  "afternoon": "下午好",
+  "evening": "晚上好",
+  "night": "晚安",
+  "today": "今天是",
+  "started": "让我们开始",
+  "show": "显示历史",
+  "delete": "删除流程",
+  "confirmDelete": "您确定要删除此流程吗？",
+  "delete_2": "删除",
+  "cancel": "取消",
+  "categories": "类别",
+  "lession": "课程",
+  "save": "保存",
+  "start": "立即开始",
+  "day": "天"
 }

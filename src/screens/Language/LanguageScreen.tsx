@@ -1,33 +1,25 @@
-import Header from '@/components/Header';
-import navigation from '@/navigation';
-import {ApplicationScreenProps} from '@/types/navigation';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ScrollView,
-  Image,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-
-import IconEnglish from '@/assets/icons/icon_english.svg';
-import IconVietNam from '@/assets/icons/icon_vietnam.svg';
 import IconChina from '@/assets/icons/icon_china.svg';
+import IconEnglish from '@/assets/icons/icon_english.svg';
 import IconKorea from '@/assets/icons/icon_indonesia.svg';
+import IconVietNam from '@/assets/icons/icon_vietnam.svg';
+import Header from '@/components/Header';
+import React from 'react';
 import {useTranslation} from 'react-i18next';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 // import i18next from 'i18next';
-import {StoreState, reduxStorage, useAppSelector} from '@/store';
-import {useDispatch} from 'react-redux';
+import WelcomeBottom from '@/assets/images/welcomeBottom.png';
+import {reduxStorage, StoreState, useAppSelector} from '@/store';
 import {updateLanguage} from '@/store/userInfo';
 import {LanguageType} from '@/types/colection';
-import {styles} from './LanguageScreen.styles';
-import WelcomeBottom from '@/assets/images/welcomeBottom.png';
-import {COLORS} from '@/theme';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {styles} from './LanguageScreen.styles';
+import i18n from '@/translations';
+// import i18n from '@/translations';
 
 const LanguageScreen = () => {
-  const {t} = useTranslation(['startup']);
+  const {t} = useTranslation(['setting']);
   const language = useAppSelector(
     (state: StoreState) => state.userInfo.language,
   );
@@ -36,7 +28,6 @@ const LanguageScreen = () => {
     containerColor,
     textColor,
     borderColor,
-    borderSelectedColor,
     cardWalletTitleColor,
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
   const dispatch = useDispatch();
@@ -44,13 +35,15 @@ const LanguageScreen = () => {
   const goBack = () => navigation.goBack();
   const onChangeLanguage = (lang: LanguageType) => {
     dispatch(updateLanguage(lang));
-    // void i18next.changeLanguage(lang);
-    // reduxStorage.setItem('language', lang);
+    i18n.changeLanguage(lang);
+    // console.log(i18n.getResourceBundle('en', 'home'));
   };
+
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: backgroundColor}}>
-      <Header title="Language" canGoBack={true} handleGoBack={goBack} />
+      <Header title={t('languages')} canGoBack={true} handleGoBack={goBack} />
+
       <View style={styles.contentContainer}>
         <TouchableOpacity
           style={{
@@ -161,7 +154,7 @@ const LanguageScreen = () => {
             )}
           </View>
         </TouchableOpacity>
-        {/* 
+        {/*
         <TouchableOpacity
           style={{
             ...styles.itemContainer,
@@ -216,7 +209,7 @@ const LanguageScreen = () => {
             {language === 'jp' && <View style={styles.checkDot} />}
           </View>
         </TouchableOpacity>
-        
+
         <TouchableOpacity
           style={{
             ...styles.itemContainer,

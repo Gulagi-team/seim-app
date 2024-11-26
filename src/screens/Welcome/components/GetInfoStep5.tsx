@@ -7,10 +7,12 @@ import {POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
 import {StyleSheet, Text, View} from 'react-native';
 import ScrollPicker from 'react-native-wheel-scrollview-picker';
 import {useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const GetInfoStep5Content = () => {
   const dispatch = useDispatch();
-  const height = useAppSelector((state: StoreState) => state.userInfo.height);
+  const {t} = useTranslation(['welcome']);
+  const weight = useAppSelector((state: StoreState) => state.userInfo.weight);
 
   const [selectedWeight, setSelectedWeight] = useState(50);
   const [selectedLanguage, setSelectedLanguage] = useState('cm');
@@ -20,11 +22,8 @@ const GetInfoStep5Content = () => {
   return (
     <View style={styles.container}>
       <View style={styles.question}>
-        <Text style={styles.howOldAre1}>What’s your weight?</Text>
-        <Text style={styles.letUsKnow1}>
-          Let us know more about you, so we can craft a personalized experience
-          just for you.
-        </Text>
+        <Text style={styles.howOldAre1}>{t('titleStep5')}</Text>
+        <Text style={styles.letUsKnow1}>{t('descStep5')}</Text>
       </View>
       <View style={styles.content}>
         {/* <View style={styles.pickerContainer}>

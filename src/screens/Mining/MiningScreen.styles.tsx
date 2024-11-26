@@ -97,6 +97,7 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     color: COLORS.white,
     fontFamily: POPPINS_MEDIUM,
+    textTransform: 'uppercase',
   },
   miningText: {
     fontSize: FONT_SIZE.small0,

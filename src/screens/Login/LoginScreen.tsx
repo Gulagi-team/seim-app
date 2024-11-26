@@ -21,8 +21,10 @@ import {readFromFile} from '@/helpers/file';
 import {uploadHabit} from '@/api/habit';
 import {navigate} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
+import {useTranslation} from 'react-i18next';
 
 const LoginScreen = () => {
+  const {t} = useTranslation(['other']);
   const dispatch = useDispatch();
   const userInfo = useAppSelector((state: StoreState) => state.userInfo);
   const onLoginViaGoogle = async () => {
@@ -114,7 +116,7 @@ const LoginScreen = () => {
           style={styles.googleButton}
           onPress={onLoginViaGoogle}>
           <IconGoogle />
-          <Text style={styles.loginText}>Log in with Google</Text>
+          <Text style={styles.loginText}>{t('login')}</Text>
         </TouchableOpacity>
       </View>
 

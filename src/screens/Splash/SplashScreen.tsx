@@ -17,9 +17,12 @@ import {ThunkDispatch} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {readFromFile, removeFile} from '@/helpers/file';
 import {checkStateOfTaskPreviousDay, updateState} from '@/store/habits';
+import {reduxStorage} from '@/store';
+import {useTranslation} from 'react-i18next';
 
 const SplashScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const {t} = useTranslation('other');
 
   const init = async () => {
     await new Promise(resolve =>
@@ -32,28 +35,29 @@ const SplashScreen = () => {
     const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
     const getKeyLessionsSelectedLocal = getStringLocal('keyLessionsSelected');
     const address = getStringLocal('address');
+
     // await AsyncStorage.removeItem('userInfo');
     // await removeFile('topics.json');
     // await removeFile('habits.json');
     // await removeFile('task_histories.json');
 
-    // navigateReset(CONST_SCREEN.PACK);
+    navigateReset(CONST_SCREEN.WELCOME);
 
     // dispatch(checkStateOfTaskPreviousDay());
 
-    if (getInfoDone && getUserInfoLocal) {
-      dispatch(updateInfoUser(JSON.parse(getUserInfoLocal)));
-      if (getLessionsSelectedLocal && getKeyLessionsSelectedLocal) {
-        dispatch(getLessionSelected(JSON.parse(getLessionsSelectedLocal)));
-        dispatch(getKeyLession(JSON.parse(getKeyLessionsSelectedLocal)));
-        address && dispatch(updateWalletState({chainId: 97, account: address}));
-        navigateReset(CONST_SCREEN.MAIN);
-      } else {
-        navigateReset(CONST_SCREEN.MAIN);
-      }
-    } else {
-      navigateReset(CONST_SCREEN.WELCOME);
-    }
+    // if (getInfoDone && getUserInfoLocal) {
+    //   dispatch(updateInfoUser(JSON.parse(getUserInfoLocal)));
+    //   if (getLessionsSelectedLocal && getKeyLessionsSelectedLocal) {
+    //     dispatch(getLessionSelected(JSON.parse(getLessionsSelectedLocal)));
+    //     dispatch(getKeyLession(JSON.parse(getKeyLessionsSelectedLocal)));
+    //     address && dispatch(updateWalletState({chainId: 97, account: address}));
+    //     navigateReset(CONST_SCREEN.MAIN);
+    //   } else {
+    //     navigateReset(CONST_SCREEN.MAIN);
+    //   }
+    // } else {
+    //   navigateReset(CONST_SCREEN.WELCOME);
+    // }
   };
 
   useEffect(() => {
@@ -80,7 +84,7 @@ const SplashScreen = () => {
           position: 'absolute',
           bottom: 15,
         }}>
-        Develop by Gulagi
+        {t('developed', {name: 'Gulagi'})}
       </Text>
     </SafeAreaView>
   );

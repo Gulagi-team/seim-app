@@ -1,6 +1,9 @@
 {
   "speech": "Seim vẫn đang được phát triển, vui lòng cho chúng tôi phản hồi của bạn",
   "name": "Tên của bạn",
-  "feedback": "Phản hồi",
-  "submit": "Gửi"
+  "feedback": "Phản hồi của bạn",
+  "submit": "Gửi",
+  "title": "Phản hồi",
+  "namePlace": "Tên",
+  "feedbackPlace": "Phản hồi"
 }

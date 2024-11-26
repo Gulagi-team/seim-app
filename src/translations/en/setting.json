@@ -1,5 +1,17 @@
 {
   "languages": "Languages",
   "feedback": "Support & Feedback",
-  "locale": "English (US)"
+  "locale": "English (US)",
+  "level": "Level: {{level}}",
+  "myProfile": "My Profile",
+  "logout": "Logout",
+  "connectWallet": "Connect Wallet",
+
+  "profile": "Profile",
+  "seeAll": "See all",
+  "activity": "Activity",
+  "weight": "Weight",
+  "height": "Height",
+  "age": "Age",
+  "recentPacks": "Recent packs"
 }

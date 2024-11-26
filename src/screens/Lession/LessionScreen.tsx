@@ -23,12 +23,13 @@ import {ThunkDispatch} from '@reduxjs/toolkit';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './LessionScreen.styles';
+import {useTranslation} from 'react-i18next';
 
 const LessionScreen = ({route}: any) => {
   const topic: Topic = route.params;
   const navigation = useNavigation();
   const goBack = () => navigation.pop();
-
+  const {t} = useTranslation(['home']);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const habits = useAppSelector(
     (state: StoreState) => state.HabitsSlide.habits,
@@ -114,7 +115,7 @@ const LessionScreen = ({route}: any) => {
               {!habits.some(item => item.habit.id === habit.id) && (
                 <View style={styles.addStyle}>
                   <Icon as={AddIcon} color="#FFFFFF" size="sm" />
-                  <Text style={styles.addText}>Save</Text>
+                  <Text style={styles.addText}>{t('save')}</Text>
                 </View>
               )}
             </TouchableOpacity>
@@ -157,7 +158,7 @@ const LessionScreen = ({route}: any) => {
                 );
                 handleCloseModel();
               }}>
-              <Text style={styles.saveTxt}>Save</Text>
+              <Text style={styles.saveTxt}>{t('save')}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.startBtn}
@@ -167,7 +168,7 @@ const LessionScreen = ({route}: any) => {
                 );
                 navigateReset(SCREENS.MAIN);
               }}>
-              <Text style={styles.startTxt}>Start now</Text>
+              <Text style={styles.startTxt}>{t('start')}</Text>
             </TouchableOpacity>
           </View>
         </BottomSheetView>

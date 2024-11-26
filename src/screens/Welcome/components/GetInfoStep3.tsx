@@ -1,6 +1,7 @@
 import {StoreState, useAppSelector} from '@/store';
 import {updateOld} from '@/store/userInfo';
 import {COLORS, FONT_SIZE, POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
+import {useTranslation} from 'react-i18next';
 
 import {
   Text,
@@ -16,6 +17,8 @@ import {useDispatch} from 'react-redux';
 
 const GetInfoStep3Content = () => {
   const dispatch = useDispatch();
+  const {t} = useTranslation(['welcome']);
+
   const old = useAppSelector((state: StoreState) => state.userInfo.old);
 
   return (
@@ -24,11 +27,8 @@ const GetInfoStep3Content = () => {
       onPress={Keyboard.dismiss}
       accessible={false}>
       <View style={styles.container}>
-        <Text style={styles.howOldAre1}>How old are you?</Text>
-        <Text style={styles.letUsKnow1}>
-          Let us know more about you, so we can craft a personalized experience
-          just for you.
-        </Text>
+        <Text style={styles.howOldAre1}>{t('titleStep3')}</Text>
+        <Text style={styles.letUsKnow1}>{t('descStep3')}</Text>
         <View style={{width: '100%', marginTop: 50, alignItems: 'center'}}>
           <View style={styles.oldContainer}>
             <TextInput

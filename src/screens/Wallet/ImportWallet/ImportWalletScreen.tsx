@@ -29,11 +29,13 @@ import {navigate} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
 import {addPassword, addPrivateKey, updateWalletState} from '@/store/wallet';
 import {reduxStorage} from '@/store';
+import {useTranslation} from 'react-i18next';
 
 const ImportWalletScreen = ({
   route,
   navigation,
 }: ApplicationScreenProps<'ImportWalletScreen'>) => {
+  const {t} = useTranslation('wallet');
   const {password} = route.params;
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const [privateKey, setPrivateKey] = useState<string>('');
@@ -75,7 +77,7 @@ const ImportWalletScreen = ({
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text>Hãy nhập khoá bí mật để kết nối ví.</Text>
+          <Text>{t('importTitle')}</Text>
         </View>
         <View
           style={{
@@ -86,7 +88,7 @@ const ImportWalletScreen = ({
             borderWidth: 2,
           }}>
           <TextInput
-            placeholder="Private key"
+            placeholder={t('pKey')}
             placeholderTextColor={'#808080'}
             multiline
             numberOfLines={4}
@@ -101,7 +103,7 @@ const ImportWalletScreen = ({
             ...styles.continueButton,
             // opacity: disabled ? 0.25 : 1,
           }}>
-          <Text style={styles.continueText}>Kết nối ví</Text>
+          <Text style={styles.continueText}>{t('connect')}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

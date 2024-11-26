@@ -15,7 +15,9 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './ProfileScreen.styles';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 const ProfileScreen = () => {
+  const {t} = useTranslation(['setting']);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const navigation = useNavigation();
   const goBack = () => navigation.goBack();
@@ -51,7 +53,7 @@ const ProfileScreen = () => {
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: backgroundColor}}>
-      <Header title="Profile" canGoBack={true} handleGoBack={goBack} />
+      <Header title={t('profile')} canGoBack={true} handleGoBack={goBack} />
       <ScrollView style={styles.scrollviewContainer}>
         <View
           style={{
@@ -75,7 +77,7 @@ const ProfileScreen = () => {
 
             <View style={styles.levelContainer}>
               <Text style={{...styles.levelText, color: textColor}}>
-                Level: Bronze
+                {t('level', {level: 'Bronze'})}
               </Text>
               <Text
                 style={{...styles.percentText, color: textOutstandingColor}}>
@@ -99,10 +101,10 @@ const ProfileScreen = () => {
           }}>
           <View style={styles.activityTitleContainer}>
             <Text style={{...styles.recentText, color: textOutstandingColor}}>
-              Activity
+              {t('activity')}
             </Text>
             <TouchableOpacity>
-              <Text style={styles.seeMoreText}>See all</Text>
+              <Text style={styles.seeMoreText}>{t('seeAll')}</Text>
             </TouchableOpacity>
           </View>
           <BarChart
@@ -128,7 +130,7 @@ const ProfileScreen = () => {
                 borderColor: borderColor,
               }}>
               <Text style={{...styles.keyInfoText, color: textColor}}>
-                Weight
+                {t('weight')}
               </Text>
               <Text
                 style={{...styles.valueInfoText, color: textOutstandingColor}}>
@@ -142,7 +144,7 @@ const ProfileScreen = () => {
                 borderColor: borderColor,
               }}>
               <Text style={{...styles.keyInfoText, color: textColor}}>
-                Height
+                {t('height')}
               </Text>
               <Text
                 style={{...styles.valueInfoText, color: textOutstandingColor}}>
@@ -179,10 +181,10 @@ const ProfileScreen = () => {
         </View>
         <View style={styles.recentContainer}>
           <Text style={{...styles.recentText, color: textOutstandingColor}}>
-            Recent packs
+            {t('recentPacks')}
           </Text>
           <TouchableOpacity>
-            <Text style={styles.seeMoreText}>See all</Text>
+            <Text style={styles.seeMoreText}>{t('seeAll')}</Text>
           </TouchableOpacity>
         </View>
 

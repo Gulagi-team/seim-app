@@ -2,5 +2,8 @@
   "speech": "Seim는 아직 개발 중입니다. 의견을 보내주세요.",
   "name": "당신의 이름",
   "feedback": "피드백",
-  "submit": "보내다"
+  "submit": "보내다",
+  "title": "피드백",
+  "namePlace": "이름",
+  "feedbackPlace": "피드백"
 }

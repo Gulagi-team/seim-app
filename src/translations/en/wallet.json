@@ -1,0 +1,15 @@
+{
+  "welcome": "WELCOME TO SEIM WALLET",
+  "createWallet": "Create Wallet",
+  "importWallet": "Import Wallet",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "minPassword": "Password must be at least 6 characters",
+  "confirm": "Confirm",
+  "saveKey": "Save the private key !!!",
+  "desc": "If you lose it you won't be able to recover your wallet.",
+  "connect": "Connect to wallet",
+  "copy": "Private key is saved to Clipboard'",
+  "importTitle": "Enter the private key to connect the wallet.",
+  "pKey": "Private Key"
+}

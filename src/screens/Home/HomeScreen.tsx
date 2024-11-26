@@ -28,7 +28,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import ListTaskContent from './component/ListTask';
 import {styles, topicStyles} from './HomeScreen.styles';
-import moment from 'moment';
+import {useTranslation} from 'react-i18next';
 
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -37,20 +37,16 @@ const HomeScreen = () => {
     (state: StoreState) => state.HabitsSlide.habits,
   );
 
+  const {t} = useTranslation(['home']);
+
   useEffect(() => {
     const getData = async () => {
       const user = await getAuth();
       if (user) {
-        console.log('fetching habits');
         dispatch(fetchHabits());
       } else {
         const habitsFromFile = await readFromFile('habits.json');
-        console.log('habitsFromFile', habitsFromFile[0].habit.tasks);
-        const taskhabitsFromFile = await readFromFile('task_histories.json');
-        console.log('taskhabitsFromFile', taskhabitsFromFile);
         dispatch(updateState(habitsFromFile));
-
-        console.log('habitsFromFile', habitsFromFile);
 
         const resetHabits = habitsFromFile.map(habit => {
           const updatedTasks = habit.habit.tasks.map(task => ({
@@ -65,8 +61,6 @@ const HomeScreen = () => {
             },
           };
         });
-
-        console.log('resetHabits', resetHabits);
 
         //reset task status of current day
         // for (const habit of habitsFromFile) {
@@ -150,9 +144,9 @@ const HomeScreen = () => {
       />
       <View style={styles.containerView}>
         <View style={styles.welcomeTop}>
-          <Text style={styles.welcomeTitle}>Good {getPartOfDay()}</Text>
+          <Text style={styles.welcomeTitle}>{t(getPartOfDay())}</Text>
           <Text style={styles.currentDate}>
-            Today is {formatLongDate(new Date())}
+            {t('today')} {formatLongDate(new Date())}
           </Text>
         </View>
         <View style={styles.viewBody}>

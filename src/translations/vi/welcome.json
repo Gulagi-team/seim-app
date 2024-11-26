@@ -1,0 +1,21 @@
+{
+  "welcome": "Chào mừng !",
+  "description": "Chúng tôi rất vui khi bạn quan tâm đến ứng dụng này. Chắc chắn bạn muốn nâng cao sức khỏe và tinh thần. Hãy để chúng tôi giúp bạn, Seim sẽ là người bạn đồng hành và giúp bạn mạnh mẽ hơn mỗi ngày.",
+  "getStarted": "Hãy bắt đầu",
+  "start": "Bắt đầu",
+  "titleStep1": "Ngôn ngữ của bạn là gì?",
+  "descStep1": "Hãy cho chúng tôi biết thêm về bạn, để chúng tôi có thể tạo ra một trải nghiệm cá nhân hóa dành riêng cho bạn.",
+  "titleStep2": "Giới tính của bạn là gì?",
+  "descStep2": "Hãy cho chúng tôi biết thêm về bạn, để chúng tôi có thể tạo ra một trải nghiệm cá nhân hóa dành riêng cho bạn.",
+  "male": "Nam",
+  "female": "Nữ",
+  "nonBinary": "Không nhị phân",
+  "other": "Khác",
+  "titleStep3": "Bạn bao nhiêu tuổi?",
+  "descStep3": "Hãy cho chúng tôi biết thêm về bạn, để chúng tôi có thể tạo ra một trải nghiệm cá nhân hóa dành riêng cho bạn.",
+  "titleStep4": "Chiều cao của bạn là gì?",
+  "descStep4": "Hãy cho chúng tôi biết thêm về bạn, để chúng tôi có thể tạo ra một trải nghiệm cá nhân hóa dành riêng cho bạn.",
+  "titleStep5": "Cân nặng của bạn là gì?",
+  "descStep5": "Hãy cho chúng tôi biết thêm về bạn, để chúng tôi có thể tạo ra một trải nghiệm cá nhân hóa dành riêng cho bạn.",
+  "countinue": "Tiếp tục"
+}

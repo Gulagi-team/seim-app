@@ -2,5 +2,8 @@
   "speech": "Seim is still under development, please give us your feedback",
   "name": "Your name",
   "feedback": "Your feedback",
-  "submit": "Submit"
+  "submit": "Submit",
+  "title": "Feedback",
+  "namePlace": "Name",
+  "feedbackPlace": "Feedback"
 }

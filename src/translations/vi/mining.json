@@ -1,0 +1,13 @@
+{
+  "mining": "Đào",
+  "currentReward": "Phần thưởng hiện tại",
+  "startMining": "Bắt đầu đào",
+  "infor": "Thông tin đào",
+  "totalPool": "Tổng số pool đã khai thác",
+  "miningAmount": "Số lượng đào",
+  "level": "Cấp độ",
+  "referral": "Số người mời",
+  "balance": "Số dư của bạn",
+  "disconnect": "Ngắt kết nối",
+  "connectWallet": "Kết nối ví"
+}

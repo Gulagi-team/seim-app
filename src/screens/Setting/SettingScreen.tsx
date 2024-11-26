@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useTransition} from 'react';
 
 import IconDarkFeedback from '@/assets/icons/darkmode/icon_feedback_dark.svg';
 import IconDarkGift from '@/assets/icons/darkmode/icon_gift_dark.svg';
@@ -29,12 +29,13 @@ import {useDispatch} from 'react-redux';
 import {styles} from './SettingScreen.styles';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useTranslation} from 'react-i18next';
 const SettingScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
-  const {avatar, name, access_token} = useAppSelector(
-    (state: StoreState) => state.userInfo,
-  );
+  const {avatar, name} = useAppSelector((state: StoreState) => state.userInfo);
+
+  const {t} = useTranslation(['setting']);
 
   const {
     isDarkMode,
@@ -100,7 +101,7 @@ const SettingScreen = () => {
               </Text>
 
               <View style={styles.levelContainer}>
-                <Text style={styles.levelText}>Level.2</Text>
+                <Text style={styles.levelText}>{t('level', {level: '1'})}</Text>
                 <Text
                   style={{...styles.percentText, color: textOutstandingColor}}>
                   115/500
@@ -120,14 +121,16 @@ const SettingScreen = () => {
             onPress={() => navigate(SCREENS.PROFILE)}>
             {isDarkMode ? <IconDarkProfile /> : <IconProfile />}
             <Text style={{...styles.itemText, color: textColor}}>
-              My profile
+              {t('myProfile')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.itemContainer}
             onPress={() => navigate(SCREENS.LANGUAGE)}>
             {isDarkMode ? <IconDarkLanguage /> : <IconLanguage />}
-            <Text style={{...styles.itemText, color: textColor}}>Language</Text>
+            <Text style={{...styles.itemText, color: textColor}}>
+              {t('languages')}
+            </Text>
           </TouchableOpacity>
           {/* <TouchableOpacity
             style={styles.itemContainer}
@@ -151,11 +154,15 @@ const SettingScreen = () => {
             onPress={() => navigate(SCREENS.FEEDBACK)}>
             {isDarkMode ? <IconDarkFeedback /> : <IconFeedback />}
 
-            <Text style={{...styles.itemText, color: textColor}}>Feedback</Text>
+            <Text style={{...styles.itemText, color: textColor}}>
+              {t('feedback')}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.itemContainer} onPress={handleLogout}>
             <IconLogout />
-            <Text style={{...styles.itemText, color: textColor}}>Log out</Text>
+            <Text style={{...styles.itemText, color: textColor}}>
+              {t('logout')}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

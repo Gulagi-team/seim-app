@@ -19,6 +19,7 @@ import DisableTask from './DisableTask';
 import ListDate from './ListDate';
 import {styles} from './ListTask.styles';
 import Task from './Task';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
   habitSelected: Habit;
@@ -28,6 +29,7 @@ interface Props {
 const ListTaskContent = ({habitSelected}: Props) => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const [isModalVisible, setModalVisible] = useState(false);
+  const {t} = useTranslation(['home']);
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ['60%', '60%'], []);
@@ -93,7 +95,7 @@ const ListTaskContent = ({habitSelected}: Props) => {
             onPress={() => {
               dispatch(startHabit(habitSelected.habit.id));
             }}>
-            <Text style={styles.startText}>Let's started &gt;</Text>
+            <Text style={styles.startText}>{t('started')} &gt;</Text>
           </TouchableOpacity>
         )}
         <View
@@ -126,12 +128,12 @@ const ListTaskContent = ({habitSelected}: Props) => {
           <TouchableOpacity
             onPress={() => navigate(SCREENS.HABIT_DETAIL, habitSelected)}
             style={styles.bottonBtn}>
-            <Text style={styles.show}>Show history</Text>
+            <Text style={styles.show}>{t('show')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={handleConfirmDelete}
             style={styles.bottonBtn}>
-            <Text style={styles.deleteProcess}>Delete process</Text>
+            <Text style={styles.deleteProcess}>{t('delete')}</Text>
           </TouchableOpacity>
         </BottomSheetView>
       </BottomSheet>
@@ -142,21 +144,19 @@ const ListTaskContent = ({habitSelected}: Props) => {
         onRequestClose={handleCancelDelete}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              Are you sure you want to delete this process?
-            </Text>
+            <Text style={styles.modalText}>{t('confirmDelete')}</Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={[styles.button, styles.buttonCancel]}
                 onPress={handleCancelDelete}>
-                <Text>Cancel</Text>
+                <Text>{t('cancel')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.button, styles.buttonDelete]}
                 onPress={() => {
                   dispatch(deleteHabit(habitSelected.habit.id));
                 }}>
-                <Text>Delete</Text>
+                <Text>{t('delete_2')}</Text>
               </TouchableOpacity>
             </View>
           </View>

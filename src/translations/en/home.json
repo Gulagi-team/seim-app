@@ -1,6 +1,18 @@
 {
-  "turn_remaining": "Number of turns remaining",
-  "reward_title": "You get 2 free scans every day",
-  "click_ads": "Watch ads to get 2 more scans",
-  "reward_success": "You have received 2 additional scans"
+  "morning": "Good morning",
+  "afternoon": "Good afternoon",
+  "evening": "Good evening",
+  "night": "Good night",
+  "today": "Today is",
+  "started": "Let's started",
+  "show": "Show history",
+  "delete": "Delete process",
+  "confirmDelete": "Are you sure you want to delete this process?",
+  "delete_2": "Delete",
+  "cancel": "Cancel",
+  "categories": "Categories",
+  "lession": "lession",
+  "save": "Save",
+  "start": "Start now",
+  "day": "Day"
 }

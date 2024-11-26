@@ -2,6 +2,7 @@ import {StoreState, useAppSelector} from '@/store';
 import {InfoState, updateLanguage} from '@/store/userInfo';
 import {POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
 import {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 
 import {
   Text,
@@ -16,17 +17,15 @@ import {
 import {useDispatch} from 'react-redux';
 const GetInfoStep1Content = () => {
   const dispatch = useDispatch();
+  const {t} = useTranslation(['welcome']);
   const language = useAppSelector(
     (state: StoreState) => state.userInfo.language,
   );
   return (
     <View style={styles.container}>
       <View style={styles.question}>
-        <Text style={styles.howOldAre1}>What’s your language?</Text>
-        <Text style={styles.letUsKnow1}>
-          Let us know more about you, so we can craft a personalized experience
-          just for you.
-        </Text>
+        <Text style={styles.howOldAre1}>{t('titleStep1')}</Text>
+        <Text style={styles.letUsKnow1}>{t('descStep1')}</Text>
       </View>
       <View style={styles.content}>
         <TouchableOpacity

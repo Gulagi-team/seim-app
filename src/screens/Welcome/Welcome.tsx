@@ -1,29 +1,23 @@
 // import { Brand } from "components/molecules";
-import {useState} from 'react';
 
-import {
-  Text,
-  View,
-  Button,
-  TextInput,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
+import React from 'react';
 
 import {navigate} from '@/helpers/navigation';
 
 import LogoSeim from '@/assets/images/logo.png';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import SCREENS from '@/constants/screen';
 import {COLORS, POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
-import {deviceWidth} from '@/constants/layout';
-import WelcomeBottom from '@/assets/images/welcomeBottom.png';
+import {useTranslation} from 'react-i18next';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const WelcomeScreen = () => {
   const handleLogin = async () => {
     navigate(SCREENS.GETINFO);
   };
+  const {t} = useTranslation(['welcome']);
 
   return (
     <SafeAreaView style={styles.containerView}>
@@ -38,16 +32,12 @@ const WelcomeScreen = () => {
         />
         <Text style={styles.seimText}>SEIM</Text>
       </View>
-      <Text style={styles.welcomeText}>Welcome!</Text>
+      <Text style={styles.welcomeText}>{t('welcome')}</Text>
 
-      <Text style={styles.paraText}>
-        Chúng tôi rất vui vì bạn đã quan tâm đến ứng dụng này. Chắc chắn bạn
-        muốn nâng cấp sức khoẻ và tinh thần của mình. Hãy để chúng tôi giúp bạn,
-        Seim sẽ là người bạn đồng hành và giúp bạn khoẻ hơn mỗi ngày.
-      </Text>
+      <Text style={styles.paraText}>{t('description')}</Text>
 
       <View style={{width: '100%', marginHorizontal: 16}}>
-        <Text style={styles.paraText}>Let's get started!</Text>
+        <Text style={styles.paraText}>{t('getStarted')}</Text>
       </View>
 
       <TouchableOpacity
@@ -61,7 +51,7 @@ const WelcomeScreen = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text style={{color: 'white'}}>{`Bắt đầu >`}</Text>
+        <Text style={{color: 'white'}}>{t('start')} &gt;</Text>
       </TouchableOpacity>
 
       <Image

@@ -11,11 +11,13 @@ import StarIcon from '@/assets/icons/star.svg';
 import StreakIcon from '@/assets/icons/icon_streak.svg';
 import {Habit} from '@/types/colection';
 import {iconMap} from '@/helpers/icon';
+import {useTranslation} from 'react-i18next';
 
 const HabitDetailScreen = ({route}: any) => {
   const habit: Habit = route.params;
   const navigation = useNavigation();
   const goBack = () => navigation.pop();
+  const {t} = useTranslation(['home']);
 
   const today = useAppSelector((state: StoreState) => state.HabitsSlide.today);
 
@@ -77,7 +79,7 @@ const HabitDetailScreen = ({route}: any) => {
       <View style={styles.totalDayContainer}>
         <StreakIcon />
         <Text style={styles.totalDay}>
-          Day {partNum}/{habit.habit.days}
+          {t('day')} {partNum}/{habit.habit.days}
         </Text>
       </View>
       <RoadMapComplete items={getDateList()} />
