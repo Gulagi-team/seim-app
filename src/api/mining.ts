@@ -1,21 +1,18 @@
-import {MiningData} from '@/types/colection';
-
+import {Filter} from '@/types/colection';
+import api from './index';
 export const getMining = () => {
-  const currentDate = new Date();
+  const data = api.get('/mining/info');
+  return data;
+};
 
-  // Set the time to 1 AM
-  currentDate.setHours(7, 0, 0, 0);
-  const start = currentDate.getTime();
+export const startMining = (data: any) => {
+  return api.post('/mining', data);
+};
 
-  const miningInfo: MiningData = {
-    startDate: start,
-    endDate: start + 24 * 60 * 60 * 1000,
-    point: 10.267,
-    level: 5,
-    miningRate: '',
-    totalInvite: 15,
-    totalPoolMined: 10,
-  };
+export const claimMining = () => {
+  return api.post('/mining/claim');
+};
 
-  return miningInfo;
+export const getAllMining = (data: Filter) => {
+  return api.get('/mining', {params: data});
 };

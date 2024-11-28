@@ -12,14 +12,13 @@ import {styles} from './SplashScreen.styles';
 import CONST_SCREEN from '@/constants/screen';
 import {updateWalletState} from '@/store/wallet';
 import {updateInfoUser} from '@/store/userInfo';
-import {fetchMining} from '@/store/mining/action';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {readFromFile, removeFile} from '@/helpers/file';
 import {checkStateOfTaskPreviousDay, updateState} from '@/store/habits';
 import {reduxStorage} from '@/store';
 import {useTranslation} from 'react-i18next';
-
+import React from 'react';
 const SplashScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {t} = useTranslation('other');
@@ -36,10 +35,12 @@ const SplashScreen = () => {
     const getKeyLessionsSelectedLocal = getStringLocal('keyLessionsSelected');
     const address = getStringLocal('address');
 
-    await AsyncStorage.removeItem('userInfo');
+    // await AsyncStorage.removeItem('userInfo');
     // await removeFile('topics.json');
     // await removeFile('habits.json');
     // await removeFile('task_histories.json');
+    // await removeFile('mining.json');
+    // await AsyncStorage.removeItem('currentReward');
 
     // navigateReset(CONST_SCREEN.WELCOME);
 
@@ -62,7 +63,6 @@ const SplashScreen = () => {
 
   useEffect(() => {
     init();
-    dispatch(fetchMining());
   }, []);
 
   return (

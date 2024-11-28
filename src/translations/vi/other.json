@@ -6,5 +6,8 @@
   "login": "Đăng nhập với Google",
   "noti": "Thông báo",
   "maxChallenge": "Bạn chỉ có thể chọn 5 thói quen",
-  "develop": "Phát triển bởi {{name}}"
+  "develop": "Phát triển bởi {{name}}",
+  "accept": "Chấp nhận",
+  "cancel": "Hủy",
+  "goHome": "Về trang chủ"
 }

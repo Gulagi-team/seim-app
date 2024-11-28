@@ -1,9 +1,10 @@
-import {PayloadAction, createSlice} from '@reduxjs/toolkit';
-import {fetchMining} from './action';
 import {MiningData} from '@/types/colection';
+import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import {claimMine, getAllMine, getMiningInfo, startMine} from './action';
 
 export type MiningState = {
   miningData: MiningData;
+  histories: MiningData[];
   status: string;
   error: any;
 };
@@ -13,11 +14,13 @@ const initialState: MiningState = {
     startDate: 0,
     endDate: 0,
     point: 0,
-    level: 0,
+    level: 1,
     miningRate: '',
+    boost: 0,
     totalInvite: 0,
     totalPoolMined: 0,
   },
+  histories: [],
   status: 'idle',
   error: null,
 };
@@ -32,17 +35,45 @@ const Miningslice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchMining.pending, (state, action) => {
+      .addCase(startMine.pending, state => {
         state.status = 'loading';
       })
-      .addCase(
-        fetchMining.fulfilled,
-        (state, action: PayloadAction<MiningData>) => {
-          state.status = 'succeeded';
-          state.miningData = action.payload;
-        },
-      )
-      .addCase(fetchMining.rejected, (state, action) => {
+      .addCase(startMine.fulfilled, state => {
+        state.status = 'succeeded';
+      })
+      .addCase(startMine.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(claimMine.pending, state => {
+        state.status = 'loading';
+      })
+      .addCase(claimMine.fulfilled, state => {
+        state.status = 'succeeded';
+      })
+      .addCase(claimMine.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(getMiningInfo.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(getMiningInfo.fulfilled, (state, action: PayloadAction<any>) => {
+        state.status = 'succeeded';
+        state.miningData = action.payload ?? {};
+      })
+      .addCase(getMiningInfo.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(getAllMine.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(getAllMine.fulfilled, (state, action: PayloadAction<any>) => {
+        state.status = 'succeeded';
+        state.histories = action.payload.data ?? [];
+      })
+      .addCase(getAllMine.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });

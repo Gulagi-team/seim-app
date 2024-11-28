@@ -25,15 +25,16 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {styles} from './SettingScreen.styles';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTranslation} from 'react-i18next';
+import {UserProfileType} from '@/types/colection';
+import {getMiningInfo} from '@/store/mining/action';
+import {stringUtils} from '@/utils/string';
 const SettingScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-
-  const {avatar, name} = useAppSelector((state: StoreState) => state.userInfo);
 
   const {t} = useTranslation(['setting']);
 
@@ -45,13 +46,18 @@ const SettingScreen = () => {
     textOutstandingColor,
     borderColor,
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
-
+  const [userInfor, setUserInfor] = React.useState<UserProfileType>();
+  const {miningData} = useSelector((state: StoreState) => state.MiningSlice);
+  console.log('miningData', miningData);
   const getUser = async () => {
     try {
       // await AsyncStorage.removeItem('userInfo');
       const user = await AsyncStorage.getItem('userInfo');
       if (user) {
         const info = JSON.parse(user);
+        setUserInfor(info);
+        dispatch(getMiningInfo());
+
         if (info.access_token === '') {
           navigateReset(SCREENS.LOGIN);
         }
@@ -89,26 +95,32 @@ const SettingScreen = () => {
             <FastImage
               style={styles.avatar}
               source={{
-                uri: avatar
-                  ? avatar
+                uri: userInfor?.avatar
+                  ? userInfor?.avatar
                   : 'https://p16-sg.tiktokcdn.com/aweme/720x720/tos-alisg-avt-0068/a6f08bb5d661b2839f5be9f2fb755f47.jpeg',
               }}
               resizeMode={FastImage.resizeMode.contain}
             />
             <View style={styles.nameContainer}>
               <Text style={{...styles.userName, color: textOutstandingColor}}>
-                {name}
+                {userInfor?.name}
               </Text>
 
               <View style={styles.levelContainer}>
-                <Text style={styles.levelText}>{t('level', {level: '1'})}</Text>
+                <Text style={styles.levelText}>
+                  {t('level', {level: miningData.level})}
+                </Text>
                 <Text
                   style={{...styles.percentText, color: textOutstandingColor}}>
-                  115/500
+                  {miningData.totalInvite}/
+                  {stringUtils.getMaxInviteByLevel(miningData.level)}
                 </Text>
               </View>
               <Progress.Bar
-                progress={0.4}
+                progress={
+                  miningData.totalInvite /
+                  stringUtils.getMaxInviteByLevel(miningData.level)
+                }
                 width={deviceWidth - 121}
                 color={COLORS.secondary_orange1}
                 unfilledColor={borderColor}

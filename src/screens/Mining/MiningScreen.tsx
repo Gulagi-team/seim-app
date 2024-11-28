@@ -1,4 +1,6 @@
 import IconDiamond from '@/assets/icons/icon_diamond.svg';
+import {showToast} from '@/helpers/toast';
+
 import IconPool from '@/assets/icons/icon_pool.svg';
 import IconSpeed from '@/assets/icons/icon_speed.svg';
 import IconUser from '@/assets/icons/icon_user.svg';
@@ -6,27 +8,59 @@ import BACKGROUND_REWARD from '@/assets/images/background_reward.png';
 import POINT_SEIM from '@/assets/images/point_seim.png';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import CountdownTimer from '@/components/TimerCountdown/TimerCountdown';
-import {StoreState, useAppSelector} from '@/store';
+import {readFromFile, updateMiningData} from '@/helpers/file';
+import {reduxStorage, StoreState, useAppSelector} from '@/store';
+import {Filter, MiningData, UserProfileType} from '@/types/colection';
+import {stringUtils} from '@/utils/string';
 import LottieView from 'lottie-react-native';
-import {useEffect, useRef, useState} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {
+  Image,
+  Modal,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import {RewardedAd} from 'react-native-google-mobile-ads';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles} from './MiningScreen.styles';
-import React from 'react';
-import {useTranslation} from 'react-i18next';
+import {useDispatch, useSelector} from 'react-redux';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import {
+  claimMine,
+  getAllMine,
+  getMiningInfo,
+  startMine,
+} from '@/store/mining/action';
+import {getAuth} from '@/store/auth';
+import {navigate, navigateReset} from '@/helpers/navigation';
+import SCREENS from '@/constants/screen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
 
 const adUnitId = process.env.REACT_APP_AD_UNIT_ID;
 
 const rewarded = RewardedAd.createForAdRequest(adUnitId as string);
 
 const MiningScreen = () => {
+  const AMOUNT_MINING = 1;
+
   const [isMining, setIsMining] = useState(false);
-  const {t} = useTranslation(['mining']);
+  const {t} = useTranslation(['mining', 'other']);
   const anim = useRef<LottieView>(null);
-  const endDate = useAppSelector(
-    (state: StoreState) => state.MiningSlice.miningData.endDate,
-  );
+  // const endDate = useAppSelector(
+  //   (state: StoreState) => state.MiningSlice.miningData.endDate,
+  // );
+
+  const [endDate, setEndDate] = useState(0);
+  const [startDate, setStartDate] = useState(0);
+  const [isDone, setIsDone] = useState(false);
+  const [currentId, setCurrentId] = useState(0);
+  const [currentReward, setCurrentReward] = useState(0);
+  const [totalReward, setTotalReward] = useState(AMOUNT_MINING);
   const {
     backgroundColor,
     containerColor,
@@ -36,38 +70,42 @@ const MiningScreen = () => {
     cardWalletBackgroundColor,
     cardWalletBorderColor,
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
-  const [timeLeft, setTimeLeft] = useState(endDate - new Date().getTime());
-  const habit = useAppSelector((state: StoreState) => state.HabitsSlide.habits);
-
+  const [deviceId, setDeviceId] = useState('');
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const {
+    status: miningStatus,
+    miningData,
+    histories,
+  } = useSelector((state: StoreState) => state.MiningSlice);
+  const [user, setUser] = useState<UserProfileType | null>(null);
+  const [showAlert, setShowAlert] = useState(false);
+  const [filter, setFilter] = useState<Filter>({
+    page: 1,
+    limit: 10,
+    sortBy: 'createdAt',
+    sortDir: 'ASC',
+  });
   useEffect(() => {
-    // setInitAdDone(false);
-    // mobileAds()
-    //   .initialize()
-    //   .then(() => {
-    //     // setLoaded(true);
-    //   })
-    //   .catch(err => console.log('Init error: ', err))
-    //   .finally(() => console.log('Init Ads success'));
+    const getData = async () => {
+      const userExist = await getAuth();
+      if (userExist) {
+        setShowAlert(false);
+        setUser(userExist);
+        dispatch(getMiningInfo());
+        dispatch(getAllMine(filter));
+        const reward = await AsyncStorage.getItem('totalReward');
+        if (reward) {
+          setTotalReward(parseFloat(reward));
+        }
+      } else {
+        setShowAlert(true);
+      }
+    };
+    getData();
 
-    // const unsubscribeLoaded = rewarded.addAdEventListener(
-    //   RewardedAdEventType.LOADED,
-    //   () => {
-    //     console.log('Load ads success');
-    //     setLoaded(true);
-    //   },
-    // );
-    // const unsubscribeEarned = rewarded.addAdEventListener(
-    //   RewardedAdEventType.EARNED_REWARD,
-    //   reward => {
-    //     // reduxStorage.setItem('turnLeftLocal', 2);
-    //     // dispatch(updateTurnLeftNumber(2));
-    //     // props.callbackChangeVisible();
-    //     showToast('success', 'Success');
-    //     // setLoaded(false);
-    //   },
-    // );
-    // rewarded.load();
-
+    DeviceInfo.getUniqueId().then(uniqueId => {
+      setDeviceId(uniqueId);
+    });
     return () => {
       // unsubscribeLoaded();
       // unsubscribeEarned();
@@ -75,21 +113,130 @@ const MiningScreen = () => {
   }, []);
 
   useEffect(() => {
-    if (timeLeft > 0) {
-      anim.current?.play();
-    } else {
-      anim.current?.pause();
-    }
-  }, [timeLeft]);
-
-  const onPlayPress = () => {
     if (isMining) {
-      anim.current?.pause();
-    } else {
       anim.current?.play();
+    } else {
+      anim.current?.pause();
     }
-    setIsMining(p => !p);
+  }, [isMining]);
+  const onPlayPress = async () => {
+    if (isDone) {
+      const data = await readFromFile('mining.json');
+      const itemCheck = data.sort((a, b) => b.updatedAt - a.updatedAt)[0];
+      const newData = {
+        ...itemCheck,
+        isClaimed: true,
+      };
+
+      if (user) {
+        dispatch(claimMine());
+      }
+      if (miningStatus === 'succeeded') {
+        dispatch(getMiningInfo());
+
+        const rs = await updateMiningData('mining.json', newData, currentId);
+        if (rs) {
+          showToast('success', t('claimSuccess'));
+          setIsDone(false);
+          setIsMining(false);
+          setCurrentReward(0);
+          const totalRw = totalReward + AMOUNT_MINING;
+          setTotalReward(totalRw);
+
+          await AsyncStorage.setItem('totalReward', totalRw.toString());
+        }
+      }
+    } else {
+      const boostAdjust = miningData.boost ?? 0;
+      const currentDate = new Date();
+      const start = currentDate.getTime(); // Current timestamp in milliseconds
+      const durationInMs = 24 * 3600 * 1000; // 24 hours in milliseconds
+      const adjustedDuration = stringUtils.calculateTimeAdjustment(boostAdjust);
+      const newId = currentId + 1;
+      const data: MiningData = {
+        startDate: start,
+        endDate: start + durationInMs - adjustedDuration,
+        point: AMOUNT_MINING,
+        level: 0,
+        miningRate: AMOUNT_MINING.toString(),
+        totalInvite: 0,
+        totalPoolMined: 0,
+        isDone: false,
+        boost: boostAdjust,
+        idTemp: newId,
+        isClaimed: false,
+        deviceId: deviceId,
+      };
+
+      if (user) {
+        dispatch(startMine(data));
+        setCurrentId(newId);
+        await updateMiningData('mining.json', data, newId);
+        setIsMining(true);
+      }
+    }
   };
+
+  useEffect(() => {
+    const handleStopMining = async () => {
+      try {
+        const data = await readFromFile('mining.json');
+        if (data.length !== 0) {
+          const currentDate = new Date().getTime();
+
+          const itemCheck = data.sort((a, b) => b.idTemp - a.idTemp)[0];
+
+          if (itemCheck && itemCheck.endDate > currentDate) {
+            setIsMining(true);
+            setStartDate(itemCheck.startDate);
+            setEndDate(itemCheck.endDate);
+            const elapsedTime =
+              new Date().getTime() - new Date(itemCheck.startDate).getTime(); // Elapsed time in milliseconds
+            const totalTime =
+              new Date(itemCheck.endDate).getTime() -
+              new Date(itemCheck.startDate).getTime();
+
+            if (elapsedTime <= totalTime) {
+              const progress = elapsedTime / totalTime;
+              const reward = parseFloat((progress * AMOUNT_MINING).toFixed(4));
+              // let final = totalReward - AMOUNT_MINING + reward;
+              // if (final < currentReward) {
+              //   //the first when start mining final is always less than current reward
+              //   final += AMOUNT_MINING;
+              // }
+              setCurrentReward(parseFloat(reward.toFixed(4)));
+            }
+          } else {
+            //done mining
+
+            if (!itemCheck.isClaimed) {
+              setIsMining(false);
+              setEndDate(0);
+              setStartDate(0);
+              anim.current?.pause();
+              setIsDone(true);
+              //make is current reward to total reward
+              setCurrentReward(AMOUNT_MINING);
+
+              const newData = {
+                ...itemCheck,
+                isDone: true,
+              };
+              await updateMiningData('mining.json', newData, currentId);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error reading mining.json:', error);
+      }
+    };
+
+    const interval = setInterval(() => {
+      handleStopMining();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [endDate]);
 
   const showAds = () => {
     // if (loaded) {
@@ -100,6 +247,42 @@ const MiningScreen = () => {
     console.log(isMining);
     setIsMining(!isMining);
   };
+
+  if (showAlert) {
+    return (
+      <View style={styles.modal_container}>
+        <Modal transparent={true} visible={true} animationType="fade">
+          <View style={styles.modal_overlay}>
+            <View style={styles.modal_modalContainer}>
+              <Text style={styles.modal_title}>{t('mining:loginToMine')}</Text>
+              <Text style={styles.modal_message}>{t('mining:warning')}</Text>
+              <View style={styles.modal_buttonContainer}>
+                <Pressable
+                  style={[styles.modal_button, styles.modal_cancelButton]}
+                  onPress={() => {
+                    navigateReset(SCREENS.MAIN);
+                  }}>
+                  <Text style={styles.modal_cancelButtonText}>
+                    {t('other:cancel')}
+                  </Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.modal_button, styles.modal_quitButton]}
+                  onPress={() => {
+                    navigateReset(SCREENS.LOGIN);
+                  }}>
+                  <Text style={styles.modal_quitButtonText}>
+                    {t('other:accept')}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+    );
+  }
+
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: backgroundColor}}>
@@ -109,27 +292,59 @@ const MiningScreen = () => {
         </Text>
         <View
           style={{
-            ...styles.rewardContainer,
-            backgroundColor: cardWalletBackgroundColor,
-            borderColor: cardWalletBorderColor,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            gap: 10,
           }}>
-          <Text style={styles.rewardText}>{t('currentReward')}</Text>
-          <View style={styles.pointContainer}>
+          <View
+            style={{
+              ...styles.rewardContainer,
+              backgroundColor: cardWalletBackgroundColor,
+              borderColor: cardWalletBorderColor,
+            }}>
+            <Text style={styles.rewardText}>{t('currentReward')}</Text>
+            <View style={styles.pointContainer}>
+              <Image
+                source={POINT_SEIM}
+                style={styles.imagePoint}
+                resizeMode={'contain'}
+              />
+
+              <Text style={{...styles.pointText, color: textOutstandingColor}}>
+                {currentReward}
+              </Text>
+            </View>
             <Image
-              source={POINT_SEIM}
-              style={styles.imagePoint}
+              source={BACKGROUND_REWARD}
+              style={styles.imageBackgroundReward}
               resizeMode={'contain'}
             />
-
-            <Text style={{...styles.pointText, color: textOutstandingColor}}>
-              0.0267
-            </Text>
           </View>
-          <Image
-            source={BACKGROUND_REWARD}
-            style={styles.imageBackgroundReward}
-            resizeMode={'contain'}
-          />
+          <View
+            style={{
+              ...styles.rewardContainer,
+              backgroundColor: cardWalletBackgroundColor,
+              borderColor: cardWalletBorderColor,
+            }}>
+            <Text style={styles.rewardText}>{t('totalReward')}</Text>
+            <View style={styles.pointContainer}>
+              <Image
+                source={POINT_SEIM}
+                style={styles.imagePoint}
+                resizeMode={'contain'}
+              />
+
+              <Text style={{...styles.pointText, color: textOutstandingColor}}>
+                {totalReward}
+              </Text>
+            </View>
+            <Image
+              source={BACKGROUND_REWARD}
+              style={styles.imageBackgroundReward}
+              resizeMode={'contain'}
+            />
+          </View>
         </View>
         <View
           style={{
@@ -146,13 +361,22 @@ const MiningScreen = () => {
           />
           {/* </View> */}
 
-          <CountdownTimer />
+          <CountdownTimer endDate={endDate} startDate={startDate} />
           <TouchableOpacity
-            style={styles.btnMint}
+            style={{
+              ...styles.btnMint,
+              backgroundColor: isMining ? '#B5DCFB' : '#1B9CFC',
+              borderColor: isMining ? '#B5DCFB' : '#1B9CFC',
+            }}
             onPress={onPlayPress}
-            disabled={timeLeft > 0}>
+            disabled={isMining}>
             <Text style={styles.mintText}>
-              {timeLeft === 0 ? t('startMining') : `${t('mining')}...`}
+              {!isMining
+                ? isDone
+                  ? t('claim')
+                  : t('startMining')
+                : `${t('mining')}...`}
+              {/* {t('startMining')} */}
             </Text>
           </TouchableOpacity>
         </View>
@@ -169,7 +393,13 @@ const MiningScreen = () => {
             <View style={styles.miningDetailLeft}>
               <View style={styles.miningDetailTextContainer}>
                 <IconPool />
-                <Text style={{...styles.miningInfoText, color: textColor}}>
+                <Text
+                  style={{
+                    ...styles.miningInfoText,
+                    color: textColor,
+                    flex: 1,
+                    flexWrap: 'wrap',
+                  }}>
                   {t('totalPool')}
                 </Text>
               </View>
@@ -179,7 +409,7 @@ const MiningScreen = () => {
                   ...styles.miningInfoValue,
                   color: textOutstandingColor,
                 }}>
-                5
+                {miningData.totalPoolMined}
               </Text>
             </View>
             <View
@@ -199,7 +429,7 @@ const MiningScreen = () => {
                   ...styles.miningInfoValue,
                   color: textOutstandingColor,
                 }}>
-                0.03
+                {AMOUNT_MINING}
               </Text>
             </View>
           </View>
@@ -239,7 +469,7 @@ const MiningScreen = () => {
                   ...styles.miningInfoValue,
                   color: textOutstandingColor,
                 }}>
-                5
+                {miningData.level}
               </Text>
             </View>
             <View
@@ -259,7 +489,7 @@ const MiningScreen = () => {
                   ...styles.miningInfoValue,
                   color: textOutstandingColor,
                 }}>
-                8
+                {miningData.totalInvite}
               </Text>
             </View>
           </View>

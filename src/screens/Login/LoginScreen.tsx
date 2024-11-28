@@ -19,14 +19,16 @@ import {useDispatch} from 'react-redux';
 import {styles} from './LoginScreen.styles';
 import {readFromFile} from '@/helpers/file';
 import {uploadHabit} from '@/api/habit';
-import {navigate} from '@/helpers/navigation';
+import {navigate, navigateReset} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
 import {useTranslation} from 'react-i18next';
+import {useNavigation} from '@react-navigation/native';
 
 const LoginScreen = () => {
   const {t} = useTranslation(['other']);
   const dispatch = useDispatch();
   const userInfo = useAppSelector((state: StoreState) => state.userInfo);
+
   const onLoginViaGoogle = async () => {
     try {
       GoogleSignin.configure({
@@ -117,6 +119,15 @@ const LoginScreen = () => {
           onPress={onLoginViaGoogle}>
           <IconGoogle />
           <Text style={styles.loginText}>{t('login')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{...styles.googleButton, marginTop: 10}}
+          onPress={() => {
+            navigateReset(SCREENS.MAIN);
+          }}>
+          <Text style={{...styles.loginText, marginLeft: 0}}>
+            {t('goHome')}
+          </Text>
         </TouchableOpacity>
       </View>
 

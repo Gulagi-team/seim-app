@@ -34,6 +34,8 @@ const FeedbackScreen = () => {
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
   // const scrollViewRef = useRef<KeyboardAwareScrollView>(null);
 
+  const {status} = useAppSelector((state: StoreState) => state.FeedbackSlice);
+
   const handleSubmit = () => {
     if (name && feedback) {
       let body = {
@@ -42,6 +44,15 @@ const FeedbackScreen = () => {
       };
 
       dispatch(addNewFeedback(body));
+
+      if (status === 'succeeded') {
+        showToast('success', 'Feedback sent successfully');
+        setName('');
+        setFeedback('');
+        navigation.goBack();
+      } else {
+        showToast('error', 'Feedback sent failed');
+      }
     } else {
       showToast('error', 'You have not entered any information yet');
     }
@@ -85,6 +96,7 @@ const FeedbackScreen = () => {
           <TextInput
             style={{...styles.nameInput, color: textColor}}
             onChangeText={value => setName(value)}
+            value={name}
             placeholder={t('feedback:namePlace')}
             placeholderTextColor={'#A3A3A3'}
             numberOfLines={1}
@@ -111,6 +123,7 @@ const FeedbackScreen = () => {
             style={{...styles.nameInput, color: textColor}}
             onChangeText={value => setFeedback(value)}
             placeholder={t('feedback:feedbackPlace')}
+            value={feedback}
             multiline
             placeholderTextColor={'#A3A3A3'}
             numberOfLines={5}

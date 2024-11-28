@@ -46,6 +46,7 @@ export interface UserProfileType {
   email: string;
   name: string;
   avatar: string;
+  refferal: number;
 }
 
 export interface Habit {
@@ -89,6 +90,18 @@ export interface MiningData {
   miningRate: string;
   totalInvite: number;
   totalPoolMined: number;
+  isDone?: boolean;
+  boost?: number;
+  idTemp?: number;
+  isClaimed?: boolean;
+  deviceId?: string;
+}
+
+export interface Filter {
+  page: number;
+  limit: number;
+  sortBy: string;
+  sortDir: string;
 }
 
 export type LanguageType =
