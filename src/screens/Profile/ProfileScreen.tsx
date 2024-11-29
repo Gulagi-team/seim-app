@@ -12,13 +12,14 @@ import FastImage from 'react-native-fast-image';
 import {BarChart} from 'react-native-gifted-charts';
 import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {styles} from './ProfileScreen.styles';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {getStringLocal} from '@/helpers/localStorage';
 import {getAuth} from '@/store/auth';
 import {UserProfileType} from '@/types/colection';
+import {stringUtils} from '@/utils/string';
 const ProfileScreen = () => {
   const {t} = useTranslation(['setting']);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -27,9 +28,8 @@ const ProfileScreen = () => {
   const habits = useAppSelector(
     (state: StoreState) => state.HabitsSlide.habits,
   );
-  console.log('habits', habits);
   const getUserInfoLocal = getStringLocal('userInfo');
-  const {avatar, weight, height, old} = JSON.parse(getUserInfoLocal as string);
+  const {weight, height, old} = JSON.parse(getUserInfoLocal as string);
 
   const [userInfor, setUserInfor] = React.useState<UserProfileType>();
   const {
@@ -39,6 +39,7 @@ const ProfileScreen = () => {
     textOutstandingColor,
     borderColor,
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
+  const {miningData} = useSelector((state: StoreState) => state.MiningSlice);
 
   useEffect(() => {
     const getInfo = async () => {
@@ -90,15 +91,19 @@ const ProfileScreen = () => {
 
             <View style={styles.levelContainer}>
               <Text style={{...styles.levelText, color: textColor}}>
-                {t('level', {level: 'Bronze'})}
+                {t('level', {level: miningData.level})}
               </Text>
               <Text
                 style={{...styles.percentText, color: textOutstandingColor}}>
-                115/500
+                {miningData.totalInvite}/
+                {stringUtils.getMaxInviteByLevel(miningData.level)}
               </Text>
             </View>
             <Progress.Bar
-              progress={0.4}
+              progress={
+                miningData.totalInvite /
+                stringUtils.getMaxInviteByLevel(miningData.level)
+              }
               width={deviceWidth - 121}
               color={COLORS.secondary_orange1}
               unfilledColor={borderColor}

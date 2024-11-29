@@ -1,7 +1,9 @@
 {
   "mining": "채굴",
   "currentReward": "현재 보상",
+  "totalReward": "총 보상",
   "startMining": "채굴 시작",
+  "claim": "청구",
   "infor": "채굴 정보",
   "totalPool": "총 채굴된 풀",
   "miningAmount": "채굴 양",
@@ -9,5 +11,8 @@
   "referral": "초대된 사람들",
   "balance": "귀하의 잔액",
   "disconnect": "연결 끊기",
-  "connectWallet": "지갑 연결"
+  "connectWallet": "지갑 연결",
+  "loginToMine": "포인트 채굴을 위해 로그인",
+  "warning": "현재 채굴 기능은 로그인하지 않은 경우 사용할 수 없습니다",
+  "claimSuccess": "청구 성공"
 }

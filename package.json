@@ -50,6 +50,7 @@
     "react-native": "^0.73.11",
     "react-native-config": "^1.5.1",
     "react-native-css-transformer": "^1.2.4",
+    "react-native-device-info": "^14.0.1",
     "react-native-fast-image": "^8.6.3",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.16.0",

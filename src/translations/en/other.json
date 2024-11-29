@@ -6,5 +6,8 @@
   "login": "Log in with Google",
   "noti": "Notification",
   "maxChallenge": "You can only select 5 habits",
-  "develop": "Developed by {{name}}"
+  "develop": "Developed by {{name}}",
+  "accept": "Accept",
+  "cancel": "Cancel",
+  "goHome": "Go Home"
 }

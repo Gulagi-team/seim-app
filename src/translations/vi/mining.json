@@ -1,7 +1,9 @@
 {
   "mining": "Đào",
   "currentReward": "Phần thưởng hiện tại",
+  "totalReward": "Tổng phần thưởng",
   "startMining": "Bắt đầu đào",
+  "claim": "Lấy phần thưởng",
   "infor": "Thông tin đào",
   "totalPool": "Tổng số pool đã khai thác",
   "miningAmount": "Số lượng đào",
@@ -9,5 +11,8 @@
   "referral": "Số người mời",
   "balance": "Số dư của bạn",
   "disconnect": "Ngắt kết nối",
-  "connectWallet": "Kết nối ví"
+  "connectWallet": "Kết nối ví",
+  "loginToMine": "Đăng nhập để đào điểm",
+  "warning": "Hiện tại, tính năng đào không khả dụng khi bạn chưa đăng nhập",
+  "claimSuccess": "Lấy phần thưởng thành công"
 }

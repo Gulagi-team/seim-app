@@ -1,7 +1,9 @@
 {
   "mining": "Mining",
   "currentReward": "Current reward",
+  "totalReward": "Total reward",
   "startMining": "Start mining",
+  "claim": "Claim",
   "infor": "Mining information",
   "totalPool": "Total pools mined",
   "miningAmount": "Mining amount",
@@ -9,5 +11,8 @@
   "referral": "Invited Peoples",
   "balance": "Your balance",
   "disconnect": "Disconnect",
-  "connectWallet": "Connect Wallet"
+  "connectWallet": "Connect Wallet",
+  "loginToMine": "Login to mine points",
+  "warning": "Currently, the mining feature is not available when you not login",
+  "claimSuccess": "Claim successfully"
 }

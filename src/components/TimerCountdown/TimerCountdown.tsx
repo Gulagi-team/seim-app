@@ -5,10 +5,10 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import * as Progress from 'react-native-progress';
 
-const CountdownTimer = () => {
-  const endDate = useAppSelector(
-    (state: StoreState) => state.MiningSlice.miningData.endDate,
-  );
+const CountdownTimer = ({endDate = 0, startDate = 0}) => {
+  // const endDate = useAppSelector(
+  //   (state: StoreState) => state.MiningSlice.miningData.endDate,
+  // );
   const {borderColor, textOutstandingColor} = useAppSelector(
     (state: StoreState) => state.ThemeSlice,
   );
@@ -27,8 +27,13 @@ const CountdownTimer = () => {
   // Helper function to add leading zeros
   const formatNumber = (number: number) => `0${number}`.slice(-2);
 
-  // Convert time left from milliseconds to hours, minutes, and seconds
-  const timeRuning = Math.floor(24 * 3600 * 1000 - timeLeft);
+  // Calculate timeRuning dynamically
+  const elapsedTime = new Date().getTime() - new Date(startDate).getTime(); // Elapsed time in milliseconds
+  const totalTime = new Date(endDate).getTime() - new Date(startDate).getTime(); // Total mining duration in milliseconds
+
+  const timeRuning = Math.min(elapsedTime / totalTime, 1) * 100; // Percentage of time completed
+
+  // Convert remaining time to hours, minutes, and seconds
   const hours = formatNumber(Math.floor((timeLeft / (1000 * 60 * 60)) % 24));
   const minutes = formatNumber(Math.floor((timeLeft / (1000 * 60)) % 60));
   const seconds = formatNumber(Math.floor((timeLeft / 1000) % 60));
@@ -37,15 +42,18 @@ const CountdownTimer = () => {
     <View>
       <View style={styles.levelContainer}>
         <Text style={styles.levelText}>
-          {(timeRuning / (24 * 3600 * 10)).toFixed(1)}%
+          {startDate === 0 ? '0.0%' : timeRuning.toFixed(1) + '%'}
         </Text>
         <Text style={{...styles.timerText, color: textOutstandingColor}}>
-          {hours}:{minutes}:{seconds}
+          {startDate !== 0 && (
+            <>
+              {hours}:{minutes}:{seconds}
+            </>
+          )}
         </Text>
-        {/* <Text style={styles.percentText}>00:00:00</Text> */}
       </View>
       <Progress.Bar
-        progress={timeRuning / (24 * 3600 * 100 * 10)}
+        progress={timeRuning / 100} // Normalized to 0–1 for progress bar
         width={deviceWidth - 121}
         color={COLORS.primary_A400}
         unfilledColor={borderColor}

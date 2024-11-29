@@ -1,9 +1,7 @@
-import {deviceWidth} from '@/constants/layout';
 import {
   COLORS,
   FONT_SIZE,
   POPPINS_BOLD,
-  POPPINS_LIGHT,
   POPPINS_MEDIUM,
   POPPINS_REGULAR,
 } from '@/theme';
@@ -29,7 +27,7 @@ export const styles = StyleSheet.create({
   },
   rewardContainer: {
     height: 70,
-    width: '100%',
+    width: '45%',
     backgroundColor: '#DAEDFD73',
     borderRadius: 10,
     marginTop: 15,
@@ -84,6 +82,15 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   btnMint: {
+    width: 200,
+    height: 44,
+    backgroundColor: COLORS.primary_A500,
+    borderRadius: 10,
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnWaringLogin: {
     width: 200,
     height: 44,
     backgroundColor: COLORS.primary_A500,
@@ -149,5 +156,80 @@ export const styles = StyleSheet.create({
     zIndex: -1,
     height: '25%',
     bottom: 0,
+  },
+  modal_container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  modal_overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modal_modalContainer: {
+    width: '80%',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 10,
+  },
+  modal_closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    padding: 5,
+  },
+  modal_closeButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  modal_title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+    color: '#333',
+  },
+  modal_message: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  modal_buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  modal_button: {
+    flex: 1,
+    paddingVertical: 10,
+    marginHorizontal: 5,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modal_cancelButton: {
+    backgroundColor: '#f0f0f0',
+  },
+  modal_cancelButtonText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  modal_quitButton: {
+    backgroundColor: '#6200ea',
+  },
+  modal_quitButtonText: {
+    fontSize: 16,
+    color: '#fff',
   },
 });

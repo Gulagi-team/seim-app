@@ -6,5 +6,8 @@
   "login": "使用 Google 登录",
   "noti": "通知",
   "maxChallenge": "您只能选择 5 个习惯",
-  "develop": "由 {{name}} 开发"
+  "develop": "由 {{name}} 开发",
+  "accept": "接受",
+  "cancel": "取消",
+  "goHome": "回到首页"
 }
