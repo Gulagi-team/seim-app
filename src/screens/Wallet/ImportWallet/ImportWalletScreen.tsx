@@ -44,9 +44,7 @@ const ImportWalletScreen = ({
   //   setPrivateKey(txt);
   // };
   const handleImportPrivateKey = async () => {
-    console.log('privateKey', privateKey);
     const account = await importWalletFromPK(privateKey);
-    console.log('account', account);
     if (account) {
       dispatch(updateWalletState({chainId: 97, account: account.address}));
       dispatch(addPrivateKey(account.privateKey));

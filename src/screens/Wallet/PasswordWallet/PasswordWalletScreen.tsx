@@ -35,7 +35,6 @@ const PasswordWalletScreen = ({
   const {to} = route.params;
 
   const {t} = useTranslation(['wallet']);
-  console.log('to', to);
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

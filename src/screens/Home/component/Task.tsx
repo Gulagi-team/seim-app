@@ -13,6 +13,7 @@ import React, {useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {styles} from './Task.styles';
+import {completeTask} from '@/store/habits/action';
 
 interface Props {
   task: Task;
@@ -26,7 +27,7 @@ const TaskContent = ({task, habit}: Props) => {
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
     dispatch(
-      updateTaskStatus({
+      completeTask({
         task_id: task.id,
         habit,
         isFinished: !isChecked,

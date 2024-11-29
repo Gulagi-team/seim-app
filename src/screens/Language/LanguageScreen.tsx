@@ -36,7 +36,6 @@ const LanguageScreen = () => {
   const onChangeLanguage = (lang: LanguageType) => {
     dispatch(updateLanguage(lang));
     i18n.changeLanguage(lang);
-    // console.log(i18n.getResourceBundle('en', 'home'));
   };
 
   return (

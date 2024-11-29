@@ -35,44 +35,6 @@ const HabitSlice = createSlice({
   name: 'habit',
   initialState,
   reducers: {
-    updateTaskStatus: (state, action: PayloadAction<TaskToUpdate>) => {
-      const habit = action.payload.habit;
-      const taskIndex = habit.tasks?.findIndex(
-        el => el.id === action.payload.task_id,
-      );
-
-      if (taskIndex !== undefined && taskIndex !== -1 && habit.tasks) {
-        const isFinished = action.payload.isFinished;
-
-        const updatedTasks = habit.tasks.map(el =>
-          el.id === action.payload.task_id ? {...el, isFinished} : el,
-        );
-        const updatedHabit = {
-          ...habit,
-          tasks: updatedTasks,
-        };
-        //update status of task in state habits
-        const habitIndex = state.habits.findIndex(
-          el => el.habit.id === updatedHabit.id,
-        );
-        state.habits[habitIndex].habit = updatedHabit;
-
-        updateByIdInFile('habits.json', habit.id, {habit: updatedHabit});
-
-        //update to file history:createdAt, updatedAt, isFinished, taskId
-        const taskHistory = {
-          createdAt: moment().toISOString(),
-          updatedAt: moment().toISOString(),
-          isFinished,
-          taskId: action.payload.task_id,
-        };
-        updateTaskHistory(
-          'task_histories.json',
-          taskHistory.taskId,
-          taskHistory,
-        );
-      }
-    },
     updateState: (state, action: PayloadAction<Habit[]>) => {
       return {
         ...state,
@@ -89,6 +51,7 @@ const HabitSlice = createSlice({
         fetchHabits.fulfilled,
         (state, action: PayloadAction<HabitResponse>) => {
           state.status = 'succeeded';
+
           state.today = action.payload.today ?? '';
           state.habits = action.payload.data ?? [];
         },
@@ -151,8 +114,45 @@ const HabitSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(completeTask.fulfilled, (state, action: PayloadAction<any>) => {
-        state.status = 'succeeded';
-        delete state.taskStack[state.taskStack.length];
+        const habit = action.payload.habit;
+        const taskIndex = habit.tasks?.findIndex(
+          el => el.id === action.payload.task_id,
+        );
+
+        if (taskIndex !== undefined && taskIndex !== -1 && habit.tasks) {
+          const isFinished = action.payload.isFinished;
+
+          const updatedTasks = habit.tasks.map(el =>
+            el.id === action.payload.task_id ? {...el, isFinished} : el,
+          );
+          const updatedHabit = {
+            ...habit,
+            tasks: updatedTasks,
+          };
+
+          const task = habit.tasks.find(el => el.id === action.payload.task_id);
+          //update status of task in state habits
+          const habitIndex = state.habits.findIndex(
+            el => el.habit.id === updatedHabit.id,
+          );
+          state.habits[habitIndex].habit = updatedHabit;
+
+          updateByIdInFile('habits.json', habit.id, {habit: updatedHabit});
+
+          //update to file history:createdAt, updatedAt, isFinished, taskId
+          const taskHistory = {
+            createdAt: moment().toISOString(),
+            updatedAt: moment().toISOString(),
+            isFinished,
+            point: task?.point,
+            taskId: action.payload.task_id,
+          };
+          updateTaskHistory(
+            'task_histories.json',
+            taskHistory.taskId,
+            taskHistory,
+          );
+        }
       })
       .addCase(completeTask.rejected, (state, action) => {
         state.status = 'failed';
@@ -180,6 +180,6 @@ const HabitSlice = createSlice({
   },
 });
 
-export const {updateTaskStatus, updateState} = HabitSlice.actions;
+export const {updateState} = HabitSlice.actions;
 
 export default HabitSlice.reducer;

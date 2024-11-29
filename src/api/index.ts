@@ -10,7 +10,6 @@ axios.interceptors.request.use(
     // config.headers.Authorization = `Bearer ${your_token}`;
     // OR config.headers.common['Authorization'] = `Bearer ${your_token}`;
     const user = await AsyncStorage.getItem('userInfo');
-
     if (user) {
       const info = JSON.parse(user);
       config.headers.Authorization = `Bearer ${info.access_token}`;
@@ -32,8 +31,6 @@ axios.interceptors.response.use(
     return res;
   },
   async err => {
-    console.log('Api url is:', API_URL);
-    console.log('Error when call: ', err.response);
     console.log(
       'Message when call api is: ',
       JSON.stringify(err.response?.data?.message),

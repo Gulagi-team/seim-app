@@ -4,7 +4,7 @@ import HomeBanerDark from '@/assets/images/home_banner_dark.png';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import SCREENS from '@/constants/screen';
 import {formatLongDate, getPartOfDay} from '@/helpers/conversion';
-import {readFromFile} from '@/helpers/file';
+import {readFromFile, removeFile, writeToFile} from '@/helpers/file';
 import {navigate} from '@/helpers/navigation';
 import {StoreState, useAppSelector} from '@/store';
 import {getAuth} from '@/store/auth';
@@ -42,38 +42,71 @@ const HomeScreen = () => {
   useEffect(() => {
     const getData = async () => {
       const user = await getAuth();
+
       if (user) {
         dispatch(fetchHabits());
       } else {
         const habitsFromFile = await readFromFile('habits.json');
+        console.log('habitsFromFile', habitsFromFile);
         dispatch(updateState(habitsFromFile));
-
-        const resetHabits = habitsFromFile.map(habit => {
-          const updatedTasks = habit.habit.tasks.map(task => ({
-            ...task,
-            isFinished: false,
-          }));
-          return {
-            ...habit,
-            habit: {
-              ...habit.habit,
-              tasks: updatedTasks,
-            },
-          };
-        });
-
-        //reset task status of current day
-        // for (const habit of habitsFromFile) {
-        //   for (const task of habit.habit.tasks) {
-        //     task.isFinished = false;
-        //     console.log('task', task);
-        //   }
-        // }
-
-        // console.log('habitsFromFile', habitsFromFile[0].habit.tasks);
       }
     };
+
     getData();
+  }, []);
+
+  useEffect(() => {
+    let resetTimeout: any;
+
+    const handleResetStatusHabit = async () => {
+      try {
+        const data = await readFromFile('habits.json');
+
+        const updatedHabits = data.map(habit => ({
+          ...habit,
+          habit: {
+            ...habit.habit,
+            tasks: habit.habit.tasks.map(task => ({
+              ...task,
+              isFinished: false,
+            })),
+          },
+        }));
+
+        await removeFile('habits.json');
+        await writeToFile('habits.json', updatedHabits);
+
+        console.log('Habits reset successfully!');
+      } catch (error) {
+        console.error('Error resetting habits:', error);
+      }
+    };
+
+    const scheduleNextReset = () => {
+      const now = new Date();
+      const nextReset = new Date();
+      nextReset.setHours(1, 0, 0, 0); // 1h sáng
+      if (now >= nextReset) {
+        nextReset.setDate(nextReset.getDate() + 1); // Lùi sang ngày hôm sau nếu đã qua 1h
+      }
+
+      const timeUntilNextReset = nextReset.getTime() - now.getTime();
+
+      console.log(`Next reset scheduled at: ${nextReset}`);
+
+      resetTimeout = setTimeout(async () => {
+        await handleResetStatusHabit();
+        scheduleNextReset(); // Tiếp tục đặt lịch cho lần reset tiếp theo
+      }, timeUntilNextReset);
+    };
+
+    scheduleNextReset();
+
+    return () => {
+      if (resetTimeout) {
+        clearTimeout(resetTimeout);
+      }
+    };
   }, []);
 
   const [idxContent, setIdxContent] = useState<number>(0);

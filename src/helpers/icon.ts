@@ -32,6 +32,7 @@ import ANTI_SOCIAL from '@/assets/icons/tasks/AntiSocial.svg';
 import BREAKFAST from '@/assets/icons/tasks/Breakfast.svg';
 import CHARITY from '@/assets/icons/tasks/Charity.svg';
 import FREEDOM from '@/assets/icons/tasks/Freedom.svg';
+import DAILY from '@/assets/icons/topics/Daily.svg';
 export const iconMap = {
   youtube: YOUTUBE,
   watching: WATCHING,
@@ -66,6 +67,7 @@ export const iconMap = {
   charity: CHARITY,
   freedom: FREEDOM,
   habit: FREEDOM,
+  daily: DAILY,
 };
 
 export function generateArray(start: number, end: number): number[] {
@@ -75,10 +77,6 @@ export function generateArray(start: number, end: number): number[] {
   }
   return result;
 }
-// export function getIcon(name: string): any {
-//   console.log('name:', name);
-//   return iconMap[name] || require('@/assets/icons/tasks/Youtube.svg'); // Fallback to a default icon
-// }
 
 export function getIcon(name: string): any {
   //use icons.json
