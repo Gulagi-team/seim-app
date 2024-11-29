@@ -19,7 +19,6 @@ interface Date {
 }
 const ListDateContent = ({habitSelected}: Props) => {
   const today = useAppSelector((state: StoreState) => state.HabitsSlide.today);
-
   const getDateList = (_today: string, _habit: Habit): Date[] => {
     const listDate: Date[] = [];
     if (_habit.startDate === null) {

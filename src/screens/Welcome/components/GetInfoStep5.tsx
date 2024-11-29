@@ -45,15 +45,7 @@ const GetInfoStep5Content = () => {
           <ScrollPicker
             dataSource={myArray}
             selectedIndex={1}
-            // renderItem={(data, index) => {
-
-            //   console.log('====================================');
-            //   console.log('data',data);
-            //   console.log('====================================');
-            // }}
             onValueChange={(data, selectedIndex) => {
-              //
-              console.log('data', data);
               dispatch(updateWeight(selectedWeight));
               setSelectedWeight(+data);
             }}

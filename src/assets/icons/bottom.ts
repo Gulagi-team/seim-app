@@ -10,3 +10,7 @@ export const NOTIFICATION_DARK = require('./bottom/notification_dark.png');
 export const SETTING = require('./bottom/setting.png');
 export const SETTING_SELECTED = require('./bottom/setting_selected.png');
 export const SETTING_DARK = require('./bottom/setting_dark.png');
+
+export const USER = require('./bottom/user.png');
+export const USER_SELECTED = require('./bottom/user_selected.png');
+export const USER_DARK = require('./bottom/user_dark.png');

@@ -47,7 +47,6 @@ const ProfileScreen = () => {
       if (user) {
         setUserInfor(user);
       }
-      console.log('user', user);
     };
     getInfo();
 

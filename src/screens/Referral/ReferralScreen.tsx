@@ -52,7 +52,6 @@ const ReferralScreen = () => {
 
   const handlePasteCode = async () => {
     const code = await Clipboard.getString();
-    console.log('code', code);
     setRefCode(code);
   };
 

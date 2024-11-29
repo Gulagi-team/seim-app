@@ -30,21 +30,11 @@ const GetInfoStep4Content = () => {
           <ScrollPicker
             dataSource={myArray}
             selectedIndex={1}
-            // renderItem={(data, index) => {
-
-            //   console.log('====================================');
-            //   console.log('data',data);
-            //   console.log('====================================');
-            // }}
             onValueChange={(data, selectedIndex) => {
-              //
-              console.log('data', data);
               dispatch(updateHeight(selectedHeight));
               setSelectedHeight(+data);
             }}
             wrapperHeight={300}
-            // wrapperWidth={150}
-            // wrapperColor='red'
             itemTextStyle={{fontSize: 40, fontWeight: '700', color: '#ddd'}}
             itemHeight={100}
             highlightColor="black"

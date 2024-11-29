@@ -3,12 +3,10 @@ import Web3 from 'web3';
 export const web3Instance = new Web3('https://rpc.seim.today');
 
 export const importWalletFromPK = async (privateKey: string) => {
-  console.log('importWalletFromPK');
   try {
     const account = await web3Instance.eth.accounts.privateKeyToAccount(
       privateKey,
     );
-    console.log('account1', account);
     return account;
   } catch (e) {
     console.log('e: ', e);

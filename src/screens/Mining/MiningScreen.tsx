@@ -15,16 +15,27 @@ import {stringUtils} from '@/utils/string';
 import LottieView from 'lottie-react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import mobileAds, {
+  AdEventType,
+  InterstitialAd,
+  MaxAdContentRating,
+  RewardedAdEventType,
+  TestIds,
+  useForeground,
+} from 'react-native-google-mobile-ads';
 import {
   Image,
   Modal,
+  Platform,
   Pressable,
+  StatusBar,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {RewardedAd} from 'react-native-google-mobile-ads';
+import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles} from './MiningScreen.styles';
 import {useDispatch, useSelector} from 'react-redux';
@@ -41,10 +52,15 @@ import SCREENS from '@/constants/screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 
-const adUnitId = process.env.REACT_APP_AD_UNIT_ID;
+const adUnitId = __DEV__
+  ? TestIds.INTERSTITIAL
+  : 'ca-app-pub-6403260985969215~4923743988';
 
 const rewarded = RewardedAd.createForAdRequest(adUnitId as string);
-
+const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+  keywords: ['fashion', 'clothing'],
+  requestNonPersonalizedAdsOnly: true,
+});
 const MiningScreen = () => {
   const AMOUNT_MINING = 1;
 
@@ -88,6 +104,7 @@ const MiningScreen = () => {
   useEffect(() => {
     const getData = async () => {
       const userExist = await getAuth();
+      console.log('userExist', userExist);
       if (userExist) {
         setShowAlert(false);
         setUser(userExist);
@@ -106,11 +123,105 @@ const MiningScreen = () => {
     DeviceInfo.getUniqueId().then(uniqueId => {
       setDeviceId(uniqueId);
     });
-    return () => {
-      // unsubscribeLoaded();
-      // unsubscribeEarned();
-    };
   }, []);
+
+  const bannerRef = useRef<BannerAd>(null);
+  useForeground(() => {
+    Platform.OS === 'android' && bannerRef.current?.load();
+  });
+  const [loaded, setLoaded] = useState(false);
+
+  const startMinining = async () => {
+    const boostAdjust = miningData.boost ?? 0;
+    const currentDate = new Date();
+    const start = currentDate.getTime(); // Current timestamp in milliseconds
+    const durationInMs = 24 * 3600 * 1000; // 24 hours in milliseconds
+    const adjustedDuration = stringUtils.calculateTimeAdjustment(boostAdjust);
+    const newId = currentId + 1;
+    const data: MiningData = {
+      startDate: start,
+      endDate: start + durationInMs - adjustedDuration,
+      point: AMOUNT_MINING,
+      level: 0,
+      miningRate: AMOUNT_MINING.toString(),
+      totalInvite: 0,
+      totalPoolMined: 0,
+      isDone: false,
+      boost: boostAdjust,
+      idTemp: newId,
+      isClaimed: false,
+      deviceId: deviceId,
+    };
+    if (user) {
+      dispatch(startMine(data));
+      setCurrentId(newId);
+      await updateMiningData('mining.json', data, newId);
+      setIsMining(true);
+    }
+  };
+
+  const startClaim = async () => {
+    const data = await readFromFile('mining.json');
+    const itemCheck = data.sort((a, b) => b.updatedAt - a.updatedAt)[0];
+    const newData = {
+      ...itemCheck,
+      isClaimed: true,
+    };
+    if (user) {
+      dispatch(claimMine());
+    }
+    if (miningStatus === 'succeeded') {
+      dispatch(getMiningInfo());
+      const rs = await updateMiningData('mining.json', newData, currentId);
+      if (rs) {
+        showToast('success', t('claimSuccess'));
+        setIsDone(false);
+        setIsMining(false);
+        setCurrentReward(0);
+        const totalRw = totalReward + AMOUNT_MINING;
+        setTotalReward(totalRw);
+        await AsyncStorage.setItem('totalReward', totalRw.toString());
+      }
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribeLoaded = interstitial.addAdEventListener(
+      AdEventType.LOADED,
+      () => {
+        setLoaded(true);
+        console.log('Ad loaded successfully');
+      },
+    );
+
+    const unsubscribeOpened = interstitial.addAdEventListener(
+      AdEventType.OPENED,
+      () => {
+        if (Platform.OS === 'android') {
+          StatusBar.setHidden(true); // Ẩn status bar khi mở quảng cáo trên Android
+        }
+      },
+    );
+
+    const unsubscribeClosed = interstitial.addAdEventListener(
+      AdEventType.CLOSED,
+      () => {
+        if (Platform.OS === 'android') {
+          StatusBar.setHidden(false); // Hiện lại status bar khi đóng quảng cáo
+        }
+
+        startMinining();
+      },
+    );
+
+    interstitial.load(); // Tải quảng cáo khi màn hình được mount
+
+    return () => {
+      unsubscribeLoaded();
+      unsubscribeOpened();
+      unsubscribeClosed(); // Dọn dẹp sự kiện khi unmount
+    };
+  }, [user]);
 
   useEffect(() => {
     if (isMining) {
@@ -119,61 +230,13 @@ const MiningScreen = () => {
       anim.current?.pause();
     }
   }, [isMining]);
+
   const onPlayPress = async () => {
     if (isDone) {
-      const data = await readFromFile('mining.json');
-      const itemCheck = data.sort((a, b) => b.updatedAt - a.updatedAt)[0];
-      const newData = {
-        ...itemCheck,
-        isClaimed: true,
-      };
-
-      if (user) {
-        dispatch(claimMine());
-      }
-      if (miningStatus === 'succeeded') {
-        dispatch(getMiningInfo());
-
-        const rs = await updateMiningData('mining.json', newData, currentId);
-        if (rs) {
-          showToast('success', t('claimSuccess'));
-          setIsDone(false);
-          setIsMining(false);
-          setCurrentReward(0);
-          const totalRw = totalReward + AMOUNT_MINING;
-          setTotalReward(totalRw);
-
-          await AsyncStorage.setItem('totalReward', totalRw.toString());
-        }
-      }
+      startClaim();
+      return;
     } else {
-      const boostAdjust = miningData.boost ?? 0;
-      const currentDate = new Date();
-      const start = currentDate.getTime(); // Current timestamp in milliseconds
-      const durationInMs = 24 * 3600 * 1000; // 24 hours in milliseconds
-      const adjustedDuration = stringUtils.calculateTimeAdjustment(boostAdjust);
-      const newId = currentId + 1;
-      const data: MiningData = {
-        startDate: start,
-        endDate: start + durationInMs - adjustedDuration,
-        point: AMOUNT_MINING,
-        level: 0,
-        miningRate: AMOUNT_MINING.toString(),
-        totalInvite: 0,
-        totalPoolMined: 0,
-        isDone: false,
-        boost: boostAdjust,
-        idTemp: newId,
-        isClaimed: false,
-        deviceId: deviceId,
-      };
-
-      if (user) {
-        dispatch(startMine(data));
-        setCurrentId(newId);
-        await updateMiningData('mining.json', data, newId);
-        setIsMining(true);
-      }
+      interstitial.show(); // Hiển thị quảng cáo
     }
   };
 
@@ -237,16 +300,6 @@ const MiningScreen = () => {
 
     return () => clearInterval(interval);
   }, [endDate]);
-
-  const showAds = () => {
-    // if (loaded) {
-    //   rewarded.show();
-    // } else {
-    //   showToast('error', 'No advert ready to show yet');
-    // }
-    console.log(isMining);
-    setIsMining(!isMining);
-  };
 
   if (showAlert) {
     return (
@@ -369,14 +422,13 @@ const MiningScreen = () => {
               borderColor: isMining ? '#B5DCFB' : '#1B9CFC',
             }}
             onPress={onPlayPress}
-            disabled={isMining}>
+            disabled={isMining || !loaded}>
             <Text style={styles.mintText}>
               {!isMining
                 ? isDone
                   ? t('claim')
                   : t('startMining')
                 : `${t('mining')}...`}
-              {/* {t('startMining')} */}
             </Text>
           </TouchableOpacity>
         </View>

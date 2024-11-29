@@ -16,6 +16,9 @@ import {
   SETTING,
   SETTING_SELECTED,
   SETTING_DARK,
+  USER,
+  USER_SELECTED,
+  USER_DARK,
 } from '@/assets/icons/bottom';
 import {COLORS} from '@/theme/index';
 import MiningScreen from '@/screens/Mining/MiningScreen';
@@ -27,7 +30,7 @@ export const KEY_BOTTOM_SCREEN = {
   HOME: 'Home',
   MINING: 'Mining',
   NOTIFICATION: 'Notify',
-  SETTING: 'Setting',
+  PROFILE: 'Profile',
 };
 
 const BottomTab = () => {
@@ -66,11 +69,11 @@ const BottomTab = () => {
       deactiveColor: DEACTIVE_COLOR,
     },
 
-    [KEY_BOTTOM_SCREEN.SETTING]: {
-      name: KEY_BOTTOM_SCREEN.SETTING,
+    [KEY_BOTTOM_SCREEN.PROFILE]: {
+      name: KEY_BOTTOM_SCREEN.PROFILE,
       component: SettingScreen,
-      activeIcon: SETTING_SELECTED,
-      deactiveIcon: isDarkMode ? SETTING_DARK : SETTING,
+      activeIcon: USER_SELECTED,
+      deactiveIcon: isDarkMode ? USER_DARK : USER,
       index: 2,
       activeColor: COLORS.secondary_green1,
       deactiveColor: DEACTIVE_COLOR,

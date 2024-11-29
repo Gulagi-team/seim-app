@@ -23,6 +23,7 @@ import {navigate, navigateReset} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
+import {uploadTaskHistories} from '@/api/task';
 
 const LoginScreen = () => {
   const {t} = useTranslation(['other']);
@@ -77,19 +78,32 @@ const LoginScreen = () => {
           });
         });
 
-        await AsyncStorage.setItem('userInfo', JSON.stringify(userProfile));
+        const dataUpdateTask: {
+          createdAt: string;
+          isFinished: boolean;
+          point: number;
+          taskId: string;
+        }[] = [];
+
+        const taskHistories = await readFromFile('task_histories.json');
+        taskHistories.forEach(item => {
+          dataUpdateTask.push({
+            createdAt: item.createdAt,
+            isFinished: item.isFinished,
+            point: item.point,
+            taskId: item.taskId,
+          });
+        });
+
+        // createdAt, isFinished, point, taskId
+
         await updateProfile(profile);
         await uploadHabit(dataUpdateHabit);
+        await uploadTaskHistories(dataUpdateTask);
+        await AsyncStorage.setItem('userInfo', JSON.stringify(userProfile));
         dispatch(updateUserProfile(userProfile));
         navigate(SCREENS.MAIN);
       }
-
-      // if (token?.accessToken) {
-      //   // loginViaGoogleMiddleware(token.accessToken, (res) =>
-      //   //   handleLoginSuccessViaThirdParty(res, LoginThirdPartyType.GOOGLE),
-      //   // );
-      //   console.log('token.accessToken:', token.accessToken);
-      // }
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('SIGN_IN_CANCELLED');

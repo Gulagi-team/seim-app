@@ -39,8 +39,8 @@ const SplashScreen = () => {
     // await removeFile('topics.json');
     // await removeFile('habits.json');
     // await removeFile('task_histories.json');
-    // await removeFile('mining.json');
-    // await AsyncStorage.removeItem('currentReward');
+    await removeFile('mining.json');
+    await AsyncStorage.removeItem('currentReward');
 
     // navigateReset(CONST_SCREEN.WELCOME);
 
