@@ -1,0 +1,20 @@
+{
+  "title": "Giới thiệu",
+  "get": "Nhận",
+  "bannerText": "cho mỗi lượt giới thiệu thành công",
+  "code": "Mã giới thiệu",
+  "link": "Liên kết giới thiệu",
+  "earned": "Đã kiếm được",
+  "des": "Bạn của bạn cần hoàn thành ít nhất 01 giao dịch hoán đổi để trở thành lượt giới thiệu hợp lệ.",
+  "invited": "ĐÃ MỜI",
+  "valid": "HỢP LỆ",
+  "invitedWho": "Ai đã mời bạn?",
+  "descInvite": "Nhập mã giới thiệu của bạn bè để gửi quà từ SEIM cho họ",
+  "enterCode": "Nhập mã tại đây",
+  "paste": "Dán",
+  "add": "Thêm mã",
+  "copyLink": "Liên kết giới thiệu đã được lưu vào Clipboard",
+  "copyCode": "Mã giới thiệu đã được lưu vào Clipboard",
+  "empty": "Mã giới thiệu trống",
+  "success": "Mã giới thiệu đã được thêm thành công"
+}

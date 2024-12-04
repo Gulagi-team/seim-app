@@ -42,7 +42,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const getData = async () => {
       const user = await getAuth();
-
+      console.log('user', user);
       if (user) {
         dispatch(fetchHabits());
       } else {

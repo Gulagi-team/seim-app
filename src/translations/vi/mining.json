@@ -14,5 +14,7 @@
   "connectWallet": "Kết nối ví",
   "loginToMine": "Đăng nhập để đào điểm",
   "warning": "Hiện tại, tính năng đào không khả dụng khi bạn chưa đăng nhập",
-  "claimSuccess": "Lấy phần thưởng thành công"
+  "claimSuccess": "Lấy phần thưởng thành công",
+  "history": "Lịch sử",
+  "miningHistory": "Lịch sử đào"
 }

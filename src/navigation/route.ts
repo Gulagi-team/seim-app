@@ -21,6 +21,7 @@ import FeedbackScreen from '@/screens/Feedback/FeedbackScreen';
 import ReferralScreen from '@/screens/Referral/ReferralScreen';
 import DisplayScreen from '@/screens/Display/Display';
 import HabitDetailScreen from '@/screens/HabitDetail/HabitDetailScreen';
+import HistoryMiningScreen from '@/screens/HistoryMining/HistoryMiningScreen';
 
 export const route = [
   {
@@ -106,5 +107,9 @@ export const route = [
   {
     name: CONST_SCREEN.HABIT_DETAIL,
     component: HabitDetailScreen,
+  },
+  {
+    name: CONST_SCREEN.MINING_HISTORY,
+    component: HistoryMiningScreen,
   },
 ];

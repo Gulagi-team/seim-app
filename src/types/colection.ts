@@ -95,6 +95,8 @@ export interface MiningData {
   idTemp?: number;
   isClaimed?: boolean;
   deviceId?: string;
+  id?: string;
+  createdAt?: string;
 }
 
 export interface Filter {

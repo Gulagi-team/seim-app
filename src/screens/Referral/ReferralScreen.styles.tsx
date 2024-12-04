@@ -177,6 +177,15 @@ export const styles = StyleSheet.create({
     fontFamily: POPPINS_REGULAR,
     marginLeft: 5,
   },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  inputContainer: {
+    width: '100%',
+    paddingHorizontal: 20,
+  },
   codeContainer: {
     width: '100%',
     height: 48,
@@ -212,7 +221,6 @@ export const styles = StyleSheet.create({
     height: 40,
     marginTop: 5,
     borderRadius: 10,
-    backgroundColor: COLORS.primary_A500,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -17,13 +17,31 @@ export const styles = StyleSheet.create({
     padding: 15,
     // backgroundColor: 'red',
   },
+
+  headerView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    // backgroundColor: 'red',
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  itemText: {
+    fontSize: FONT_SIZE.small1,
+    fontWeight: '600',
+    color: '#1b9cfc',
+    fontFamily: POPPINS_MEDIUM,
+  },
   titleText: {
     fontSize: FONT_SIZE.large2,
     fontWeight: '700',
     color: '#212121',
     // marginTop: 10,
     fontFamily: POPPINS_MEDIUM,
-    alignSelf: 'center',
   },
   rewardContainer: {
     height: 70,

@@ -1,5 +1,6 @@
 import {LanguageType, UserProfileType} from '@/types/colection';
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import {getInfoUser} from './action';
 // import themes from '../../theme/themes';
 
 export type InfoState = {
@@ -26,7 +27,7 @@ const initialState: InfoState = {
   old: 0,
   height: 0,
   weight: 0,
-  referralCode: 'LCY9345MGY',
+  referralCode: '',
   referralLink: 'get.seim.io/ref=FDFAA',
 };
 
@@ -50,6 +51,7 @@ const Infoslice = createSlice({
       state.height = action.payload.height;
       state.weight = action.payload.weight;
     },
+
     updateLanguage: (state, action: PayloadAction<LanguageType>) => {
       state.language = action.payload;
     },
@@ -65,6 +67,29 @@ const Infoslice = createSlice({
     updateWeight: (state, action: PayloadAction<number>) => {
       state.weight = action.payload;
     },
+    updateCode: (state, action: PayloadAction<string>) => {
+      if (state.referralCode === '') {
+        console.log('referral code is empty', action.payload);
+        state.referralCode = action.payload;
+      } else {
+        console.log('referral code is already exist');
+      }
+    },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(getInfoUser.pending, () => {})
+      .addCase(getInfoUser.fulfilled, (state, action: PayloadAction<any>) => {
+        state.email = action.payload.email;
+        state.name = action.payload.name;
+        state.avatar = action.payload.avatar;
+        state.gender = action.payload.gender;
+        state.old = action.payload.old;
+        state.height = action.payload.height;
+        state.weight = action.payload.weight;
+        state.referralCode = action.payload.refererCode;
+      })
+      .addCase(getInfoUser.rejected, () => {});
   },
 });
 
@@ -76,6 +101,7 @@ export const {
   updateOld,
   updateHeight,
   updateWeight,
+  updateCode,
 } = Infoslice.actions;
 
 export default Infoslice.reducer;

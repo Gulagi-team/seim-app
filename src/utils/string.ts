@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const stringUtils = {
   formatNumber: (number: number) => `0${number}`.slice(-2),
   calculateTimeAdjustment: (boostAdjust: number) => {
@@ -24,5 +26,61 @@ export const stringUtils = {
       5: 50,
     };
     return levelMap[level] ?? 10; // Default to 10 if level is 1 or undefined
+  },
+
+  caculateTimeAgos: (time: string) => {
+    const now = moment();
+    const timeDate = moment(time);
+    const diffInSeconds = now.diff(timeDate, 'seconds');
+
+    if (diffInSeconds >= 365 * 24 * 60 * 60) {
+      const years = now.diff(timeDate, 'years');
+      return {level: 6, time: years};
+    }
+    if (diffInSeconds >= 30 * 24 * 60 * 60) {
+      const months = now.diff(timeDate, 'months');
+      return {level: 5, time: months};
+    }
+    if (diffInSeconds >= 7 * 24 * 60 * 60) {
+      const weeks = now.diff(timeDate, 'weeks');
+      return {level: 4, time: weeks};
+    }
+    if (diffInSeconds >= 24 * 60 * 60) {
+      const days = now.diff(timeDate, 'days');
+      return {level: 3, time: days};
+    }
+    if (diffInSeconds >= 60 * 60) {
+      const hours = now.diff(timeDate, 'hours');
+      return {level: 2, time: hours};
+    }
+    if (diffInSeconds >= 60) {
+      const minutes = now.diff(timeDate, 'minutes');
+      return {level: 1, time: minutes};
+    }
+    return {level: 0, time: diffInSeconds};
+  },
+
+  generateCode: () => {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const digits = '0123456789';
+
+    let code = '';
+
+    // Generate first 3 letters
+    for (let i = 0; i < 3; i++) {
+      code += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+
+    // Generate 4 digits
+    for (let i = 0; i < 4; i++) {
+      code += digits.charAt(Math.floor(Math.random() * digits.length));
+    }
+
+    // Generate last 3 letters
+    for (let i = 0; i < 3; i++) {
+      code += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+
+    return code;
   },
 };

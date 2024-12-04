@@ -14,5 +14,7 @@
   "connectWallet": "Connect Wallet",
   "loginToMine": "Login to mine points",
   "warning": "Currently, the mining feature is not available when you not login",
-  "claimSuccess": "Claim successfully"
+  "claimSuccess": "Claim successfully",
+  "history": "History",
+  "miningHistory": "Mining history"
 }
