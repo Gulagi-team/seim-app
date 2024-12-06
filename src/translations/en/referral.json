@@ -1,0 +1,21 @@
+{
+  "title": "Referral",
+  "get": "Get",
+  "bannerText": "for each successful referral",
+  "code": "Referral code",
+  "link": "Referral link",
+  "earned": "Earned",
+  "des": "Your friend needs to complete at least 01 swap transaction to become a valid referral.",
+  "invited": "INVITED",
+  "valid": "VALID",
+
+  "invitedWho": "Who invited you?",
+  "descInvite": "Enter your friend’s referral code to send them a gift from SEIM",
+  "enterCode": "Enter code here",
+  "paste": "Paste",
+  "add": "Add code",
+  "copyLink": "Referral link is saved to Clipboard",
+  "copyCode": "Referral code is saved to Clipboard",
+  "empty": "Referral code is empty",
+  "success": "Referral code is added successfully"
+}

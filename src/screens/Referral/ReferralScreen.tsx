@@ -1,4 +1,4 @@
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Keyboard, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
@@ -20,16 +20,28 @@ import {showToast} from '@/helpers/toast';
 import Clipboard from '@react-native-clipboard/clipboard';
 import React from 'react';
 import {StoreState, useAppSelector} from '@/store';
+import {getAuth} from '@/store/auth';
+import {getStringLocal} from '@/helpers/localStorage';
+import {addNewReferral, getReferralInfomation} from '@/store/referral/action';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useTranslation} from 'react-i18next';
 
 const ReferralScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const [refCode, setRefCode] = useState('');
+  const {t} = useTranslation('referral');
   const navigation = useNavigation();
+
   const goBack = () => navigation.goBack();
 
   const {referralCode, referralLink} = useAppSelector(
     (state: StoreState) => state.userInfo,
   );
+
+  const {referralData, status} = useAppSelector(
+    (state: StoreState) => state.ReferralSlice,
+  );
+
   const {
     backgroundColor,
     containerColor,
@@ -42,12 +54,12 @@ const ReferralScreen = () => {
 
   const handleCopyRefCode = () => {
     Clipboard.setString(referralCode);
-    showToast('info', 'Referral code is saved to Clipboard');
+    showToast('info', t('copyCode'));
   };
 
   const handleCopyRefLink = () => {
     Clipboard.setString(referralLink);
-    showToast('info', 'Referral link is saved to Clipboard');
+    showToast('info', t('copyLink'));
   };
 
   const handlePasteCode = async () => {
@@ -55,10 +67,32 @@ const ReferralScreen = () => {
     setRefCode(code);
   };
 
+  useEffect(() => {
+    const getData = async () => {
+      const auth = await getAuth();
+      if (auth) {
+        dispatch(getReferralInfomation());
+      }
+    };
+    getData();
+  }, []);
+
+  const handleAddCode = () => {
+    if (refCode === '') {
+      showToast('error', t('empty'));
+      return;
+    }
+    dispatch(addNewReferral(refCode));
+
+    if (status === 'succeeded') {
+      showToast('success', t('success'));
+      setRefCode('');
+    }
+  };
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: backgroundColor}}>
-      <Header title="Referral" canGoBack={true} handleGoBack={goBack} />
+      <Header title={t('title')} canGoBack={true} handleGoBack={goBack} />
       <View style={styles.containerView}>
         <LinearGradient
           style={styles.bannerContainer}
@@ -67,10 +101,10 @@ const ReferralScreen = () => {
           useAngle={true}>
           <View style={{marginLeft: 10}}>
             <View style={{flexDirection: 'row', height: 18}}>
-              <Text style={styles.bannerText}>Get</Text>
-              <Text style={styles.seimText}>100 SEIM</Text>
+              <Text style={styles.bannerText}>{t('get')}</Text>
+              <Text style={styles.seimText}>1 Point</Text>
             </View>
-            <Text style={styles.bannerText}>for each successful referral</Text>
+            <Text style={styles.bannerText}>{t('bannerText')}</Text>
           </View>
           <FastImage
             style={styles.imageBackgroundGift}
@@ -90,7 +124,7 @@ const ReferralScreen = () => {
             borderColor: borderColor,
           }}>
           <Text style={{...styles.titleText, color: textColor}}>
-            Referral code
+            {t('code')}
           </Text>
           <TouchableOpacity
             style={{
@@ -106,7 +140,7 @@ const ReferralScreen = () => {
             />
           </TouchableOpacity>
           <Text style={{...styles.titleText, color: textColor}}>
-            Referral link
+            {t('link')}
           </Text>
           <TouchableOpacity
             style={{
@@ -136,11 +170,13 @@ const ReferralScreen = () => {
                   ...styles.referralLinkText,
                   color: textOutstandingColor,
                 }}>
-                Earned
+                {t('earned')}
               </Text>
             </View>
 
-            <Text style={styles.earnedPointsText}>240 Points</Text>
+            <Text style={styles.earnedPointsText}>
+              {referralData.totalEarned} Points
+            </Text>
           </View>
           <View
             style={{
@@ -148,15 +184,14 @@ const ReferralScreen = () => {
               backgroundColor: textContainerColor,
             }}>
             <Text style={{...styles.paraText, color: textColor}}>
-              Your friend needs to complete at least 01 swap transaction to
-              become a valid referral.
+              {t('des')}
             </Text>
             <View style={{flexDirection: 'row'}}>
               <View style={styles.miningDetailLeft}>
                 <View style={styles.miningDetailTextContainer}>
                   <IconInvited />
                   <Text style={{...styles.miningInfoText, color: textColor}}>
-                    INVITED
+                    {t('invited')}
                   </Text>
                 </View>
 
@@ -165,14 +200,14 @@ const ReferralScreen = () => {
                     ...styles.miningInfoValue,
                     color: textOutstandingColor,
                   }}>
-                  15
+                  {referralData.totalInvited}
                 </Text>
               </View>
               <View style={styles.miningDetailRight}>
                 <View style={styles.miningDetailTextContainer}>
                   <IconValid />
                   <Text style={{...styles.miningInfoText, color: textColor}}>
-                    VALID
+                    {t('valid')}
                   </Text>
                 </View>
                 <Text
@@ -180,7 +215,7 @@ const ReferralScreen = () => {
                     ...styles.miningInfoValue,
                     color: textOutstandingColor,
                   }}>
-                  10
+                  {referralData.totalValid}
                 </Text>
               </View>
             </View>
@@ -201,10 +236,10 @@ const ReferralScreen = () => {
 
             <Text
               style={{...styles.whoInviteText, color: textOutstandingColor}}>
-              Who invited you?
+              {t('invitedWho')}
             </Text>
             <Text style={{...styles.paraInviteText, color: textColor}}>
-              Enter your friend’s referral code to send them a gift from SEIM
+              {t('descInvite')}
             </Text>
           </View>
 
@@ -217,7 +252,7 @@ const ReferralScreen = () => {
             <TextInput
               style={{...styles.codeInput, color: textOutstandingColor}}
               onChangeText={value => setRefCode(value)}
-              placeholder="Enter code here"
+              placeholder={t('enterCode')}
               placeholderTextColor={COLORS.text_A400}
               numberOfLines={1}
               value={refCode}
@@ -225,11 +260,16 @@ const ReferralScreen = () => {
             <TouchableOpacity
               style={styles.pasteContainer}
               onPress={handlePasteCode}>
-              <Text style={styles.codeTitle}>Paste</Text>
+              <Text style={styles.codeTitle}>{t('paste')}</Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.addCodeContainer}>
-            <Text style={styles.addCodeText}>Add code</Text>
+          <TouchableOpacity
+            onPress={handleAddCode}
+            style={{
+              ...styles.addCodeContainer,
+              backgroundColor: refCode === '' ? '#96d2ff' : COLORS.primary_A500,
+            }}>
+            <Text style={styles.addCodeText}>{t('addCode')}</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -6,8 +6,15 @@
   "login": "Log in with Google",
   "noti": "Notification",
   "maxChallenge": "You can only select 5 habits",
-  "develop": "Developed by {{name}}",
+  "developed": "Developed by {{name}}",
   "accept": "Accept",
   "cancel": "Cancel",
-  "goHome": "Go Home"
+  "goHome": "Go Home",
+  "yearAgo": "{{time}} years ago",
+  "monthAgo": "{{time}} months ago",
+  "weekAgo": "{{time}} weeks ago",
+  "dayAgo": "{{time}} days ago",
+  "hourAgo": "{{time}} hours ago",
+  "minuteAgo": "{{time}} minutes ago",
+  "secondAgo": "{{time}} seconds ago"
 }

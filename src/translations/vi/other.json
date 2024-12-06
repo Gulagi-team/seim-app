@@ -6,8 +6,15 @@
   "login": "Đăng nhập với Google",
   "noti": "Thông báo",
   "maxChallenge": "Bạn chỉ có thể chọn 5 thói quen",
-  "develop": "Phát triển bởi {{name}}",
+  "developed": "Phát triển bởi {{name}}",
   "accept": "Chấp nhận",
   "cancel": "Hủy",
-  "goHome": "Về trang chủ"
+  "goHome": "Về trang chủ",
+  "yearAgo": "{{year}} năm trước",
+  "monthAgo": "{{month}} tháng trước",
+  "weekAgo": "{{week}} tuần trước",
+  "dayAgo": "{{day}} ngày trước",
+  "hourAgo": "{{hour}} giờ trước",
+  "minuteAgo": "{{minute}} phút trước",
+  "secondAgo": "{{second}} giây trước"
 }

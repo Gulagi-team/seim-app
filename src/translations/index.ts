@@ -28,6 +28,7 @@ i18n.use(initReactI18next).init({
       other: en.other,
       mining: en.mining,
       welcome: en.welcome,
+      referral: en.referral,
     },
     vi: {
       setting: vi.setting,
@@ -37,6 +38,7 @@ i18n.use(initReactI18next).init({
       other: vi.other,
       mining: vi.mining,
       welcome: vi.welcome,
+      referral: vi.referral,
     },
     cn: {
       setting: cn.setting,
@@ -46,6 +48,7 @@ i18n.use(initReactI18next).init({
       other: cn.other,
       mining: cn.mining,
       welcome: cn.welcome,
+      referral: cn.referral,
     },
 
     kr: {
@@ -56,6 +59,7 @@ i18n.use(initReactI18next).init({
       other: kr.other,
       mining: kr.mining,
       welcome: kr.welcome,
+      referral: kr.referral,
     },
   },
   lng: DEFAULT_LANGUAGE,

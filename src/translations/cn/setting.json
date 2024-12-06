@@ -2,6 +2,7 @@
   "languages": "语言",
   "feedback": "支持与反馈",
   "locale": "Chinese",
+  "referral": "推荐",
   "level": "等级: {{level}}",
   "myProfile": "我的个人资料",
   "logout": "登出",

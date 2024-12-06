@@ -1,0 +1,20 @@
+{
+  "title": "推荐",
+  "get": "获取",
+  "bannerText": "每次成功推荐",
+  "code": "推荐码",
+  "link": "推荐链接",
+  "earned": "已获得",
+  "des": "您的朋友需要完成至少 01 次交换交易才能成为有效推荐。",
+  "invited": "已邀请",
+  "valid": "有效",
+  "invitedWho": "谁邀请了您？",
+  "descInvite": "输入您朋友的推荐码，为他们发送来自 SEIM 的礼物",
+  "enterCode": "在此输入代码",
+  "paste": "粘贴",
+  "add": "添加代码",
+  "copyLink": "推荐链接已保存到剪贴板",
+  "copyCode": "推荐码已保存到剪贴板",
+  "empty": "推荐码为空",
+  "success": "推荐码已成功添加"
+}

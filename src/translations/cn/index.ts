@@ -5,3 +5,4 @@ export {default as wallet} from './wallet.json';
 export {default as other} from './other.json';
 export {default as mining} from './mining.json';
 export {default as welcome} from './welcome.json';
+export {default as referral} from './referral.json';

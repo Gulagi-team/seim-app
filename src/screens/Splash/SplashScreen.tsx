@@ -1,24 +1,23 @@
 import {useEffect} from 'react';
-import {ActivityIndicator, Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Text} from 'react-native';
 // import {useTranslation} from 'react-i18next';
-import WelcomeBottom from '@/assets/images/welcomeBottom.png';
-import {navigateReset} from '@/helpers/navigation';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import LogoSeim from '@/assets/images/logoSeim.png';
-import {getBooleanLocal, getStringLocal} from '@/helpers/localStorage';
-import {useDispatch} from 'react-redux';
-import {getKeyLession, getLessionSelected} from '@/store/lessions';
-import {styles} from './SplashScreen.styles';
+import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import CONST_SCREEN from '@/constants/screen';
+import {getBooleanLocal, getStringLocal} from '@/helpers/localStorage';
+import {navigateReset} from '@/helpers/navigation';
+import {getKeyLession, getLessionSelected} from '@/store/lessions';
+import {updateCode, updateInfoUser} from '@/store/userInfo';
 import {updateWalletState} from '@/store/wallet';
-import {updateInfoUser} from '@/store/userInfo';
 import {ThunkDispatch} from '@reduxjs/toolkit';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {readFromFile, removeFile} from '@/helpers/file';
-import {checkStateOfTaskPreviousDay, updateState} from '@/store/habits';
-import {reduxStorage} from '@/store';
-import {useTranslation} from 'react-i18next';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch} from 'react-redux';
+import {styles} from './SplashScreen.styles';
+import {stringUtils} from '@/utils/string';
+import {getAuth} from '@/store/auth';
+import {getInfoUser} from '@/store/userInfo/action';
 const SplashScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {t} = useTranslation('other');
@@ -29,6 +28,11 @@ const SplashScreen = () => {
         resolve(true);
       }, 1000),
     );
+
+    const auth = await getAuth();
+    if (auth) {
+      dispatch(getInfoUser());
+    }
     const getInfoDone = getBooleanLocal('isGetInfoDone');
     const getUserInfoLocal = getStringLocal('userInfo');
     const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
@@ -39,12 +43,12 @@ const SplashScreen = () => {
     // await removeFile('topics.json');
     // await removeFile('habits.json');
     // await removeFile('task_histories.json');
-    await removeFile('mining.json');
-    await AsyncStorage.removeItem('currentReward');
+    // await removeFile('mining.json');
+    // await AsyncStorage.removeItem('currentReward');
 
-    // navigateReset(CONST_SCREEN.WELCOME);
-
-    // dispatch(checkStateOfTaskPreviousDay());
+    // navigateReset(CONST_SCREEN.REFERRAL);
+    const referralCode = stringUtils.generateCode();
+    dispatch(updateCode(referralCode));
 
     if (getInfoDone && getUserInfoLocal) {
       dispatch(updateInfoUser(JSON.parse(getUserInfoLocal)));

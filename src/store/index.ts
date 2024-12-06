@@ -11,6 +11,7 @@ import TopicSlice from './topics/index';
 import MiningSlice from './mining/index';
 import ThemeSlice from './theme/index';
 import FeedbackSlice from './feedback/index';
+import ReferralSlice from './referral/index';
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
 // import theme from './theme';
 
@@ -25,6 +26,7 @@ const reducers = combineReducers({
   MiningSlice,
   ThemeSlice,
   FeedbackSlice,
+  ReferralSlice,
 });
 
 export const reducersType = typeof reducers;

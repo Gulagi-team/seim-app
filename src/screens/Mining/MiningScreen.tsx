@@ -1,6 +1,7 @@
 import IconDiamond from '@/assets/icons/icon_diamond.svg';
 import {showToast} from '@/helpers/toast';
 
+import IconChevronRight from '@/assets/icons/icon_chevron_right.svg';
 import IconPool from '@/assets/icons/icon_pool.svg';
 import IconSpeed from '@/assets/icons/icon_speed.svg';
 import IconUser from '@/assets/icons/icon_user.svg';
@@ -8,21 +9,19 @@ import BACKGROUND_REWARD from '@/assets/images/background_reward.png';
 import POINT_SEIM from '@/assets/images/point_seim.png';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import CountdownTimer from '@/components/TimerCountdown/TimerCountdown';
+import SCREENS from '@/constants/screen';
 import {readFromFile, updateMiningData} from '@/helpers/file';
-import {reduxStorage, StoreState, useAppSelector} from '@/store';
-import {Filter, MiningData, UserProfileType} from '@/types/colection';
+import {navigate, navigateReset} from '@/helpers/navigation';
+import {StoreState, useAppSelector} from '@/store';
+import {getAuth} from '@/store/auth';
+import {claimMine, getMiningInfo, startMine} from '@/store/mining/action';
+import {MiningData, UserProfileType} from '@/types/colection';
 import {stringUtils} from '@/utils/string';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ThunkDispatch} from '@reduxjs/toolkit';
 import LottieView from 'lottie-react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import mobileAds, {
-  AdEventType,
-  InterstitialAd,
-  MaxAdContentRating,
-  RewardedAdEventType,
-  TestIds,
-  useForeground,
-} from 'react-native-google-mobile-ads';
 import {
   Image,
   Modal,
@@ -34,29 +33,21 @@ import {
   View,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import {RewardedAd} from 'react-native-google-mobile-ads';
-import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {styles} from './MiningScreen.styles';
-import {useDispatch, useSelector} from 'react-redux';
-import {ThunkDispatch} from '@reduxjs/toolkit';
 import {
-  claimMine,
-  getAllMine,
-  getMiningInfo,
-  startMine,
-} from '@/store/mining/action';
-import {getAuth} from '@/store/auth';
-import {navigate, navigateReset} from '@/helpers/navigation';
-import SCREENS from '@/constants/screen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNavigation} from '@react-navigation/native';
+  AdEventType,
+  BannerAd,
+  InterstitialAd,
+  TestIds,
+  useForeground,
+} from 'react-native-google-mobile-ads';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch, useSelector} from 'react-redux';
+import {styles} from './MiningScreen.styles';
 
 const adUnitId = __DEV__
   ? TestIds.INTERSTITIAL
   : 'ca-app-pub-6403260985969215~4923743988';
 
-const rewarded = RewardedAd.createForAdRequest(adUnitId as string);
 const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
   keywords: ['fashion', 'clothing'],
   requestNonPersonalizedAdsOnly: true,
@@ -88,28 +79,19 @@ const MiningScreen = () => {
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
   const [deviceId, setDeviceId] = useState('');
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-  const {
-    status: miningStatus,
-    miningData,
-    histories,
-  } = useSelector((state: StoreState) => state.MiningSlice);
+  const {status: miningStatus, miningData} = useSelector(
+    (state: StoreState) => state.MiningSlice,
+  );
   const [user, setUser] = useState<UserProfileType | null>(null);
   const [showAlert, setShowAlert] = useState(false);
-  const [filter, setFilter] = useState<Filter>({
-    page: 1,
-    limit: 10,
-    sortBy: 'createdAt',
-    sortDir: 'ASC',
-  });
+
   useEffect(() => {
     const getData = async () => {
       const userExist = await getAuth();
-      console.log('userExist', userExist);
       if (userExist) {
         setShowAlert(false);
         setUser(userExist);
         dispatch(getMiningInfo());
-        dispatch(getAllMine(filter));
         const reward = await AsyncStorage.getItem('totalReward');
         if (reward) {
           setTotalReward(parseFloat(reward));
@@ -340,9 +322,17 @@ const MiningScreen = () => {
     <SafeAreaView
       style={{...styles.container, backgroundColor: backgroundColor}}>
       <View style={styles.containerView}>
-        <Text style={{...styles.titleText, color: textColor}}>
-          {t('mining')}
-        </Text>
+        <View style={styles.headerView}>
+          <Text style={{...styles.titleText, color: textColor}}>
+            {t('mining')}
+          </Text>
+          <TouchableOpacity
+            style={styles.itemContainer}
+            onPress={() => navigate(SCREENS.MINING_HISTORY)}>
+            <Text style={{...styles.itemText}}>{t('history')}</Text>
+            <IconChevronRight />
+          </TouchableOpacity>
+        </View>
         <View
           style={{
             display: 'flex',
