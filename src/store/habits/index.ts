@@ -1,9 +1,5 @@
-import {
-  readFromFile,
-  updateByIdInFile,
-  updateTaskHistory,
-} from '@/helpers/file';
-import {Habit, Task, TaskToUpdate} from '@/types/colection';
+import {updateByIdInFile, updateTaskHistory} from '@/helpers/file';
+import {Habit, Task} from '@/types/colection';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import moment from 'moment';
 import {
@@ -84,8 +80,9 @@ const HabitSlice = createSlice({
         saveHabit.fulfilled,
         (state, action: PayloadAction<HabitResponse>) => {
           state.status = 'succeeded';
-          state.today = action.payload.today ?? '';
-          state.habits = action.payload.data ?? [];
+
+          state.today = action.payload.today ?? new Date().toISOString();
+          state.habits = action.payload.data ?? state.habits;
         },
       )
       .addCase(saveHabit.rejected, (state, action) => {

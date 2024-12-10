@@ -88,6 +88,7 @@ const updateByIdInFile = async (fileName: string, id: string, data: any) => {
     }
 
     await RNFS.writeFile(filePath, JSON.stringify(parsedData), 'utf8');
+    console.log('Update file successfully');
   } catch (error) {
     console.error('Failed to update file:', error);
   }

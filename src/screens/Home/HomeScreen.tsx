@@ -42,12 +42,10 @@ const HomeScreen = () => {
   useEffect(() => {
     const getData = async () => {
       const user = await getAuth();
-      console.log('user', user);
       if (user) {
         dispatch(fetchHabits());
       } else {
         const habitsFromFile = await readFromFile('habits.json');
-        console.log('habitsFromFile', habitsFromFile);
         dispatch(updateState(habitsFromFile));
       }
     };

@@ -1,6 +1,7 @@
 import {claimMining, getAllMining, getMining, startMining} from '@/api/mining';
 import {Filter} from '@/types/colection';
 import {createAsyncThunk} from '@reduxjs/toolkit';
+import {getAuth} from '../auth';
 
 export const startMine = createAsyncThunk(
   'mining/startMining',
@@ -19,9 +20,12 @@ export const claimMine = createAsyncThunk(
 export const getMiningInfo = createAsyncThunk(
   'mining/getMiningInfo',
   async (): Promise<any> => {
-    const response = await getMining();
-    if (response.data) {
-      return response.data;
+    const auth = await getAuth();
+    if (auth) {
+      const response = await getMining();
+      if (response.data) {
+        return response.data;
+      }
     }
   },
 );

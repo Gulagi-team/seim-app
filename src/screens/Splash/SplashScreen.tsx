@@ -18,6 +18,9 @@ import {styles} from './SplashScreen.styles';
 import {stringUtils} from '@/utils/string';
 import {getAuth} from '@/store/auth';
 import {getInfoUser} from '@/store/userInfo/action';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {removeFile} from '@/helpers/file';
+import {reduxStorage} from '@/store';
 const SplashScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {t} = useTranslation('other');
@@ -38,17 +41,20 @@ const SplashScreen = () => {
     const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
     const getKeyLessionsSelectedLocal = getStringLocal('keyLessionsSelected');
     const address = getStringLocal('address');
-
+    console.log('getInfoDone', getInfoDone);
+    console.log('getUserInfoLocal', getUserInfoLocal);
     // await AsyncStorage.removeItem('userInfo');
     // await removeFile('topics.json');
     // await removeFile('habits.json');
     // await removeFile('task_histories.json');
     // await removeFile('mining.json');
     // await AsyncStorage.removeItem('currentReward');
+    // reduxStorage.removeItem('isGetInfoDone');
+    // reduxStorage.removeItem('userInfo');
 
     // navigateReset(CONST_SCREEN.REFERRAL);
-    const referralCode = stringUtils.generateCode();
-    dispatch(updateCode(referralCode));
+    // const referralCode = stringUtils.generateCode();
+    // dispatch(updateCode(referralCode));
 
     if (getInfoDone && getUserInfoLocal) {
       dispatch(updateInfoUser(JSON.parse(getUserInfoLocal)));

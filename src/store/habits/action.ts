@@ -105,6 +105,8 @@ export const saveHabit = createAsyncThunk(
   'habit/saveHabit',
   async ({habitId, isStart}: SaveHabitParam): Promise<any> => {
     const auth = await getAuth();
+    const dataLocal = await readFromFile(FILE_NAME);
+
     if (auth && auth.access_token) {
       await postSaveHabitAPI(habitId, isStart);
     }
@@ -120,10 +122,9 @@ export const saveHabit = createAsyncThunk(
     };
 
     await updateByIdInFile(FILE_NAME, habitId, data);
-    const dataLocal = await readFromFile(FILE_NAME);
     const today = new Date().toISOString();
     return {
-      data: dataLocal,
+      data: [...dataLocal, data],
       today,
     };
   },

@@ -53,7 +53,9 @@ const RoadMapComplete = ({items}: Props) => {
             source={StateBlue}
             resizeMode={'contain'}
           />
-          <Text style={styles.dayText}>{item.num}</Text>
+          <Text style={{...styles.dayText, left: item.num > 9 ? '35%' : '40%'}}>
+            {item.num}
+          </Text>
         </View>
       );
     }
@@ -74,7 +76,7 @@ const RoadMapComplete = ({items}: Props) => {
             source={StateDoing}
             resizeMode={'contain'}
           />
-          <Text style={styles.dayText}>{item.num}</Text>
+          {/* <Text style={styles.dayText}>{item.num}</Text> */}
         </View>
       );
     }
@@ -95,7 +97,9 @@ const RoadMapComplete = ({items}: Props) => {
           resizeMode={'contain'}
         />
 
-        <Text style={styles.dayText}>{item.num}</Text>
+        <Text style={{...styles.dayText, left: item.num > 9 ? '30%' : '40%'}}>
+          {item.num}
+        </Text>
       </View>
     );
   };

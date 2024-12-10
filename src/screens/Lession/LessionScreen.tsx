@@ -9,7 +9,7 @@ import SCREENS from '@/constants/screen';
 import {iconMap} from '@/helpers/icon';
 import {navigateReset} from '@/helpers/navigation';
 import {StoreState, useAppSelector} from '@/store';
-import {saveHabit} from '@/store/habits/action';
+import {fetchHabits, saveHabit} from '@/store/habits/action';
 import {HabitData, Topic} from '@/types/colection';
 import {AddIcon, Icon} from '@gluestack-ui/themed';
 import BottomSheet, {
@@ -20,10 +20,10 @@ import BottomSheet, {
 } from '@gorhom/bottom-sheet';
 import {useNavigation} from '@react-navigation/native';
 import {ThunkDispatch} from '@reduxjs/toolkit';
+import {useTranslation} from 'react-i18next';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './LessionScreen.styles';
-import {useTranslation} from 'react-i18next';
 
 const LessionScreen = ({route}: any) => {
   const topic: Topic = route.params;
