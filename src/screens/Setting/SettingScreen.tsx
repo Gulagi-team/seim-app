@@ -74,8 +74,11 @@ const SettingScreen = () => {
   }, []);
 
   //------
-  const handleLogout = () => {
-    reduxStorage.setItem('userInfo', '');
+  const handleLogout = async () => {
+    // reduxStorage.setItem('userInfo', '');
+    await AsyncStorage.removeItem('currentReward');
+    reduxStorage.removeItem('isGetInfoDone');
+    reduxStorage.removeItem('userInfo');
     navigateReset(SCREENS.LOGIN);
   };
 

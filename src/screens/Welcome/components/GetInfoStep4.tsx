@@ -14,7 +14,7 @@ const GetInfoStep4Content = () => {
   const {t} = useTranslation(['welcome']);
   const height = useAppSelector((state: StoreState) => state.userInfo.height);
 
-  const [selectedHeight, setSelectedHeight] = useState(150);
+  const [selectedHeight, setSelectedHeight] = useState(165);
   const [selectedLanguage, setSelectedLanguage] = useState('cm');
 
   const myArray: number[] = generateArray(100, 210);
@@ -29,7 +29,7 @@ const GetInfoStep4Content = () => {
         <View style={styles.pickerContainer1}>
           <ScrollPicker
             dataSource={myArray}
-            selectedIndex={1}
+            selectedIndex={65}
             onValueChange={(data, selectedIndex) => {
               dispatch(updateHeight(selectedHeight));
               setSelectedHeight(+data);

@@ -14,7 +14,7 @@ const GetInfoStep5Content = () => {
   const {t} = useTranslation(['welcome']);
   const weight = useAppSelector((state: StoreState) => state.userInfo.weight);
 
-  const [selectedWeight, setSelectedWeight] = useState(50);
+  const [selectedWeight, setSelectedWeight] = useState(65);
   const [selectedLanguage, setSelectedLanguage] = useState('cm');
 
   const myArray: number[] = generateArray(40, 120);
