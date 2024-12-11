@@ -20,3 +20,7 @@ export const uploadHabit = (data: any) => {
 export const deleteHabitById = (id: string) => {
   return api.delete('/users/habits/' + id);
 };
+
+export const checkProgress = async () => {
+  return api.get('/users/habits/progress');
+};

@@ -12,10 +12,8 @@ import {useTranslation} from 'react-i18next';
 const GetInfoStep5Content = () => {
   const dispatch = useDispatch();
   const {t} = useTranslation(['welcome']);
-  const weight = useAppSelector((state: StoreState) => state.userInfo.weight);
 
   const [selectedWeight, setSelectedWeight] = useState(65);
-  const [selectedLanguage, setSelectedLanguage] = useState('cm');
 
   const myArray: number[] = generateArray(40, 120);
 
@@ -44,7 +42,7 @@ const GetInfoStep5Content = () => {
         <View style={styles.pickerContainer1}>
           <ScrollPicker
             dataSource={myArray}
-            selectedIndex={1}
+            selectedIndex={25}
             onValueChange={(data, selectedIndex) => {
               dispatch(updateWeight(selectedWeight));
               setSelectedWeight(+data);

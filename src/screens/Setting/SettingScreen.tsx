@@ -33,6 +33,7 @@ import {useTranslation} from 'react-i18next';
 import {UserProfileType} from '@/types/colection';
 import {getMiningInfo} from '@/store/mining/action';
 import {stringUtils} from '@/utils/string';
+import {getInfoUser} from '@/store/userInfo/action';
 const SettingScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
@@ -55,6 +56,8 @@ const SettingScreen = () => {
       if (user) {
         const info = JSON.parse(user);
         setUserInfor(info);
+        dispatch(getInfoUser());
+
         dispatch(getMiningInfo());
 
         if (info.access_token === '') {
@@ -76,7 +79,7 @@ const SettingScreen = () => {
   //------
   const handleLogout = async () => {
     // reduxStorage.setItem('userInfo', '');
-    await AsyncStorage.removeItem('currentReward');
+    await AsyncStorage.removeItem('userInfo');
     reduxStorage.removeItem('isGetInfoDone');
     reduxStorage.removeItem('userInfo');
     navigateReset(SCREENS.LOGIN);

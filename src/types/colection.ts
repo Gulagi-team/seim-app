@@ -92,7 +92,6 @@ export interface MiningData {
   totalPoolMined: number;
   isDone?: boolean;
   boost?: number;
-  idTemp?: number;
   isClaimed?: boolean;
   deviceId?: string;
   id?: string;

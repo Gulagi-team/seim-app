@@ -6,18 +6,20 @@ import SCREENS from '@/constants/screen';
 import {formatLongDate, getPartOfDay} from '@/helpers/conversion';
 import {readFromFile, removeFile, writeToFile} from '@/helpers/file';
 import {navigate} from '@/helpers/navigation';
-import {StoreState, useAppSelector} from '@/store';
+import {StoreState} from '@/store';
 import {getAuth} from '@/store/auth';
 import {updateState} from '@/store/habits';
-import {fetchHabits} from '@/store/habits/action';
+import {checkProgressOfHabit, fetchHabits} from '@/store/habits/action';
 import {Habit} from '@/types/colection';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import React, {useEffect, useRef, useState} from 'react';
 
 import {iconMap} from '@/helpers/icon';
+import {useTranslation} from 'react-i18next';
 import {
   Dimensions,
   Image,
+  Platform,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -25,17 +27,14 @@ import {
 } from 'react-native';
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import ListTaskContent from './component/ListTask';
 import {styles, topicStyles} from './HomeScreen.styles';
-import {useTranslation} from 'react-i18next';
 
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const width = Dimensions.get('window').width;
-  const habits = useAppSelector(
-    (state: StoreState) => state.HabitsSlide.habits,
-  );
+  const habits = useSelector((state: StoreState) => state.HabitsSlide.habits);
 
   const {t} = useTranslation(['home']);
 
@@ -94,6 +93,7 @@ const HomeScreen = () => {
 
       resetTimeout = setTimeout(async () => {
         await handleResetStatusHabit();
+        dispatch(checkProgressOfHabit());
         scheduleNextReset(); // Tiếp tục đặt lịch cho lần reset tiếp theo
       }, timeUntilNextReset);
     };
@@ -165,6 +165,17 @@ const HomeScreen = () => {
 
     return () => clearTimeout(timeoutId);
   }, []);
+  useEffect(() => {
+    if (habits.length === 0) {
+      setIdxContent(0);
+    } else if (idxContent >= habits.length) {
+      const newIndex = habits.length - 1;
+      setIdxContent(newIndex);
+      setTimeout(() => {
+        ref.current?.scrollTo({count: newIndex});
+      }, 0);
+    }
+  }, [habits, idxContent]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -193,7 +204,13 @@ const HomeScreen = () => {
                     style={topicStyles.itemContainer}
                     onPress={() => handleChangeTask(index)}
                     key={item.habit.id}>
-                    {typeof ICON === 'function' ? <ICON /> : ICON}
+                    <Text
+                      style={{
+                        height: 50,
+                        width: 50,
+                      }}>
+                      {typeof ICON === 'function' ? <ICON /> : ICON}
+                    </Text>
 
                     {index === idxContent && (
                       <View style={topicStyles.selectedLine} />
@@ -208,6 +225,7 @@ const HomeScreen = () => {
 
           <Carousel
             ref={ref}
+            key={habits.length}
             loop={false}
             width={width * 0.92}
             enabled={false}
@@ -215,9 +233,9 @@ const HomeScreen = () => {
             onSnapToItem={index => {
               setIdxContent(index);
             }}
-            renderItem={({item}: {item: Habit}) => (
-              <ListTaskContent habitSelected={item} />
-            )}
+            renderItem={({item}: {item: Habit}) => {
+              return <ListTaskContent habitSelected={item} />;
+            }}
           />
         </View>
       </View>

@@ -86,7 +86,6 @@ const ListTaskContent = ({habitSelected}: Props) => {
           <>
             <ListDate habitSelected={habitSelected} />
             <View style={styles.breakLine} />
-            {/* <Point habit={habitSelected.habit} /> */}
           </>
         )}
         {!habitSelected.startDate && (

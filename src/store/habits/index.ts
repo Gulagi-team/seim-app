@@ -3,6 +3,7 @@ import {Habit, Task} from '@/types/colection';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import moment from 'moment';
 import {
+  checktProgressOfHabit,
   completeTask,
   deleteHabit,
   fetchHabits,

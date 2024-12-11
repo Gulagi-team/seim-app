@@ -10,7 +10,6 @@ import POINT_SEIM from '@/assets/images/point_seim.png';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import CountdownTimer from '@/components/TimerCountdown/TimerCountdown';
 import SCREENS from '@/constants/screen';
-import {readFromFile, updateMiningData} from '@/helpers/file';
 import {navigate, navigateReset} from '@/helpers/navigation';
 import {StoreState, useAppSelector} from '@/store';
 import {getAuth} from '@/store/auth';
@@ -35,10 +34,8 @@ import {
 import DeviceInfo from 'react-native-device-info';
 import {
   AdEventType,
-  BannerAd,
   InterstitialAd,
   TestIds,
-  useForeground,
 } from 'react-native-google-mobile-ads';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
@@ -65,7 +62,6 @@ const MiningScreen = () => {
   const [endDate, setEndDate] = useState(0);
   const [startDate, setStartDate] = useState(0);
   const [isDone, setIsDone] = useState(false);
-  const [currentId, setCurrentId] = useState(0);
   const [currentReward, setCurrentReward] = useState(0);
   const [totalReward, setTotalReward] = useState(AMOUNT_MINING);
   const {
@@ -107,19 +103,14 @@ const MiningScreen = () => {
     });
   }, []);
 
-  const bannerRef = useRef<BannerAd>(null);
-  useForeground(() => {
-    Platform.OS === 'android' && bannerRef.current?.load();
-  });
   const [loaded, setLoaded] = useState(false);
 
   const startMinining = async () => {
     const boostAdjust = miningData.boost ?? 0;
     const currentDate = new Date();
     const start = currentDate.getTime(); // Current timestamp in milliseconds
-    const durationInMs = 24 * 3600 * 1000; // 24 hours in milliseconds
+    const durationInMs = 5 * 1000; // 24 hours in milliseconds
     const adjustedDuration = stringUtils.calculateTimeAdjustment(boostAdjust);
-    const newId = currentId + 1;
     const data: MiningData = {
       startDate: start,
       endDate: start + durationInMs - adjustedDuration,
@@ -130,40 +121,39 @@ const MiningScreen = () => {
       totalPoolMined: 0,
       isDone: false,
       boost: boostAdjust,
-      idTemp: newId,
       isClaimed: false,
       deviceId: deviceId,
     };
     if (user) {
       dispatch(startMine(data));
-      setCurrentId(newId);
-      await updateMiningData('mining.json', data, newId);
+      await AsyncStorage.setItem('mining', JSON.stringify(data));
       setIsMining(true);
     }
   };
 
   const startClaim = async () => {
-    const data = await readFromFile('mining.json');
-    const itemCheck = data.sort((a, b) => b.updatedAt - a.updatedAt)[0];
-    const newData = {
-      ...itemCheck,
-      isClaimed: true,
-    };
+    const data = await AsyncStorage.getItem('mining');
+    if (!data) {
+      return;
+    }
+    const dataMining = JSON.parse(data);
+    if (dataMining.isClaimed) {
+      return;
+    }
     if (user) {
       dispatch(claimMine());
     }
     if (miningStatus === 'succeeded') {
       dispatch(getMiningInfo());
-      const rs = await updateMiningData('mining.json', newData, currentId);
-      if (rs) {
-        showToast('success', t('claimSuccess'));
-        setIsDone(false);
-        setIsMining(false);
-        setCurrentReward(0);
-        const totalRw = totalReward + AMOUNT_MINING;
-        setTotalReward(totalRw);
-        await AsyncStorage.setItem('totalReward', totalRw.toString());
-      }
+      await AsyncStorage.removeItem('mining');
+      showToast('success', t('claimSuccess'));
+      setIsDone(false);
+      setIsMining(false);
+      setCurrentReward(0);
+      const totalRw = totalReward + AMOUNT_MINING;
+      setTotalReward(totalRw);
+      await AsyncStorage.setItem('totalReward', totalRw.toString());
+      interstitial.load(); // Load quảng cáo mới
     }
   };
 
@@ -218,43 +208,37 @@ const MiningScreen = () => {
       startClaim();
       return;
     } else {
-      interstitial.show(); // Hiển thị quảng cáo
+      interstitial.show();
     }
   };
 
   useEffect(() => {
     const handleStopMining = async () => {
       try {
-        const data = await readFromFile('mining.json');
-        if (data.length !== 0) {
+        const data = await AsyncStorage.getItem('mining');
+        if (data) {
+          const dataMining = JSON.parse(data);
           const currentDate = new Date().getTime();
 
-          const itemCheck = data.sort((a, b) => b.idTemp - a.idTemp)[0];
-
-          if (itemCheck && itemCheck.endDate > currentDate) {
+          if (dataMining && dataMining.endDate > currentDate) {
             setIsMining(true);
-            setStartDate(itemCheck.startDate);
-            setEndDate(itemCheck.endDate);
+            setStartDate(dataMining.startDate);
+            setEndDate(dataMining.endDate);
             const elapsedTime =
-              new Date().getTime() - new Date(itemCheck.startDate).getTime(); // Elapsed time in milliseconds
+              new Date().getTime() - new Date(dataMining.startDate).getTime(); // Elapsed time in milliseconds
             const totalTime =
-              new Date(itemCheck.endDate).getTime() -
-              new Date(itemCheck.startDate).getTime();
+              new Date(dataMining.endDate).getTime() -
+              new Date(dataMining.startDate).getTime();
 
             if (elapsedTime <= totalTime) {
               const progress = elapsedTime / totalTime;
               const reward = parseFloat((progress * AMOUNT_MINING).toFixed(4));
-              // let final = totalReward - AMOUNT_MINING + reward;
-              // if (final < currentReward) {
-              //   //the first when start mining final is always less than current reward
-              //   final += AMOUNT_MINING;
-              // }
+
               setCurrentReward(parseFloat(reward.toFixed(4)));
             }
           } else {
             //done mining
-
-            if (!itemCheck.isClaimed) {
+            if (!dataMining.isClaimed) {
               setIsMining(false);
               setEndDate(0);
               setStartDate(0);
@@ -264,15 +248,15 @@ const MiningScreen = () => {
               setCurrentReward(AMOUNT_MINING);
 
               const newData = {
-                ...itemCheck,
+                ...dataMining,
                 isDone: true,
               };
-              await updateMiningData('mining.json', newData, currentId);
+              await AsyncStorage.setItem('mining', JSON.stringify(newData));
             }
           }
         }
       } catch (error) {
-        console.error('Error reading mining.json:', error);
+        console.error('Error reading mining:', error);
       }
     };
 

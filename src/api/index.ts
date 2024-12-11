@@ -1,7 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL;
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Add a request interceptor
 axios.interceptors.request.use(
@@ -31,6 +31,7 @@ axios.interceptors.response.use(
     return res;
   },
   async err => {
+    await AsyncStorage.removeItem('userInfo');
     console.log(
       'Message when call api is: ',
       JSON.stringify(err.response?.data?.message),

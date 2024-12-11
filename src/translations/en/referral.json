@@ -17,5 +17,6 @@
   "copyLink": "Referral link is saved to Clipboard",
   "copyCode": "Referral code is saved to Clipboard",
   "empty": "Referral code is empty",
-  "success": "Referral code is added successfully"
+  "success": "Referral code is added successfully",
+  "sameCode": "You can't use your own referral code"
 }

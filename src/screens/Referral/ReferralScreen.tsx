@@ -1,30 +1,35 @@
-import {Keyboard, Text, TextInput, TouchableOpacity, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {ThunkDispatch} from '@reduxjs/toolkit';
-import {styles} from './ReferralScreen.styles';
-import FastImage from 'react-native-fast-image';
-import Header from '@/components/Header';
-import {COLORS} from '@/theme';
-import {useNavigation} from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
-import BACKGROUND_GIFT from '@/assets/images/gift.png';
-import BACKGROUND_FIREWORK from '@/assets/images/firework.png';
-import EARN_REAWARD from '@/assets/images/earn_reward.png';
-import GIFT_REFERRAL from '@/assets/images/gift_referral.png';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import IconInvited from '@/assets/icons/icon_invited.svg';
 import IconValid from '@/assets/icons/icon_valid.svg';
+import EARN_REAWARD from '@/assets/images/earn_reward.png';
+import BACKGROUND_FIREWORK from '@/assets/images/firework.png';
+import BACKGROUND_GIFT from '@/assets/images/gift.png';
+import GIFT_REFERRAL from '@/assets/images/gift_referral.png';
+import Header from '@/components/Header';
 import {showToast} from '@/helpers/toast';
-import Clipboard from '@react-native-clipboard/clipboard';
-import React from 'react';
 import {StoreState, useAppSelector} from '@/store';
 import {getAuth} from '@/store/auth';
-import {getStringLocal} from '@/helpers/localStorage';
 import {addNewReferral, getReferralInfomation} from '@/store/referral/action';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {COLORS} from '@/theme';
+import Clipboard from '@react-native-clipboard/clipboard';
+import {useNavigation} from '@react-navigation/native';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import FastImage from 'react-native-fast-image';
+import LinearGradient from 'react-native-linear-gradient';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch} from 'react-redux';
+import {styles} from './ReferralScreen.styles';
 
 const ReferralScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -64,6 +69,10 @@ const ReferralScreen = () => {
 
   const handlePasteCode = async () => {
     const code = await Clipboard.getString();
+    if (code === referralCode) {
+      showToast('error', t('sameCode'));
+      return;
+    }
     setRefCode(code);
   };
 
@@ -80,6 +89,11 @@ const ReferralScreen = () => {
   const handleAddCode = () => {
     if (refCode === '') {
       showToast('error', t('empty'));
+      return;
+    }
+
+    if (refCode === referralCode) {
+      showToast('error', t('sameCode'));
       return;
     }
     dispatch(addNewReferral(refCode));
@@ -251,12 +265,17 @@ const ReferralScreen = () => {
             }}>
             <TextInput
               style={{...styles.codeInput, color: textOutstandingColor}}
-              onChangeText={value => setRefCode(value)}
+              onChangeText={value => {
+                if (value !== '' || value !== refCode) {
+                  setRefCode(value);
+                }
+              }}
               placeholder={t('enterCode')}
               placeholderTextColor={COLORS.text_A400}
               numberOfLines={1}
               value={refCode}
             />
+
             <TouchableOpacity
               style={styles.pasteContainer}
               onPress={handlePasteCode}>

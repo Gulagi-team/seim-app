@@ -94,55 +94,6 @@ const updateByIdInFile = async (fileName: string, id: string, data: any) => {
   }
 };
 
-const updateMiningData = async (fileName: string, data: any, id?: number) => {
-  try {
-    const updateData = {
-      ...data,
-      updatedAt: moment().toISOString(),
-    };
-
-    const filePath = `${ROOT_DIR}/${fileName}`;
-    const fileExists = await RNFS.exists(filePath);
-
-    let parsedData = [];
-    if (fileExists) {
-      const fileContent = await RNFS.readFile(filePath, 'utf8');
-      parsedData = JSON.parse(fileContent);
-    } else {
-      await writeToFile([updateData], fileName);
-      return;
-    }
-
-    let itemIndex;
-    // Update the existing item use start date and end date to check
-    const currentDate = moment().format('YYYY-MM-DD');
-    const nextDate = moment().add(1, 'days').format('YYYY-MM-DD');
-    if (id) {
-      itemIndex = parsedData.findIndex((item: any) => item.idTemp === id);
-    } else {
-      itemIndex = parsedData.findIndex((item: any) => {
-        return (
-          moment(item.startDate).format('YYYY-MM-DD') === currentDate &&
-          moment(item.endDate).format('YYYY-MM-DD') === nextDate
-        );
-      });
-    }
-    if (itemIndex !== -1) {
-      // Update the existing item
-      parsedData[itemIndex] = {...parsedData[itemIndex], ...updateData};
-    } else {
-      // Add a new item
-      parsedData.push(updateData);
-    }
-
-    await RNFS.writeFile(filePath, JSON.stringify(parsedData), 'utf8');
-    return true;
-  } catch (error) {
-    console.error('Failed to update file:', error);
-    return false;
-  }
-};
-
 const updateTaskHistory = async (fileName: string, id: string, data: any) => {
   try {
     const updateData = {
@@ -214,5 +165,4 @@ export {
   removeByIdInFile,
   getByIdInFile,
   updateTaskHistory,
-  updateMiningData,
 };

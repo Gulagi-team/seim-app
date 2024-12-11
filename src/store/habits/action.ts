@@ -1,4 +1,5 @@
 import {
+  checkProgress,
   deleteHabitById,
   getListHabit as getListHabitAPI,
   postSaveHabit as postSaveHabitAPI,
@@ -148,5 +149,16 @@ export const completeTask = createAsyncThunk(
       task_id,
       isFinished,
     };
+  },
+);
+
+export const checkProgressOfHabit = createAsyncThunk(
+  'habit/checktProgressOfHabit',
+  async (): Promise<any> => {
+    const auth = await getAuth();
+    if (auth && auth.access_token) {
+      const response = await checkProgress();
+      return response.data;
+    }
   },
 );

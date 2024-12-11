@@ -26,6 +26,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import GetInfoStep3Content from './components/GetInfoStep3';
 import GetInfoStep4Content from './components/GetInfoStep4';
 import GetInfoStep5Content from './components/GetInfoStep5';
+import {useDispatch} from 'react-redux';
+import {updateGender} from '@/store/userInfo';
 
 const GetInfoScreen = () => {
   const width = Dimensions.get('window').width;
