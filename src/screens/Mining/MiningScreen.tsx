@@ -40,6 +40,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import {styles} from './MiningScreen.styles';
+import {getInfoUser} from '@/store/userInfo/action';
 
 const adUnitId = __DEV__
   ? TestIds.INTERSTITIAL
@@ -78,6 +79,8 @@ const MiningScreen = () => {
   const {status: miningStatus, miningData} = useSelector(
     (state: StoreState) => state.MiningSlice,
   );
+
+  const {miningEarned} = useAppSelector((state: StoreState) => state.userInfo);
   const [user, setUser] = useState<UserProfileType | null>(null);
   const [showAlert, setShowAlert] = useState(false);
 
@@ -88,8 +91,12 @@ const MiningScreen = () => {
         setShowAlert(false);
         setUser(userExist);
         dispatch(getMiningInfo());
+        dispatch(getInfoUser());
+
         const reward = await AsyncStorage.getItem('totalReward');
-        if (reward) {
+        if (miningEarned) {
+          setTotalReward(miningEarned + AMOUNT_MINING);
+        } else if (reward) {
           setTotalReward(parseFloat(reward));
         }
       } else {

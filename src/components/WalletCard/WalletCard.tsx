@@ -1,33 +1,28 @@
+import POINT_SEIM from '@/assets/images/point_seim.png';
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
+import {Image, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import BACKGROUND_REWARD from '@/assets/images/background_reward.png';
-import POINT_SEIM from '@/assets/images/point_seim.png';
 import {getWalletBalance} from '@/blockchain/basic';
-import SCREENS from '@/constants/screen';
-import {formatPricing, getShortAddress} from '@/helpers/conversion';
-import {navigate} from '@/helpers/navigation';
+import {getShortAddress} from '@/helpers/conversion';
 import {StoreState, reduxStorage, useAppSelector} from '@/store';
 import {disconnectWallet, updateWalletBalance} from '@/store/wallet';
-import {FONT_SIZE, POPPINS_MEDIUM} from '@/theme';
+import {
+  FONT_SIZE,
+  POPPINS_BOLD,
+  POPPINS_MEDIUM,
+  POPPINS_REGULAR,
+} from '@/theme';
 import {useTranslation} from 'react-i18next';
 
 export const WalletBalance = () => {
   const currentAccount = useAppSelector(
     state => state.walletSlice.currentAccount,
   );
-  const {
-    backgroundColor,
-    containerColor,
-    textColor,
-    borderColor,
-    borderSelectedColor,
-    cardWalletBackgroundColor,
-    cardWalletBorderColor,
-    cardWalletTitleColor,
-  } = useAppSelector((state: StoreState) => state.ThemeSlice);
+  const {textColor} = useAppSelector((state: StoreState) => state.ThemeSlice);
   return (
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
       <Text
@@ -53,17 +48,13 @@ const WalletCard = () => {
   const {currentAccount, balance, tokenBalance} = useAppSelector(
     (state: StoreState) => state.walletSlice,
   );
+  const {miningEarned} = useSelector((state: StoreState) => state.userInfo);
   const {t} = useTranslation(['setting', 'mining']);
 
   const {
-    backgroundColor,
-    containerColor,
-    textColor,
-    borderColor,
-    borderSelectedColor,
     cardWalletBackgroundColor,
     cardWalletBorderColor,
-    cardWalletTitleColor,
+    textOutstandingColor,
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
   const [modalVisible, setModalVisible] = useState(false);
   useEffect(() => {
@@ -96,7 +87,20 @@ const WalletCard = () => {
         style={styles.imageBackgroundReward}
         resizeMode={'contain'}
       />
-      {currentAccount ? (
+      <Text style={styles.rewardText}>{t('mining:currentReward')}</Text>
+      <View style={styles.pointContainer}>
+        <Image
+          source={POINT_SEIM}
+          style={styles.imagePoint}
+          resizeMode={'contain'}
+        />
+
+        <Text style={{...styles.pointText, color: textOutstandingColor}}>
+          {miningEarned}
+        </Text>
+      </View>
+
+      {/* {currentAccount ? (
         <View style={{padding: 15}}>
           <TouchableOpacity
             onPress={() => setModalVisible(true)}
@@ -178,7 +182,7 @@ const WalletCard = () => {
             </View>
           </TouchableOpacity>
         </View>
-      )}
+      )} */}
     </View>
   );
 };
@@ -188,7 +192,7 @@ export default WalletCard;
 const styles = StyleSheet.create({
   cardContainer: {
     width: '100%',
-    height: 150,
+    height: 100,
     position: 'relative',
     borderWidth: 1,
     marginTop: 10,
@@ -211,14 +215,38 @@ const styles = StyleSheet.create({
     // marginTop: 5,
     alignItems: 'center',
   },
-  imagePoint: {
-    width: 20,
-    height: 20,
-  },
+
   balanceTokenText: {
     marginLeft: 5,
     fontFamily: POPPINS_MEDIUM,
     fontSize: FONT_SIZE.medium0,
     fontWeight: '600',
+  },
+  rewardText: {
+    marginTop: 15,
+    fontSize: FONT_SIZE.medium0,
+    fontWeight: '500',
+    color: '#1B9CFC',
+    marginLeft: 10,
+    fontFamily: POPPINS_REGULAR,
+  },
+  pointContainer: {
+    // marginTop: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    // borderColor: '#B5DCFB',
+    // borderWidth: 1,
+    // flex: 1,
+  },
+  imagePoint: {
+    width: 20,
+    height: 20,
+    marginLeft: 10,
+  },
+  pointText: {
+    fontSize: FONT_SIZE.medium0,
+    fontWeight: '700',
+    marginLeft: 5,
+    fontFamily: POPPINS_BOLD,
   },
 });

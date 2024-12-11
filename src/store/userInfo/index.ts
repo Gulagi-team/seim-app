@@ -15,6 +15,7 @@ export type InfoState = {
   weight: number;
   referralCode: string;
   referralLink: string;
+  miningEarned: number;
 };
 
 const initialState: InfoState = {
@@ -29,6 +30,7 @@ const initialState: InfoState = {
   weight: 65,
   referralCode: '',
   referralLink: 'get.seim.io/ref=FDFAA',
+  miningEarned: 0,
 };
 
 const Infoslice = createSlice({
@@ -88,6 +90,7 @@ const Infoslice = createSlice({
         state.height = action.payload.height;
         state.weight = action.payload.weight;
         state.referralCode = action.payload.refererCode;
+        state.miningEarned = action.payload.miningEarned;
       })
       .addCase(getInfoUser.rejected, () => {});
   },

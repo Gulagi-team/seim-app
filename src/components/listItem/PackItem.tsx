@@ -7,12 +7,14 @@ import {StyleSheet, Text, View} from 'react-native';
 interface Props {
   lession: Habit;
   key: string;
+  isCompleted?: boolean;
 }
 
 const PackItem = (props: Props) => {
   const {
     lession: {habit},
   } = props;
+  console.log('props.isCompleted', props.isCompleted);
   const {containerColor, textColor, textOutstandingColor} = useAppSelector(
     (state: StoreState) => state.ThemeSlice,
   );
@@ -33,9 +35,21 @@ const PackItem = (props: Props) => {
         </View>
 
         <View style={{marginTop: 12, marginLeft: 12}}>
-          <Text style={{...styles.titleText, color: textColor}}>
-            {habit.name}
-          </Text>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Text style={{...styles.titleText, color: textColor}}>
+              {habit.name}
+            </Text>
+            {props.isCompleted && (
+              <Text style={{color: 'green', fontSize: 12, marginLeft: 10}}>
+                Completed
+              </Text>
+            )}
+          </View>
           <View
             style={{
               display: 'flex',

@@ -1,12 +1,18 @@
+import {checkProgress} from '@/api/habit';
 import Header from '@/components/Header';
 import PackItem from '@/components/listItem/PackItem';
 import {deviceWidth} from '@/constants/layout';
+import {getStringLocal} from '@/helpers/localStorage';
 import {StoreState, useAppSelector} from '@/store';
+import {getAuth} from '@/store/auth';
 import {fetchTopics} from '@/store/topics/action';
 import {COLORS} from '@/theme';
+import {UserProfileType} from '@/types/colection';
+import {stringUtils} from '@/utils/string';
 import {useNavigation} from '@react-navigation/native';
 import {ThunkDispatch} from '@reduxjs/toolkit';
-import {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {BarChart} from 'react-native-gifted-charts';
@@ -14,12 +20,6 @@ import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import {styles} from './ProfileScreen.styles';
-import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {getStringLocal} from '@/helpers/localStorage';
-import {getAuth} from '@/store/auth';
-import {UserProfileType} from '@/types/colection';
-import {stringUtils} from '@/utils/string';
 const ProfileScreen = () => {
   const {t} = useTranslation(['setting']);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -41,11 +41,17 @@ const ProfileScreen = () => {
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
   const {miningData} = useSelector((state: StoreState) => state.MiningSlice);
 
+  const [progress, setProgress] = useState([]);
+
   useEffect(() => {
     const getInfo = async () => {
       const user = await getAuth();
       if (user) {
         setUserInfor(user);
+        const response = await checkProgress();
+        if (response.data) {
+          setProgress(response.data);
+        }
       }
     };
     getInfo();
@@ -207,9 +213,18 @@ const ProfileScreen = () => {
           </TouchableOpacity>
         </View>
 
-        {habits.map(item => (
-          <PackItem lession={item} key={item.habit.id} />
-        ))}
+        {habits.map(item => {
+          const isCompleted = progress.find(
+            (p: any) => p.habitId === item.habit.id,
+          )?.isCompleted;
+          return (
+            <PackItem
+              isCompleted={isCompleted}
+              lession={item}
+              key={item.habit.id}
+            />
+          );
+        })}
       </ScrollView>
     </SafeAreaView>
   );

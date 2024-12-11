@@ -49,6 +49,7 @@ const SettingScreen = () => {
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
   const [userInfor, setUserInfor] = React.useState<UserProfileType>();
   const {miningData} = useSelector((state: StoreState) => state.MiningSlice);
+
   const getUser = async () => {
     try {
       // await AsyncStorage.removeItem('userInfo');
