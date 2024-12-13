@@ -81,8 +81,7 @@ const SettingScreen = () => {
   const handleLogout = async () => {
     // reduxStorage.setItem('userInfo', '');
     await AsyncStorage.removeItem('userInfo');
-    reduxStorage.removeItem('isGetInfoDone');
-    reduxStorage.removeItem('userInfo');
+
     navigateReset(SCREENS.LOGIN);
   };
 

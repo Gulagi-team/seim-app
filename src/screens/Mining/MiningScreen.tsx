@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/self-closing-comp */
 import IconDiamond from '@/assets/icons/icon_diamond.svg';
 import {showToast} from '@/helpers/toast';
 
@@ -7,6 +9,7 @@ import IconSpeed from '@/assets/icons/icon_speed.svg';
 import IconUser from '@/assets/icons/icon_user.svg';
 import BACKGROUND_REWARD from '@/assets/images/background_reward.png';
 import POINT_SEIM from '@/assets/images/point_seim.png';
+import SUCCESS from '@/assets/icons/success.svg';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import CountdownTimer from '@/components/TimerCountdown/TimerCountdown';
 import SCREENS from '@/constants/screen';
@@ -14,6 +17,7 @@ import {navigate, navigateReset} from '@/helpers/navigation';
 import {StoreState, useAppSelector} from '@/store';
 import {getAuth} from '@/store/auth';
 import {claimMine, getMiningInfo, startMine} from '@/store/mining/action';
+import {getInfoUser} from '@/store/userInfo/action';
 import {MiningData, UserProfileType} from '@/types/colection';
 import {stringUtils} from '@/utils/string';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,23 +28,16 @@ import {useTranslation} from 'react-i18next';
 import {
   Image,
   Modal,
-  Platform,
   Pressable,
-  StatusBar,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import {
-  AdEventType,
-  InterstitialAd,
-  TestIds,
-} from 'react-native-google-mobile-ads';
+import {InterstitialAd, TestIds} from 'react-native-google-mobile-ads';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import {styles} from './MiningScreen.styles';
-import {getInfoUser} from '@/store/userInfo/action';
 
 const adUnitId = __DEV__
   ? TestIds.INTERSTITIAL
@@ -50,6 +47,7 @@ const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
   keywords: ['fashion', 'clothing'],
   requestNonPersonalizedAdsOnly: true,
 });
+
 const MiningScreen = () => {
   const AMOUNT_MINING = 1;
 
@@ -59,7 +57,8 @@ const MiningScreen = () => {
   // const endDate = useAppSelector(
   //   (state: StoreState) => state.MiningSlice.miningData.endDate,
   // );
-
+  const currentDate = new Date();
+  const {language} = useSelector((state: StoreState) => state.userInfo);
   const [endDate, setEndDate] = useState(0);
   const [startDate, setStartDate] = useState(0);
   const [isDone, setIsDone] = useState(false);
@@ -114,9 +113,8 @@ const MiningScreen = () => {
 
   const startMinining = async () => {
     const boostAdjust = miningData.boost ?? 0;
-    const currentDate = new Date();
     const start = currentDate.getTime(); // Current timestamp in milliseconds
-    const durationInMs = 5 * 1000; // 24 hours in milliseconds
+    const durationInMs = 10 * 1000; // 24 hours in milliseconds
     const adjustedDuration = stringUtils.calculateTimeAdjustment(boostAdjust);
     const data: MiningData = {
       startDate: start,
@@ -160,47 +158,47 @@ const MiningScreen = () => {
       const totalRw = totalReward + AMOUNT_MINING;
       setTotalReward(totalRw);
       await AsyncStorage.setItem('totalReward', totalRw.toString());
-      interstitial.load(); // Load quảng cáo mới
+      // interstitial.load(); // Load quảng cáo mới
     }
   };
 
-  useEffect(() => {
-    const unsubscribeLoaded = interstitial.addAdEventListener(
-      AdEventType.LOADED,
-      () => {
-        setLoaded(true);
-        console.log('Ad loaded successfully');
-      },
-    );
+  // useEffect(() => {
+  //   const unsubscribeLoaded = interstitial.addAdEventListener(
+  //     AdEventType.LOADED,
+  //     () => {
+  //       setLoaded(true);
+  //       console.log('Ad loaded successfully');
+  //     },
+  //   );
 
-    const unsubscribeOpened = interstitial.addAdEventListener(
-      AdEventType.OPENED,
-      () => {
-        if (Platform.OS === 'android') {
-          StatusBar.setHidden(true); // Ẩn status bar khi mở quảng cáo trên Android
-        }
-      },
-    );
+  //   const unsubscribeOpened = interstitial.addAdEventListener(
+  //     AdEventType.OPENED,
+  //     () => {
+  //       if (Platform.OS === 'android') {
+  //         StatusBar.setHidden(true); // Ẩn status bar khi mở quảng cáo trên Android
+  //       }
+  //     },
+  //   );
 
-    const unsubscribeClosed = interstitial.addAdEventListener(
-      AdEventType.CLOSED,
-      () => {
-        if (Platform.OS === 'android') {
-          StatusBar.setHidden(false); // Hiện lại status bar khi đóng quảng cáo
-        }
+  //   const unsubscribeClosed = interstitial.addAdEventListener(
+  //     AdEventType.CLOSED,
+  //     () => {
+  //       if (Platform.OS === 'android') {
+  //         StatusBar.setHidden(false); // Hiện lại status bar khi đóng quảng cáo
+  //       }
 
-        startMinining();
-      },
-    );
+  //       startMinining();
+  //     },
+  //   );
 
-    interstitial.load(); // Tải quảng cáo khi màn hình được mount
+  //   interstitial.load(); // Tải quảng cáo khi màn hình được mount
 
-    return () => {
-      unsubscribeLoaded();
-      unsubscribeOpened();
-      unsubscribeClosed(); // Dọn dẹp sự kiện khi unmount
-    };
-  }, [user]);
+  //   return () => {
+  //     unsubscribeLoaded();
+  //     unsubscribeOpened();
+  //     unsubscribeClosed(); // Dọn dẹp sự kiện khi unmount
+  //   };
+  // }, [user]);
 
   useEffect(() => {
     if (isMining) {
@@ -210,14 +208,14 @@ const MiningScreen = () => {
     }
   }, [isMining]);
 
-  const onPlayPress = async () => {
-    if (isDone) {
-      startClaim();
-      return;
-    } else {
-      interstitial.show();
-    }
-  };
+  // const onPlayPress = async () => {
+  //   if (isDone) {
+  //     startClaim();
+  //     return;
+  //   } else {
+  //     startMinining();
+  //   }
+  // };
 
   useEffect(() => {
     const handleStopMining = async () => {
@@ -225,9 +223,9 @@ const MiningScreen = () => {
         const data = await AsyncStorage.getItem('mining');
         if (data) {
           const dataMining = JSON.parse(data);
-          const currentDate = new Date().getTime();
+          const dateNow = new Date();
 
-          if (dataMining && dataMining.endDate > currentDate) {
+          if (dataMining && dataMining.endDate > dateNow.getTime()) {
             setIsMining(true);
             setStartDate(dataMining.startDate);
             setEndDate(dataMining.endDate);
@@ -380,153 +378,215 @@ const MiningScreen = () => {
             />
           </View>
         </View>
-        <View
-          style={{
-            ...styles.actionMiningContainer,
-            backgroundColor: containerColor,
-            borderColor: borderColor,
-          }}>
-          {/* <View style={{flex: 1, width: '100%', alignItems: 'center'}}> */}
-          <LottieView
-            ref={anim}
-            source={require('@/assets/lotties/gpu_animation.json')}
-            loop
-            style={{height: '40%', width: '60%', flex: 1}}
-          />
-          {/* </View> */}
-
-          <CountdownTimer endDate={endDate} startDate={startDate} />
-          <TouchableOpacity
-            style={{
-              ...styles.btnMint,
-              backgroundColor: isMining ? '#B5DCFB' : '#1B9CFC',
-              borderColor: isMining ? '#B5DCFB' : '#1B9CFC',
-            }}
-            onPress={onPlayPress}
-            disabled={isMining || !loaded}>
-            <Text style={styles.mintText}>
-              {!isMining
-                ? isDone
-                  ? t('claim')
-                  : t('startMining')
-                : `${t('mining')}...`}
+        {isDone ? (
+          <View style={styles.claim_cotainer}>
+            <Image
+              source={POINT_SEIM}
+              style={styles.claim_imagePoint}
+              resizeMode={'contain'}
+            />
+            <Text
+              style={{
+                ...styles.claim_itemText,
+                fontWeight: 'bold',
+              }}>
+              {t('miningReward')}
             </Text>
-          </TouchableOpacity>
-        </View>
-        <Text style={{...styles.miningText, color: textOutstandingColor}}>
-          {t('infor')}
-        </Text>
-        <View
-          style={{
-            ...styles.miningInfoContainer,
-            backgroundColor: containerColor,
-            borderColor: borderColor,
-          }}>
-          <View style={{flexDirection: 'row'}}>
-            <View style={styles.miningDetailLeft}>
-              <View style={styles.miningDetailTextContainer}>
-                <IconPool />
+            <Text
+              style={{
+                ...styles.claim_itemText,
+                fontSize: 24,
+                marginTop: 10,
+                color: '#1B9CFC',
+                fontWeight: 'bold',
+              }}>
+              + {AMOUNT_MINING} POINT
+            </Text>
+            <View style={styles.claim_itemRow}>
+              <Text style={styles.claim_itemText}>{t('status')}</Text>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
                 <Text
                   style={{
-                    ...styles.miningInfoText,
-                    color: textColor,
-                    flex: 1,
-                    flexWrap: 'wrap',
+                    ...styles.claim_itemText,
+                    color: '#1DD1A1',
+                    marginRight: 5,
                   }}>
-                  {t('totalPool')}
+                  {t('successfully')}
                 </Text>
+                <SUCCESS />
               </View>
-
-              <Text
-                style={{
-                  ...styles.miningInfoValue,
-                  color: textOutstandingColor,
-                }}>
-                {miningData.totalPoolMined}
+            </View>
+            <View style={styles.claim_itemRow}>
+              <Text style={styles.claim_itemText}>{t('date')}</Text>
+              <Text style={styles.claim_itemText}>
+                {stringUtils.formatTime(currentDate, language)}
               </Text>
             </View>
-            <View
+            <TouchableOpacity
+              onPress={startClaim}
+              disabled={isMining}
               style={{
-                ...styles.miningDetailRight,
-                borderColor: textOutstandingColor,
+                ...styles.claim_btnMint,
+                backgroundColor: '#1B9CFC',
+                borderColor: '#1B9CFC',
+                marginTop: 'auto',
               }}>
-              <View style={styles.miningDetailTextContainer}>
-                <IconSpeed />
-                <Text style={{...styles.miningInfoText, color: textColor}}>
-                  {t('miningAmount')} (24h)
-                </Text>
-              </View>
-
-              <Text
-                style={{
-                  ...styles.miningInfoValue,
-                  color: textOutstandingColor,
-                }}>
-                {AMOUNT_MINING}
-              </Text>
-            </View>
+              <Text style={styles.claim_mintText}>{t('claim')}</Text>
+            </TouchableOpacity>
           </View>
-          <View
-            style={{
-              width: '90%',
-              paddingHorizontal: '3%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginTop: 10,
-            }}>
+        ) : (
+          <>
             <View
               style={{
-                width: '45%',
-                height: 1,
-                backgroundColor: textOutstandingColor,
-              }}></View>
-            <View
-              style={{
-                width: '45%',
-                height: 1,
-                backgroundColor: textOutstandingColor,
-              }}></View>
-          </View>
-          <View style={{flexDirection: 'row', marginTop: 10}}>
-            <View style={styles.miningDetailLeft}>
-              <View style={styles.miningDetailTextContainer}>
-                <IconDiamond />
-                <Text style={{...styles.miningInfoText, color: textColor}}>
-                  {t('level')}
-                </Text>
-              </View>
-
-              <Text
-                style={{
-                  ...styles.miningInfoValue,
-                  color: textOutstandingColor,
-                }}>
-                {miningData.level}
-              </Text>
-            </View>
-            <View
-              style={{
-                ...styles.miningDetailRight,
-                borderColor: textOutstandingColor,
+                ...styles.actionMiningContainer,
+                backgroundColor: containerColor,
+                borderColor: borderColor,
               }}>
-              <View style={styles.miningDetailTextContainer}>
-                <IconUser />
-                <Text style={{...styles.miningInfoText, color: textColor}}>
-                  {t('referral')}
-                </Text>
-              </View>
-
-              <Text
+              {/* <View style={{flex: 1, width: '100%', alignItems: 'center'}}> */}
+              <LottieView
+                ref={anim}
+                source={require('@/assets/lotties/gpu_animation.json')}
+                loop
+                style={{height: '40%', width: '60%', flex: 1}}
+              />
+              {/* </View> */}
+              {isMining && (
+                <CountdownTimer endDate={endDate} startDate={startDate} />
+              )}
+              <TouchableOpacity
                 style={{
-                  ...styles.miningInfoValue,
-                  color: textOutstandingColor,
-                }}>
-                {miningData.totalInvite}
-              </Text>
+                  ...styles.btnMint,
+                  backgroundColor: isMining ? '#B5DCFB' : '#1B9CFC',
+                  borderColor: isMining ? '#B5DCFB' : '#1B9CFC',
+                }}
+                onPress={startMinining}
+                disabled={isMining}>
+                <Text style={styles.mintText}>
+                  {!isMining ? t('startMining') : `${t('mining')}...`}
+                </Text>
+              </TouchableOpacity>
             </View>
-          </View>
-        </View>
+            <Text style={{...styles.miningText, color: textOutstandingColor}}>
+              {t('infor')}
+            </Text>
+            <View
+              style={{
+                ...styles.miningInfoContainer,
+                backgroundColor: containerColor,
+                borderColor: borderColor,
+              }}>
+              <View style={{flexDirection: 'row'}}>
+                <View style={styles.miningDetailLeft}>
+                  <View style={styles.miningDetailTextContainer}>
+                    <IconPool />
+                    <Text
+                      style={{
+                        ...styles.miningInfoText,
+                        color: textColor,
+                        flex: 1,
+                        flexWrap: 'wrap',
+                      }}>
+                      {t('totalPool')}
+                    </Text>
+                  </View>
+
+                  <Text
+                    style={{
+                      ...styles.miningInfoValue,
+                      color: textOutstandingColor,
+                    }}>
+                    {miningData.totalPoolMined}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    ...styles.miningDetailRight,
+                    borderColor: textOutstandingColor,
+                  }}>
+                  <View style={styles.miningDetailTextContainer}>
+                    <IconSpeed />
+                    <Text style={{...styles.miningInfoText, color: textColor}}>
+                      {t('miningAmount')} (24h)
+                    </Text>
+                  </View>
+
+                  <Text
+                    style={{
+                      ...styles.miningInfoValue,
+                      color: textOutstandingColor,
+                    }}>
+                    {AMOUNT_MINING}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  width: '90%',
+                  paddingHorizontal: '3%',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginTop: 10,
+                }}>
+                <View
+                  style={{
+                    width: '45%',
+                    height: 1,
+                    backgroundColor: textOutstandingColor,
+                  }}></View>
+                <View
+                  style={{
+                    width: '45%',
+                    height: 1,
+                    backgroundColor: textOutstandingColor,
+                  }}></View>
+              </View>
+              <View style={{flexDirection: 'row', marginTop: 10}}>
+                <View style={styles.miningDetailLeft}>
+                  <View style={styles.miningDetailTextContainer}>
+                    <IconDiamond />
+                    <Text style={{...styles.miningInfoText, color: textColor}}>
+                      {t('level')}
+                    </Text>
+                  </View>
+
+                  <Text
+                    style={{
+                      ...styles.miningInfoValue,
+                      color: textOutstandingColor,
+                    }}>
+                    {miningData.level}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    ...styles.miningDetailRight,
+                    borderColor: textOutstandingColor,
+                  }}>
+                  <View style={styles.miningDetailTextContainer}>
+                    <IconUser />
+                    <Text style={{...styles.miningInfoText, color: textColor}}>
+                      {t('referral')}
+                    </Text>
+                  </View>
+
+                  <Text
+                    style={{
+                      ...styles.miningInfoValue,
+                      color: textOutstandingColor,
+                    }}>
+                    {miningData.totalInvite}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </>
+        )}
       </View>
 
       <Image

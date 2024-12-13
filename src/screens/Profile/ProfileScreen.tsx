@@ -116,7 +116,7 @@ const ProfileScreen = () => {
             />
           </View>
         </View>
-        <View
+        {/* <View
           style={{
             ...styles.activityContainer,
             backgroundColor: containerColor,
@@ -143,7 +143,7 @@ const ProfileScreen = () => {
             data={barData}
             dashWidth={0}
           />
-        </View>
+        </View> */}
         <View style={styles.infoContainer}>
           <View style={styles.infoContainer1}>
             <View

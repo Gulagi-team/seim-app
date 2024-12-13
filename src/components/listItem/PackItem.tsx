@@ -14,7 +14,6 @@ const PackItem = (props: Props) => {
   const {
     lession: {habit},
   } = props;
-  console.log('props.isCompleted', props.isCompleted);
   const {containerColor, textColor, textOutstandingColor} = useAppSelector(
     (state: StoreState) => state.ThemeSlice,
   );

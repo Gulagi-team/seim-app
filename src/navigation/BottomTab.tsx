@@ -59,15 +59,15 @@ const BottomTab = () => {
       activeColor: COLORS.secondary_violet2,
       deactiveColor: DEACTIVE_COLOR,
     },
-    [KEY_BOTTOM_SCREEN.NOTIFICATION]: {
-      name: KEY_BOTTOM_SCREEN.NOTIFICATION,
-      component: NotificationScreen,
-      activeIcon: NOTIFICATION_SELECTED,
-      deactiveIcon: isDarkMode ? NOTIFICATION_DARK : NOTIFICATION,
-      index: 1,
-      activeColor: COLORS.secondary_orange2,
-      deactiveColor: DEACTIVE_COLOR,
-    },
+    // [KEY_BOTTOM_SCREEN.NOTIFICATION]: {
+    //   name: KEY_BOTTOM_SCREEN.NOTIFICATION,
+    //   component: NotificationScreen,
+    //   activeIcon: NOTIFICATION_SELECTED,
+    //   deactiveIcon: isDarkMode ? NOTIFICATION_DARK : NOTIFICATION,
+    //   index: 1,
+    //   activeColor: COLORS.secondary_orange2,
+    //   deactiveColor: DEACTIVE_COLOR,
+    // },
 
     [KEY_BOTTOM_SCREEN.PROFILE]: {
       name: KEY_BOTTOM_SCREEN.PROFILE,

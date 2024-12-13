@@ -3,7 +3,7 @@
   "currentReward": "Phần thưởng hiện tại",
   "totalReward": "Tổng phần thưởng",
   "startMining": "Bắt đầu đào",
-  "claim": "Lấy phần thưởng",
+  "claim": "Nhận phần thưởng",
   "infor": "Thông tin đào",
   "totalPool": "Tổng số pool đã khai thác",
   "miningAmount": "Số lượng đào",
@@ -16,5 +16,9 @@
   "warning": "Hiện tại, tính năng đào không khả dụng khi bạn chưa đăng nhập",
   "claimSuccess": "Lấy phần thưởng thành công",
   "history": "Lịch sử",
-  "miningHistory": "Lịch sử đào"
+  "miningHistory": "Lịch sử đào",
+  "miningReward": "Phần thưởng đào",
+  "status": "Trạng thái",
+  "date": "Ngày",
+  "successfully": "Thành công"
 }

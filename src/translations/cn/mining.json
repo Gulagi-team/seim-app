@@ -3,7 +3,7 @@
   "currentReward": "当前奖励",
   "totalReward": "总奖励",
   "startMining": "开始挖矿",
-  "claim": "索取",
+  "claim": "索取奖励",
   "infor": "挖矿信息",
   "totalPool": "总挖矿池",
   "miningAmount": "挖矿数量",
@@ -16,5 +16,9 @@
   "warning": "当前未登录时，挖矿功能不可用",
   "claimSuccess": "索取成功",
   "history": "历史",
-  "miningHistory": "挖矿历史"
+  "miningHistory": "挖矿历史",
+  "miningReward": "挖矿奖励",
+  "status": "状态",
+  "date": "日期",
+  "successfully": "成功"
 }

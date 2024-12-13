@@ -31,7 +31,6 @@ axios.interceptors.response.use(
     return res;
   },
   async err => {
-    await AsyncStorage.removeItem('userInfo');
     console.log(
       'Message when call api is: ',
       JSON.stringify(err.response?.data?.message),

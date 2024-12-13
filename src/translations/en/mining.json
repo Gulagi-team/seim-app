@@ -3,7 +3,7 @@
   "currentReward": "Current reward",
   "totalReward": "Total reward",
   "startMining": "Start mining",
-  "claim": "Claim",
+  "claim": "Claim reward",
   "infor": "Mining information",
   "totalPool": "Total pools mined",
   "miningAmount": "Mining amount",
@@ -16,5 +16,9 @@
   "warning": "Currently, the mining feature is not available when you not login",
   "claimSuccess": "Claim successfully",
   "history": "History",
-  "miningHistory": "Mining history"
+  "miningHistory": "Mining history",
+  "miningReward": "Mining reward",
+  "status": "Status",
+  "date": "Date",
+  "successfully": "Successfully"
 }

@@ -18,6 +18,7 @@ import {useTranslation} from 'react-i18next';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './SplashScreen.styles';
+import {removeFile} from '@/helpers/file';
 const SplashScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {t} = useTranslation('other');
@@ -41,7 +42,7 @@ const SplashScreen = () => {
     console.log('getInfoDone', getInfoDone);
     console.log('getUserInfoLocal', getUserInfoLocal);
     // await AsyncStorage.removeItem('userInfo');
-    await AsyncStorage.removeItem('mining');
+    // await AsyncStorage.removeItem('mining');
     // await removeFile('topics.json');
     // await removeFile('habits.json');
     // await removeFile('task_histories.json');

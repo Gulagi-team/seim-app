@@ -9,7 +9,7 @@ import SCREENS from '@/constants/screen';
 import {iconMap} from '@/helpers/icon';
 import {navigateReset} from '@/helpers/navigation';
 import {StoreState, useAppSelector} from '@/store';
-import {fetchHabits, saveHabit} from '@/store/habits/action';
+import {saveHabit} from '@/store/habits/action';
 import {HabitData, Topic} from '@/types/colection';
 import {AddIcon, Icon} from '@gluestack-ui/themed';
 import BottomSheet, {

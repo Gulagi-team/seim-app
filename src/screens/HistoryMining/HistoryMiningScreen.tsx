@@ -1,7 +1,14 @@
 import POINT_SEIM from '@/assets/images/point_seim.png';
 
 import React, {useEffect, useState} from 'react';
-import {Image, SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import {styles} from './HistoryMiningScreen.styles';
 import Header from '@/components/Header';
 import {useNavigation} from '@react-navigation/native';
@@ -45,7 +52,6 @@ const HistoryMiningScreen = () => {
   useEffect(() => {
     const getData = async () => {
       const userExist = await getAuth();
-      console.log('userExist', userExist);
       if (userExist) {
         dispatch(getAllMine(filter));
       }
@@ -60,44 +66,53 @@ const HistoryMiningScreen = () => {
         handleGoBack={goBack}
       />
 
-      <ScrollView style={styles.scrollView}>
-        {histories.map((item: MiningData) => {
-          const {time, level} = stringUtils.caculateTimeAgos(
-            item.createdAt as string,
-          );
-          const timeAgo = t(timeAgos[level], {time});
-          return (
-            <View key={item.id} style={styles.item}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
+      {histories.length === 0 && (
+        <ActivityIndicator size="large" color="#00ff00" />
+      )}
+      {histories.length > 0 && (
+        <ScrollView style={styles.scrollView}>
+          {histories.map((item: MiningData) => {
+            const {time, level} = stringUtils.caculateTimeAgos(
+              item.createdAt as string,
+            );
+            const timeAgo = t(timeAgos[level], {time});
+            return (
+              <View key={item.id} style={styles.item}>
                 <View
                   style={{
-                    ...styles.itemContainer,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
                   }}>
-                  <Image
-                    source={POINT_SEIM}
-                    style={styles.imagePoint}
-                    resizeMode={'contain'}
-                  />
+                  <View
+                    style={{
+                      ...styles.itemContainer,
+                    }}>
+                    <Image
+                      source={POINT_SEIM}
+                      style={styles.imagePoint}
+                      resizeMode={'contain'}
+                    />
+                    <Text
+                      style={{
+                        ...styles.pointText,
+                        color: textOutstandingColor,
+                      }}>
+                      {item.point} POINT
+                    </Text>
+                  </View>
                   <Text
-                    style={{...styles.pointText, color: textOutstandingColor}}>
-                    {item.point} POINT
+                    style={{...styles.timeText, color: textOutstandingColor}}>
+                    {item.isClaimed && <ICON_VALID />}
                   </Text>
                 </View>
                 <Text style={{...styles.timeText, color: textOutstandingColor}}>
-                  {item.isClaimed && <ICON_VALID />}
+                  {timeAgo}
                 </Text>
               </View>
-              <Text style={{...styles.timeText, color: textOutstandingColor}}>
-                {timeAgo}
-              </Text>
-            </View>
-          );
-        })}
-      </ScrollView>
+            );
+          })}
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 };

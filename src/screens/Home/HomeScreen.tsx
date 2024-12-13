@@ -51,7 +51,6 @@ const HomeScreen = () => {
 
     getData();
   }, []);
-
   useEffect(() => {
     let resetTimeout: any;
 
@@ -72,8 +71,6 @@ const HomeScreen = () => {
 
         await removeFile('habits.json');
         await writeToFile('habits.json', updatedHabits);
-
-        console.log('Habits reset successfully!');
       } catch (error) {
         console.error('Error resetting habits:', error);
       }

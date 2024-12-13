@@ -3,7 +3,7 @@
   "currentReward": "현재 보상",
   "totalReward": "총 보상",
   "startMining": "채굴 시작",
-  "claim": "청구",
+  "claim": "보상 청구",
   "infor": "채굴 정보",
   "totalPool": "총 채굴된 풀",
   "miningAmount": "채굴 양",
@@ -16,5 +16,9 @@
   "warning": "현재 채굴 기능은 로그인하지 않은 경우 사용할 수 없습니다",
   "claimSuccess": "청구 성공",
   "history": "역사",
-  "miningHistory": "채굴 역사"
+  "miningHistory": "채굴 역사",
+  "miningReward": "채굴 보상",
+  "status": "상태",
+  "date": "날짜",
+  "successfully": "성공"
 }

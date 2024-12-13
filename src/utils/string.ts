@@ -18,6 +18,19 @@ export const stringUtils = {
     return adjustedDuration;
   },
 
+  formatTime: (time: Date, langCode: string) => {
+    if (langCode === 'vi') {
+      return moment(time).format('HH:mm DD/MM/YYYY');
+    }
+    if (langCode === 'kr') {
+      return moment(time).format('YYYY년 MM월 DD일 HH:mm');
+    }
+    if (langCode === 'cn') {
+      return moment(time).format('YYYY年MM月DD日 HH:mm');
+    }
+    return moment(time).format('HH:mm DD/MM/YYYY');
+  },
+
   getMaxInviteByLevel(level: number): number {
     const levelMap: Record<number, number> = {
       2: 20,
