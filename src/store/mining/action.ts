@@ -12,8 +12,17 @@ export const startMine = createAsyncThunk(
 
 export const claimMine = createAsyncThunk(
   'mining/claimMining',
-  async (): Promise<any> => {
-    return await claimMining();
+  async (_, {rejectWithValue}): Promise<any> => {
+    try {
+      const response = await claimMining();
+      if (response.error) {
+        return rejectWithValue(response.error);
+      } else {
+        return response;
+      }
+    } catch (error: any) {
+      return rejectWithValue(error.message || 'An error occurred');
+    }
   },
 );
 

@@ -14,5 +14,7 @@
   "weight": "체중",
   "height": "키",
   "age": "나이",
-  "recentPacks": "최근 팩"
+  "recentPacks": "최근 팩",
+  "logintToSeeProfile": "프로필을 보려면 로그인하세요",
+  "warning": "현재 로그인되어 있지 않습니다. 프로필을 보려면 로그인하세요."
 }

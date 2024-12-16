@@ -1,25 +1,21 @@
-import {StoreState, useAppSelector} from '@/store';
+/* eslint-disable react/react-in-jsx-scope */
 import {updateOld} from '@/store/userInfo';
 import {COLORS, FONT_SIZE, POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
 import {useTranslation} from 'react-i18next';
 
 import {
-  Text,
-  View,
-  Button,
-  TextInput,
-  Pressable,
-  StyleSheet,
-  TouchableWithoutFeedback,
   Keyboard,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 
 const GetInfoStep3Content = () => {
   const dispatch = useDispatch();
   const {t} = useTranslation(['welcome']);
-
-  const old = useAppSelector((state: StoreState) => state.userInfo.old);
 
   return (
     <TouchableWithoutFeedback

@@ -20,5 +20,7 @@
   "miningReward": "채굴 보상",
   "status": "상태",
   "date": "날짜",
-  "successfully": "성공"
+  "successfully": "성공",
+  "mined": "청구",
+  "claimFailed": "청구 실패"
 }

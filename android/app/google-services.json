@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:474737740853:android:a41ac864d0f2f67aa8357c",
         "android_client_info": {
-          "package_name": "com.seim"
+          "package_name": "com.seim.gulagi"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "474737740853-s4jahu4s8fgker42nlbh1sgp1ag2n3c3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.seim",
+            "package_name": "com.seim.gulagi",
             "certificate_hash": "7a8082a659d0d6e72853bf0ea5b31b363d3e8df4"
           }
         },
@@ -53,7 +53,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:474737740853:android:72daeb68fa64a440a8357c",
         "android_client_info": {
-          "package_name": "com.seim.gulagi"
+          "package_name": "com.seim.gulagi.gulagi"
         }
       },
       "oauth_client": [

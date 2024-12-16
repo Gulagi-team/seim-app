@@ -1,17 +1,22 @@
 import ThreeDot from '@/assets/icons/icon_three_dots.svg';
+import {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+} from '@gorhom/bottom-sheet';
+import {TouchableWithoutFeedback} from 'react-native';
+
 import SCREENS from '@/constants/screen';
 import {navigate} from '@/helpers/navigation';
 import {StoreState} from '@/store';
 import {deleteHabit, startHabit} from '@/store/habits/action';
 import {Habit} from '@/types/colection';
 import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
   BottomSheetModal,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import {ThunkDispatch} from '@reduxjs/toolkit';
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState, useCallback} from 'react';
+import {useTranslation} from 'react-i18next';
 import {FlatList, Modal, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
@@ -19,7 +24,6 @@ import DisableTask from './DisableTask';
 import ListDate from './ListDate';
 import {styles} from './ListTask.styles';
 import Task from './Task';
-import {useTranslation} from 'react-i18next';
 
 interface Props {
   habitSelected: Habit;
@@ -29,6 +33,7 @@ interface Props {
 const ListTaskContent = ({habitSelected}: Props) => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const [isModalVisible, setModalVisible] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const {t} = useTranslation(['home']);
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
@@ -47,21 +52,26 @@ const ListTaskContent = ({habitSelected}: Props) => {
 
   const renderBackdrop = useCallback(
     (props: BottomSheetBackdropProps) => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={0}
-        appearsOnIndex={1}
-      />
+      <TouchableWithoutFeedback onPress={() => props.close()}>
+        <BottomSheetBackdrop
+          {...props}
+          disappearsOnIndex={0}
+          appearsOnIndex={1}
+          style={{
+            backgroundColor: 'rgba(0,0,0,0.5)',
+          }}
+        />
+      </TouchableWithoutFeedback>
     ),
     [],
   );
-
   const handleOpenModal = () => {
     bottomSheetRef.current?.collapse();
   };
 
   const handleConfirmDelete = () => {
     setModalVisible(true);
+    setOpenModal(false);
   };
 
   const handleCancelDelete = () => {
@@ -73,11 +83,33 @@ const ListTaskContent = ({habitSelected}: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {openModal && (
+        <View style={styles.overlay}>
+          <TouchableOpacity
+            style={styles.iconOverlay}
+            onPress={() => setOpenModal(false)}>
+            <Text style={styles.show}>X</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigate(SCREENS.HABIT_DETAIL, habitSelected);
+              setOpenModal(false);
+            }}
+            style={styles.bottonBtn}>
+            <Text style={styles.show}>{t('show')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleConfirmDelete}
+            style={styles.bottonBtn}>
+            <Text style={styles.deleteProcess}>{t('delete')}</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <View style={styles.question}>
         <View style={styles.titleContainer}>
           <Text style={styles.howOldAre1}>{habitSelected.habit.name}</Text>
           {enable && (
-            <TouchableOpacity onPress={handleOpenModal}>
+            <TouchableOpacity onPress={() => setOpenModal(true)}>
               <ThreeDot />
             </TouchableOpacity>
           )}
@@ -115,13 +147,14 @@ const ListTaskContent = ({habitSelected}: Props) => {
           />
         </View>
       </View>
-      <BottomSheet
+      {/* <BottomSheet
         index={-1}
         ref={bottomSheetRef}
         snapPoints={snapPoints}
         style={{
           marginTop: 230,
         }}
+        onChange={handleOpenModal}
         backdropComponent={renderBackdrop}>
         <BottomSheetView style={styles.bottomAction}>
           <TouchableOpacity
@@ -135,7 +168,7 @@ const ListTaskContent = ({habitSelected}: Props) => {
             <Text style={styles.deleteProcess}>{t('delete')}</Text>
           </TouchableOpacity>
         </BottomSheetView>
-      </BottomSheet>
+      </BottomSheet> */}
       <Modal
         transparent={true}
         animationType="slide"

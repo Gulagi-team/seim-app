@@ -1,4 +1,4 @@
-package com.seim
+package com.seim.gulagi
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

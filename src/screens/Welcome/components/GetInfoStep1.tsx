@@ -1,6 +1,9 @@
+/* eslint-disable react-native/no-inline-styles */
 import {StoreState, useAppSelector} from '@/store';
 import {updateLanguage} from '@/store/userInfo';
 import {POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
+import i18n from '@/translations';
+import {LanguageType} from '@/types/colection';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
@@ -11,6 +14,10 @@ const GetInfoStep1Content = () => {
   const language = useAppSelector(
     (state: StoreState) => state.userInfo.language,
   );
+  const onChangeLanguage = (lang: LanguageType) => {
+    dispatch(updateLanguage(lang));
+    i18n.changeLanguage(lang);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.question}>
@@ -19,7 +26,7 @@ const GetInfoStep1Content = () => {
       </View>
       <View style={styles.content}>
         <TouchableOpacity
-          onPress={() => dispatch(updateLanguage('en'))}
+          onPress={() => onChangeLanguage('en')}
           style={{
             ...styles.options,
             backgroundColor: language === 'en' ? '#1b9cfc' : '#ffffff',
@@ -33,7 +40,7 @@ const GetInfoStep1Content = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => dispatch(updateLanguage('vi'))}
+          onPress={() => onChangeLanguage('vi')}
           style={{
             ...styles.options,
             backgroundColor: language === 'vi' ? '#1b9cfc' : '#ffffff',
@@ -47,7 +54,7 @@ const GetInfoStep1Content = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => dispatch(updateLanguage('kr'))}
+          onPress={() => onChangeLanguage('kr')}
           style={{
             ...styles.options,
             backgroundColor: language === 'kr' ? '#1b9cfc' : '#ffffff',
@@ -61,7 +68,7 @@ const GetInfoStep1Content = () => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => dispatch(updateLanguage('cn'))}
+          onPress={() => onChangeLanguage('cn')}
           style={{
             ...styles.options,
             backgroundColor: language === 'cn' ? '#1b9cfc' : '#ffffff',

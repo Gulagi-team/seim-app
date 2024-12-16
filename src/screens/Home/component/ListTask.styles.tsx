@@ -125,8 +125,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#2196F3',
   },
   buttonDelete: {
-    backgroundColor: '#FF0000',
-    color: COLORS.white,
+    backgroundColor: '#ff1717',
   },
 
   modalText: {
@@ -178,5 +177,42 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     width: 20,
     height: 20,
+  },
+
+  overlay: {
+    position: 'absolute',
+    top: '85%',
+    left: '4%',
+    width: '100%',
+    height: 100,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: COLORS.text_A300,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    zIndex: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+
+  iconOverlay: {
+    position: 'absolute',
+    top: -10,
+    right: -10,
+    borderRadius: 50,
+    width: 30,
+    height: 30,
+    backgroundColor: COLORS.border_selected,
+    color: COLORS.white,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

@@ -20,5 +20,7 @@
   "miningReward": "Mining reward",
   "status": "Status",
   "date": "Date",
-  "successfully": "Successfully"
+  "successfully": "Successfully",
+  "mined": "Claim",
+  "claimFailed": "Claim failed"
 }

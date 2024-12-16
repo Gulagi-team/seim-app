@@ -67,7 +67,9 @@ const HistoryMiningScreen = () => {
       />
 
       {histories.length === 0 && (
-        <ActivityIndicator size="large" color="#00ff00" />
+        <View style={styles.overlay}>
+          <ActivityIndicator size="large" color="#00d9ff" />
+        </View>
       )}
       {histories.length > 0 && (
         <ScrollView style={styles.scrollView}>

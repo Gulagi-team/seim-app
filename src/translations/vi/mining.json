@@ -20,5 +20,7 @@
   "miningReward": "Phần thưởng đào",
   "status": "Trạng thái",
   "date": "Ngày",
-  "successfully": "Thành công"
+  "successfully": "Thành công",
+  "mined": "Nhận",
+  "claimFailed": "Nhận thất bại"
 }

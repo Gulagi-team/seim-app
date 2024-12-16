@@ -12,8 +12,14 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import React from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './LoginScreen.styles';
@@ -24,12 +30,13 @@ import SCREENS from '@/constants/screen';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import {uploadTaskHistories} from '@/api/task';
+import {set} from 'lodash';
 
 const LoginScreen = () => {
   const {t} = useTranslation(['other']);
   const dispatch = useDispatch();
   const userInfo = useAppSelector((state: StoreState) => state.userInfo);
-
+  const [loading, setLoading] = useState(false);
   const onLoginViaGoogle = async () => {
     try {
       GoogleSignin.configure({
@@ -37,6 +44,7 @@ const LoginScreen = () => {
           '474737740853-4iohtlair4u6bbp7b60k9hta9v00vuut.apps.googleusercontent.com',
         offlineAccess: true,
       });
+      setLoading(true);
 
       const result = await GoogleSignin.signIn();
       const googleCredential = auth.GoogleAuthProvider.credential(
@@ -102,6 +110,7 @@ const LoginScreen = () => {
         await uploadTaskHistories(dataUpdateTask);
         await AsyncStorage.setItem('userInfo', JSON.stringify(userProfile));
         dispatch(updateUserProfile(userProfile));
+        setLoading(false);
         navigate(SCREENS.MAIN);
       }
     } catch (error: any) {
@@ -122,6 +131,11 @@ const LoginScreen = () => {
   };
   return (
     <SafeAreaView style={styles.container}>
+      {loading && (
+        <View style={styles.overlay}>
+          <ActivityIndicator size="large" color="#00d9ff" />
+        </View>
+      )}
       <View style={styles.containerView}>
         <Image
           source={LogoSeim}

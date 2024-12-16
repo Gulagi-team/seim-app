@@ -134,7 +134,7 @@ const GetInfoScreen = () => {
           }}
           disabled={disableContinue}>
           <Text style={styles.continue}>
-            {idxContent < 4 ? t('welcome:continue') : t('other:finish')}
+            {idxContent < 4 ? t('welcome:countinue') : t('other:finish')}
           </Text>
         </TouchableOpacity>
       </View>

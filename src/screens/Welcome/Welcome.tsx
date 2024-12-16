@@ -12,7 +12,6 @@ import SCREENS from '@/constants/screen';
 import {COLORS, POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
 import {useTranslation} from 'react-i18next';
 import {SafeAreaView} from 'react-native-safe-area-context';
-
 const WelcomeScreen = () => {
   const handleLogin = async () => {
     navigate(SCREENS.GETINFO);

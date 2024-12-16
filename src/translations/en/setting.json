@@ -14,5 +14,7 @@
   "weight": "Weight",
   "height": "Height",
   "age": "Age",
-  "recentPacks": "Recent packs"
+  "recentPacks": "Recent packs",
+  "logintToSeeProfile": "Login to see profile",
+  "warning": "Currently, you are not logged in. Please log in to see your profile."
 }

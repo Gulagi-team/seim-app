@@ -20,5 +20,7 @@
   "miningReward": "挖矿奖励",
   "status": "状态",
   "date": "日期",
-  "successfully": "成功"
+  "successfully": "成功",
+  "mined": "索取",
+  "claimFailed": "索取失败"
 }

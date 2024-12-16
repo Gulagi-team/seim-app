@@ -14,5 +14,7 @@
   "weight": "Cân nặng",
   "height": "Chiều cao",
   "age": "Tuổi",
-  "recentPacks": "Gói gần đây"
+  "recentPacks": "Gói gần đây",
+  "logintToSeeProfile": "Đăng nhập để xem hồ sơ",
+  "warning": "Hiện tại, bạn chưa đăng nhập. Vui lòng đăng nhập để xem hồ sơ của bạn."
 }

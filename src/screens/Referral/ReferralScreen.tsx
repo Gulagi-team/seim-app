@@ -15,15 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -85,6 +77,9 @@ const ReferralScreen = () => {
     };
     getData();
   }, []);
+  // const linking = {
+  //   prefixes: [Linking.createURL('/'), 'https://app.example.com'],
+  // }
 
   const handleAddCode = () => {
     if (refCode === '') {

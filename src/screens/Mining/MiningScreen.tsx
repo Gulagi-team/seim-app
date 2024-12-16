@@ -26,6 +26,7 @@ import LottieView from 'lottie-react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
+  ActivityIndicator,
   Image,
   Modal,
   Pressable,
@@ -38,6 +39,8 @@ import {InterstitialAd, TestIds} from 'react-native-google-mobile-ads';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import {styles} from './MiningScreen.styles';
+import moment from 'moment';
+import {claimMining} from '@/api/mining';
 
 const adUnitId = __DEV__
   ? TestIds.INTERSTITIAL
@@ -64,6 +67,7 @@ const MiningScreen = () => {
   const [isDone, setIsDone] = useState(false);
   const [currentReward, setCurrentReward] = useState(0);
   const [totalReward, setTotalReward] = useState(AMOUNT_MINING);
+  const [isMined, setIsMined] = useState(false);
   const {
     backgroundColor,
     containerColor,
@@ -75,9 +79,11 @@ const MiningScreen = () => {
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
   const [deviceId, setDeviceId] = useState('');
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-  const {status: miningStatus, miningData} = useSelector(
-    (state: StoreState) => state.MiningSlice,
-  );
+  const {
+    status: miningStatus,
+    miningData,
+    error: miningError,
+  } = useSelector((state: StoreState) => state.MiningSlice);
 
   const {miningEarned} = useAppSelector((state: StoreState) => state.userInfo);
   const [user, setUser] = useState<UserProfileType | null>(null);
@@ -109,12 +115,10 @@ const MiningScreen = () => {
     });
   }, []);
 
-  const [loaded, setLoaded] = useState(false);
-
   const startMinining = async () => {
     const boostAdjust = miningData.boost ?? 0;
     const start = currentDate.getTime(); // Current timestamp in milliseconds
-    const durationInMs = 10 * 1000; // 24 hours in milliseconds
+    const durationInMs = 24 * 3600 * 1000; // 24 hours in milliseconds
     const adjustedDuration = stringUtils.calculateTimeAdjustment(boostAdjust);
     const data: MiningData = {
       startDate: start,
@@ -129,10 +133,16 @@ const MiningScreen = () => {
       isClaimed: false,
       deviceId: deviceId,
     };
-    if (user) {
-      dispatch(startMine(data));
-      await AsyncStorage.setItem('mining', JSON.stringify(data));
-      setIsMining(true);
+    if (isDone) {
+      setIsMined(true);
+    } else {
+      if (user) {
+        dispatch(startMine(data));
+        await AsyncStorage.setItem('mining', JSON.stringify(data));
+        await AsyncStorage.setItem('countTime', '0');
+
+        setIsMining(true);
+      }
     }
   };
 
@@ -146,59 +156,27 @@ const MiningScreen = () => {
       return;
     }
     if (user) {
-      dispatch(claimMine());
-    }
-    if (miningStatus === 'succeeded') {
-      dispatch(getMiningInfo());
-      await AsyncStorage.removeItem('mining');
-      showToast('success', t('claimSuccess'));
-      setIsDone(false);
-      setIsMining(false);
-      setCurrentReward(0);
-      const totalRw = totalReward + AMOUNT_MINING;
-      setTotalReward(totalRw);
-      await AsyncStorage.setItem('totalReward', totalRw.toString());
-      // interstitial.load(); // Load quảng cáo mới
+      // await dispatch(claimMine());
+      const reposne = await claimMining();
+      console.log('reposne', reposne);
+
+      if (!reposne.error) {
+        dispatch(getMiningInfo());
+        await AsyncStorage.removeItem('mining');
+        showToast('success', t('claimSuccess'));
+        setIsDone(false);
+        setIsMining(false);
+        setCurrentReward(0);
+        setIsMined(false);
+        const totalRw = totalReward + AMOUNT_MINING;
+        setTotalReward(totalRw);
+        await AsyncStorage.setItem('totalReward', totalRw.toString());
+        // interstitial.load(); // Load quảng cáo mới
+      } else {
+        showToast('error', t('claimFailed'));
+      }
     }
   };
-
-  // useEffect(() => {
-  //   const unsubscribeLoaded = interstitial.addAdEventListener(
-  //     AdEventType.LOADED,
-  //     () => {
-  //       setLoaded(true);
-  //       console.log('Ad loaded successfully');
-  //     },
-  //   );
-
-  //   const unsubscribeOpened = interstitial.addAdEventListener(
-  //     AdEventType.OPENED,
-  //     () => {
-  //       if (Platform.OS === 'android') {
-  //         StatusBar.setHidden(true); // Ẩn status bar khi mở quảng cáo trên Android
-  //       }
-  //     },
-  //   );
-
-  //   const unsubscribeClosed = interstitial.addAdEventListener(
-  //     AdEventType.CLOSED,
-  //     () => {
-  //       if (Platform.OS === 'android') {
-  //         StatusBar.setHidden(false); // Hiện lại status bar khi đóng quảng cáo
-  //       }
-
-  //       startMinining();
-  //     },
-  //   );
-
-  //   interstitial.load(); // Tải quảng cáo khi màn hình được mount
-
-  //   return () => {
-  //     unsubscribeLoaded();
-  //     unsubscribeOpened();
-  //     unsubscribeClosed(); // Dọn dẹp sự kiện khi unmount
-  //   };
-  // }, [user]);
 
   useEffect(() => {
     if (isMining) {
@@ -208,69 +186,79 @@ const MiningScreen = () => {
     }
   }, [isMining]);
 
-  // const onPlayPress = async () => {
-  //   if (isDone) {
-  //     startClaim();
-  //     return;
-  //   } else {
-  //     startMinining();
-  //   }
-  // };
+  const handleStopMining = async () => {
+    try {
+      const data = await AsyncStorage.getItem('mining');
+      if (data) {
+        const dataMining = JSON.parse(data);
+        const dateNow = new Date();
 
-  useEffect(() => {
-    const handleStopMining = async () => {
-      try {
-        const data = await AsyncStorage.getItem('mining');
-        if (data) {
-          const dataMining = JSON.parse(data);
-          const dateNow = new Date();
+        if (dataMining && dataMining.endDate > dateNow.getTime()) {
+          setIsMining(true);
+          setStartDate(dataMining.startDate);
+          setEndDate(dataMining.endDate);
+          const elapsedTime =
+            new Date().getTime() - new Date(dataMining.startDate).getTime(); // Elapsed time in milliseconds
+          const totalTime =
+            new Date(dataMining.endDate).getTime() -
+            new Date(dataMining.startDate).getTime();
 
-          if (dataMining && dataMining.endDate > dateNow.getTime()) {
-            setIsMining(true);
-            setStartDate(dataMining.startDate);
-            setEndDate(dataMining.endDate);
-            const elapsedTime =
-              new Date().getTime() - new Date(dataMining.startDate).getTime(); // Elapsed time in milliseconds
-            const totalTime =
-              new Date(dataMining.endDate).getTime() -
-              new Date(dataMining.startDate).getTime();
+          if (elapsedTime <= totalTime) {
+            const progress = elapsedTime / totalTime;
+            const reward = parseFloat((progress * AMOUNT_MINING).toFixed(4));
 
-            if (elapsedTime <= totalTime) {
-              const progress = elapsedTime / totalTime;
-              const reward = parseFloat((progress * AMOUNT_MINING).toFixed(4));
+            setCurrentReward(parseFloat(reward.toFixed(4)));
+          }
+        } else {
+          //done mining
+          if (!dataMining.isClaimed) {
+            setIsMining(false);
+            setEndDate(0);
+            setStartDate(0);
+            anim.current?.pause();
+            setIsDone(true);
+            //make is current reward to total reward
+            setCurrentReward(AMOUNT_MINING);
 
-              setCurrentReward(parseFloat(reward.toFixed(4)));
-            }
-          } else {
-            //done mining
-            if (!dataMining.isClaimed) {
-              setIsMining(false);
-              setEndDate(0);
-              setStartDate(0);
-              anim.current?.pause();
-              setIsDone(true);
-              //make is current reward to total reward
-              setCurrentReward(AMOUNT_MINING);
-
-              const newData = {
-                ...dataMining,
-                isDone: true,
-              };
-              await AsyncStorage.setItem('mining', JSON.stringify(newData));
-            }
+            const newData = {
+              ...dataMining,
+              isDone: true,
+            };
+            await AsyncStorage.setItem('mining', JSON.stringify(newData));
           }
         }
-      } catch (error) {
-        console.error('Error reading mining:', error);
       }
-    };
+    } catch (error) {
+      console.error('Error reading mining:', error);
+    }
+  };
 
+  useEffect(() => {
     const interval = setInterval(() => {
       handleStopMining();
     }, 1000);
 
     return () => clearInterval(interval);
   }, [endDate]);
+
+  useEffect(() => {
+    const checkMining = async () => {
+      const data = await AsyncStorage.getItem('mining');
+      console.log('data', data);
+      if (data) {
+        const dataMining = JSON.parse(data);
+        if (dataMining.isDone) {
+          setIsDone(true);
+          setIsMining(false);
+          setEndDate(0);
+          setStartDate(0);
+          anim.current?.pause();
+          setCurrentReward(AMOUNT_MINING);
+        }
+      }
+    };
+    checkMining();
+  }, []);
 
   if (showAlert) {
     return (
@@ -310,6 +298,11 @@ const MiningScreen = () => {
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: backgroundColor}}>
+      {miningStatus === 'loading' && (
+        <View style={styles.overlay}>
+          <ActivityIndicator size="large" color="#00d9ff" />
+        </View>
+      )}
       <View style={styles.containerView}>
         <View style={styles.headerView}>
           <Text style={{...styles.titleText, color: textColor}}>
@@ -378,7 +371,7 @@ const MiningScreen = () => {
             />
           </View>
         </View>
-        {isDone ? (
+        {isMined ? (
           <View style={styles.claim_cotainer}>
             <Image
               source={POINT_SEIM}
@@ -467,7 +460,11 @@ const MiningScreen = () => {
                 onPress={startMinining}
                 disabled={isMining}>
                 <Text style={styles.mintText}>
-                  {!isMining ? t('startMining') : `${t('mining')}...`}
+                  {!isMining
+                    ? isDone
+                      ? t('mined')
+                      : t('startMining')
+                    : `${t('mining')}...`}
                 </Text>
               </TouchableOpacity>
             </View>

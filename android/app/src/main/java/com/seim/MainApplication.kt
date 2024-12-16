@@ -1,4 +1,4 @@
-package com.seim
+package com.seim.gulagi
 
 import android.app.Application
 import com.facebook.react.PackageList

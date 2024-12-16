@@ -1,4 +1,4 @@
-import React, {useTransition} from 'react';
+import React, {useState, useTransition} from 'react';
 
 import IconDarkFeedback from '@/assets/icons/darkmode/icon_feedback_dark.svg';
 import IconDarkGift from '@/assets/icons/darkmode/icon_gift_dark.svg';
@@ -21,7 +21,14 @@ import {fetchTopics} from '@/store/topics/action';
 import {COLORS} from '@/theme';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import {useEffect} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Modal,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -37,6 +44,7 @@ import {getInfoUser} from '@/store/userInfo/action';
 const SettingScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
+  const [showAlert, setShowAlert] = useState(false);
   const {t} = useTranslation(['setting']);
 
   const {
@@ -65,7 +73,7 @@ const SettingScreen = () => {
           navigateReset(SCREENS.LOGIN);
         }
       } else {
-        navigateReset(SCREENS.LOGIN);
+        setShowAlert(true);
       }
     } catch (error) {
       console.error('Failed to load user info:', error);
@@ -85,6 +93,42 @@ const SettingScreen = () => {
     navigateReset(SCREENS.LOGIN);
   };
 
+  if (showAlert) {
+    return (
+      <View style={styles.modal_container}>
+        <Modal transparent={true} visible={true} animationType="fade">
+          <View style={styles.modal_overlay}>
+            <View style={styles.modal_modalContainer}>
+              <Text style={styles.modal_title}>
+                {t('setting:logintToSeeProfile')}
+              </Text>
+              <Text style={styles.modal_message}>{t('setting:warning')}</Text>
+              <View style={styles.modal_buttonContainer}>
+                <Pressable
+                  style={[styles.modal_button, styles.modal_cancelButton]}
+                  onPress={() => {
+                    navigateReset(SCREENS.MAIN);
+                  }}>
+                  <Text style={styles.modal_cancelButtonText}>
+                    {t('other:cancel')}
+                  </Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.modal_button, styles.modal_quitButton]}
+                  onPress={() => {
+                    navigateReset(SCREENS.LOGIN);
+                  }}>
+                  <Text style={styles.modal_quitButtonText}>
+                    {t('other:accept')}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+    );
+  }
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: backgroundColor}}>

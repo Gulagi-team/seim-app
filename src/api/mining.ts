@@ -9,8 +9,13 @@ export const startMining = (data: any) => {
   return api.post('/mining', data);
 };
 
-export const claimMining = () => {
-  return api.post('/mining/claim');
+export const claimMining = async () => {
+  try {
+    const response = await api.post('/mining/claim');
+    return response;
+  } catch (error) {
+    return {error: error.message};
+  }
 };
 
 export const getAllMining = (data: Filter) => {
