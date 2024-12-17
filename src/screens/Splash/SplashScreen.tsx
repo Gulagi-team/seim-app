@@ -51,7 +51,7 @@ const SplashScreen = () => {
     // await AsyncStorage.removeItem('currentReward');
     // reduxStorage.removeItem('isGetInfoDone');
     // reduxStorage.removeItem('userInfo');
-    navigateReset(CONST_SCREEN.MINING);
+    // navigateReset(CONST_SCREEN.UPDATE_PROFILE);
 
     // const referralCode = stringUtils.generateCode();
     // dispatch(updateCode(referralCode));

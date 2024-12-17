@@ -16,5 +16,11 @@
   "age": "Tuổi",
   "recentPacks": "Gói gần đây",
   "logintToSeeProfile": "Đăng nhập để xem hồ sơ",
-  "warning": "Hiện tại, bạn chưa đăng nhập. Vui lòng đăng nhập để xem hồ sơ của bạn."
+  "warning": "Hiện tại, bạn chưa đăng nhập. Vui lòng đăng nhập để xem hồ sơ của bạn.",
+  "updateProfile": "Cập nhật hồ sơ",
+  "name": "Tên",
+  "gender": "Giới tính",
+  "old": "Tuổi",
+  "save": "Lưu",
+  "updateSuccess": "Cập nhật hồ sơ thành công"
 }

@@ -44,10 +44,7 @@ const Infoslice = createSlice({
       state.avatar = action.payload.avatar;
     },
     updateInfoUser: (state, action: PayloadAction<InfoState>) => {
-      state.email = action.payload.email;
       state.name = action.payload.name;
-      state.avatar = action.payload.avatar;
-      state.language = action.payload.language;
       state.gender = action.payload.gender;
       state.old = action.payload.old;
       state.height = action.payload.height;
