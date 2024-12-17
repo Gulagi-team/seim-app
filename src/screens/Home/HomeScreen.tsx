@@ -19,7 +19,6 @@ import {useTranslation} from 'react-i18next';
 import {
   Dimensions,
   Image,
-  Platform,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -30,6 +29,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import ListTaskContent from './component/ListTask';
 import {styles, topicStyles} from './HomeScreen.styles';
+import {useFocusEffect} from '@react-navigation/native';
 
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -38,19 +38,21 @@ const HomeScreen = () => {
 
   const {t} = useTranslation(['home']);
 
-  useEffect(() => {
-    const getData = async () => {
-      const user = await getAuth();
-      if (user) {
-        dispatch(fetchHabits());
-      } else {
-        const habitsFromFile = await readFromFile('habits.json');
-        dispatch(updateState(habitsFromFile));
-      }
-    };
+  useFocusEffect(
+    React.useCallback(() => {
+      const getData = async () => {
+        const user = await getAuth();
+        if (user) {
+          dispatch(fetchHabits());
+        } else {
+          const habitsFromFile = await readFromFile('habits.json');
+          dispatch(updateState(habitsFromFile));
+        }
+      };
 
-    getData();
-  }, []);
+      getData();
+    }, [dispatch]),
+  );
   useEffect(() => {
     let resetTimeout: any;
 

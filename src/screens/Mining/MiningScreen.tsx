@@ -244,7 +244,6 @@ const MiningScreen = () => {
   useEffect(() => {
     const checkMining = async () => {
       const data = await AsyncStorage.getItem('mining');
-      console.log('data', data);
       if (data) {
         const dataMining = JSON.parse(data);
         if (dataMining.isDone) {

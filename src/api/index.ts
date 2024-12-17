@@ -1,8 +1,9 @@
+import {reduxStorage} from '@/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL;
-
+console.log('API_URL:', API_URL);
 // Add a request interceptor
 axios.interceptors.request.use(
   async function (config) {
@@ -10,12 +11,14 @@ axios.interceptors.request.use(
     // config.headers.Authorization = `Bearer ${your_token}`;
     // OR config.headers.common['Authorization'] = `Bearer ${your_token}`;
     const user = await AsyncStorage.getItem('userInfo');
+    const language = await reduxStorage.getItem('language');
     if (user) {
       const info = JSON.parse(user);
       config.headers.Authorization = `Bearer ${info.access_token}`;
     }
 
     config.baseURL = API_URL;
+    config.headers['x-custom-lang'] = language;
 
     return config;
   },
@@ -31,6 +34,7 @@ axios.interceptors.response.use(
     return res;
   },
   async err => {
+    console.log('err:', err);
     console.log(
       'Message when call api is: ',
       JSON.stringify(err.response?.data?.message),

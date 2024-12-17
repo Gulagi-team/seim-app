@@ -6,23 +6,21 @@ import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import CONST_SCREEN from '@/constants/screen';
 import {getBooleanLocal, getStringLocal} from '@/helpers/localStorage';
 import {navigateReset} from '@/helpers/navigation';
+import {reduxStorage} from '@/store';
 import {getAuth} from '@/store/auth';
 import {getKeyLession, getLessionSelected} from '@/store/lessions';
-import {updateCode, updateInfoUser} from '@/store/userInfo';
+import {updateInfoUser, updateLanguage} from '@/store/userInfo';
 import {getInfoUser} from '@/store/userInfo/action';
 import {updateWalletState} from '@/store/wallet';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './SplashScreen.styles';
-import {removeFile} from '@/helpers/file';
-import {stringUtils} from '@/utils/string';
 const SplashScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-  const {t} = useTranslation('other');
+  const {t, i18n} = useTranslation('other');
 
   const init = async () => {
     await new Promise(resolve =>
@@ -30,6 +28,10 @@ const SplashScreen = () => {
         resolve(true);
       }, 1000),
     );
+    const language = await reduxStorage.getItem('language');
+    console.log('language', language);
+    dispatch(updateLanguage(language));
+    i18n.changeLanguage(language);
 
     const auth = await getAuth();
     if (auth) {
@@ -46,12 +48,15 @@ const SplashScreen = () => {
     // await AsyncStorage.removeItem('mining');
     // await removeFile('topics.json');
     // await removeFile('habits.json');
+    // reduxStorage.removeItem('isGetInfoDone');
+    // reduxStorage.removeItem('userInfo');
     // await removeFile('task_histories.json');
     // await removeFile('mining.json');
     // await AsyncStorage.removeItem('currentReward');
     // reduxStorage.removeItem('isGetInfoDone');
     // reduxStorage.removeItem('userInfo');
     // navigateReset(CONST_SCREEN.UPDATE_PROFILE);
+    // navigateReset(CONST_SCREEN.MINING);
 
     // const referralCode = stringUtils.generateCode();
     // dispatch(updateCode(referralCode));
