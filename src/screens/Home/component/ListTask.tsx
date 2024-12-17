@@ -1,21 +1,13 @@
 import ThreeDot from '@/assets/icons/icon_three_dots.svg';
-import {
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
-} from '@gorhom/bottom-sheet';
-import {TouchableWithoutFeedback} from 'react-native';
 
 import SCREENS from '@/constants/screen';
 import {navigate} from '@/helpers/navigation';
 import {StoreState} from '@/store';
 import {deleteHabit, startHabit} from '@/store/habits/action';
 import {Habit} from '@/types/colection';
-import BottomSheet, {
-  BottomSheetModal,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet';
+import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {ThunkDispatch} from '@reduxjs/toolkit';
-import React, {useEffect, useMemo, useRef, useState, useCallback} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {FlatList, Modal, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -37,7 +29,6 @@ const ListTaskContent = ({habitSelected}: Props) => {
   const {t} = useTranslation(['home']);
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ['60%', '60%'], []);
 
   const habitStatus = useSelector(
     (state: StoreState) => state.HabitsSlide.status,
@@ -49,25 +40,6 @@ const ListTaskContent = ({habitSelected}: Props) => {
       bottomSheetRef.current?.close();
     }
   }, [habitStatus]);
-
-  const renderBackdrop = useCallback(
-    (props: BottomSheetBackdropProps) => (
-      <TouchableWithoutFeedback onPress={() => props.close()}>
-        <BottomSheetBackdrop
-          {...props}
-          disappearsOnIndex={0}
-          appearsOnIndex={1}
-          style={{
-            backgroundColor: 'rgba(0,0,0,0.5)',
-          }}
-        />
-      </TouchableWithoutFeedback>
-    ),
-    [],
-  );
-  const handleOpenModal = () => {
-    bottomSheetRef.current?.collapse();
-  };
 
   const handleConfirmDelete = () => {
     setModalVisible(true);

@@ -35,6 +35,7 @@ const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const width = Dimensions.get('window').width;
   const habits = useSelector((state: StoreState) => state.HabitsSlide.habits);
+  console.log('habits', habits);
 
   const {t} = useTranslation(['home']);
 

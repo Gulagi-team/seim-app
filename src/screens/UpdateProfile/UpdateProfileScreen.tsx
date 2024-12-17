@@ -30,7 +30,9 @@ const UpdateProfileScreen = () => {
   const {t} = useTranslation();
 
   const getUserInfoLocal = getStringLocal('userInfo');
-  const {weight, height, old, gender} = JSON.parse(getUserInfoLocal as string);
+  const {weight, height, old, gender, name} = JSON.parse(
+    getUserInfoLocal as string,
+  );
 
   const [updateUser, setUpdateUser] = useState({
     name: '',
@@ -47,7 +49,7 @@ const UpdateProfileScreen = () => {
         setUser(userExist);
         setUpdateUser({
           ...updateUser,
-          name: userExist.name,
+          name: name !== '' ? name : userExist.name,
         });
       }
     };

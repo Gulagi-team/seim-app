@@ -53,7 +53,7 @@ export const fetchHabits = createAsyncThunk(
     await removeFile(FILE_NAME);
     //update new data file
     await writeToFile(response.data.data, FILE_NAME);
-
+    console.log('response.data', response.data);
     return response.data;
   },
 );

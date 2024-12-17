@@ -16,11 +16,12 @@
   "age": "年龄",
   "recentPacks": "最近的包裹",
   "logintToSeeProfile": "登录以查看个人资料",
-  "warning": "当前您未登录。请登录以查看您的个人资料。",
+  "warning": "请登录以查看您的个人资料。",
   "updateProfile": "更新个人资料",
   "name": "姓名",
   "gender": "性别",
   "old": "年龄",
   "save": "保存",
-  "updateSuccess": "更新个人资料成功"
+  "updateSuccess": "更新个人资料成功",
+  "loginNow": "立即登录"
 }

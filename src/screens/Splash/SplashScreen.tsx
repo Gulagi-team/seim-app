@@ -18,6 +18,8 @@ import {useTranslation} from 'react-i18next';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './SplashScreen.styles';
+import {removeFile} from '@/helpers/file';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const SplashScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {t, i18n} = useTranslation('other');
@@ -55,25 +57,25 @@ const SplashScreen = () => {
     // await AsyncStorage.removeItem('currentReward');
     // reduxStorage.removeItem('isGetInfoDone');
     // reduxStorage.removeItem('userInfo');
-    // navigateReset(CONST_SCREEN.UPDATE_PROFILE);
+    navigateReset(CONST_SCREEN.MAIN);
     // navigateReset(CONST_SCREEN.MINING);
 
     // const referralCode = stringUtils.generateCode();
     // dispatch(updateCode(referralCode));
 
-    if (getInfoDone && getUserInfoLocal) {
-      dispatch(updateInfoUser(JSON.parse(getUserInfoLocal)));
-      if (getLessionsSelectedLocal && getKeyLessionsSelectedLocal) {
-        dispatch(getLessionSelected(JSON.parse(getLessionsSelectedLocal)));
-        dispatch(getKeyLession(JSON.parse(getKeyLessionsSelectedLocal)));
-        address && dispatch(updateWalletState({chainId: 97, account: address}));
-        navigateReset(CONST_SCREEN.MAIN);
-      } else {
-        navigateReset(CONST_SCREEN.MAIN);
-      }
-    } else {
-      navigateReset(CONST_SCREEN.WELCOME);
-    }
+    // if (getInfoDone && getUserInfoLocal) {
+    //   dispatch(updateInfoUser(JSON.parse(getUserInfoLocal)));
+    //   if (getLessionsSelectedLocal && getKeyLessionsSelectedLocal) {
+    //     dispatch(getLessionSelected(JSON.parse(getLessionsSelectedLocal)));
+    //     dispatch(getKeyLession(JSON.parse(getKeyLessionsSelectedLocal)));
+    //     address && dispatch(updateWalletState({chainId: 97, account: address}));
+    //     navigateReset(CONST_SCREEN.MAIN);
+    //   } else {
+    //     navigateReset(CONST_SCREEN.MAIN);
+    //   }
+    // } else {
+    //   navigateReset(CONST_SCREEN.WELCOME);
+    // }
   };
 
   useEffect(() => {

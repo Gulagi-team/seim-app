@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useTransition} from 'react';
 
 import IconDarkFeedback from '@/assets/icons/darkmode/icon_feedback_dark.svg';
@@ -18,6 +19,8 @@ import SCREENS from '@/constants/screen';
 import {navigate, navigateReset} from '@/helpers/navigation';
 import {StoreState, reduxStorage, useAppSelector} from '@/store';
 import {fetchTopics} from '@/store/topics/action';
+import LogoSeim from '@/assets/images/logoSeim.png';
+
 import {COLORS} from '@/theme';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import {useEffect} from 'react';
@@ -41,6 +44,7 @@ import {UserProfileType} from '@/types/colection';
 import {getMiningInfo} from '@/store/mining/action';
 import {stringUtils} from '@/utils/string';
 import {getInfoUser} from '@/store/userInfo/action';
+import {getStringLocal} from '@/helpers/localStorage';
 const SettingScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
@@ -62,11 +66,16 @@ const SettingScreen = () => {
     try {
       // await AsyncStorage.removeItem('userInfo');
       const user = await AsyncStorage.getItem('userInfo');
+      const getUserInfoLocal = getStringLocal('userInfo');
+      const {name} = JSON.parse(getUserInfoLocal as string);
       if (user) {
+        console.log('name', name);
         const info = JSON.parse(user);
-        setUserInfor(info);
+        setUserInfor({
+          ...info,
+          name: name !== '' ? name : info.name,
+        });
         dispatch(getInfoUser());
-
         dispatch(getMiningInfo());
 
         if (info.access_token === '') {
@@ -93,142 +102,128 @@ const SettingScreen = () => {
     navigateReset(SCREENS.LOGIN);
   };
 
-  if (showAlert) {
-    return (
-      <View style={styles.modal_container}>
-        <Modal transparent={true} visible={true} animationType="fade">
-          <View style={styles.modal_overlay}>
-            <View style={styles.modal_modalContainer}>
-              <Text style={styles.modal_title}>
-                {t('setting:logintToSeeProfile')}
-              </Text>
-              <Text style={styles.modal_message}>{t('setting:warning')}</Text>
-              <View style={styles.modal_buttonContainer}>
-                <Pressable
-                  style={[styles.modal_button, styles.modal_cancelButton]}
-                  onPress={() => {
-                    navigateReset(SCREENS.MAIN);
-                  }}>
-                  <Text style={styles.modal_cancelButtonText}>
-                    {t('other:cancel')}
-                  </Text>
-                </Pressable>
-                <Pressable
-                  style={[styles.modal_button, styles.modal_quitButton]}
-                  onPress={() => {
-                    navigateReset(SCREENS.LOGIN);
-                  }}>
-                  <Text style={styles.modal_quitButtonText}>
-                    {t('other:accept')}
-                  </Text>
-                </Pressable>
-              </View>
-            </View>
-          </View>
-        </Modal>
-      </View>
-    );
-  }
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: backgroundColor}}>
-      <View style={styles.containerView}>
-        <WalletCard />
+      {showAlert && (
         <View
           style={{
-            ...styles.bodyContainer,
-            backgroundColor: containerColor,
-            borderColor: borderColor,
+            ...styles.containerView,
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-          <View style={styles.profileContainer}>
-            <FastImage
-              style={styles.avatar}
-              source={{
-                uri: userInfor?.avatar
-                  ? userInfor?.avatar
-                  : 'https://p16-sg.tiktokcdn.com/aweme/720x720/tos-alisg-avt-0068/a6f08bb5d661b2839f5be9f2fb755f47.jpeg',
-              }}
-              resizeMode={FastImage.resizeMode.contain}
-            />
-            <View style={styles.nameContainer}>
-              <Text style={{...styles.userName, color: textOutstandingColor}}>
-                {userInfor?.name}
-              </Text>
-
-              <View style={styles.levelContainer}>
-                <Text style={styles.levelText}>
-                  {t('level', {level: miningData.level})}
-                </Text>
-                <Text
-                  style={{...styles.percentText, color: textOutstandingColor}}>
-                  {miningData.totalInvite}/
-                  {stringUtils.getMaxInviteByLevel(miningData.level)}
-                </Text>
-              </View>
-              <Progress.Bar
-                progress={
-                  miningData.totalInvite /
-                  stringUtils.getMaxInviteByLevel(miningData.level)
-                }
-                width={deviceWidth - 121}
-                color={COLORS.secondary_orange1}
-                unfilledColor={borderColor}
-                borderWidth={0}
-              />
-            </View>
-          </View>
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => navigate(SCREENS.PROFILE)}>
-            {isDarkMode ? <IconDarkProfile /> : <IconProfile />}
-            <Text style={{...styles.itemText, color: textColor}}>
-              {t('myProfile')}
+          <Image
+            source={LogoSeim}
+            style={styles.imageLogo}
+            resizeMode={'contain'}
+          />
+          <Text style={styles.modal_message}>{t('setting:warning')}</Text>
+          <Pressable
+            style={[styles.modal_button, styles.modal_quitButton]}
+            onPress={() => {
+              navigateReset(SCREENS.LOGIN);
+            }}>
+            <Text style={styles.modal_quitButtonText}>
+              {t('setting:loginNow')}
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => navigate(SCREENS.LANGUAGE)}>
-            {isDarkMode ? <IconDarkLanguage /> : <IconLanguage />}
-            <Text style={{...styles.itemText, color: textColor}}>
-              {t('languages')}
-            </Text>
-          </TouchableOpacity>
-          {/* <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => navigate(SCREENS.DISPLAY)}>
-            {isDarkMode ? <IconDarkTheme /> : <IconTheme />}
-            <Text style={{...styles.itemText, color: textColor}}>Theme</Text>
-          </TouchableOpacity> */}
-          {/* <View style={styles.itemContainer}>
-            <IconProfile />
-            <Text style={styles.itemText}>Level.2</Text>
-          </View> */}
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => navigate(SCREENS.REFERRAL)}>
-            {isDarkMode ? <IconDarkGift /> : <IconGift />}
-
-            <Text style={{...styles.itemText, color: textColor}}>
-              {t('referral')}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => navigate(SCREENS.FEEDBACK)}>
-            {isDarkMode ? <IconDarkFeedback /> : <IconFeedback />}
-
-            <Text style={{...styles.itemText, color: textColor}}>
-              {t('feedback')}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.itemContainer} onPress={handleLogout}>
-            <IconLogout />
-            <Text style={{...styles.itemText, color: textColor}}>
-              {t('logout')}
-            </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
-      </View>
+      )}
+      {!showAlert && (
+        <View style={styles.containerView}>
+          <WalletCard />
+          <View
+            style={{
+              ...styles.bodyContainer,
+              backgroundColor: containerColor,
+              borderColor: borderColor,
+            }}>
+            <View style={styles.profileContainer}>
+              <FastImage
+                style={styles.avatar}
+                source={{
+                  uri: userInfor?.avatar
+                    ? userInfor?.avatar
+                    : 'https://p16-sg.tiktokcdn.com/aweme/720x720/tos-alisg-avt-0068/a6f08bb5d661b2839f5be9f2fb755f47.jpeg',
+                }}
+                resizeMode={FastImage.resizeMode.contain}
+              />
+              <View style={styles.nameContainer}>
+                <Text style={{...styles.userName, color: textOutstandingColor}}>
+                  {userInfor?.name}
+                </Text>
+
+                <View style={styles.levelContainer}>
+                  <Text style={styles.levelText}>
+                    {t('level', {level: miningData.level})}
+                  </Text>
+                  <Text
+                    style={{
+                      ...styles.percentText,
+                      color: textOutstandingColor,
+                    }}>
+                    {miningData.totalInvite}/
+                    {stringUtils.getMaxInviteByLevel(miningData.level)}
+                  </Text>
+                </View>
+                <Progress.Bar
+                  progress={
+                    miningData.totalInvite /
+                    stringUtils.getMaxInviteByLevel(miningData.level)
+                  }
+                  width={deviceWidth - 121}
+                  color={COLORS.secondary_orange1}
+                  unfilledColor={borderColor}
+                  borderWidth={0}
+                />
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.itemContainer}
+              onPress={() => navigate(SCREENS.PROFILE)}>
+              {isDarkMode ? <IconDarkProfile /> : <IconProfile />}
+              <Text style={{...styles.itemText, color: textColor}}>
+                {t('myProfile')}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.itemContainer}
+              onPress={() => navigate(SCREENS.LANGUAGE)}>
+              {isDarkMode ? <IconDarkLanguage /> : <IconLanguage />}
+              <Text style={{...styles.itemText, color: textColor}}>
+                {t('languages')}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.itemContainer}
+              onPress={() => navigate(SCREENS.REFERRAL)}>
+              {isDarkMode ? <IconDarkGift /> : <IconGift />}
+
+              <Text style={{...styles.itemText, color: textColor}}>
+                {t('referral')}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.itemContainer}
+              onPress={() => navigate(SCREENS.FEEDBACK)}>
+              {isDarkMode ? <IconDarkFeedback /> : <IconFeedback />}
+
+              <Text style={{...styles.itemText, color: textColor}}>
+                {t('feedback')}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.itemContainer}
+              onPress={handleLogout}>
+              <IconLogout />
+              <Text style={{...styles.itemText, color: textColor}}>
+                {t('logout')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
       <Image
         style={styles.welcomeBottom}
         source={WelcomeBottom}

@@ -31,7 +31,7 @@ const ProfileScreen = () => {
     (state: StoreState) => state.HabitsSlide.habits,
   );
   const getUserInfoLocal = getStringLocal('userInfo');
-  const {weight, height, old} = JSON.parse(getUserInfoLocal as string);
+  const {weight, height, old, name} = JSON.parse(getUserInfoLocal as string);
 
   const [userInfor, setUserInfor] = React.useState<UserProfileType>();
   const {
@@ -49,7 +49,10 @@ const ProfileScreen = () => {
     const getInfo = async () => {
       const user = await getAuth();
       if (user) {
-        setUserInfor(user);
+        setUserInfor({
+          ...user,
+          name: name !== '' ? name : user.name,
+        });
         const response = await checkProgress();
         if (response.data) {
           setProgress(response.data);
