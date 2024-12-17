@@ -14,6 +14,45 @@ export const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
   },
+  containerView: {
+    // flex: 1,
+    height: '90%',
+    padding: 15,
+    // backgroundColor: 'red',
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  title: {
+    fontFamily: POPPINS_BOLD,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+
+  itemText: {
+    fontSize: FONT_SIZE.small1,
+    fontWeight: '600',
+    color: '#1b9cfc',
+    fontFamily: POPPINS_MEDIUM,
+  },
+  headerView: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+  },
+  titleText: {
+    fontSize: FONT_SIZE.large2,
+    fontWeight: '700',
+    color: '#212121',
+    // marginTop: 10,
+    fontFamily: POPPINS_MEDIUM,
+  },
   scrollviewContainer: {
     flex: 1,
     width: '100%',

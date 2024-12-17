@@ -1,27 +1,28 @@
 import CONST_SCREEN from '@/constants/screen';
 
+import DisplayScreen from '@/screens/Display/Display';
+import FeedbackScreen from '@/screens/Feedback/FeedbackScreen';
+import HabitDetailScreen from '@/screens/HabitDetail/HabitDetailScreen';
+import HistoryMiningScreen from '@/screens/HistoryMining/HistoryMiningScreen';
 import HomeScreen from '@/screens/Home/HomeScreen';
-import ProfileScreen from '@/screens/Profile/ProfileScreen';
-import NotificationScreen from '@/screens/Notification/NotificationScreen';
-import WelcomeScreen from '@/screens/Welcome/Welcome';
-import GetInfoScreen from '@/screens/Welcome/GetInfoScreen';
-import PackScreen from '@/screens/Pack/PackScreen';
-import LessionTypeScreen from '@/screens/LessionType/LessionTypeScreen';
-import TopicScreen from '@/screens/Topic/TopicScreen';
+import LanguageScreen from '@/screens/Language/LanguageScreen';
 import LessionScreen from '@/screens/Lession/LessionScreen';
-import MyWalletScreen from '@/screens/Wallet/MyWallet/MyWalletScreen';
-import PasswordWalletScreen from '@/screens/Wallet/PasswordWallet/PasswordWalletScreen';
+import LessionTypeScreen from '@/screens/LessionType/LessionTypeScreen';
+import LoginScreen from '@/screens/Login/LoginScreen';
+import MiningScreen from '@/screens/Mining/MiningScreen';
+import NotificationScreen from '@/screens/Notification/NotificationScreen';
+import PackScreen from '@/screens/Pack/PackScreen';
+import ProfileScreen from '@/screens/Profile/ProfileScreen';
+import ReferralScreen from '@/screens/Referral/ReferralScreen';
+import TopicScreen from '@/screens/Topic/TopicScreen';
+import UpdateProfileScreen from '@/screens/UpdateProfile/UpdateProfileScreen';
 import CreateWalletScreen from '@/screens/Wallet/CreateWallet/CreateWalletScreen';
 import ImportWalletScreen from '@/screens/Wallet/ImportWallet/ImportWalletScreen';
 import IntroWalletScreen from '@/screens/Wallet/IntroWallet/IntroWalletScreen';
-import LoginScreen from '@/screens/Login/LoginScreen';
-import MiningScreen from '@/screens/Mining/MiningScreen';
-import LanguageScreen from '@/screens/Language/LanguageScreen';
-import FeedbackScreen from '@/screens/Feedback/FeedbackScreen';
-import ReferralScreen from '@/screens/Referral/ReferralScreen';
-import DisplayScreen from '@/screens/Display/Display';
-import HabitDetailScreen from '@/screens/HabitDetail/HabitDetailScreen';
-import HistoryMiningScreen from '@/screens/HistoryMining/HistoryMiningScreen';
+import MyWalletScreen from '@/screens/Wallet/MyWallet/MyWalletScreen';
+import PasswordWalletScreen from '@/screens/Wallet/PasswordWallet/PasswordWalletScreen';
+import GetInfoScreen from '@/screens/Welcome/GetInfoScreen';
+import WelcomeScreen from '@/screens/Welcome/Welcome';
 
 export const route = [
   {
@@ -111,5 +112,9 @@ export const route = [
   {
     name: CONST_SCREEN.MINING_HISTORY,
     component: HistoryMiningScreen,
+  },
+  {
+    name: CONST_SCREEN.UPDATE_PROFILE,
+    component: UpdateProfileScreen,
   },
 ];

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/react-in-jsx-scope */
 import {updateOld} from '@/store/userInfo';
 import {COLORS, FONT_SIZE, POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';

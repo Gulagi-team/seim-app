@@ -1,4 +1,3 @@
-import {useNavigation} from '@react-navigation/core';
 import React from 'react';
 import {
   Image,
@@ -11,10 +10,9 @@ import {
 } from 'react-native';
 
 import Logo from '@/assets/images/logo.png';
-import IconBack from '@/assets/icons/icon_back.svg';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import {COLORS, POPPINS_BOLD} from '@/theme';
 import {StoreState, useAppSelector} from '@/store';
+import {POPPINS_BOLD} from '@/theme';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export interface HeaderProps {
   style?: StyleProp<ViewStyle>;
@@ -37,16 +35,7 @@ const Header = ({
   rightContent,
   rightContentStyle,
 }: HeaderProps) => {
-  const navigation = useNavigation();
-
-  const {
-    isDarkMode,
-    backgroundColor,
-    containerColor,
-    textColor,
-    borderColor,
-    borderSelectedColor,
-  } = useAppSelector((state: StoreState) => state.ThemeSlice);
+  const {textColor} = useAppSelector((state: StoreState) => state.ThemeSlice);
 
   return (
     <View style={[styles.container, style]}>

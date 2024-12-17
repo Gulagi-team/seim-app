@@ -16,5 +16,11 @@
   "age": "나이",
   "recentPacks": "최근 팩",
   "logintToSeeProfile": "프로필을 보려면 로그인하세요",
-  "warning": "현재 로그인되어 있지 않습니다. 프로필을 보려면 로그인하세요."
+  "warning": "현재 로그인되어 있지 않습니다. 프로필을 보려면 로그인하세요.",
+  "updateProfile": "프로필 업데이트",
+  "name": "이름",
+  "gender": "성별",
+  "old": "나이",
+  "save": "저장",
+  "updateSuccess": "프로필 업데이트 성공"
 }

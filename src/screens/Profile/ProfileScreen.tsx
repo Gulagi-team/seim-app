@@ -1,5 +1,6 @@
 import {checkProgress} from '@/api/habit';
-import Header from '@/components/Header';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import PackItem from '@/components/listItem/PackItem';
 import {deviceWidth} from '@/constants/layout';
 import {getStringLocal} from '@/helpers/localStorage';
@@ -15,11 +16,12 @@ import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {BarChart} from 'react-native-gifted-charts';
 import * as Progress from 'react-native-progress';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import {styles} from './ProfileScreen.styles';
+import SCREENS from '@/constants/screen';
+import {navigate} from '@/helpers/navigation';
 const ProfileScreen = () => {
   const {t} = useTranslation(['setting']);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -72,7 +74,15 @@ const ProfileScreen = () => {
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: backgroundColor}}>
-      <Header title={t('profile')} canGoBack={true} handleGoBack={goBack} />
+      <View style={styles.headerView}>
+        <TouchableOpacity onPress={goBack}>
+          <Icon name="arrow-back" style={{fontSize: 24, color: textColor}} />
+        </TouchableOpacity>
+        <Text style={{...styles.title, color: textColor}}>{t('profile')}</Text>
+        <TouchableOpacity onPress={() => navigate(SCREENS.UPDATE_PROFILE)}>
+          <Text style={{...styles.itemText}}>{t('updateProfile')}</Text>
+        </TouchableOpacity>
+      </View>
       <ScrollView style={styles.scrollviewContainer}>
         <View
           style={{
