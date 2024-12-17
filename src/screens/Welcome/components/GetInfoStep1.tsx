@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {StoreState, useAppSelector} from '@/store';
+import {reduxStorage, StoreState, useAppSelector} from '@/store';
 import {updateLanguage} from '@/store/userInfo';
 import {POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
 import i18n from '@/translations';
@@ -14,7 +14,8 @@ const GetInfoStep1Content = () => {
   const language = useAppSelector(
     (state: StoreState) => state.userInfo.language,
   );
-  const onChangeLanguage = (lang: LanguageType) => {
+  const onChangeLanguage = async (lang: LanguageType) => {
+    await reduxStorage.setItem('language', lang);
     dispatch(updateLanguage(lang));
     i18n.changeLanguage(lang);
   };

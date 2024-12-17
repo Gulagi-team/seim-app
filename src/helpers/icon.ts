@@ -41,6 +41,8 @@ export const iconMap = {
   walking: WALKING,
   smoking: SMOKING,
   reading: READING,
+  reading_7: READING,
+  reading_60: READING,
   run: RUN,
   sleep: SLEEP,
   pushup: PUSHUP,

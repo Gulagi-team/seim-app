@@ -3,7 +3,7 @@ import IconEnglish from '@/assets/icons/icon_english.svg';
 import IconKorea from '@/assets/icons/icon_indonesia.svg';
 import IconVietNam from '@/assets/icons/icon_vietnam.svg';
 import Header from '@/components/Header';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -20,9 +20,14 @@ import i18n from '@/translations';
 
 const LanguageScreen = () => {
   const {t} = useTranslation(['setting']);
-  const language = useAppSelector(
-    (state: StoreState) => state.userInfo.language,
-  );
+  const [language, setLanguage] = React.useState<LanguageType>('en');
+  useEffect(() => {
+    const getLanguage = async () => {
+      const lang = await reduxStorage.getItem('language');
+      setLanguage(lang);
+    };
+    getLanguage();
+  }, []);
   const {
     backgroundColor,
     containerColor,
@@ -33,8 +38,10 @@ const LanguageScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const goBack = () => navigation.goBack();
-  const onChangeLanguage = (lang: LanguageType) => {
+  const onChangeLanguage = async (lang: LanguageType) => {
+    await reduxStorage.setItem('language', lang);
     dispatch(updateLanguage(lang));
+    setLanguage(lang);
     i18n.changeLanguage(lang);
   };
 
