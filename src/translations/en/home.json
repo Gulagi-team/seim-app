@@ -14,5 +14,8 @@
   "lession": "lession",
   "save": "Save",
   "start": "Start now",
-  "day": "Day"
+  "day": "Day",
+  "updateRequired": "Update Required",
+  "warning": "Your version of the app is outdated. Please update your app to get more security, speed and the best experience on this app.",
+  "updateVersion": "Update version"
 }

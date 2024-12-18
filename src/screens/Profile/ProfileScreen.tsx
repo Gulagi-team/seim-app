@@ -10,7 +10,7 @@ import {fetchTopics} from '@/store/topics/action';
 import {COLORS} from '@/theme';
 import {UserProfileType} from '@/types/colection';
 import {stringUtils} from '@/utils/string';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -45,25 +45,25 @@ const ProfileScreen = () => {
 
   const [progress, setProgress] = useState([]);
 
-  useEffect(() => {
-    const getInfo = async () => {
-      const user = await getAuth();
-      if (user) {
-        setUserInfor({
-          ...user,
-          name: name !== '' ? name : user.name,
-        });
-        const response = await checkProgress();
-        if (response.data) {
-          setProgress(response.data);
-        }
+  const getInfo = async () => {
+    const user = await getAuth();
+    if (user) {
+      setUserInfor({
+        ...user,
+        name: name !== '' ? name : user.name,
+      });
+      const response = await checkProgress();
+      if (response.data) {
+        setProgress(response.data);
       }
-    };
-    getInfo();
-
-    dispatch(fetchTopics());
-  }, []);
-
+    }
+  };
+  useFocusEffect(
+    React.useCallback(() => {
+      getInfo();
+      dispatch(fetchTopics());
+    }, []),
+  );
   const barData = [
     {value: 250, label: 'Mo'},
     {value: 500, label: 'Tu'},

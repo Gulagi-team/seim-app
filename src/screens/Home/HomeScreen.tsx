@@ -10,7 +10,7 @@ import {StoreState} from '@/store';
 import {getAuth} from '@/store/auth';
 import {updateState} from '@/store/habits';
 import {checkProgressOfHabit, fetchHabits} from '@/store/habits/action';
-import {Habit} from '@/types/colection';
+import {Habit, Version} from '@/types/colection';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import React, {useEffect, useRef, useState} from 'react';
 
@@ -19,6 +19,9 @@ import {useTranslation} from 'react-i18next';
 import {
   Dimensions,
   Image,
+  Linking,
+  Modal,
+  Pressable,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -30,15 +33,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import ListTaskContent from './component/ListTask';
 import {styles, topicStyles} from './HomeScreen.styles';
 import {useFocusEffect} from '@react-navigation/native';
+import DeviceInfo from 'react-native-device-info';
+import {getLatestVersion} from '@/api/version';
 
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const width = Dimensions.get('window').width;
   const habits = useSelector((state: StoreState) => state.HabitsSlide.habits);
-  console.log('habits', habits);
 
   const {t} = useTranslation(['home']);
-
+  const [isUpdate, setIsUpdate] = React.useState(false);
+  const [version, setVersion] = useState<Version>();
   useFocusEffect(
     React.useCallback(() => {
       const getData = async () => {
@@ -54,6 +59,24 @@ const HomeScreen = () => {
       getData();
     }, [dispatch]),
   );
+
+  useEffect(() => {
+    const checkVersion = async () => {
+      const versionLocal = DeviceInfo.getVersion();
+      try {
+        const response = await getLatestVersion();
+        if (response.data) {
+          setVersion(response.data);
+          if (response.data.version !== versionLocal) {
+            setIsUpdate(true);
+            return;
+          }
+        }
+      } catch (error) {}
+    };
+    checkVersion();
+  }, []);
+
   useEffect(() => {
     let resetTimeout: any;
 
@@ -179,6 +202,29 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {isUpdate && (
+        <View style={styles.modal_container}>
+          <Modal transparent={true} visible={true} animationType="fade">
+            <View style={styles.modal_overlay}>
+              <View style={styles.modal_modalContainer}>
+                <Text style={styles.modal_title}>{t('updateRequired')}</Text>
+                <Text style={styles.modal_message}>{t('warning')}</Text>
+                <View style={styles.modal_buttonContainer}>
+                  <Pressable
+                    style={[styles.modal_button, styles.modal_quitButton]}
+                    onPress={() => {
+                      Linking.openURL(version?.url!);
+                    }}>
+                    <Text style={styles.modal_quitButtonText}>
+                      {t('updateVersion')}
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      )}
       <Image
         style={styles.banner}
         source={bannerSource}

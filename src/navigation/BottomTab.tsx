@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useEffect} from 'react';
+import React, {useEffect, useTransition} from 'react';
 import {View, Image, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '@/screens/Home/HomeScreen';
@@ -27,18 +27,21 @@ import MiningScreen from '@/screens/Mining/MiningScreen';
 import SettingScreen from '@/screens/Setting/SettingScreen';
 import {StoreState, useAppSelector} from '@/store';
 import IconProfile from '@/assets/icons/icon_profile.svg';
+import {useTranslation} from 'react-i18next';
 
 export const KEY_BOTTOM_SCREEN = {
-  HOME: 'Home',
-  MINING: 'Mining',
+  HOME: 'home',
+  ENERGY: 'energy',
   NOTIFICATION: 'Notify',
-  PROFILE: 'Profile',
+  PROFILE: 'profile',
 };
 
 const BottomTab = () => {
   const {isDarkMode, containerColor, textColor} = useAppSelector(
     (state: StoreState) => state.ThemeSlice,
   );
+  const {t} = useTranslation(['other']);
+
   const ACTIVE_COLOR = COLORS.primary_A500;
   const DEACTIVE_COLOR = textColor;
 
@@ -52,8 +55,8 @@ const BottomTab = () => {
       activeColor: COLORS.primary_A500,
       deactiveColor: DEACTIVE_COLOR,
     },
-    [KEY_BOTTOM_SCREEN.MINING]: {
-      name: KEY_BOTTOM_SCREEN.MINING,
+    [KEY_BOTTOM_SCREEN.ENERGY]: {
+      name: KEY_BOTTOM_SCREEN.ENERGY,
       component: MiningScreen,
       activeIcon: MINING_SELECTED,
       deactiveIcon: isDarkMode ? MINING_DARK : MINING,
@@ -114,7 +117,7 @@ const BottomTab = () => {
           const newColor = focused
             ? BottomTabConstant[route.name].activeColor
             : BottomTabConstant[route.name].deactiveColor;
-          return <Text style={{color: newColor}}>{children}</Text>;
+          return <Text style={{color: newColor}}>{t(children)}</Text>;
         },
         tabBarIcon: ({focused, color, size}) => {
           const iconSrc = focused

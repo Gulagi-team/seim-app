@@ -16,5 +16,8 @@
   "dayAgo": "{{time}} days ago",
   "hourAgo": "{{time}} hours ago",
   "minuteAgo": "{{time}} minutes ago",
-  "secondAgo": "{{time}} seconds ago"
+  "secondAgo": "{{time}} seconds ago",
+  "home": "Home",
+  "energy": "Energy",
+  "profile": "Profile"
 }

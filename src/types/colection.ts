@@ -98,6 +98,12 @@ export interface MiningData {
   createdAt?: string;
 }
 
+export interface Version {
+  version: string;
+  url: string;
+  platform: string;
+}
+
 export interface Filter {
   page: number;
   limit: number;

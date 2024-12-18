@@ -53,6 +53,74 @@ export const styles = StyleSheet.create({
     height: '25%',
     bottom: 0,
   },
+
+  modal_container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  modal_overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modal_modalContainer: {
+    width: '80%',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 10,
+  },
+  modal_closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    padding: 5,
+  },
+  modal_closeButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  modal_title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#333',
+  },
+  modal_message: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 20,
+  },
+  modal_buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    width: '100%',
+  },
+  modal_button: {
+    paddingHorizontal: 20,
+    marginHorizontal: 5,
+    paddingVertical: 6,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBlockColor: '#333',
+  },
+  modal_quitButton: {
+    backgroundColor: '#00a8ea',
+  },
+  modal_quitButtonText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: 'white',
+  },
 });
 
 export const rightMenuStyles = StyleSheet.create({

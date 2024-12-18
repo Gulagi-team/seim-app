@@ -158,7 +158,6 @@ const MiningScreen = () => {
     if (user) {
       // await dispatch(claimMine());
       const reposne = await claimMining();
-      console.log('reposne', reposne);
 
       if (!reposne.error) {
         dispatch(getMiningInfo());

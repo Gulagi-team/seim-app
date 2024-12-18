@@ -16,5 +16,8 @@
   "dayAgo": "{{day}} 일 전",
   "hourAgo": "{{hour}} 시간 전",
   "minuteAgo": "{{minute}} 분 전",
-  "secondAgo": "{{second}} 초 전"
+  "secondAgo": "{{second}} 초 전",
+  "home": "홈",
+  "energy": "에너지",
+  "profile": "프로필"
 }

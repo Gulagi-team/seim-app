@@ -16,5 +16,8 @@
   "dayAgo": "{{day}} 天前",
   "hourAgo": "{{hour}} 小时前",
   "minuteAgo": "{{minute}} 分钟前",
-  "secondAgo": "{{second}} 秒前"
+  "secondAgo": "{{second}} 秒前",
+  "home": "首页",
+  "energy": "能量",
+  "profile": "个人资料"
 }
