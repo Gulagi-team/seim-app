@@ -1,9 +1,9 @@
 import {reduxStorage} from '@/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import DeviceInfo from 'react-native-device-info';
 
 const API_URL = process.env.REACT_APP_API_URL;
-console.log('API_URL:', API_URL);
 // Add a request interceptor
 axios.interceptors.request.use(
   async function (config) {
@@ -11,6 +11,8 @@ axios.interceptors.request.use(
     // config.headers.Authorization = `Bearer ${your_token}`;
     // OR config.headers.common['Authorization'] = `Bearer ${your_token}`;
     const user = await AsyncStorage.getItem('userInfo');
+    const platform = DeviceInfo.getSystemName();
+
     const language = await reduxStorage.getItem('language');
     if (user) {
       const info = JSON.parse(user);
@@ -19,6 +21,7 @@ axios.interceptors.request.use(
 
     config.baseURL = API_URL;
     config.headers['x-custom-lang'] = language;
+    config.headers['x-custom-platform'] = platform;
 
     return config;
   },

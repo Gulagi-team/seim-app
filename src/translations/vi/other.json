@@ -16,5 +16,8 @@
   "dayAgo": "{{day}} ngày trước",
   "hourAgo": "{{hour}} giờ trước",
   "minuteAgo": "{{minute}} phút trước",
-  "secondAgo": "{{second}} giây trước"
+  "secondAgo": "{{second}} giây trước",
+  "home": "Trang chủ",
+  "energy": "Năng lượng",
+  "profile": "Hồ sơ"
 }

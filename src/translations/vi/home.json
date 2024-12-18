@@ -14,5 +14,8 @@
   "lession": "Bài học",
   "save": "Lưu",
   "start": "Bắt đầu ngay",
-  "day": "Ngày"
+  "day": "Ngày",
+  "updateRequired": "Yêu cầu cập nhật",
+  "warning": "Phiên bản ứng dụng của bạn đã lỗi thời. Vui lòng cập nhật ứng dụng của bạn để có thêm bảo mật, tốc độ và trải nghiệm tốt nhất trên ứng dụng này.",
+  "updateVersion": "Cập nhật phiên bản"
 }

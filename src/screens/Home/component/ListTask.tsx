@@ -119,28 +119,7 @@ const ListTaskContent = ({habitSelected}: Props) => {
           />
         </View>
       </View>
-      {/* <BottomSheet
-        index={-1}
-        ref={bottomSheetRef}
-        snapPoints={snapPoints}
-        style={{
-          marginTop: 230,
-        }}
-        onChange={handleOpenModal}
-        backdropComponent={renderBackdrop}>
-        <BottomSheetView style={styles.bottomAction}>
-          <TouchableOpacity
-            onPress={() => navigate(SCREENS.HABIT_DETAIL, habitSelected)}
-            style={styles.bottonBtn}>
-            <Text style={styles.show}>{t('show')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleConfirmDelete}
-            style={styles.bottonBtn}>
-            <Text style={styles.deleteProcess}>{t('delete')}</Text>
-          </TouchableOpacity>
-        </BottomSheetView>
-      </BottomSheet> */}
+
       <Modal
         transparent={true}
         animationType="slide"

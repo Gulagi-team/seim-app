@@ -45,6 +45,7 @@ import {getMiningInfo} from '@/store/mining/action';
 import {stringUtils} from '@/utils/string';
 import {getInfoUser} from '@/store/userInfo/action';
 import {getStringLocal} from '@/helpers/localStorage';
+import {useFocusEffect} from '@react-navigation/native';
 const SettingScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
@@ -69,7 +70,6 @@ const SettingScreen = () => {
       const getUserInfoLocal = getStringLocal('userInfo');
       const {name} = JSON.parse(getUserInfoLocal as string);
       if (user) {
-        console.log('name', name);
         const info = JSON.parse(user);
         setUserInfor({
           ...info,
@@ -89,10 +89,12 @@ const SettingScreen = () => {
       navigateReset(SCREENS.LOGIN);
     }
   };
-  useEffect(() => {
-    getUser();
-    dispatch(fetchTopics());
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getUser();
+      dispatch(fetchTopics());
+    }, []),
+  );
 
   //------
   const handleLogout = async () => {

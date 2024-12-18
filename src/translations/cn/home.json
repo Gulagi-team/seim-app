@@ -14,5 +14,8 @@
   "lession": "课程",
   "save": "保存",
   "start": "立即开始",
-  "day": "天"
+  "day": "天",
+  "updateRequired": "需要更新",
+  "warning": "您的应用程序版本已过时。请更新您的应用程序，以获得更多安全性、速度和最佳体验。",
+  "updateVersion": "更新版本"
 }
