@@ -15,13 +15,20 @@ import {useNavigation} from '@react-navigation/native';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch} from 'react-redux';
 import {styles} from './ReferralScreen.styles';
+import {addReferral} from '@/api/referral';
 
 const ReferralScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -81,7 +88,7 @@ const ReferralScreen = () => {
   //   prefixes: [Linking.createURL('/'), 'https://app.example.com'],
   // }
 
-  const handleAddCode = () => {
+  const handleAddCode = async () => {
     if (refCode === '') {
       showToast('error', t('empty'));
       return;
@@ -91,18 +98,19 @@ const ReferralScreen = () => {
       showToast('error', t('sameCode'));
       return;
     }
-    dispatch(addNewReferral(refCode));
-
-    if (status === 'succeeded') {
+    const response = await addReferral(refCode);
+    if (!response.error) {
       showToast('success', t('success'));
       setRefCode('');
+    } else {
+      showToast('error', t('error'));
     }
   };
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: backgroundColor}}>
       <Header title={t('title')} canGoBack={true} handleGoBack={goBack} />
-      <View style={styles.containerView}>
+      <ScrollView style={styles.containerView}>
         <LinearGradient
           style={styles.bannerContainer}
           locations={[0, 1]}
@@ -151,7 +159,7 @@ const ReferralScreen = () => {
           <Text style={{...styles.titleText, color: textColor}}>
             {t('link')}
           </Text>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{
               ...styles.referralCodeContainer,
               backgroundColor: textContainerColor,
@@ -165,7 +173,7 @@ const ReferralScreen = () => {
               name="content-copy"
               style={{fontSize: 20, color: '#1B9CFC'}}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <View style={styles.lineConatiner} />
           <View style={styles.referralEarnContainer}>
             <View style={{flexDirection: 'row'}}>
@@ -283,10 +291,10 @@ const ReferralScreen = () => {
               ...styles.addCodeContainer,
               backgroundColor: refCode === '' ? '#96d2ff' : COLORS.primary_A500,
             }}>
-            <Text style={styles.addCodeText}>{t('addCode')}</Text>
+            <Text style={styles.addCodeText}>{t('add')}</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

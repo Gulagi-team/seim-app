@@ -1,31 +1,14 @@
-import {
-  ActivityIndicator,
-  Button,
-  Dimensions,
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
 import React from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles} from './PasswordWalletScreen.styles';
-import LogoSeim from '@/assets/images/logoSeim.png';
-import WelcomeBottom from '@/assets/images/welcomeBottom.png';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
 
-import {useState} from 'react';
-import PasswordInput from '@/components/passwordInput/PasswordInput';
 import Header from '@/components/Header';
-import {ApplicationScreenProps} from '@/types/navigation';
-import {navigate} from '@/helpers/navigation';
+import PasswordInput from '@/components/passwordInput/PasswordInput';
 import SCREENS from '@/constants/screen';
+import {navigate} from '@/helpers/navigation';
+import {ApplicationScreenProps} from '@/types/navigation';
+import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 
 const PasswordWalletScreen = ({

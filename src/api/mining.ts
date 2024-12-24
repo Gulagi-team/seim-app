@@ -21,3 +21,12 @@ export const claimMining = async () => {
 export const getAllMining = (data: Filter) => {
   return api.get('/mining', {params: data});
 };
+
+export const checkMining = async () => {
+  try {
+    const response = await api.get('/mining/check');
+    return response;
+  } catch (error) {
+    return {error: error.message};
+  }
+};

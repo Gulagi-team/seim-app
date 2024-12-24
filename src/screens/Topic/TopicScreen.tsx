@@ -15,6 +15,7 @@ import {useDispatch} from 'react-redux';
 import {styles} from './TopicScreen.styles';
 import {iconMap} from '@/helpers/icon';
 import {useTranslation} from 'react-i18next';
+import Loading from '../Loading/Loading';
 
 const TopicScreen = () => {
   const navigation = useNavigation();
@@ -25,7 +26,9 @@ const TopicScreen = () => {
   const [searchText, onChangeSearch] = useState<string>('');
   const [filteredData, setFilteredData] = useState<Topic[]>([]);
 
-  const topics = useAppSelector((state: StoreState) => state.TopicSlice.topics);
+  const {topics, status} = useAppSelector(
+    (state: StoreState) => state.TopicSlice,
+  );
 
   useEffect(() => {
     dispatch(fetchTopics());
@@ -49,6 +52,7 @@ const TopicScreen = () => {
         label="Search"
         onChange={onChangeSearch}
       />
+      {status === 'loading' && <Loading />}
       <Header
         renderLogo={false}
         canGoBack={true}

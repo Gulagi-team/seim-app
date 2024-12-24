@@ -46,6 +46,7 @@ import {stringUtils} from '@/utils/string';
 import {getInfoUser} from '@/store/userInfo/action';
 import {getStringLocal} from '@/helpers/localStorage';
 import {useFocusEffect} from '@react-navigation/native';
+import {checkProgressOfHabit} from '@/store/habits/action';
 const SettingScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 

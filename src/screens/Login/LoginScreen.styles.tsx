@@ -1,3 +1,4 @@
+import {COLORS, FONT_SIZE, POPPINS_MEDIUM} from '@/theme';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -39,14 +40,51 @@ export const styles = StyleSheet.create({
     height: '25%',
     bottom: 0,
   },
-  overlay: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    zIndex: 10,
-    display: 'flex',
+  codeContainer: {
+    width: '80%',
+    height: 48,
+    marginTop: 40,
+    marginBottom: 10,
+    borderRadius: 12,
+    borderWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    // paddingHorizontal: 8,
+  },
+  codeInput: {
+    fontSize: FONT_SIZE.tiny0,
+    fontWeight: '500',
+    fontFamily: POPPINS_MEDIUM,
+    marginLeft: 8,
+    flex: 1,
+    // backgroundColor: 'red',
+    // textAlign: 'center',
+  },
+  pasteContainer: {
+    padding: 8,
+  },
+  codeTitle: {
+    fontSize: FONT_SIZE.tiny0,
+    fontWeight: '500',
+    fontFamily: POPPINS_MEDIUM,
+    color: COLORS.primary_A500,
+    // textAlign: 'center',
+  },
+  addCodeContainer: {
+    width: '50%',
+    height: 40,
+    marginTop: 5,
+    marginBottom: 10,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  addCodeText: {
+    fontSize: FONT_SIZE.small1,
+    fontWeight: '500',
+    fontFamily: POPPINS_MEDIUM,
+    color: COLORS.white,
+    // textAlign: 'center',
   },
 });

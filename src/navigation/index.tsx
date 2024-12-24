@@ -1,15 +1,13 @@
 /* eslint-disable prettier/prettier */
-import React, {createRef} from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
+import React from 'react';
 import {enableScreens} from 'react-native-screens';
 // import { useTheme } from "@/theme";
-import BottomTab from './BottomTab';
-import SplashScreen from '@/screens/Splash/SplashScreen';
 import {navigationRef} from '@/helpers/navigation';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import SplashScreen from '@/screens/Splash/SplashScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import CONST_SCREEN from '@/constants/screen';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import BottomTab from './BottomTab';
 
 import {route} from './route';
 
@@ -21,30 +19,31 @@ const MainStack = () => (
   <Stack.Navigator screenOptions={{headerShown: false, gestureEnabled: false}}>
     <Stack.Screen name="Splash" component={SplashScreen} />
     <Stack.Screen name="MAIN_SCREEN" component={BottomTab} />
-    {route.map(item => (
-      <Stack.Screen
-        key={item.name}
-        // options={HEADER_OPTIONS}
-        // sharedElements={item.configShareElement}
-        name={item.name}
-        component={item.component}
-      />
-    ))}
+
+    {route.map(item => {
+      return (
+        <Stack.Screen
+          key={item.name}
+          name={item.name}
+          component={item.component}
+        />
+      );
+    })}
   </Stack.Navigator>
 );
 
 const config = {
   screens: {
-    Setting: CONST_SCREEN.SETTING,
-    Referral: CONST_SCREEN.REFERRAL,
-    Feedback: CONST_SCREEN.FEEDBACK,
+    MAIN_SCREEN: 'main',
+    REFERRAL_SCREEN: 'referral',
   },
 };
 
 const linking = {
   enabled: true,
-  prefixes: ['demo://app'],
+  prefixes: ['seim://app'],
   config,
+  fallback: 'MAIN_SCREEN',
 };
 function ApplicationNavigator() {
   return (

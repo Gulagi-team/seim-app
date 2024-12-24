@@ -32,34 +32,47 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import ListTaskContent from './component/ListTask';
 import {styles, topicStyles} from './HomeScreen.styles';
-import {useFocusEffect} from '@react-navigation/native';
 import DeviceInfo from 'react-native-device-info';
 import {getLatestVersion} from '@/api/version';
+import Loading from '../Loading/Loading';
+import {useFocusEffect} from '@react-navigation/native';
+import {getInfoUser} from '@/store/userInfo/action';
+import {getMiningInfo} from '@/store/mining/action';
 
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const width = Dimensions.get('window').width;
-  const habits = useSelector((state: StoreState) => state.HabitsSlide.habits);
+  const {habits, status} = useSelector(
+    (state: StoreState) => state.HabitsSlide,
+  );
 
   const {t} = useTranslation(['home']);
   const [isUpdate, setIsUpdate] = React.useState(false);
   const [version, setVersion] = useState<Version>();
+
   useFocusEffect(
     React.useCallback(() => {
-      const getData = async () => {
-        const user = await getAuth();
-        if (user) {
-          dispatch(fetchHabits());
-        } else {
-          const habitsFromFile = await readFromFile('habits.json');
-          dispatch(updateState(habitsFromFile));
-        }
-      };
-
-      getData();
+      dispatch(getMiningInfo());
+      dispatch(getInfoUser());
     }, [dispatch]),
   );
 
+  useEffect(() => {
+    const getData = async () => {
+      dispatch(checkProgressOfHabit());
+
+      const user = await getAuth();
+      console.log('user', user);
+      if (user) {
+        dispatch(fetchHabits());
+      } else {
+        const habitsFromFile = await readFromFile('habits.json');
+        dispatch(updateState(habitsFromFile));
+      }
+    };
+
+    getData();
+  }, [dispatch]);
   useEffect(() => {
     const checkVersion = async () => {
       const versionLocal = DeviceInfo.getVersion();
@@ -225,6 +238,8 @@ const HomeScreen = () => {
           </Modal>
         </View>
       )}
+      {status === 'loadingData' && <Loading />}
+
       <Image
         style={styles.banner}
         source={bannerSource}

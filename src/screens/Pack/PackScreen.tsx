@@ -2,7 +2,9 @@ import React from 'react';
 
 import LessionItem from '@/components/listItem/LessionItem';
 import SCREENS from '@/constants/screen';
+import {writeToFile} from '@/helpers/file';
 import {navigate} from '@/helpers/navigation';
+import {showToast} from '@/helpers/toast';
 import {StoreState, reduxStorage, useAppSelector} from '@/store';
 import {
   addKeyLession,
@@ -11,22 +13,20 @@ import {
   updateLessionSelected,
 } from '@/store/lessions';
 import {fetchTopics} from '@/store/topics/action';
-import {Habit, LessionType} from '@/types/colection';
+import {Habit} from '@/types/colection';
 import {Spinner} from '@gluestack-ui/themed';
 import {ThunkDispatch} from '@reduxjs/toolkit';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
+import Loading from '../Loading/Loading';
 import {styles} from './PackScreen.styles';
-import {writeToFile} from '@/helpers/file';
-import {showToast} from '@/helpers/toast';
-import {useTranslation} from 'react-i18next';
 
 const PackScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {t} = useTranslation(['other']);
-  const [loading, setLoading] = useState(true);
   // const [lessions, setLessions] = useState<LessionType[]>([]);
 
   const {lessions, lessionsSelected, status, keyLessionSelected} =

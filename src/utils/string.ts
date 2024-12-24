@@ -14,8 +14,7 @@ export const stringUtils = {
       24 - (durationInMs / 1000 / 60 / 60) * speedMultiplier;
 
     const adjustedDuration = hourRemaining * 60 * 60 * 1000;
-
-    return adjustedDuration;
+    return durationInMs - adjustedDuration;
   },
 
   formatTime: (time: Date, langCode: string) => {

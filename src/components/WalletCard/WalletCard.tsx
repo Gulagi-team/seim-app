@@ -17,6 +17,10 @@ import {
   POPPINS_REGULAR,
 } from '@/theme';
 import {useTranslation} from 'react-i18next';
+import {use} from 'i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {checkProgressOfHabit} from '@/store/habits/action';
+import {ThunkDispatch} from '@reduxjs/toolkit';
 
 export const WalletBalance = () => {
   const currentAccount = useAppSelector(
@@ -44,18 +48,28 @@ export const WalletBalance = () => {
 };
 
 const WalletCard = () => {
-  const dispatch = useDispatch();
   const {currentAccount, balance, tokenBalance} = useAppSelector(
     (state: StoreState) => state.walletSlice,
   );
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
   const {miningEarned} = useSelector((state: StoreState) => state.userInfo);
   const {t} = useTranslation(['setting', 'mining']);
-
+  const [totalPoints, setTotalPoints] = useState(0);
   const {
     cardWalletBackgroundColor,
     cardWalletBorderColor,
     textOutstandingColor,
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
+  useEffect(() => {
+    const getPoints = async () => {
+      const totalPointsTask = await AsyncStorage.getItem('totalPointsTask');
+      setTotalPoints(totalPointsTask ? parseFloat(totalPointsTask) : 0);
+    };
+    dispatch(checkProgressOfHabit());
+
+    getPoints();
+  }, []);
   const [modalVisible, setModalVisible] = useState(false);
   useEffect(() => {
     if (currentAccount) {
@@ -96,7 +110,7 @@ const WalletCard = () => {
         />
 
         <Text style={{...styles.pointText, color: textOutstandingColor}}>
-          {miningEarned}
+          {miningEarned + totalPoints}
         </Text>
       </View>
 

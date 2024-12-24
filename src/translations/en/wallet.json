@@ -11,5 +11,6 @@
   "connect": "Connect to wallet",
   "copy": "Private key is saved to Clipboard'",
   "importTitle": "Enter the private key to connect the wallet.",
-  "pKey": "Private Key"
+  "pKey": "Private Key",
+  "walletError": "Invalid wallet"
 }
