@@ -11,6 +11,7 @@ import {getAuth} from '@/store/auth';
 import {COLORS} from '@/theme';
 import {UserProfileType} from '@/types/colection';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Clipboard from '@react-native-clipboard/clipboard';
 import {Picker} from '@react-native-picker/picker';
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
@@ -25,12 +26,15 @@ import {
 } from 'react-native';
 import ScrollPicker from 'react-native-wheel-scrollview-picker';
 import {styles} from './UpdateProfileScreen.style';
+import {checkAddress} from '@/api/web3';
+import Loading from '../Loading/Loading';
 
 const UpdateProfileScreen = () => {
   const {t} = useTranslation();
+  const [loading, setLoading] = useState(false);
 
   const getUserInfoLocal = getStringLocal('userInfo');
-  const {weight, height, old, gender, name} = JSON.parse(
+  const {weight, height, old, gender, name, wallet} = JSON.parse(
     getUserInfoLocal as string,
   );
 
@@ -40,11 +44,13 @@ const UpdateProfileScreen = () => {
     height: height || 165,
     old: old || 18,
     gender: gender || 'Male',
+    wallet: wallet || '',
   });
   const [user, setUser] = useState<UserProfileType>();
   useEffect(() => {
     const getInfo = async () => {
       const userExist = await getAuth();
+
       if (userExist) {
         setUser(userExist);
         setUpdateUser({
@@ -53,15 +59,33 @@ const UpdateProfileScreen = () => {
         });
       }
     };
+    setLoading(true);
     getInfo();
+    setLoading(false);
   }, []);
 
   const handleChange = (key: string, value: string) => {
     setUpdateUser({...updateUser, [key]: value});
   };
+  const handlePasteCode = async () => {
+    if (updateUser.wallet === '') {
+      const pKey = await Clipboard.getString();
+      setUpdateUser({...updateUser, wallet: pKey});
+    } else {
+      setUpdateUser({...updateUser, wallet: ''});
+    }
+  };
 
   const handleUpdate = async () => {
     try {
+      if (updateUser.wallet !== '') {
+        const checkWallet = await checkAddress(updateUser.wallet);
+        if (!checkWallet.data) {
+          showToast('error', t('wallet:walletError'));
+          return;
+        }
+      }
+
       const resposne = await updateProfile(updateUser);
       if (resposne.status !== 204) {
         return;
@@ -100,7 +124,7 @@ const UpdateProfileScreen = () => {
         canGoBack={true}
         handleGoBack={goBack}
       />
-
+      {loading && <Loading />}
       <ScrollView style={styles.scrollView}>
         <View
           style={{
@@ -242,6 +266,33 @@ const UpdateProfileScreen = () => {
               // highlightBorderWidth={2}
             />
           </View>
+        </View>
+        <View
+          style={{
+            ...styles.codeContainer,
+            backgroundColor: textContainerColor,
+            borderColor: textBorderColor,
+          }}>
+          <TextInput
+            style={{...styles.codeInput, color: textOutstandingColor}}
+            onChangeText={value => {
+              handleChange('wallet', value);
+            }}
+            placeholder={t('wallet:importWallet')}
+            placeholderTextColor={COLORS.text_A400}
+            numberOfLines={1}
+            value={updateUser.wallet}
+          />
+
+          <TouchableOpacity
+            style={styles.pasteContainer}
+            onPress={handlePasteCode}>
+            <Text style={styles.codeTitle}>
+              {updateUser.wallet === ''
+                ? t('referral:paste')
+                : t('referral:clear')}
+            </Text>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.updateButton} onPress={handleUpdate}>
           <Text style={styles.updateText}>{t('setting:save')}</Text>

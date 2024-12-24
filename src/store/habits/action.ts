@@ -23,6 +23,7 @@ import {Habit, TaskToUpdate} from '@/types/colection';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import moment from 'moment';
 import {getAuth} from '../auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface HabitResponse {
   today?: string;
@@ -157,6 +158,11 @@ export const checkProgressOfHabit = createAsyncThunk(
     const auth = await getAuth();
     if (auth && auth.access_token) {
       const response = await checkProgress();
+      const totalPoints = response.data.reduce(
+        (acc: number, item: any) => acc + item.totalPoints,
+        0,
+      );
+      await AsyncStorage.setItem('totalPointsTask', totalPoints.toString());
       return response.data;
     }
   },

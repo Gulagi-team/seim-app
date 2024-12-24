@@ -11,5 +11,6 @@
   "connect": "Kết nối với ví",
   "copy": "Khóa riêng đã được lưu vào clipboard",
   "importTitle": "Nhập khóa riêng để kết nối ví.",
-  "pKey": "Khóa riêng"
+  "pKey": "Khóa riêng",
+  "walletError": "Ví không hợp lệ"
 }

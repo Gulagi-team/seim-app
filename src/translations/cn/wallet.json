@@ -11,5 +11,6 @@
   "connect": "连接到钱包",
   "copy": "私钥已保存到剪贴板",
   "importTitle": "输入私钥以连接钱包。",
-  "pKey": "私钥"
+  "pKey": "私钥",
+  "walletError": "无效钱包"
 }

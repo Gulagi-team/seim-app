@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     marginStart: 10,
     fontSize: 14,
+    color: COLORS.text_A700,
   },
   icon: {
     fontSize: 25,

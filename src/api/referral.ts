@@ -5,6 +5,11 @@ export const getReferralInfo = () => {
   return data;
 };
 
-export const addReferral = (referralCode: string) => {
-  return api.post('/referral/add', {referralCode});
+export const addReferral = async (referralCode: string) => {
+  try {
+    const response = await api.post('/referral/add', {referralCode});
+    return response;
+  } catch (error) {
+    return {error: error.message};
+  }
 };

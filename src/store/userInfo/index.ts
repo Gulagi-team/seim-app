@@ -16,6 +16,7 @@ export type InfoState = {
   referralCode: string;
   referralLink: string;
   miningEarned: number;
+  wallet: string;
 };
 
 const initialState: InfoState = {
@@ -31,6 +32,7 @@ const initialState: InfoState = {
   referralCode: '',
   referralLink: 'get.seim.io/ref=FDFAA',
   miningEarned: 0,
+  wallet: '',
 };
 
 const Infoslice = createSlice({
@@ -68,10 +70,7 @@ const Infoslice = createSlice({
     },
     updateCode: (state, action: PayloadAction<string>) => {
       if (state.referralCode === '') {
-        console.log('referral code is empty', action.payload);
         state.referralCode = action.payload;
-      } else {
-        console.log('referral code is already exist');
       }
     },
   },
@@ -88,6 +87,7 @@ const Infoslice = createSlice({
         state.weight = action.payload.weight;
         state.referralCode = action.payload.refererCode;
         state.miningEarned = action.payload.miningEarned;
+        state.wallet = action.payload.wallet;
       })
       .addCase(getInfoUser.rejected, () => {});
   },

@@ -1,23 +1,11 @@
-import {
-  ActivityIndicator,
-  Button,
-  Dimensions,
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import Logo from '@/assets/images/logo.png';
+import SCREENS from '@/constants/screen';
+import {navigate} from '@/helpers/navigation';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
+import {Image, Text, TouchableOpacity} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {styles} from './IntroWalletScreen.styles';
-import Logo from '@/assets/images/logo.png';
-import WelcomeBottom from '@/assets/images/welcomeBottom.png';
-import {navigate} from '@/helpers/navigation';
-import SCREENS from '@/constants/screen';
-import {useTranslation} from 'react-i18next';
 
 const IntroWalletScreen = () => {
   const {t} = useTranslation(['wallet']);

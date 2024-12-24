@@ -16,6 +16,8 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {styles} from './LanguageScreen.styles';
 import i18n from '@/translations';
+import {fetchHabits} from '@/store/habits/action';
+import {ThunkDispatch} from '@reduxjs/toolkit';
 // import i18n from '@/translations';
 
 const LanguageScreen = () => {
@@ -35,12 +37,14 @@ const LanguageScreen = () => {
     borderColor,
     cardWalletTitleColor,
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
   const navigation = useNavigation();
   const goBack = () => navigation.goBack();
   const onChangeLanguage = async (lang: LanguageType) => {
     await reduxStorage.setItem('language', lang);
     dispatch(updateLanguage(lang));
+    dispatch(fetchHabits());
     setLanguage(lang);
     i18n.changeLanguage(lang);
   };

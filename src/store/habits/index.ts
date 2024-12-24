@@ -42,15 +42,14 @@ const HabitSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchHabits.pending, (state, action) => {
-        state.status = 'loading';
+        state.status = 'loadingData';
       })
       .addCase(
         fetchHabits.fulfilled,
         (state, action: PayloadAction<HabitResponse>) => {
-          state.status = 'succeeded';
-
           state.today = action.payload.today ?? '';
           state.habits = action.payload.data ?? [];
+          state.status = 'succeeded';
         },
       )
       .addCase(fetchHabits.rejected, (state, action) => {

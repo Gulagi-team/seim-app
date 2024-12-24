@@ -1,5 +1,6 @@
 const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 const path = require('path');
+const blacklist = require('metro-config/src/defaults/exclusionList');
 const {generate} = require('@storybook/react-native/scripts/generate');
 const defaultConfig = getDefaultConfig(__dirname);
 const {assetExts, sourceExts} = defaultConfig.resolver;

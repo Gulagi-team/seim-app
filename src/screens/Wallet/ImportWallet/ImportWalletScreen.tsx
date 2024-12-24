@@ -1,42 +1,23 @@
-import {
-  ActivityIndicator,
-  Button,
-  Dimensions,
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {styles} from './ImportWalletScreen.styles';
-import LogoSeim from '@/assets/images/logoSeim.png';
-import WelcomeBottom from '@/assets/images/welcomeBottom.png';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-import IconGoogle from '@/assets/icons/icon_google.svg';
-import {ApplicationScreenProps} from '@/types/navigation';
-import React, {useState} from 'react';
 import {importWalletFromPK} from '@/blockchain/basic';
-import {ThunkDispatch} from '@reduxjs/toolkit';
-import {useDispatch} from 'react-redux';
-import {navigate} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
-import {addPassword, addPrivateKey, updateWalletState} from '@/store/wallet';
+import {navigate} from '@/helpers/navigation';
 import {reduxStorage} from '@/store';
+import {addPassword, addPrivateKey, updateWalletState} from '@/store/wallet';
+import {ApplicationScreenProps} from '@/types/navigation';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch} from 'react-redux';
+import {styles} from './ImportWalletScreen.styles';
 
 const ImportWalletScreen = ({
   route,
   navigation,
 }: ApplicationScreenProps<'ImportWalletScreen'>) => {
   const {t} = useTranslation('wallet');
-  const {password} = route.params;
+  // const {password} = route.params;
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const [privateKey, setPrivateKey] = useState<string>('');
   const disableSubmit = !!privateKey;

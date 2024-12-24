@@ -50,6 +50,7 @@ const SplashScreen = () => {
     const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
     const getKeyLessionsSelectedLocal = getStringLocal('keyLessionsSelected');
     const address = getStringLocal('address');
+    // await AsyncStorage.removeItem('addReferral');
     // await AsyncStorage.removeItem('userInfo');
     // await AsyncStorage.removeItem('mining');
     // await removeFile('topics.json');
@@ -58,11 +59,10 @@ const SplashScreen = () => {
     // reduxStorage.removeItem('userInfo');
     // await removeFile('task_histories.json');
     // await removeFile('mining.json');
-    // await AsyncStorage.removeItem('currentReward');
     // reduxStorage.removeItem('isGetInfoDone');
     // reduxStorage.removeItem('userInfo');
-    // navigateReset(CONST_SCREEN.MAIN);
-    // navigateReset(CONST_SCREEN.MINING);
+    // navigateReset(CONST_SCREEN.PACK);
+    // navigateReset(CONST_SCREEN.LOGIN);
 
     // const referralCode = stringUtils.generateCode();
     // dispatch(updateCode(referralCode));
@@ -88,37 +88,12 @@ const SplashScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* {isUpdate && (
-        <View
-          style={{
-            ...styles.containerView,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Image
-            source={LogoSeim}
-            style={styles.imageLogo}
-            resizeMode={'contain'}
-          />
-          <Text style={styles.message}>{t('welcome:warning')}</Text>
-          <Pressable
-            style={[styles.button, styles.quitButton]}
-            onPress={() => {
-              Linking.openURL(version?.url!);
-            }}>
-            <Text style={styles.quitButtonText}>
-              {t('welcome:updateVersion')}
-            </Text>
-          </Pressable>
-        </View>
-      )} */}
-
       <Image
         source={LogoSeim}
         style={styles.imageLogo}
         resizeMode={'contain'}
       />
-      {/* <ActivityIndicator size="large" style={{marginVertical: 24}} /> */}
+
       <Image
         testID={'welcome-bottom'}
         style={styles.welcomeBottom}

@@ -157,6 +157,7 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     padding: 10,
+    paddingTop: 40,
     alignItems: 'center',
   },
   imageGiftReferral: {
@@ -189,7 +190,8 @@ export const styles = StyleSheet.create({
   codeContainer: {
     width: '100%',
     height: 48,
-    // marginTop: 20,
+    marginTop: 40,
+    marginBottom: 10,
     borderRadius: 12,
     borderWidth: 1,
     flexDirection: 'row',
@@ -220,6 +222,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: 40,
     marginTop: 5,
+    marginBottom: 10,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',

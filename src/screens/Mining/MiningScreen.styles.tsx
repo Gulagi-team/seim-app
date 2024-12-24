@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
     padding: 15,
     // backgroundColor: 'red',
   },
+  imageLogo: {height: 150, width: 150},
 
   headerView: {
     flexDirection: 'row',
@@ -218,9 +219,11 @@ export const styles = StyleSheet.create({
     color: '#333',
   },
   modal_message: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 20,
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#171717',
+    marginVertical: 20,
+
     textAlign: 'center',
   },
   modal_buttonContainer: {
@@ -229,22 +232,20 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   modal_button: {
-    flex: 1,
-    paddingVertical: 10,
-    marginHorizontal: 5,
-    borderRadius: 8,
+    width: 200,
+    height: 50,
+    // borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderRadius: 40,
+    elevation: 5,
+    shadowColor: '#000',
   },
-  modal_cancelButton: {
-    backgroundColor: '#f0f0f0',
-  },
-  modal_cancelButtonText: {
-    fontSize: 16,
-    color: '#333',
-  },
+
   modal_quitButton: {
-    backgroundColor: '#6200ea',
+    backgroundColor: '#1B9CFC',
   },
   modal_quitButtonText: {
     fontSize: 16,
@@ -296,15 +297,5 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  overlay: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    zIndex: 10,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

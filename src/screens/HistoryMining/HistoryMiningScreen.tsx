@@ -1,26 +1,20 @@
 import POINT_SEIM from '@/assets/images/point_seim.png';
 
-import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
-import {styles} from './HistoryMiningScreen.styles';
+import ICON_VALID from '@/assets/icons/icon_valid.svg';
 import Header from '@/components/Header';
-import {useNavigation} from '@react-navigation/native';
-import {useTranslation} from 'react-i18next';
-import {useDispatch, useSelector} from 'react-redux';
 import {StoreState, useAppSelector} from '@/store';
 import {getAuth} from '@/store/auth';
-import {ThunkDispatch} from '@reduxjs/toolkit';
 import {getAllMine} from '@/store/mining/action';
 import {Filter, MiningData} from '@/types/colection';
 import {stringUtils} from '@/utils/string';
-import ICON_VALID from '@/assets/icons/icon_valid.svg';
+import {useNavigation} from '@react-navigation/native';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {Image, SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import Loading from '../Loading/Loading';
+import {styles} from './HistoryMiningScreen.styles';
 
 const timeAgos = [
   'other:secondAgo',
@@ -58,6 +52,7 @@ const HistoryMiningScreen = () => {
     };
     getData();
   }, []);
+
   return (
     <SafeAreaView style={{...styles.container}}>
       <Header
@@ -66,18 +61,15 @@ const HistoryMiningScreen = () => {
         handleGoBack={goBack}
       />
 
-      {histories.length === 0 && (
-        <View style={styles.overlay}>
-          <ActivityIndicator size="large" color="#00d9ff" />
-        </View>
-      )}
+      {histories.length === 0 && <Loading />}
       {histories.length > 0 && (
         <ScrollView style={styles.scrollView}>
           {histories.map((item: MiningData) => {
             const {time, level} = stringUtils.caculateTimeAgos(
               item.createdAt as string,
             );
-            const timeAgo = t(timeAgos[level], {time});
+            const timeAgo = t(timeAgos[level]);
+
             return (
               <View key={item.id} style={styles.item}>
                 <View
@@ -108,6 +100,7 @@ const HistoryMiningScreen = () => {
                   </Text>
                 </View>
                 <Text style={{...styles.timeText, color: textOutstandingColor}}>
+                  {time}
                   {timeAgo}
                 </Text>
               </View>

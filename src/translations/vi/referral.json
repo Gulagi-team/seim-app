@@ -17,5 +17,8 @@
   "copyCode": "Mã giới thiệu đã được lưu vào Clipboard",
   "empty": "Mã giới thiệu trống",
   "success": "Mã giới thiệu đã được thêm thành công",
-  "sameCode": "Bạn không thể sử dụng mã giới thiệu của chính mình"
+  "sameCode": "Bạn không thể sử dụng mã giới thiệu của chính mình",
+  "clear": "Xóa",
+  "error": "Mã giới thiệu đã được sử dụng",
+  "skip": "Bỏ qua"
 }

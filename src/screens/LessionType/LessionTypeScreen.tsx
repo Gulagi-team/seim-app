@@ -18,6 +18,7 @@ import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './LessionTypeScreen.styles';
+import Loading from '../Loading/Loading';
 
 const LessionTypeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -52,6 +53,8 @@ const LessionTypeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {status === 'loading' && <Loading />}
+
       <View style={styles.textContainer}>
         <Text style={styles.chooseText}>{t('chooseChallenge')}</Text>
         <TouchableOpacity
