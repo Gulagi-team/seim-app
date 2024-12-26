@@ -21,5 +21,6 @@
   "sameCode": "You can't use your own referral code",
   "clear": "Clear",
   "error": "Referral code is already used",
-  "skip": "Skip"
+  "skip": "Skip",
+  "haveAdd": "You have added a referral code"
 }

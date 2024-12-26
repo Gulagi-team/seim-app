@@ -1,11 +1,12 @@
 import IconAdd from '@/assets/icons/icon_add.svg';
+import notifee, {EventType} from '@notifee/react-native';
 import HomeBaner from '@/assets/images/home_banner.png';
 import HomeBanerDark from '@/assets/images/home_banner_dark.png';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import SCREENS from '@/constants/screen';
 import {formatLongDate, getPartOfDay} from '@/helpers/conversion';
 import {readFromFile, removeFile, writeToFile} from '@/helpers/file';
-import {navigate} from '@/helpers/navigation';
+import {navigate, navigateReset} from '@/helpers/navigation';
 import {StoreState} from '@/store';
 import {getAuth} from '@/store/auth';
 import {updateState} from '@/store/habits';
@@ -13,10 +14,11 @@ import {checkProgressOfHabit, fetchHabits} from '@/store/habits/action';
 import {Habit, Version} from '@/types/colection';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import React, {useEffect, useRef, useState} from 'react';
-
+import analytics from '@react-native-firebase/analytics';
 import {iconMap} from '@/helpers/icon';
 import {useTranslation} from 'react-i18next';
 import {
+  Button,
   Dimensions,
   Image,
   Linking,
@@ -38,6 +40,8 @@ import Loading from '../Loading/Loading';
 import {useFocusEffect} from '@react-navigation/native';
 import {getInfoUser} from '@/store/userInfo/action';
 import {getMiningInfo} from '@/store/mining/action';
+import {COLORS, FONT_SIZE, POPPINS_MEDIUM} from '@/theme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -52,8 +56,14 @@ const HomeScreen = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      dispatch(getMiningInfo());
-      dispatch(getInfoUser());
+      const getData = async () => {
+        const user = await getAuth();
+        if (user) {
+          dispatch(getMiningInfo());
+          dispatch(getInfoUser());
+        }
+      };
+      getData();
     }, [dispatch]),
   );
 
@@ -62,7 +72,6 @@ const HomeScreen = () => {
       dispatch(checkProgressOfHabit());
 
       const user = await getAuth();
-      console.log('user', user);
       if (user) {
         dispatch(fetchHabits());
       } else {
@@ -213,6 +222,46 @@ const HomeScreen = () => {
     }
   }, [habits, idxContent]);
 
+  useEffect(() => {
+    const checkAnalytics = async () => {
+      try {
+        await analytics().logEvent('app_open');
+        console.log('analytics success');
+      } catch (error) {
+        console.log('error in analytics', error);
+      }
+    };
+
+    checkAnalytics();
+  }, []);
+
+  const login = async () => {
+    console.log('login function called');
+    try {
+      await analytics().logLogin({
+        method: 'facebook',
+      });
+      console.log('login success');
+    } catch (error) {
+      console.log('error in login', error);
+    }
+  };
+
+  const event = async () => {
+    console.log('event function called');
+    try {
+      await analytics().logEvent('seim_custom_action', {
+        id: 213123,
+        item: 'hello',
+        description: 'world',
+        size: 1,
+      });
+      console.log('event success');
+    } catch (error) {
+      console.log('error in event', error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {isUpdate && (
@@ -246,6 +295,50 @@ const HomeScreen = () => {
         resizeMode={'contain'}
       />
       <View style={styles.containerView}>
+        {/* <TouchableOpacity
+          style={{
+            width: '50%',
+            height: 40,
+            marginTop: 5,
+            marginBottom: 10,
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: COLORS.primary_A500,
+          }}
+          onPress={login}>
+          <Text
+            style={{
+              fontSize: FONT_SIZE.small1,
+              fontWeight: '500',
+              fontFamily: POPPINS_MEDIUM,
+              color: COLORS.white,
+            }}>
+            button1
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            width: '50%',
+            height: 40,
+            marginTop: 5,
+            marginBottom: 10,
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: COLORS.primary_A500,
+          }}
+          onPress={event}>
+          <Text
+            style={{
+              fontSize: FONT_SIZE.small1,
+              fontWeight: '500',
+              fontFamily: POPPINS_MEDIUM,
+              color: COLORS.white,
+            }}>
+            button2
+          </Text>
+        </TouchableOpacity> */}
         <View style={styles.welcomeTop}>
           <Text style={styles.welcomeTitle}>{t(getPartOfDay())}</Text>
           <Text style={styles.currentDate}>

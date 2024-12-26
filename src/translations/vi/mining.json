@@ -22,5 +22,7 @@
   "date": "Ngày",
   "successfully": "Thành công",
   "mined": "Nhận",
-  "claimFailed": "Nhận thất bại"
+  "claimFailed": "Nhận thất bại",
+  "completed": "Đào hoàn tất!",
+  "miningCompleted": "Quá trình đào của bạn đã hoàn tất và sẵn sàng để thu thập."
 }

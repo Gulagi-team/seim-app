@@ -1,11 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
+
 /* eslint-disable react/self-closing-comp */
+import notifee, {EventType} from '@notifee/react-native';
+
 import IconDiamond from '@/assets/icons/icon_diamond.svg';
 import LogoSeim from '@/assets/images/logoSeim.png';
 
-import {showToast} from '@/helpers/toast';
-import NetInfo from '@react-native-community/netinfo';
-import {checkMining, claimMining} from '@/api/mining';
+import {checkMining, claimMining, sendNoti} from '@/api/mining';
 import IconChevronRight from '@/assets/icons/icon_chevron_right.svg';
 import IconPool from '@/assets/icons/icon_pool.svg';
 import IconSpeed from '@/assets/icons/icon_speed.svg';
@@ -17,14 +18,15 @@ import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import CountdownTimer from '@/components/TimerCountdown/TimerCountdown';
 import SCREENS from '@/constants/screen';
 import {navigate, navigateReset} from '@/helpers/navigation';
+import {showToast} from '@/helpers/toast';
 import {StoreState, useAppSelector} from '@/store';
 import {getAuth} from '@/store/auth';
-import {getMiningInfo, startMine} from '@/store/mining/action';
+import {checkProgressOfHabit} from '@/store/habits/action';
+import {getMiningInfo, pushNotice, startMine} from '@/store/mining/action';
 import {getInfoUser} from '@/store/userInfo/action';
 import {MiningData, UserProfileType} from '@/types/colection';
 import {stringUtils} from '@/utils/string';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useFocusEffect} from '@react-navigation/native';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import LottieView from 'lottie-react-native';
 import React, {useEffect, useRef, useState} from 'react';
@@ -36,7 +38,10 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../Loading/Loading';
 import {styles} from './MiningScreen.styles';
-import {checkProgressOfHabit} from '@/store/habits/action';
+import {
+  clearAllChannelsAndNotifications,
+  displayNotification,
+} from '@/helpers/notification';
 
 const adUnitId = __DEV__
   ? TestIds.INTERSTITIAL
@@ -48,7 +53,7 @@ const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
 });
 
 const MiningScreen = () => {
-  const AMOUNT_MINING = 1;
+  const AMOUNT_MINING = 0.08;
 
   const [isMining, setIsMining] = useState(false);
   const {t} = useTranslation(['mining', 'other']);
@@ -109,6 +114,7 @@ const MiningScreen = () => {
             };
             await AsyncStorage.setItem('mining', JSON.stringify(data));
             setIsMining(true);
+            console.log('data', data);
           } else {
             await AsyncStorage.removeItem('mining');
           }
@@ -169,8 +175,13 @@ const MiningScreen = () => {
   const startMinining = async () => {
     const boostAdjust = miningData.boost ?? 0;
     const start = currentDate.getTime(); // Current timestamp in milliseconds
-    const durationInMs = 24 * 3600 * 1000; // 24 hours in milliseconds
-    const adjustedDuration = stringUtils.calculateTimeAdjustment(boostAdjust);
+    const time = 2;
+    const durationInMs = 10 * 1000; // 2 hours in milliseconds
+    const adjustedDuration = stringUtils.calculateTimeAdjustment(
+      boostAdjust,
+      durationInMs,
+      time,
+    );
     const data: MiningData = {
       startDate: start,
       endDate: start + durationInMs - adjustedDuration,
@@ -188,7 +199,9 @@ const MiningScreen = () => {
       setIsMined(true);
     } else {
       if (user) {
-        dispatch(startMine(data));
+        // dispatch(startMine(data));
+        await AsyncStorage.setItem('isSendNoti', 'false');
+
         await AsyncStorage.setItem('mining', JSON.stringify(data));
         setIsMining(true);
       }
@@ -206,22 +219,24 @@ const MiningScreen = () => {
     }
     if (user) {
       // await dispatch(claimMine());
-      const reposne = await claimMining();
+      // const reposne = await claimMining();
 
-      if (!reposne.error) {
-        dispatch(getMiningInfo());
-        await AsyncStorage.removeItem('mining');
-        showToast('success', t('claimSuccess'));
-        setIsDone(false);
-        setIsMining(false);
-        setCurrentReward(0);
-        setIsMined(false);
-        const totalRw = totalReward + AMOUNT_MINING;
-        setTotalReward(totalRw);
-        // interstitial.load(); // Load quảng cáo mới
-      } else {
-        showToast('error', t('claimFailed'));
-      }
+      // if (!reposne.error) {
+      dispatch(getMiningInfo());
+      await AsyncStorage.removeItem('mining');
+      showToast('success', t('claimSuccess'));
+      setIsDone(false);
+      setIsMining(false);
+      setCurrentReward(0);
+      setIsMined(false);
+      const totalRw = totalReward + AMOUNT_MINING;
+      setTotalReward(totalRw);
+      await AsyncStorage.removeItem('isSendNoti');
+      await clearAllChannelsAndNotifications();
+      // interstitial.load(); // Load quảng cáo mới
+      // } else {
+      //   showToast('error', t('claimFailed'));
+      // }
     }
   };
 
@@ -236,6 +251,7 @@ const MiningScreen = () => {
   const handleStopMining = async () => {
     try {
       const data = await AsyncStorage.getItem('mining');
+      // console.log('data', data);
       if (data) {
         const dataMining = JSON.parse(data);
         const dateNow = new Date();
@@ -258,6 +274,14 @@ const MiningScreen = () => {
           }
         } else {
           //done mining
+          const getIsSendNoti = await AsyncStorage.getItem('isSendNoti');
+          if (!getIsSendNoti || getIsSendNoti === 'false') {
+            // const fcmToken = await AsyncStorage.getItem('fcmToken');
+            // await sendNoti(fcmToken as string);
+            // await AsyncStorage.setItem('isSendNoti', 'true');
+            await displayNotification(t('completed'), t('miningCompleted'));
+          }
+
           if (!dataMining.isClaimed) {
             setIsMining(false);
             setEndDate(0);
@@ -379,7 +403,7 @@ const MiningScreen = () => {
 
                   <Text
                     style={{...styles.pointText, color: textOutstandingColor}}>
-                    {totalReward}
+                    {totalReward.toFixed(1)}
                   </Text>
                 </View>
                 <Image

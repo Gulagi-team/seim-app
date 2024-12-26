@@ -30,3 +30,12 @@ export const checkMining = async () => {
     return {error: error.message};
   }
 };
+
+export const sendNoti = async (fcmToken: string) => {
+  try {
+    const response = await api.post('/notices', {fcmToken});
+    return response.data;
+  } catch (error) {
+    return {error: error.message};
+  }
+};

@@ -22,5 +22,7 @@
   "date": "Date",
   "successfully": "Successfully",
   "mined": "Claim",
-  "claimFailed": "Claim failed"
+  "claimFailed": "Claim failed",
+  "completed": "Mining Complete!",
+  "miningCompleted": "Your mining operation is finished and ready for collection."
 }

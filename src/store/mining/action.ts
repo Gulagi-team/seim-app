@@ -1,7 +1,14 @@
-import {claimMining, getAllMining, getMining, startMining} from '@/api/mining';
+import {
+  claimMining,
+  getAllMining,
+  getMining,
+  sendNoti,
+  startMining,
+} from '@/api/mining';
 import {Filter} from '@/types/colection';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {getAuth} from '../auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const startMine = createAsyncThunk(
   'mining/startMining',
@@ -43,6 +50,16 @@ export const getAllMine = createAsyncThunk(
   'mining/getAllMining',
   async (data: Filter): Promise<any> => {
     const response = await getAllMining(data);
+    if (response.data) {
+      return response.data;
+    }
+  },
+);
+export const pushNotice = createAsyncThunk(
+  'mining/pushNotice',
+  async (fcmToken: string): Promise<any> => {
+    await AsyncStorage.setItem('isSendNoti', 'true');
+    const response = await sendNoti(fcmToken);
     if (response.data) {
       return response.data;
     }

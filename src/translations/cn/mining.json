@@ -22,5 +22,7 @@
   "date": "日期",
   "successfully": "成功",
   "mined": "索取",
-  "claimFailed": "索取失败"
+  "claimFailed": "索取失败",
+  "completed": "挖矿完成！",
+  "miningCompleted": "您的挖矿操作已完成，准备好领取。"
 }

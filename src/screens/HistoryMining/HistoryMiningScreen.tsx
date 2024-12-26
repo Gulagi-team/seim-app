@@ -100,8 +100,7 @@ const HistoryMiningScreen = () => {
                   </Text>
                 </View>
                 <Text style={{...styles.timeText, color: textOutstandingColor}}>
-                  {time}
-                  {timeAgo}
+                  {time} {timeAgo}
                 </Text>
               </View>
             );

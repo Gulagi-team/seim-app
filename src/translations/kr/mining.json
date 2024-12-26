@@ -22,5 +22,7 @@
   "date": "날짜",
   "successfully": "성공",
   "mined": "청구",
-  "claimFailed": "청구 실패"
+  "claimFailed": "청구 실패",
+  "completed": "채굴 완료!",
+  "miningCompleted": "귀하의 채굴 작업이 완료되어 수령 가능합니다."
 }

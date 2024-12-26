@@ -48,7 +48,6 @@ export const fetchHabits = createAsyncThunk(
         today: new Date().toISOString(),
       };
     }
-
     //purpose: update status task when new day
     //delete old data file
     await removeFile(FILE_NAME);

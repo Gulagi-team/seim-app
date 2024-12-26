@@ -1,16 +1,14 @@
-import CONST_SCREEN from '@/constants/screen';
-
 const config = {
   screens: {
-    Setting: CONST_SCREEN.SETTING,
-    Referral: CONST_SCREEN.REFERRAL,
-    Feedback: CONST_SCREEN.FEEDBACK,
+    MAIN_SCREEN: 'main',
+    REFERRAL_SCREEN: 'referral',
   },
 };
 
 const linking = {
-  enabled: 'auto',
-  prefixes: ['demo://app'],
+  enabled: true,
+  prefixes: ['seim://app'],
+  config,
+  fallback: 'MAIN_SCREEN',
 };
-
 export default linking;

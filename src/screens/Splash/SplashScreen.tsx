@@ -19,11 +19,11 @@ import {useTranslation} from 'react-i18next';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch} from 'react-redux';
 import {styles} from './SplashScreen.styles';
-import {removeFile} from '@/helpers/file';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getLatestVersion} from '@/api/version';
 import {Version} from '@/types/colection';
 import DeviceInfo from 'react-native-device-info';
+import {removeFile} from '@/helpers/file';
 const SplashScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {t, i18n} = useTranslation('other');
@@ -52,7 +52,8 @@ const SplashScreen = () => {
     const address = getStringLocal('address');
     // await AsyncStorage.removeItem('addReferral');
     // await AsyncStorage.removeItem('userInfo');
-    // await AsyncStorage.removeItem('mining');
+    await AsyncStorage.removeItem('mining');
+    await AsyncStorage.removeItem('isSendNoti');
     // await removeFile('topics.json');
     // await removeFile('habits.json');
     // reduxStorage.removeItem('isGetInfoDone');

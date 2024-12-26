@@ -20,5 +20,6 @@
   "sameCode": "Bạn không thể sử dụng mã giới thiệu của chính mình",
   "clear": "Xóa",
   "error": "Mã giới thiệu đã được sử dụng",
-  "skip": "Bỏ qua"
+  "skip": "Bỏ qua",
+  "haveAdd": "Bạn đã thêm mã giới thiệu"
 }

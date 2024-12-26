@@ -77,6 +77,7 @@ const LoginScreen = () => {
         const lastLogin = await AsyncStorage.getItem('lastLogin');
 
         if (lastLogin !== userProfile.email) {
+          console.log('lastLogin', lastLogin);
           await AsyncStorage.removeItem('mining');
           await removeFile('habits.json');
           reduxStorage.removeItem('userInfo');

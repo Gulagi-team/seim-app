@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import IconInvited from '@/assets/icons/icon_invited.svg';
 import IconValid from '@/assets/icons/icon_valid.svg';
 import EARN_REAWARD from '@/assets/images/earn_reward.png';
@@ -28,14 +29,14 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch} from 'react-redux';
 import {styles} from './ReferralScreen.styles';
-import {addReferral} from '@/api/referral';
+import {addReferral, checkReferralExist} from '@/api/referral';
 
 const ReferralScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const [refCode, setRefCode] = useState('');
   const {t} = useTranslation('referral');
   const navigation = useNavigation();
-
+  const [isExist, setIsExist] = useState(false);
   const goBack = () => navigation.goBack();
 
   const {referralCode, referralLink} = useAppSelector(
@@ -82,6 +83,12 @@ const ReferralScreen = () => {
         dispatch(getReferralInfomation());
       }
     };
+
+    const checkAddReferral = async () => {
+      setIsExist(await checkReferralExist());
+    };
+
+    checkAddReferral();
     getData();
   }, []);
   // const linking = {
@@ -101,6 +108,7 @@ const ReferralScreen = () => {
     const response = await addReferral(refCode);
     if (!response.error) {
       showToast('success', t('success'));
+      setIsExist(true);
       setRefCode('');
     } else {
       showToast('error', t('error'));
@@ -260,39 +268,63 @@ const ReferralScreen = () => {
             </Text>
           </View>
 
-          <View
-            style={{
-              ...styles.codeContainer,
-              backgroundColor: textContainerColor,
-              borderColor: textBorderColor,
-            }}>
-            <TextInput
-              style={{...styles.codeInput, color: textOutstandingColor}}
-              onChangeText={value => {
-                if (value !== '' || value !== refCode) {
-                  setRefCode(value);
-                }
-              }}
-              placeholder={t('enterCode')}
-              placeholderTextColor={COLORS.text_A400}
-              numberOfLines={1}
-              value={refCode}
-            />
+          {isExist ? (
+            <>
+              {/* show  haveAdd */}
+              <View
+                style={{
+                  ...styles.codeContainer,
+                  borderWidth: 0,
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: textOutstandingColor,
+                    textAlign: 'center',
+                    fontWeight: '600',
+                  }}>
+                  {t('haveAdd')}
+                </Text>
+              </View>
+            </>
+          ) : (
+            <>
+              <View
+                style={{
+                  ...styles.codeContainer,
+                  backgroundColor: textContainerColor,
+                  borderColor: textBorderColor,
+                }}>
+                <TextInput
+                  style={{...styles.codeInput, color: textOutstandingColor}}
+                  onChangeText={value => {
+                    if (value !== '' || value !== refCode) {
+                      setRefCode(value);
+                    }
+                  }}
+                  placeholder={t('enterCode')}
+                  placeholderTextColor={COLORS.text_A400}
+                  numberOfLines={1}
+                  value={refCode}
+                />
 
-            <TouchableOpacity
-              style={styles.pasteContainer}
-              onPress={handlePasteCode}>
-              <Text style={styles.codeTitle}>{t('paste')}</Text>
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity
-            onPress={handleAddCode}
-            style={{
-              ...styles.addCodeContainer,
-              backgroundColor: refCode === '' ? '#96d2ff' : COLORS.primary_A500,
-            }}>
-            <Text style={styles.addCodeText}>{t('add')}</Text>
-          </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.pasteContainer}
+                  onPress={handlePasteCode}>
+                  <Text style={styles.codeTitle}>{t('paste')}</Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                onPress={handleAddCode}
+                style={{
+                  ...styles.addCodeContainer,
+                  backgroundColor:
+                    refCode === '' ? '#96d2ff' : COLORS.primary_A500,
+                }}>
+                <Text style={styles.addCodeText}>{t('add')}</Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
