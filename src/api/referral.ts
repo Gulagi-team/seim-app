@@ -13,3 +13,12 @@ export const addReferral = async (referralCode: string) => {
     return {error: error.message};
   }
 };
+
+export const checkReferralExist = async () => {
+  try {
+    const response = await api.get('/referral/exist');
+    return response.data;
+  } catch (error) {
+    return {error: error.message};
+  }
+};

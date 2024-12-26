@@ -10,9 +10,11 @@ import {
 } from '@gluestack-ui/themed';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import React, {useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {styles} from './Task.styles';
+import POINT_SEIM from '@/assets/images/point_seim.png';
+
 import {completeTask} from '@/store/habits/action';
 
 interface Props {
@@ -45,7 +47,20 @@ const TaskContent = ({task, habit}: Props) => {
         <Text style={styles.itemTextContent} numberOfLines={1}>
           {task.name}
         </Text>
-        <Text style={styles.itemTextSub}>{task.description}</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <Text style={styles.itemTextSub}>
+            + {Number(task.point).toFixed(1)}
+          </Text>
+          <Image
+            source={POINT_SEIM}
+            style={styles.imagePoint}
+            resizeMode={'contain'}
+          />
+        </View>
       </View>
       <Checkbox
         aria-label={task.name}

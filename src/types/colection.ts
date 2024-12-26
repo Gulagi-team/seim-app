@@ -61,7 +61,7 @@ export interface HabitData {
   icon: string;
   description: string;
   days: number;
-  exp: number;
+  point: number;
   rating: number;
   tasks?: Task[];
 }
@@ -71,6 +71,7 @@ export interface Task {
   name: string;
   icon: string | null;
   description: string | null;
+  point: number;
   history: any | null;
   isFinished: boolean;
 }

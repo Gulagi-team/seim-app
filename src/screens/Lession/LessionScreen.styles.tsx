@@ -124,6 +124,13 @@ export const styles = StyleSheet.create({
   },
   bottomScroll: {
     height: 250,
+    color: COLORS.text_A900,
+  },
+  bottomDetail: {
+    fontFamily: POPPINS_REGULAR,
+    fontWeight: '400',
+    fontSize: 14,
+    color: COLORS.text_A900,
   },
   bottomAction: {
     display: 'flex',

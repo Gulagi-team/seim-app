@@ -45,6 +45,11 @@ export const styles = StyleSheet.create({
     fontFamily: POPPINS_REGULAR,
     color: COLORS.text_A400,
   },
+  imagePoint: {
+    marginLeft: 2,
+    width: 15,
+    height: 15,
+  },
   itemCbxIndicator: {
     borderWidth: 1.5,
     borderRadius: 5,

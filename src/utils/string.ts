@@ -2,16 +2,19 @@ import moment from 'moment';
 
 export const stringUtils = {
   formatNumber: (number: number) => `0${number}`.slice(-2),
-  calculateTimeAdjustment: (boostAdjust: number) => {
+  calculateTimeAdjustment: (
+    boostAdjust: number,
+    durationInMs: number,
+    time: number,
+  ) => {
     if (boostAdjust === 0) {
       return 0;
     }
 
     const speedMultiplier = boostAdjust / 100;
 
-    const durationInMs = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
     const hourRemaining =
-      24 - (durationInMs / 1000 / 60 / 60) * speedMultiplier;
+      time - (durationInMs / 1000 / 60 / 60) * speedMultiplier;
 
     const adjustedDuration = hourRemaining * 60 * 60 * 1000;
     return durationInMs - adjustedDuration;

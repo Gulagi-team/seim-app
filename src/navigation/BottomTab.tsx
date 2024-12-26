@@ -1,6 +1,8 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useEffect, useTransition} from 'react';
+import notifee, {EventType} from '@notifee/react-native';
+
 import {View, Image, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '@/screens/Home/HomeScreen';
@@ -28,6 +30,13 @@ import SettingScreen from '@/screens/Setting/SettingScreen';
 import {StoreState, useAppSelector} from '@/store';
 import IconProfile from '@/assets/icons/icon_profile.svg';
 import {useTranslation} from 'react-i18next';
+import {useNavigation} from '@react-navigation/native';
+import {navigate} from '@/helpers/navigation';
+import {useDispatch} from 'react-redux';
+import {ThunkDispatch} from '@reduxjs/toolkit';
+import {fetchHabits} from '@/store/habits/action';
+import SCREENS from '@/constants/screen';
+import {handleForegroundNotification} from '@/helpers/notification';
 
 export const KEY_BOTTOM_SCREEN = {
   HOME: 'home',
@@ -64,15 +73,6 @@ const BottomTab = () => {
       activeColor: COLORS.secondary_violet2,
       deactiveColor: DEACTIVE_COLOR,
     },
-    // [KEY_BOTTOM_SCREEN.NOTIFICATION]: {
-    //   name: KEY_BOTTOM_SCREEN.NOTIFICATION,
-    //   component: NotificationScreen,
-    //   activeIcon: NOTIFICATION_SELECTED,
-    //   deactiveIcon: isDarkMode ? NOTIFICATION_DARK : NOTIFICATION,
-    //   index: 1,
-    //   activeColor: COLORS.secondary_orange2,
-    //   deactiveColor: DEACTIVE_COLOR,
-    // },
 
     [KEY_BOTTOM_SCREEN.PROFILE]: {
       name: KEY_BOTTOM_SCREEN.PROFILE,
@@ -100,6 +100,10 @@ const BottomTab = () => {
         component={item.component}
       />
     ));
+
+  useEffect(() => {
+    handleForegroundNotification();
+  }, []);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({

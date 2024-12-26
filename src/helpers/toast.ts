@@ -24,7 +24,6 @@ export const showToast = (
   });
 
 export const getErrorMessage = (err: any, defaultMessage?: string) => {
-  console.log('getErrorMessage', err);
   return (
     (typeof err?.data?.data?.errors === 'string'
       ? err?.data?.data?.errors

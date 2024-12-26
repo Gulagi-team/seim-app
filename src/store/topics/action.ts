@@ -1,10 +1,10 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
-import {getListTopic as getListTopicAPI} from '@/api/topic';
 import {setToken} from '@/api/index';
-import {getStringLocal} from '@/helpers/localStorage';
+import {getListTopic as getListTopicAPI} from '@/api/topic';
 import {KEY_AUTHEN} from '@/constants/LocalStoreKey';
+import {writeToFile} from '@/helpers/file';
+import {getStringLocal} from '@/helpers/localStorage';
 import {Habit, HabitData, Topic} from '@/types/colection';
-import {removeFile, writeToFile} from '@/helpers/file';
+import {createAsyncThunk} from '@reduxjs/toolkit';
 
 export interface TopicResponse {
   data: Topic[];

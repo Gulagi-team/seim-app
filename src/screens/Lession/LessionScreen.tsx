@@ -147,7 +147,9 @@ const LessionScreen = ({route}: any) => {
           </View>
           <Text style={styles.bottomTitle}>{habitSelected?.name}</Text>
           <ScrollView style={styles.bottomScroll}>
-            <Text>{habitSelected?.description}</Text>
+            <Text style={styles.bottomDetail}>
+              {habitSelected?.description}
+            </Text>
           </ScrollView>
           <View style={styles.bottomAction}>
             <TouchableOpacity

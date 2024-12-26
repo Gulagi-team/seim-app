@@ -37,7 +37,8 @@ axios.interceptors.response.use(
     return res;
   },
   async err => {
-    console.log('err:', err);
+    //log url
+    console.log('Url when call api is: ', err?.config?.url);
     console.log(
       'Message when call api is: ',
       JSON.stringify(err.response?.data?.message),
