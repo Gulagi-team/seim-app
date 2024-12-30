@@ -18,6 +18,7 @@ import {styles} from './LanguageScreen.styles';
 import i18n from '@/translations';
 import {fetchHabits} from '@/store/habits/action';
 import {ThunkDispatch} from '@reduxjs/toolkit';
+import {updateProfile} from '@/api/auth';
 // import i18n from '@/translations';
 
 const LanguageScreen = () => {
@@ -43,8 +44,10 @@ const LanguageScreen = () => {
   const goBack = () => navigation.goBack();
   const onChangeLanguage = async (lang: LanguageType) => {
     await reduxStorage.setItem('language', lang);
+    await updateProfile({lang: lang});
+
     dispatch(updateLanguage(lang));
-    dispatch(fetchHabits());
+    dispatch(fetchHabits(false));
     setLanguage(lang);
     i18n.changeLanguage(lang);
   };

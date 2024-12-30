@@ -42,7 +42,9 @@ const HistoryMiningScreen = () => {
     sortBy: 'createdAt',
     sortDir: 'DESC',
   });
-  const {histories} = useSelector((state: StoreState) => state.MiningSlice);
+  const {histories, status} = useSelector(
+    (state: StoreState) => state.MiningSlice,
+  );
   useEffect(() => {
     const getData = async () => {
       const userExist = await getAuth();
@@ -61,7 +63,7 @@ const HistoryMiningScreen = () => {
         handleGoBack={goBack}
       />
 
-      {histories.length === 0 && <Loading />}
+      {status === 'loading' && <Loading />}
       {histories.length > 0 && (
         <ScrollView style={styles.scrollView}>
           {histories.map((item: MiningData) => {

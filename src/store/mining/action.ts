@@ -58,7 +58,6 @@ export const getAllMine = createAsyncThunk(
 export const pushNotice = createAsyncThunk(
   'mining/pushNotice',
   async (fcmToken: string): Promise<any> => {
-    await AsyncStorage.setItem('isSendNoti', 'true');
     const response = await sendNoti(fcmToken);
     if (response.data) {
       return response.data;

@@ -45,14 +45,13 @@ const removeFile = async (fileName: string) => {
   try {
     const filePath = `${ROOT_DIR}/${fileName}`;
     const fileExists = await RNFS.exists(filePath);
-
     if (!fileExists) {
       return;
     }
 
     await RNFS.unlink(filePath);
   } catch (error) {
-    console.error('Failed to remove file:', error);
+    console.error('Failed to remove file:', error + fileName);
   }
 };
 

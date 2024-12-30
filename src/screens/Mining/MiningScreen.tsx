@@ -1,12 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 
 /* eslint-disable react/self-closing-comp */
-import notifee, {EventType} from '@notifee/react-native';
-
 import IconDiamond from '@/assets/icons/icon_diamond.svg';
 import LogoSeim from '@/assets/images/logoSeim.png';
+import NetInfo from '@react-native-community/netinfo';
 
-import {checkMining, claimMining, sendNoti} from '@/api/mining';
+import {checkMining, claimMining} from '@/api/mining';
 import IconChevronRight from '@/assets/icons/icon_chevron_right.svg';
 import IconPool from '@/assets/icons/icon_pool.svg';
 import IconSpeed from '@/assets/icons/icon_speed.svg';
@@ -22,7 +21,7 @@ import {showToast} from '@/helpers/toast';
 import {StoreState, useAppSelector} from '@/store';
 import {getAuth} from '@/store/auth';
 import {checkProgressOfHabit} from '@/store/habits/action';
-import {getMiningInfo, pushNotice, startMine} from '@/store/mining/action';
+import {getMiningInfo, startMine} from '@/store/mining/action';
 import {getInfoUser} from '@/store/userInfo/action';
 import {MiningData, UserProfileType} from '@/types/colection';
 import {stringUtils} from '@/utils/string';
@@ -38,10 +37,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../Loading/Loading';
 import {styles} from './MiningScreen.styles';
-import {
-  clearAllChannelsAndNotifications,
-  displayNotification,
-} from '@/helpers/notification';
+import {useFocusEffect} from '@react-navigation/native';
 
 const adUnitId = __DEV__
   ? TestIds.INTERSTITIAL
@@ -81,24 +77,22 @@ const MiningScreen = () => {
   const [deviceId, setDeviceId] = useState('');
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const [totalPoints, setTotalPoints] = useState(0);
-  const {
-    status: miningStatus,
-    miningData,
-    error: miningError,
-  } = useSelector((state: StoreState) => state.MiningSlice);
+  const {status: miningStatus, miningData} = useSelector(
+    (state: StoreState) => state.MiningSlice,
+  );
 
   const {miningEarned} = useAppSelector((state: StoreState) => state.userInfo);
   const [user, setUser] = useState<UserProfileType | null>(null);
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
-    const getData = async () => {
+    const getData = async (isConnect: boolean) => {
       try {
         const userExist = await getAuth();
         if (userExist) {
           const checkIsMine = await checkMining();
           const dataServer = checkIsMine.data as MiningData;
-          if (dataServer) {
+          if (dataServer.deviceId) {
             const data: MiningData = {
               startDate: dataServer.startDate,
               endDate: dataServer.endDate,
@@ -114,16 +108,16 @@ const MiningScreen = () => {
             };
             await AsyncStorage.setItem('mining', JSON.stringify(data));
             setIsMining(true);
-            console.log('data', data);
           } else {
-            await AsyncStorage.removeItem('mining');
+            if (isConnect) {
+              await AsyncStorage.removeItem('mining');
+            }
           }
         }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
     const checkMiningLocal = async () => {
       try {
         const data = await AsyncStorage.getItem('mining');
@@ -144,39 +138,53 @@ const MiningScreen = () => {
       }
     };
 
-    getData();
-    checkMiningLocal();
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (!state.isConnected) {
+        checkMiningLocal();
+      } else {
+        getData(state.isConnected);
+      }
+    });
+
     const getDataMinie = async () => {
       const userExist = await getAuth();
       dispatch(checkProgressOfHabit());
-
       if (userExist) {
         const totalPointsTask = await AsyncStorage.getItem('totalPointsTask');
         setTotalPoints(parseFloat(totalPointsTask as string));
         setShowAlert(false);
         setUser(userExist);
-        dispatch(getMiningInfo());
         dispatch(getInfoUser());
 
-        const total =
-          miningEarned + AMOUNT_MINING + parseFloat(totalPointsTask as string);
-        setTotalReward(total);
+        const mineEarned = miningEarned
+          ? parseFloat(miningEarned.toString())
+          : 0;
+
+        // const parsedAmountMining = parseFloat(AMOUNT_MINING.toString());
+        const parsedTotalPointsTask = parseFloat(
+          totalPointsTask?.toString() as string,
+        );
+        const total = mineEarned + AMOUNT_MINING + parsedTotalPointsTask;
+        setTotalReward(parseFloat(total.toFixed(2)));
       } else {
         setShowAlert(true);
       }
     };
 
     getDataMinie();
-
     DeviceInfo.getUniqueId().then(uniqueId => {
       setDeviceId(uniqueId);
     });
+    return () => {
+      unsubscribe();
+    };
   }, []);
+
   const startMinining = async () => {
     const boostAdjust = miningData.boost ?? 0;
     const start = currentDate.getTime(); // Current timestamp in milliseconds
     const time = 2;
-    const durationInMs = 10 * 1000; // 2 hours in milliseconds
+    const durationInMs = time * 3600 * 1000; // 2 hours in milliseconds
     const adjustedDuration = stringUtils.calculateTimeAdjustment(
       boostAdjust,
       durationInMs,
@@ -199,8 +207,7 @@ const MiningScreen = () => {
       setIsMined(true);
     } else {
       if (user) {
-        // dispatch(startMine(data));
-        await AsyncStorage.setItem('isSendNoti', 'false');
+        dispatch(startMine(data));
 
         await AsyncStorage.setItem('mining', JSON.stringify(data));
         setIsMining(true);
@@ -218,25 +225,24 @@ const MiningScreen = () => {
       return;
     }
     if (user) {
-      // await dispatch(claimMine());
-      // const reposne = await claimMining();
+      const reposne = await claimMining();
 
-      // if (!reposne.error) {
-      dispatch(getMiningInfo());
-      await AsyncStorage.removeItem('mining');
-      showToast('success', t('claimSuccess'));
-      setIsDone(false);
-      setIsMining(false);
-      setCurrentReward(0);
-      setIsMined(false);
-      const totalRw = totalReward + AMOUNT_MINING;
-      setTotalReward(totalRw);
-      await AsyncStorage.removeItem('isSendNoti');
-      await clearAllChannelsAndNotifications();
-      // interstitial.load(); // Load quảng cáo mới
-      // } else {
-      //   showToast('error', t('claimFailed'));
-      // }
+      if (!reposne.error) {
+        dispatch(getMiningInfo());
+        dispatch(getInfoUser());
+
+        await AsyncStorage.removeItem('mining');
+        showToast('success', t('claimSuccess'));
+        setIsDone(false);
+        setIsMining(false);
+        setCurrentReward(0);
+        setIsMined(false);
+        const totalRw = totalReward + AMOUNT_MINING;
+        setTotalReward(parseFloat(totalRw.toFixed(2)));
+        // interstitial.load(); // Load quảng cáo mới
+      } else {
+        showToast('error', t('claimFailed'));
+      }
     }
   };
 
@@ -274,13 +280,6 @@ const MiningScreen = () => {
           }
         } else {
           //done mining
-          const getIsSendNoti = await AsyncStorage.getItem('isSendNoti');
-          if (!getIsSendNoti || getIsSendNoti === 'false') {
-            // const fcmToken = await AsyncStorage.getItem('fcmToken');
-            // await sendNoti(fcmToken as string);
-            // await AsyncStorage.setItem('isSendNoti', 'true');
-            await displayNotification(t('completed'), t('miningCompleted'));
-          }
 
           if (!dataMining.isClaimed) {
             setIsMining(false);
@@ -311,6 +310,8 @@ const MiningScreen = () => {
 
     return () => clearInterval(interval);
   }, [endDate]);
+
+  // console.log('totalReward', totalReward);
 
   return (
     <SafeAreaView
@@ -346,7 +347,7 @@ const MiningScreen = () => {
           <View style={styles.containerView}>
             <View style={styles.headerView}>
               <Text style={{...styles.titleText, color: textColor}}>
-                {t('mining')}
+                Mining
               </Text>
               <TouchableOpacity
                 style={styles.itemContainer}
@@ -403,7 +404,7 @@ const MiningScreen = () => {
 
                   <Text
                     style={{...styles.pointText, color: textOutstandingColor}}>
-                    {totalReward.toFixed(1)}
+                    {totalReward.toFixed(2)}
                   </Text>
                 </View>
                 <Image

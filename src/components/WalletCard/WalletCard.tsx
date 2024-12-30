@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import POINT_SEIM from '@/assets/images/point_seim.png';
 import React, {useEffect, useState} from 'react';
 
@@ -6,21 +7,19 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
 
 import BACKGROUND_REWARD from '@/assets/images/background_reward.png';
-import {getWalletBalance} from '@/blockchain/basic';
 import {getShortAddress} from '@/helpers/conversion';
-import {StoreState, reduxStorage, useAppSelector} from '@/store';
-import {disconnectWallet, updateWalletBalance} from '@/store/wallet';
+import {StoreState, useAppSelector} from '@/store';
+import {checkProgressOfHabit} from '@/store/habits/action';
 import {
   FONT_SIZE,
   POPPINS_BOLD,
   POPPINS_MEDIUM,
   POPPINS_REGULAR,
 } from '@/theme';
-import {useTranslation} from 'react-i18next';
-import {use} from 'i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {checkProgressOfHabit} from '@/store/habits/action';
 import {ThunkDispatch} from '@reduxjs/toolkit';
+import {useTranslation} from 'react-i18next';
+import {getMiningInfo} from '@/store/mining/action';
 
 export const WalletBalance = () => {
   const currentAccount = useAppSelector(
@@ -39,55 +38,40 @@ export const WalletBalance = () => {
         }}>
         {getShortAddress(currentAccount)}
       </Text>
-      <Icon
-        name="content-copy"
-        style={{fontSize: FONT_SIZE.small1, color: cardWalletTitleColor}}
-      />
+      <Icon name="content-copy" style={{fontSize: FONT_SIZE.small1}} />
     </View>
   );
 };
 
 const WalletCard = () => {
-  const {currentAccount, balance, tokenBalance} = useAppSelector(
-    (state: StoreState) => state.walletSlice,
-  );
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
+  const [total, setTotal] = useState(0);
 
   const {miningEarned} = useSelector((state: StoreState) => state.userInfo);
   const {t} = useTranslation(['setting', 'mining']);
-  const [totalPoints, setTotalPoints] = useState(0);
   const {
     cardWalletBackgroundColor,
     cardWalletBorderColor,
     textOutstandingColor,
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
+
   useEffect(() => {
     const getPoints = async () => {
       const totalPointsTask = await AsyncStorage.getItem('totalPointsTask');
-      setTotalPoints(totalPointsTask ? parseFloat(totalPointsTask) : 0);
+      const mineEarned = miningEarned ? parseFloat(miningEarned.toString()) : 0;
+
+      const parsedTotalPointsTask = parseFloat(
+        totalPointsTask?.toString() as string,
+      );
+      const totalReward = mineEarned + parsedTotalPointsTask;
+      setTotal(parseFloat(totalReward.toFixed(2)));
     };
     dispatch(checkProgressOfHabit());
+    dispatch(getMiningInfo());
 
     getPoints();
-  }, []);
-  const [modalVisible, setModalVisible] = useState(false);
-  useEffect(() => {
-    if (currentAccount) {
-      handleGetBalanceWallet();
-    }
-  }, [currentAccount]);
-
-  const handleGetBalanceWallet = async () => {
-    const balance = await getWalletBalance(currentAccount);
-    dispatch(updateWalletBalance(balance.toString()));
-  };
-
-  const handleDisconnect = async () => {
-    dispatch(disconnectWallet());
-    reduxStorage.setItem('address', '');
-    reduxStorage.setItem('privateKey', '');
-    reduxStorage.setItem('passwordWallet', '');
-  };
+  }, [miningEarned]);
 
   return (
     <View
@@ -110,93 +94,9 @@ const WalletCard = () => {
         />
 
         <Text style={{...styles.pointText, color: textOutstandingColor}}>
-          {miningEarned + totalPoints}
+          {total}
         </Text>
       </View>
-
-      {/* {currentAccount ? (
-        <View style={{padding: 15}}>
-          <TouchableOpacity
-            onPress={() => setModalVisible(true)}
-            delayLongPress={0}>
-            <WalletBalance />
-          </TouchableOpacity>
-          <View style={{marginTop: 20}}>
-            <Text style={{...styles.balanceText, color: cardWalletTitleColor}}>
-              {t('mining:balance')}
-            </Text>
-            <View style={styles.balanceContainer}>
-              <Image
-                source={POINT_SEIM}
-                style={styles.imagePoint}
-                resizeMode={'contain'}
-              />
-              <Text style={{...styles.balanceTokenText, color: textColor}}>
-                {formatPricing(balance)}
-              </Text>
-            </View>
-          </View>
-          <TouchableOpacity
-            onPress={handleDisconnect}
-            delayLongPress={0}
-            style={{
-              backgroundColor: backgroundColor,
-              padding: 7,
-              borderRadius: 10,
-              borderWidth: 1,
-              borderColor: cardWalletBorderColor,
-              alignItems: 'center',
-              position: 'absolute',
-              top: '50%',
-              right: '5%',
-              flexDirection: 'row',
-              zIndex: 2,
-            }}>
-            <Text
-              style={{
-                fontSize: FONT_SIZE.small1,
-                fontWeight: '500',
-                color: textColor,
-              }}>
-              {t('mining:disconnect')}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <View
-          style={{
-            width: '100%',
-            height: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity
-            onPress={() => navigate(SCREENS.INTRO_WALLET_SCREEN)}
-            delayLongPress={0}>
-            <View
-              style={{
-                backgroundColor: backgroundColor,
-                padding: 10,
-                borderRadius: 10,
-                borderWidth: 1,
-                borderColor: cardWalletBorderColor,
-                width: 200,
-              }}>
-              <Text
-                style={{
-                  fontSize: FONT_SIZE.small0,
-                  fontWeight: '600',
-                  color: textColor,
-                  // marginTop: 10,
-                  fontFamily: POPPINS_MEDIUM,
-                  alignSelf: 'center',
-                }}>
-                {t('mining:connectWallet')}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      )} */}
     </View>
   );
 };

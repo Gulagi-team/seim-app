@@ -1,42 +1,26 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useEffect, useTransition} from 'react';
-import notifee, {EventType} from '@notifee/react-native';
+import React from 'react';
 
-import {View, Image, Text} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from '@/screens/Home/HomeScreen';
-import NotificationScreen from '@/screens/Notification/NotificationScreen';
 import {
   HOME,
-  HOME_SELECTED,
   HOME_DARK,
+  HOME_SELECTED,
   MINING,
-  MINING_SELECTED,
   MINING_DARK,
-  NOTIFICATION,
-  NOTIFICATION_SELECTED,
-  NOTIFICATION_DARK,
-  SETTING,
-  SETTING_SELECTED,
-  SETTING_DARK,
+  MINING_SELECTED,
   USER,
-  USER_SELECTED,
   USER_DARK,
+  USER_SELECTED,
 } from '@/assets/icons/bottom';
-import {COLORS} from '@/theme/index';
+import HomeScreen from '@/screens/Home/HomeScreen';
 import MiningScreen from '@/screens/Mining/MiningScreen';
 import SettingScreen from '@/screens/Setting/SettingScreen';
 import {StoreState, useAppSelector} from '@/store';
-import IconProfile from '@/assets/icons/icon_profile.svg';
+import {COLORS} from '@/theme/index';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/native';
-import {navigate} from '@/helpers/navigation';
-import {useDispatch} from 'react-redux';
-import {ThunkDispatch} from '@reduxjs/toolkit';
-import {fetchHabits} from '@/store/habits/action';
-import SCREENS from '@/constants/screen';
-import {handleForegroundNotification} from '@/helpers/notification';
+import {Image, Text} from 'react-native';
 
 export const KEY_BOTTOM_SCREEN = {
   HOME: 'home',
@@ -101,9 +85,6 @@ const BottomTab = () => {
       />
     ));
 
-  useEffect(() => {
-    handleForegroundNotification();
-  }, []);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({

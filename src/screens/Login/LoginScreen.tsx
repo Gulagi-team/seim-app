@@ -1,8 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import {setToken} from '@/api';
 import {login, updateProfile} from '@/api/auth';
+import messaging from '@react-native-firebase/messaging';
+
 import {uploadHabit} from '@/api/habit';
-import {addReferral} from '@/api/referral';
+import {addReferral, checkReferralExist} from '@/api/referral';
 import {uploadTaskHistories} from '@/api/task';
 import IconGoogle from '@/assets/icons/icon_google.svg';
 import LogoSeim from '@/assets/images/logoSeim.png';
@@ -100,13 +102,16 @@ const LoginScreen = () => {
           };
           reduxStorage.setItem('userInfo', JSON.stringify(initUserInfo));
         }
+        const token = await messaging().getToken();
 
         const profile = {
           gender: userInfo.gender,
           old: userInfo.old,
           height: userInfo.height,
           weight: userInfo.weight,
+          fcmToken: token,
         };
+        console.log('profile', profile);
 
         const habitsFromFile = await readFromFile('habits.json');
 
@@ -143,8 +148,6 @@ const LoginScreen = () => {
 
         await AsyncStorage.removeItem('userInfo');
 
-        // createdAt, isFinished, point, taskId
-
         await updateProfile(profile);
         await uploadHabit(dataUpdateHabit);
         await uploadTaskHistories(dataUpdateTask);
@@ -153,14 +156,9 @@ const LoginScreen = () => {
         dispatch(updateUserProfile(userProfile));
         setLoading(false);
 
-        const addReferralEmails = await AsyncStorage.getItem('addReferral');
-        const convertToArr = addReferralEmails
-          ? JSON.parse(addReferralEmails)
-          : [];
-        const addReferralEmail = convertToArr.find(
-          (item: string) => item === userProfile.email,
-        );
-        if (addReferralEmail === userProfile.email) {
+        const isAdd = await checkReferralExist();
+
+        if (isAdd) {
           navigateReset(SCREENS.MAIN);
         } else {
           setIsAddReferral(true);

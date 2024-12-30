@@ -19,7 +19,7 @@ interface Date {
 }
 const ListDateContent = ({habitSelected}: Props) => {
   const today = useAppSelector((state: StoreState) => state.HabitsSlide.today);
-  const getDateList = (_today: string, _habit: Habit): Date[] => {
+  const getDateList = (_habit: Habit): Date[] => {
     const listDate: Date[] = [];
     if (_habit.startDate === null) {
       return listDate;
@@ -45,7 +45,6 @@ const ListDateContent = ({habitSelected}: Props) => {
         state: DateState.TODO,
       });
     }
-
     return listDate;
   };
 
@@ -76,7 +75,7 @@ const ListDateContent = ({habitSelected}: Props) => {
   return (
     <View style={{marginBottom: 10}}>
       <ScrollView horizontal={true}>
-        {getDateList(today, habitSelected).map(renderDayItem)}
+        {getDateList(habitSelected).map(renderDayItem)}
       </ScrollView>
     </View>
   );

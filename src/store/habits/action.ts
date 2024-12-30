@@ -39,8 +39,8 @@ export interface TaskCompleteParam {
 const FILE_NAME = 'habits.json';
 export const fetchHabits = createAsyncThunk(
   'habit/fetchHabits',
-  async (): Promise<HabitResponse> => {
-    const response = await getListHabitAPI();
+  async (isHitory: boolean = false): Promise<HabitResponse> => {
+    const response = await getListHabitAPI(isHitory);
     if (!response.data) {
       const habitsFromFile = await readFromFile('habits.json');
       return {

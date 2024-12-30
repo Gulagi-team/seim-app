@@ -1,4 +1,4 @@
-import {checkProgress} from '@/api/habit';
+import {checkProgress, getListHabit} from '@/api/habit';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import PackItem from '@/components/listItem/PackItem';
@@ -22,14 +22,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import {styles} from './ProfileScreen.styles';
 import SCREENS from '@/constants/screen';
 import {navigate} from '@/helpers/navigation';
+import {fetchHabits} from '@/store/habits/action';
 const ProfileScreen = () => {
   const {t} = useTranslation(['setting']);
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const navigation = useNavigation();
   const goBack = () => navigation.goBack();
-  const habits = useAppSelector(
-    (state: StoreState) => state.HabitsSlide.habits,
-  );
+  // const habits = useAppSelector(
+  //   (state: StoreState) => state.HabitsSlide.habits,
+  // );
+
+  const [habits, setHabits] = useState([]);
   const getUserInfoLocal = getStringLocal('userInfo');
   const {weight, height, old, name} = JSON.parse(getUserInfoLocal as string);
 
@@ -56,6 +59,9 @@ const ProfileScreen = () => {
       if (response.data) {
         setProgress(response.data);
       }
+
+      const reponseHabit = await getListHabit(true);
+      setHabits(reponseHabit.data.data);
     }
   };
   useFocusEffect(

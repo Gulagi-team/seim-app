@@ -1,22 +1,19 @@
 /* eslint-disable prettier/prettier */
-import PushNotification from 'react-native-push-notification';
 import {NavigationContainer} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {enableScreens} from 'react-native-screens';
 // import { useTheme } from "@/theme";
-import {navigationRef} from '@/helpers/navigation';
+import {navigate, navigationRef} from '@/helpers/navigation';
+import linking from '@/linking';
 import SplashScreen from '@/screens/Splash/SplashScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import messaging from '@react-native-firebase/messaging';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import BottomTab from './BottomTab';
-import messaging from '@react-native-firebase/messaging';
+import BottomTab, {KEY_BOTTOM_SCREEN} from './BottomTab';
 import {route} from './route';
-import linking from '@/linking';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import analytics from '@react-native-firebase/analytics';
-import {Alert, PermissionsAndroid, Platform} from 'react-native';
-import {displayNotification} from '@/helpers/notification';
+import {PermissionsAndroid, Platform} from 'react-native';
 
 enableScreens();
 
@@ -39,26 +36,16 @@ const MainStack = () => (
   </Stack.Navigator>
 );
 
-// analytics().logEvent('app_open', {
-//   screen_name: 'Splash',
-//   screen_class: 'SplashScreen',
-// });
 function ApplicationNavigator() {
   useEffect(() => {
     requestUserPermission();
-    getFcmToken();
   }, []);
 
   const requestUserPermission = async () => {
+    const token = await messaging().getToken();
+    console.log('token', token);
     if (Platform.OS === 'ios') {
-      const authStatus = await messaging().requestPermission();
-      const enabled =
-        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-      if (enabled) {
-        console.log('Authorization status:', authStatus);
-      }
+      await messaging().requestPermission();
     } else {
       try {
         const granted = await PermissionsAndroid.request(
@@ -72,7 +59,6 @@ function ApplicationNavigator() {
           },
         );
 
-        console.log('granted', granted);
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           console.log('You can use the notifications');
         } else {
@@ -84,51 +70,14 @@ function ApplicationNavigator() {
     }
   };
 
-  const getFcmToken = async () => {
-    try {
-      const token = await messaging().getToken();
-      console.log('Your Firebase Token is:', token);
-      await AsyncStorage.setItem('fcmToken', token);
-    } catch (error) {
-      console.log('error get fcm token', error);
-    }
-  };
-
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('FCM Message Foreground:', remoteMessage);
-      await displayNotification(
-        remoteMessage.notification?.title,
-        remoteMessage.notification?.body,
-      );
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  messaging().onMessage(async remoteMessage => {});
 
   messaging().setBackgroundMessageHandler(async remoteMessage => {
     console.log('Message handled in the background!', remoteMessage);
+    if (remoteMessage.data) {
+      navigate(KEY_BOTTOM_SCREEN.ENERGY);
+    }
   });
-
-  messaging().onNotificationOpenedApp(remoteMessage => {
-    console.log(
-      'Notification caused app to open from background state:',
-      remoteMessage,
-    );
-  });
-
-  messaging()
-    .getInitialNotification()
-    .then(remoteMessage => {
-      if (remoteMessage) {
-        console.log(
-          'Notification caused app to open from quit state:',
-          remoteMessage,
-        );
-      }
-    });
 
   return (
     <NavigationContainer linking={linking} ref={navigationRef}>

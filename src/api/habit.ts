@@ -1,8 +1,7 @@
 import api from './index';
-import habits from '@/assets/json/habits.json';
 
-export const getListHabit = () => {
-  return api.get('/users/habits');
+export const getListHabit = (isHistory: boolean) => {
+  return api.get('/users/habits' + (isHistory ? '?isHistory=true' : ''));
 };
 
 export const putStartHabit = (id: string) => {

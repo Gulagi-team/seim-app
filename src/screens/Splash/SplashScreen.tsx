@@ -50,16 +50,11 @@ const SplashScreen = () => {
     const getLessionsSelectedLocal = getStringLocal('lessionsSelected');
     const getKeyLessionsSelectedLocal = getStringLocal('keyLessionsSelected');
     const address = getStringLocal('address');
-    // await AsyncStorage.removeItem('addReferral');
     // await AsyncStorage.removeItem('userInfo');
-    await AsyncStorage.removeItem('mining');
-    await AsyncStorage.removeItem('isSendNoti');
     // await removeFile('topics.json');
     // await removeFile('habits.json');
-    // reduxStorage.removeItem('isGetInfoDone');
-    // reduxStorage.removeItem('userInfo');
+    // await AsyncStorage.removeItem('mining');
     // await removeFile('task_histories.json');
-    // await removeFile('mining.json');
     // reduxStorage.removeItem('isGetInfoDone');
     // reduxStorage.removeItem('userInfo');
     // navigateReset(CONST_SCREEN.PACK);

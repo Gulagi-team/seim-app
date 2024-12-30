@@ -14,6 +14,7 @@ axios.interceptors.request.use(
     const platform = DeviceInfo.getSystemName();
 
     const language = await reduxStorage.getItem('language');
+    console.log('language:', language);
     if (user) {
       const info = JSON.parse(user);
       config.headers.Authorization = `Bearer ${info.access_token}`;

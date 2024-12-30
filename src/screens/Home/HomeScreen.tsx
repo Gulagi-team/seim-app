@@ -1,24 +1,26 @@
+import {getLatestVersion} from '@/api/version';
 import IconAdd from '@/assets/icons/icon_add.svg';
-import notifee, {EventType} from '@notifee/react-native';
 import HomeBaner from '@/assets/images/home_banner.png';
 import HomeBanerDark from '@/assets/images/home_banner_dark.png';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import SCREENS from '@/constants/screen';
 import {formatLongDate, getPartOfDay} from '@/helpers/conversion';
 import {readFromFile, removeFile, writeToFile} from '@/helpers/file';
-import {navigate, navigateReset} from '@/helpers/navigation';
+import {iconMap} from '@/helpers/icon';
+import {navigate} from '@/helpers/navigation';
 import {StoreState} from '@/store';
 import {getAuth} from '@/store/auth';
 import {updateState} from '@/store/habits';
 import {checkProgressOfHabit, fetchHabits} from '@/store/habits/action';
+import {getMiningInfo} from '@/store/mining/action';
+import {getInfoUser} from '@/store/userInfo/action';
 import {Habit, Version} from '@/types/colection';
+import analytics from '@react-native-firebase/analytics';
+import {useFocusEffect} from '@react-navigation/native';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import React, {useEffect, useRef, useState} from 'react';
-import analytics from '@react-native-firebase/analytics';
-import {iconMap} from '@/helpers/icon';
 import {useTranslation} from 'react-i18next';
 import {
-  Button,
   Dimensions,
   Image,
   Linking,
@@ -29,19 +31,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
+import Loading from '../Loading/Loading';
 import ListTaskContent from './component/ListTask';
 import {styles, topicStyles} from './HomeScreen.styles';
-import DeviceInfo from 'react-native-device-info';
-import {getLatestVersion} from '@/api/version';
-import Loading from '../Loading/Loading';
-import {useFocusEffect} from '@react-navigation/native';
-import {getInfoUser} from '@/store/userInfo/action';
-import {getMiningInfo} from '@/store/mining/action';
-import {COLORS, FONT_SIZE, POPPINS_MEDIUM} from '@/theme';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -73,7 +69,7 @@ const HomeScreen = () => {
 
       const user = await getAuth();
       if (user) {
-        dispatch(fetchHabits());
+        dispatch(fetchHabits(false));
       } else {
         const habitsFromFile = await readFromFile('habits.json');
         dispatch(updateState(habitsFromFile));
@@ -88,13 +84,16 @@ const HomeScreen = () => {
       try {
         const response = await getLatestVersion();
         if (response.data) {
+          console.log('version', response.data);
           setVersion(response.data);
           if (response.data.version !== versionLocal) {
             setIsUpdate(true);
             return;
           }
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log('error', error);
+      }
     };
     checkVersion();
   }, []);
@@ -234,33 +233,6 @@ const HomeScreen = () => {
 
     checkAnalytics();
   }, []);
-
-  const login = async () => {
-    console.log('login function called');
-    try {
-      await analytics().logLogin({
-        method: 'facebook',
-      });
-      console.log('login success');
-    } catch (error) {
-      console.log('error in login', error);
-    }
-  };
-
-  const event = async () => {
-    console.log('event function called');
-    try {
-      await analytics().logEvent('seim_custom_action', {
-        id: 213123,
-        item: 'hello',
-        description: 'world',
-        size: 1,
-      });
-      console.log('event success');
-    } catch (error) {
-      console.log('error in event', error);
-    }
-  };
 
   return (
     <SafeAreaView style={styles.container}>
