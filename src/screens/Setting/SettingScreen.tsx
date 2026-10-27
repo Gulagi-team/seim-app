@@ -16,9 +16,8 @@ import {useDispatch} from 'react-redux';
 import {fetchLessions} from '@/store/lessions';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import {styles} from './SettingScreen.styles';
-import FastImage from 'react-native-fast-image';
+import UserAvatar from '@/components/UserAvatar';
 import * as Progress from 'react-native-progress';
-import WalletCard from '@/components/WalletCard/WalletCard';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import {deviceWidth} from '@/constants/layout';
 import {COLORS} from '@/theme';
@@ -28,12 +27,12 @@ import IconLanguage from '@/assets/icons/icon_language.svg';
 import IconDarkLanguage from '@/assets/icons/darkmode/icon_language_dark.svg';
 import IconTheme from '@/assets/icons/icon_theme.svg';
 import IconDarkTheme from '@/assets/icons/darkmode/icon_theme_dark.svg';
-import IconGift from '@/assets/icons/icon_gift.svg';
-import IconDarkGift from '@/assets/icons/darkmode/icon_gift_dark.svg';
 import IconFeedback from '@/assets/icons/icon_feedback.svg';
 import IconDarkFeedback from '@/assets/icons/darkmode/icon_feedback_dark.svg';
 import IconLogout from '@/assets/icons/icon_logout.svg';
 import {navigate, navigateReset} from '@/helpers/navigation';
+import Enter from '@/components/motion/Enter';
+import PressableScale from '@/components/motion/PressableScale';
 import SCREENS from '@/constants/screen';
 
 const SettingScreen = () => {
@@ -54,32 +53,51 @@ const SettingScreen = () => {
   }, []);
 
   //------
+  const menuItems = [
+    {
+      key: 'profile',
+      label: 'My profile',
+      screen: SCREENS.PROFILE,
+      icon: isDarkMode ? IconDarkProfile : IconProfile,
+    },
+    {
+      key: 'language',
+      label: 'Language',
+      screen: SCREENS.LANGUAGE,
+      icon: isDarkMode ? IconDarkLanguage : IconLanguage,
+    },
+    {
+      key: 'theme',
+      label: 'Theme',
+      screen: SCREENS.DISPLAY,
+      icon: isDarkMode ? IconDarkTheme : IconTheme,
+    },
+    {
+      key: 'feedback',
+      label: 'Feedback',
+      screen: SCREENS.FEEDBACK,
+      icon: isDarkMode ? IconDarkFeedback : IconFeedback,
+    },
+  ];
+
   const handleLogout = () => {
     reduxStorage.setItem('userInfo', '');
-    navigateReset(SCREENS.LOGIN);
+    navigateReset(SCREENS.WELCOME);
   };
 
   return (
     <SafeAreaView
       style={{...styles.container, backgroundColor: backgroundColor}}>
       <View style={styles.containerView}>
-        <WalletCard />
         <View
           style={{
             ...styles.bodyContainer,
             backgroundColor: containerColor,
             borderColor: borderColor,
           }}>
-          <View style={styles.profileContainer}>
-            <FastImage
-              style={styles.avatar}
-              source={{
-                uri: avatar
-                  ? avatar
-                  : 'https://p16-sg.tiktokcdn.com/aweme/720x720/tos-alisg-avt-0068/a6f08bb5d661b2839f5be9f2fb755f47.jpeg',
-              }}
-              resizeMode={FastImage.resizeMode.contain}
-            />
+          <Enter delay={60} distance={12}>
+            <View style={styles.profileContainer}>
+            <UserAvatar style={styles.avatar} />
             <View style={styles.nameContainer}>
               <Text style={{...styles.userName, color: textOutstandingColor}}>
                 {name}
@@ -100,49 +118,33 @@ const SettingScreen = () => {
                 borderWidth={0}
               />
             </View>
-          </View>
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => navigate(SCREENS.PROFILE)}>
-            {isDarkMode ? <IconDarkProfile /> : <IconProfile />}
-            <Text style={{...styles.itemText, color: textColor}}>
-              My profile
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => navigate(SCREENS.LANGUAGE)}>
-            {isDarkMode ? <IconDarkLanguage /> : <IconLanguage />}
-            <Text style={{...styles.itemText, color: textColor}}>Language</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => navigate(SCREENS.DISPLAY)}>
-            {isDarkMode ? <IconDarkTheme /> : <IconTheme />}
-            <Text style={{...styles.itemText, color: textColor}}>Theme</Text>
-          </TouchableOpacity>
-          {/* <View style={styles.itemContainer}>
-            <IconProfile />
-            <Text style={styles.itemText}>Level.2</Text>
-          </View> */}
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => navigate(SCREENS.REFERRAL)}>
-            {isDarkMode ? <IconDarkGift /> : <IconGift />}
-
-            <Text style={{...styles.itemText, color: textColor}}>Refferal</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.itemContainer}
-            onPress={() => navigate(SCREENS.FEEDBACK)}>
-            {isDarkMode ? <IconDarkFeedback /> : <IconFeedback />}
-
-            <Text style={{...styles.itemText, color: textColor}}>Feedback</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.itemContainer} onPress={handleLogout}>
-            <IconLogout />
-            <Text style={{...styles.itemText, color: textColor}}>Log out</Text>
-          </TouchableOpacity>
+            </View>
+          </Enter>
+          {menuItems.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <Enter key={item.key} delay={150 + index * 55} distance={10}>
+                <PressableScale
+                  style={styles.itemContainer}
+                  scaleTo={0.98}
+                  onPress={() => navigate(item.screen)}>
+                  <Icon />
+                  <Text style={{...styles.itemText, color: textColor}}>
+                    {item.label}
+                  </Text>
+                </PressableScale>
+              </Enter>
+            );
+          })}
+          <Enter delay={150 + menuItems.length * 55} distance={10}>
+            <PressableScale
+              style={styles.itemContainer}
+              scaleTo={0.98}
+              onPress={handleLogout}>
+              <IconLogout />
+              <Text style={{...styles.itemText, color: textColor}}>Log out</Text>
+            </PressableScale>
+          </Enter>
         </View>
       </View>
       <Image

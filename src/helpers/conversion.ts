@@ -1,6 +1,5 @@
 import {compact, round, trimEnd} from 'lodash';
 
-import {web3Instance} from '@/blockchain/basic';
 
 export const formatDateTime = (date: Date): string => {
   const day = date.getDate();
@@ -38,11 +37,11 @@ export const getPartOfDay = (): string => {
     return 'morning';
   }
 
-  if (curHour => 12 && curHour < 17) {
+  if (curHour >= 12 && curHour < 17) {
     return 'afternoon';
   }
 
-  if (curHour => 17 && curHour < 21) {
+  if (curHour >= 17 && curHour < 21) {
     return 'evening';
   }
 
@@ -74,10 +73,6 @@ export const formatDateWithHyphen = (date: Date): string => {
 export const getLastTwoLetters = (value: number): string =>
   `0${value}`.slice(-2);
 
-export const getShortAddress = (address: string, begin = 6, end = 4): string =>
-  address.length >= begin + end + 3
-    ? `${address.slice(0, begin)}...${address.slice(-end)}`
-    : address;
 
 export const formatCurrency = (n: number | string, fixed: number = 2) => {
   const formattedN =
@@ -95,17 +90,6 @@ export const formatCurrency = (n: number | string, fixed: number = 2) => {
     return formattedN.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   return formattedN;
-};
-
-export const formatETH = (n: number | string | null = '0') => {
-  if (n === null) {
-    return '0';
-  }
-  const valueInEther = web3Instance.utils.fromWei(
-    String(n).replace(/,/g, '.'),
-    'ether',
-  );
-  return formatCurrency(valueInEther, 8);
 };
 
 export const getFullTimeFromSeconds = (value: number): string => {
@@ -145,14 +129,6 @@ export const formatPricing = (text: string) => {
   return newText;
 };
 
-export const getAmountInWei = (
-  amount: string, // ether unit
-) => web3Instance.utils.toWei(amount.replace(/,/g, '.'), 'wei');
-
-export const convertDecToHex = (chainId: number | string) =>
-  typeof chainId === 'number' ? `0x${chainId.toString(16)}` : String(chainId);
-
-export const convertHexToDec = (hex: string) => parseInt(String(hex), 16);
 
 export const kFormatter = (num: number = 0) => {
   return Math.abs(num) > 999
@@ -163,5 +139,3 @@ export const kFormatter = (num: number = 0) => {
     : Math.sign(num) * Math.abs(num);
 };
 
-export const getViewOnScannerTextByChain = (isPolygonChain?: boolean) =>
-  `View on ${isPolygonChain ? 'Polygon scan' : 'BNB Smart Chain Explorer'}`;

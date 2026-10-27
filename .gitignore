@@ -67,3 +67,7 @@ Gemfile.lock
 
 # testing
 /coverage
+
+# Google Play service account key (holds a private key; see docs/play-mcp-setup.md)
+play-service-account.json
+*-service-account.json

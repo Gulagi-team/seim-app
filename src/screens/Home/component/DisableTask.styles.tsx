@@ -46,10 +46,4 @@ export const styles = StyleSheet.create({
     fontFamily: POPPINS_REGULAR,
     color: '#e8e8e8',
   },
-  itemCbxIndicator: {
-    borderWidth: 1.5,
-    borderRadius: 5,
-    width: 20,
-    height: 20,
-  },
 });

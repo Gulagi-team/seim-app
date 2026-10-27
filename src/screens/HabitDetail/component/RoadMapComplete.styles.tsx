@@ -91,4 +91,25 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     lineHeight: 21,
   },
+  // The play icon already fills today's circle, so the day number sits on a
+  // small badge instead of disappearing into the white artwork. The badge stays
+  // inside the 60x60 box because the animated wrapper clips what hangs out.
+  todayBadge: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    minWidth: 19,
+    height: 19,
+    borderRadius: 10,
+    paddingHorizontal: 4,
+    backgroundColor: COLORS.secondary_green1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  todayBadgeText: {
+    color: COLORS.white,
+    fontSize: 11,
+    fontFamily: POPPINS_MEDIUM,
+    fontWeight: '700',
+  },
 });

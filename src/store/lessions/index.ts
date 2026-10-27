@@ -1,15 +1,16 @@
-import firestore from '@react-native-firebase/firestore';
+import {getCachedLessions} from '@/api/catalog';
 import {
   LessionSelectedType,
   LessionType,
   TaskSelectedItem,
-  TaskToUpdate,
+  LessionTaskToUpdate,
 } from '@/types/colection';
 import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {union, unionWith} from 'lodash';
 
 export type LessionsState = {
-  lessions: LessionSelectedType[];
+  // The pack catalog, read from the local cache.
+  lessions: LessionType[];
   status: string;
   error: any;
   lessionsSelected: LessionSelectedType[];
@@ -24,34 +25,11 @@ const initialState: LessionsState = {
   keyLessionSelected: [],
 };
 
-//  Thunks fetchLessions
-export const fetchLessions = createAsyncThunk(
-  'lession/fetchLessions',
-  async () => {
-    const allLession: any = [];
-    const unsubscribe = await firestore()
-      .collection('lessions')
-      .get()
-      .then(
-        querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            allLession.push({
-              ...documentSnapshot.data(),
-              key: documentSnapshot.data().lession_key,
-            });
-          });
-
-          return allLession;
-        },
-        err => {
-          return JSON.stringify(err);
-        },
-      );
-
-    const data = await unsubscribe;
-    return data;
-  },
-);
+//  Thunks fetchLessions - reads the catalog cached at first launch, never the
+//  network.
+export const fetchLessions = createAsyncThunk('lession/fetchLessions', async () => {
+  return getCachedLessions();
+});
 
 const LessionSlice = createSlice({
   name: 'lession',
@@ -115,7 +93,7 @@ const LessionSlice = createSlice({
     ) => {
       state.lessionsSelected = action.payload;
     },
-    updateTaskStatus: (state, action: PayloadAction<TaskToUpdate>) => {
+    updateTaskStatus: (state, action: PayloadAction<LessionTaskToUpdate>) => {
       const index = state.lessionsSelected.findIndex(
         el => el.lession_key === action.payload.lession_key,
       );

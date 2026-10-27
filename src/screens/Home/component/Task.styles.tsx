@@ -39,16 +39,14 @@ export const styles = StyleSheet.create({
     fontFamily: POPPINS_MEDIUM,
     color: COLORS.text_A800,
   },
+  itemTextContentDone: {
+    color: COLORS.text_A300,
+    textDecorationLine: 'line-through',
+  },
   itemTextSub: {
     fontSize: 12,
     fontWeight: '400',
     fontFamily: POPPINS_REGULAR,
     color: COLORS.text_A400,
-  },
-  itemCbxIndicator: {
-    borderWidth: 1.5,
-    borderRadius: 5,
-    width: 20,
-    height: 20,
   },
 });

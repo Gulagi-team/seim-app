@@ -37,7 +37,7 @@ const LanguageScreen = () => {
     textColor,
     borderColor,
     borderSelectedColor,
-    cardWalletTitleColor,
+    accentTitleColor,
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -56,7 +56,7 @@ const LanguageScreen = () => {
           style={{
             ...styles.itemContainer,
             backgroundColor: containerColor,
-            borderColor: language === 'en' ? cardWalletTitleColor : borderColor,
+            borderColor: language === 'en' ? accentTitleColor : borderColor,
           }}
           onPress={() => onChangeLanguage('en')}>
           <View style={{flexDirection: 'row'}}>
@@ -67,13 +67,13 @@ const LanguageScreen = () => {
             style={{
               ...styles.checkBox,
               borderColor:
-                language === 'en' ? cardWalletTitleColor : borderColor,
+                language === 'en' ? accentTitleColor : borderColor,
             }}>
             {language === 'en' && (
               <View
                 style={{
                   ...styles.checkDot,
-                  backgroundColor: cardWalletTitleColor,
+                  backgroundColor: accentTitleColor,
                 }}
               />
             )}
@@ -83,7 +83,7 @@ const LanguageScreen = () => {
           style={{
             ...styles.itemContainer,
             backgroundColor: containerColor,
-            borderColor: language === 'vi' ? cardWalletTitleColor : borderColor,
+            borderColor: language === 'vi' ? accentTitleColor : borderColor,
           }}
           onPress={() => onChangeLanguage('vi')}>
           <View style={{flexDirection: 'row'}}>
@@ -94,13 +94,13 @@ const LanguageScreen = () => {
             style={{
               ...styles.checkBox,
               borderColor:
-                language === 'vi' ? cardWalletTitleColor : borderColor,
+                language === 'vi' ? accentTitleColor : borderColor,
             }}>
             {language === 'vi' && (
               <View
                 style={{
                   ...styles.checkDot,
-                  backgroundColor: cardWalletTitleColor,
+                  backgroundColor: accentTitleColor,
                 }}
               />
             )}
@@ -110,7 +110,7 @@ const LanguageScreen = () => {
           style={{
             ...styles.itemContainer,
             backgroundColor: containerColor,
-            borderColor: language === 'cn' ? cardWalletTitleColor : borderColor,
+            borderColor: language === 'cn' ? accentTitleColor : borderColor,
           }}
           onPress={() => onChangeLanguage('cn')}>
           <View style={{flexDirection: 'row'}}>
@@ -122,13 +122,13 @@ const LanguageScreen = () => {
               ...styles.checkBox,
 
               borderColor:
-                language === 'cn' ? cardWalletTitleColor : borderColor,
+                language === 'cn' ? accentTitleColor : borderColor,
             }}>
             {language === 'cn' && (
               <View
                 style={{
                   ...styles.checkDot,
-                  backgroundColor: cardWalletTitleColor,
+                  backgroundColor: accentTitleColor,
                 }}
               />
             )}
@@ -138,7 +138,7 @@ const LanguageScreen = () => {
           style={{
             ...styles.itemContainer,
             backgroundColor: containerColor,
-            borderColor: language === 'kr' ? cardWalletTitleColor : borderColor,
+            borderColor: language === 'kr' ? accentTitleColor : borderColor,
           }}
           onPress={() => onChangeLanguage('kr')}>
           <View style={{flexDirection: 'row'}}>
@@ -149,13 +149,13 @@ const LanguageScreen = () => {
             style={{
               ...styles.checkBox,
               borderColor:
-                language === 'kr' ? cardWalletTitleColor : borderColor,
+                language === 'kr' ? accentTitleColor : borderColor,
             }}>
             {language === 'kr' && (
               <View
                 style={{
                   ...styles.checkDot,
-                  backgroundColor: cardWalletTitleColor,
+                  backgroundColor: accentTitleColor,
                 }}
               />
             )}

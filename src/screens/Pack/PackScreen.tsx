@@ -27,6 +27,8 @@ import { ThunkDispatch } from '@reduxjs/toolkit';
 import { Spinner } from '@gluestack-ui/themed';
 import { styles } from './PackScreen.styles';
 import SCREENS from '@/constants/screen';
+import Enter from '@/components/motion/Enter';
+import PressableScale from '@/components/motion/PressableScale';
 
 const PackScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -68,18 +70,22 @@ const PackScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.textContainer}>
-        <Text style={styles.chooseText}>Choose challenge</Text>
-        <TouchableOpacity
+        <Enter delay={0} distance={12}>
+          <Text style={styles.chooseText}>Choose challenge</Text>
+        </Enter>
+        <PressableScale
           style={styles.finishContainer}
+          scaleTo={0.92}
           onPress={handleFinishSelect}>
           <Text style={styles.finishText}>{`Finish >`}</Text>
-        </TouchableOpacity>
+        </PressableScale>
       </View>
       <ScrollView style={styles.contentContainer}>
-        {lessions.map(item => (
+        {lessions.map((item, index) => (
           <LessionItem
             lession={item}
             key={item.lession_key}
+            index={index}
             onSelect={() => handleSelectLession(item.lession_key, item)}
             isSelect={keyLessionSelected.indexOf(item.lession_key) >= 0}
           />

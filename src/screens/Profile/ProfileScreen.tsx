@@ -17,7 +17,7 @@ import {useDispatch} from 'react-redux';
 import {fetchLessions} from '@/store/lessions';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import {styles} from './ProfileScreen.styles';
-import FastImage from 'react-native-fast-image';
+import UserAvatar from '@/components/UserAvatar';
 import * as Progress from 'react-native-progress';
 import Header from '@/components/Header';
 import {deviceWidth} from '@/constants/layout';
@@ -69,15 +69,7 @@ const ProfileScreen = () => {
             backgroundColor: containerColor,
             borderColor: borderColor,
           }}>
-          <FastImage
-            style={styles.avatar}
-            source={{
-              uri: avatar
-                ? avatar
-                : 'https://p16-sg.tiktokcdn.com/aweme/720x720/tos-alisg-avt-0068/a6f08bb5d661b2839f5be9f2fb755f47.jpeg',
-            }}
-            resizeMode={FastImage.resizeMode.contain}
-          />
+          <UserAvatar style={styles.avatar} />
           <View style={styles.nameContainer}>
             <Text style={{...styles.userName, color: textOutstandingColor}}>
               {name}

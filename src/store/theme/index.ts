@@ -11,9 +11,9 @@ export type ThemeState = {
   textOutstandingColor: string;
   borderColor: string;
   borderSelectedColor: string;
-  cardWalletBackgroundColor: string;
-  cardWalletBorderColor: string;
-  cardWalletTitleColor: string;
+  accentBackgroundColor: string;
+  accentBorderColor: string;
+  accentTitleColor: string;
   textContainerColor: string;
   textBorderColor: string;
 };
@@ -26,9 +26,9 @@ const initialState: ThemeState = {
   textOutstandingColor: COLORS.black,
   borderColor: COLORS.text_A200,
   borderSelectedColor: COLORS.black,
-  cardWalletBackgroundColor: COLORS.primary_A50,
-  cardWalletBorderColor: COLORS.primary_A100,
-  cardWalletTitleColor: COLORS.primary_A500,
+  accentBackgroundColor: COLORS.primary_A50,
+  accentBorderColor: COLORS.primary_A100,
+  accentTitleColor: COLORS.primary_A500,
   textContainerColor: COLORS.text_A50,
   textBorderColor: COLORS.text_A100,
 };
@@ -46,9 +46,9 @@ const ThemeSlice = createSlice({
         state.textOutstandingColor = COLORS.white;
         state.borderColor = COLORS.darkmode_3;
         state.borderSelectedColor = COLORS.white;
-        state.cardWalletBackgroundColor = 'rgba(27, 156, 252, 0.45)';
-        state.cardWalletBorderColor = COLORS.primary_A400;
-        state.cardWalletTitleColor = COLORS.primary_A300;
+        state.accentBackgroundColor = 'rgba(27, 156, 252, 0.45)';
+        state.accentBorderColor = COLORS.primary_A400;
+        state.accentTitleColor = COLORS.primary_A300;
         state.textContainerColor = COLORS.darkmode_3;
         state.textBorderColor = 'rgba(107, 114, 128, 0.45)';
       } else {
@@ -59,9 +59,9 @@ const ThemeSlice = createSlice({
         state.textOutstandingColor = COLORS.black;
         state.borderColor = COLORS.text_A200;
         state.borderSelectedColor = COLORS.black;
-        state.cardWalletBackgroundColor = 'rgba(181, 220, 251, 1)';
-        state.cardWalletBorderColor = COLORS.primary_A100;
-        state.cardWalletTitleColor = COLORS.primary_A500;
+        state.accentBackgroundColor = 'rgba(181, 220, 251, 1)';
+        state.accentBorderColor = COLORS.primary_A100;
+        state.accentTitleColor = COLORS.primary_A500;
         state.textContainerColor = COLORS.text_A50;
         state.textBorderColor = COLORS.text_A100;
       }

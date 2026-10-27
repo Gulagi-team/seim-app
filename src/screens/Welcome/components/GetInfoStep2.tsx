@@ -1,19 +1,18 @@
 import {StoreState, useAppSelector} from '@/store';
 import {updateGender} from '@/store/userInfo';
 import {POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
-import {useState} from 'react';
 
-import {
-  Text,
-  View,
-  Button,
-  TextInput,
-  Pressable,
-  StyleSheet,
-  Touchable,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
+import Enter from '@/components/motion/Enter';
+import OptionRow from './OptionRow';
+
+const GENDERS = [
+  {label: 'Male', value: 'male'},
+  {label: 'Female', value: 'female'},
+  {label: 'Non-binary', value: 'non-binary'},
+  {label: 'Other', value: 'other'},
+];
 
 const GetInfoStep2Content = () => {
   const dispatch = useDispatch();
@@ -21,70 +20,26 @@ const GetInfoStep2Content = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.question}>
-        <Text style={styles.howOldAre1}>What’s your gender?</Text>
-        <Text style={styles.letUsKnow1}>
-          Let us know more about you, so we can craft a personalized experience
-          just for you.
-        </Text>
-      </View>
+      <Enter delay={0} distance={14}>
+        <View style={styles.question}>
+          <Text style={styles.howOldAre1}>What's your gender?</Text>
+          <Text style={styles.letUsKnow1}>
+            Let us know more about you, so we can craft a personalized experience
+            just for you.
+          </Text>
+        </View>
+      </Enter>
+
       <View style={styles.content}>
-        <TouchableOpacity
-          onPress={() => dispatch(updateGender('male'))}
-          style={{
-            ...styles.options,
-            backgroundColor: gender === 'male' ? '#1b9cfc' : '#ffffff',
-          }}>
-          <Text
-            style={{
-              ...styles.optionContent,
-              color: gender === 'male' ? '#fff' : 'black',
-            }}>
-            Male
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => dispatch(updateGender('female'))}
-          style={{
-            ...styles.options,
-            backgroundColor: gender === 'female' ? '#1b9cfc' : '#ffffff',
-          }}>
-          <Text
-            style={{
-              ...styles.optionContent,
-              color: gender === 'female' ? '#fff' : 'black',
-            }}>
-            Female
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => dispatch(updateGender('nonBinary'))}
-          style={{
-            ...styles.options,
-            backgroundColor: gender === 'nonBinary' ? '#1b9cfc' : '#ffffff',
-          }}>
-          <Text
-            style={{
-              ...styles.optionContent,
-              color: gender === 'nonBinary' ? '#fff' : 'black',
-            }}>
-            Non-binary
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => dispatch(updateGender('other'))}
-          style={{
-            ...styles.options,
-            backgroundColor: gender === 'other' ? '#1b9cfc' : '#ffffff',
-          }}>
-          <Text
-            style={{
-              ...styles.optionContent,
-              color: gender === 'other' ? '#fff' : 'black',
-            }}>
-            Other
-          </Text>
-        </TouchableOpacity>
+        {GENDERS.map((item, index) => (
+          <OptionRow
+            key={item.value}
+            index={index}
+            label={item.label}
+            selected={gender === item.value}
+            onPress={() => dispatch(updateGender(item.value))}
+          />
+        ))}
       </View>
     </View>
   );
@@ -121,25 +76,6 @@ const styles = StyleSheet.create({
   content: {
     width: '100%',
     marginTop: 22,
-  },
-  options: {
-    width: '100%',
-    height: 64,
-    borderRadius: 15,
-    marginBottom: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ddd',
-  },
-  optionContent: {
-    fontSize: 16,
-    letterSpacing: 0,
-    fontWeight: '600',
-    fontFamily: POPPINS_MEDIUM,
-    // color: "#fff",
-    textAlign: 'left',
-    // backgroundColor: "red",
   },
 });
 

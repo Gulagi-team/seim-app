@@ -40,8 +40,12 @@ export interface TaskToUpdate {
   task_id: string;
 }
 
+export interface LessionTaskToUpdate {
+  lession_key: string;
+  index: number;
+}
+
 export interface UserProfileType {
-  access_token: string;
   email: string;
   name: string;
   avatar: string;
@@ -80,16 +84,6 @@ export interface Topic {
   description: string | null;
   habits: HabitData[];
 }
-export interface MiningData {
-  startDate: number;
-  endDate: number;
-  point: number;
-  level: number;
-  miningRate: string;
-  totalInvite: number;
-  totalPoolMined: number;
-}
-
 export type LanguageType =
   | 'vi'
   | 'en'

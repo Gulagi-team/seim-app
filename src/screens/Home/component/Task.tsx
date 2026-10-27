@@ -1,74 +1,66 @@
-import React from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
-import FastImage from 'react-native-fast-image';
+import React, {memo, useCallback} from 'react';
+import {Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import {updateTaskStatus} from '@/store/habits/index';
-import {completeTask} from '@/store/habits/action';
-import IconSleep from '@/assets/icons/sleep.svg';
+import {getTaskIcon} from '@/helpers/taskIcon';
 import {styles} from './Task.styles';
-import {
-  CheckIcon,
-  Checkbox,
-  CheckboxIcon,
-  CheckboxIndicator,
-} from '@gluestack-ui/themed';
+import TaskCheckbox from '@/components/TaskCheckbox';
+import Enter from '@/components/motion/Enter';
+import PressableScale from '@/components/motion/PressableScale';
 import {Task} from '@/types/colection';
 
 interface Props {
   task: Task;
   habitId: string;
+  index?: number;
 }
-const TaskContent = ({task, habitId}: Props) => {
+const TaskContent = ({task, habitId, index = 0}: Props) => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const TaskIcon = getTaskIcon(task.name);
+
+  // Stable across renders so a tap only re-renders this row, not the list.
+  const handlePress = useCallback(() => {
+    dispatch(
+      updateTaskStatus({
+        task_id: task.id,
+        habit_id: habitId,
+      }),
+    );
+  }, [dispatch, task.id, habitId]);
 
   return (
-    <TouchableOpacity
-      accessible={true}
-      onPress={() => {
-        dispatch(
-          updateTaskStatus({
-            task_id: task.id,
-            habit_id: habitId,
-          }),
-        );
-
-        const isFinish: boolean = !task.isFinished;
-        dispatch(
-          completeTask({
-            taskId: task.id,
-            userHabitId: habitId,
-            isFinish,
-          }),
-        );
-      }}
-      style={styles.item}>
-      {task.icon && (
-        <FastImage
-          style={styles.itemImgF}
-          source={{
-            uri: task.icon,
-          }}
-          resizeMode={FastImage.resizeMode.contain}
-        />
-      )}
-      {!task.icon && <IconSleep />}
-      <View style={styles.itemText}>
-        <Text style={styles.itemTextContent} numberOfLines={1}>
-          {task.name}
-        </Text>
-        <Text style={styles.itemTextSub}>{task.description}</Text>
-      </View>
-      <Checkbox
-        aria-label={task.name}
-        size="lg"
-        value="12"
-        isChecked={task.isFinished}>
-        <CheckboxIndicator style={styles.itemCbxIndicator} mr="$2">
-          <CheckboxIcon as={CheckIcon} />
-        </CheckboxIndicator>
-      </Checkbox>
-    </TouchableOpacity>
+    // Rows arrive one after the other the first time the day is opened, and
+    // shrink under the finger while they are being tapped.
+    <Enter delay={Math.min(index, 8) * 45} distance={10} scaleFrom={0.97}>
+      <PressableScale
+        accessible={true}
+        accessibilityRole="checkbox"
+        accessibilityState={{checked: task.isFinished}}
+        onPress={handlePress}
+        scaleTo={0.96}
+        style={styles.item}>
+        {/* The remote task icons live on the dead Firebase bucket, so the
+            bundled vector keyed by the task name is the only source. */}
+        <TaskIcon />
+        <View style={styles.itemText}>
+          <Text
+            style={[
+              styles.itemTextContent,
+              task.isFinished && styles.itemTextContentDone,
+            ]}
+            numberOfLines={1}>
+            {task.name}
+          </Text>
+          <Text style={styles.itemTextSub}>{task.description}</Text>
+        </View>
+        <TaskCheckbox isChecked={task.isFinished} />
+      </PressableScale>
+    </Enter>
   );
 };
-export default TaskContent;
+
+// Row height is fixed (60 + 10 margin), so the list can skip measuring rows.
+export const TASK_ROW_HEIGHT = 70;
+
+export default memo(TaskContent);

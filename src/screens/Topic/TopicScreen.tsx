@@ -8,6 +8,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {navigate} from '@/helpers/navigation';
 import Header from '@/components/Header';
+import HabitImage from '@/components/HabitImage';
 import Search from '@/components/Search/SearchInput';
 import {styles} from './TopicScreen.styles';
 import HealthCare from '@/assets/images/health.png';
@@ -17,7 +18,7 @@ import SCREENS from '@/constants/screen';
 
 const TopicScreen = () => {
   const navigation = useNavigation();
-  const goBack = () => navigation.pop();
+  const goBack = () => navigation.goBack();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   const [searchText, onChangeSearch] = useState<string>('');
@@ -59,11 +60,7 @@ const TopicScreen = () => {
             key={topic.id}
             style={styles.item}
             onPress={() => navigate(SCREENS.LESSION, topic)}>
-            <Image
-              style={styles.itemImg}
-              source={{uri: topic.icon}}
-              resizeMode={'stretch'}
-            />
+            <HabitImage style={styles.itemImg} name={topic.name} />
             <View style={styles.itemTitle}>
               <Text style={styles.title}>{topic.name}</Text>
               <Text style={styles.secondTitle}>{topic.description}</Text>

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -12,10 +12,11 @@ import {StoreState, useAppSelector} from '@/store';
 import {ThunkDispatch} from '@reduxjs/toolkit';
 import {fetchHabits} from '@/store/habits/action';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import FastImage from 'react-native-fast-image';
 import Carousel, {ICarouselInstance} from 'react-native-reanimated-carousel';
 import ListTaskContent from './component/ListTask';
 import HeaderMain from '@/components/HeaderMain';
+import HabitTile from './component/HabitTile';
+import Enter from '@/components/motion/Enter';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
 import IconAdd from '@/assets/icons/icon_add.svg';
 import IconSearch from '@/assets/icons/icon_search.svg';
@@ -25,6 +26,7 @@ import {styles, rightMenuStyles, topicStyles} from './HomeScreen.styles';
 import {navigate} from '@/helpers/navigation';
 import SCREENS from '@/constants/screen';
 import {formatLongDate, getPartOfDay} from '@/helpers/conversion';
+import {Habit} from '@/types/colection';
 
 const HomeScreen = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
@@ -41,21 +43,33 @@ const HomeScreen = () => {
   const [idxContent, setIdxContent] = useState<number>(0);
   const ref = useRef<ICarouselInstance>(null);
 
-  const renderAddTopicButton = (): React.ReactNode[] => {
-    const items = [];
-    const MAX_NUM_TOPICS = Number(process.env.MAX_NUM_TOPICS ?? 5);
-    for (let i = 0; i < MAX_NUM_TOPICS - habits.length; i++) {
-      items.push(
+  const MAX_NUM_TOPICS = Number(process.env.MAX_NUM_TOPICS ?? 5);
+  const addSlots = Math.max(MAX_NUM_TOPICS - habits.length, 0);
+  const goToTopic = useCallback(() => navigate(SCREENS.TOPIC), []);
+
+  // The placeholder slots only change when a habit is added or removed, not
+  // when a task is ticked, so they must not be rebuilt on every tap.
+  const addButtons = useMemo(
+    () =>
+      Array.from({length: addSlots}, (_, i) => (
         <TouchableOpacity
           key={i}
-          onPress={() => navigate(SCREENS.TOPIC)}
+          onPress={goToTopic}
           style={topicStyles.itemAdd}>
           <IconAdd />
         </TouchableOpacity>
-      );
-    }
-    return items;
-  };
+      )),
+    [addSlots, goToTopic],
+  );
+
+  const handleSnapToItem = useCallback((index: number) => {
+    setIdxContent(index);
+  }, []);
+
+  const renderHabitSlide = useCallback(
+    ({item}: {item: Habit}) => <ListTaskContent habitSelected={item} />,
+    [],
+  );
 
   const handleChangeTask = (to: number) => {
     const dis = to - idxContent;
@@ -84,50 +98,47 @@ const HomeScreen = () => {
           rightContent={rightIcon()}
           rightContentStyle={rightMenuStyles.rightContent}
         /> */}
-        <View style={styles.welcomeTop}>
-          <Text style={styles.welcomeTitle}>Good {getPartOfDay()}</Text>
-          <Text style={styles.currentDate}>
-            Today is {formatLongDate(new Date())}
-          </Text>
-        </View>
+        <Enter delay={40} distance={18}>
+          <View style={styles.welcomeTop}>
+            <Text style={styles.welcomeTitle}>Good {getPartOfDay()}</Text>
+            <Text style={styles.currentDate}>
+              Today is {formatLongDate(new Date())}
+            </Text>
+          </View>
+        </Enter>
         <View style={styles.viewBody}>
-          <View>
+          <Enter delay={120} distance={20} scaleFrom={0.95}>
             <ScrollView
               horizontal={true}
               // showsHorizontalScrollIndicator={false}
               style={styles.ScrollView}>
               {habits.map((item, index) => (
-                <TouchableOpacity
-                  style={topicStyles.itemContainer}
-                  onPress={() => handleChangeTask(index)}
-                  key={item.habit.id}>
-                  <FastImage
-                    style={styles.imgF}
-                    source={{
-                      uri: item.habit.icon,
-                    }}
-                    resizeMode={FastImage.resizeMode.contain}
-                  />
-                  {index === idxContent && (
-                    <View style={topicStyles.selectedLine} />
-                  )}
-                </TouchableOpacity>
+                <HabitTile
+                  key={item.habit.id}
+                  habit={item}
+                  index={index}
+                  selected={index === idxContent}
+                  onSelect={handleChangeTask}
+                  containerStyle={topicStyles.itemContainer}
+                  imageStyle={styles.imgF}
+                  lineStyle={topicStyles.selectedLine}
+                />
               ))}
 
-              {renderAddTopicButton()}
+              {addButtons}
             </ScrollView>
-          </View>
+          </Enter>
 
+          {/* The carousel is left unwrapped on purpose: reanimated-carousel
+              needs to be a direct child of the card to measure itself. */}
           <Carousel
             ref={ref}
             loop={false}
             width={width * 0.92}
             enabled={false}
             data={habits}
-            onSnapToItem={index => {
-              setIdxContent(index);
-            }}
-            renderItem={({item}) => <ListTaskContent habitSelected={item} />}
+            onSnapToItem={handleSnapToItem}
+            renderItem={renderHabitSlide}
           />
         </View>
       </View>

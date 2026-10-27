@@ -9,4 +9,12 @@ export const styles = StyleSheet.create({
       height: '30%',
       bottom: 0,
     },
+    welcomeBottomImage: {
+      width: '100%',
+      height: '100%',
+    },
+    credit: {
+      position: 'absolute',
+      bottom: 15,
+    },
   });

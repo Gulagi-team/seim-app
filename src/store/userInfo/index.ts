@@ -3,7 +3,6 @@ import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 // import themes from '../../theme/themes';
 
 export type InfoState = {
-  access_token: string;
   email: string;
   name: string;
   avatar: string;
@@ -12,12 +11,9 @@ export type InfoState = {
   old: number;
   height: number;
   weight: number;
-  referralCode: string;
-  referralLink: string;
 };
 
 const initialState: InfoState = {
-  access_token: '',
   email: '',
   name: '',
   avatar: '',
@@ -26,8 +22,6 @@ const initialState: InfoState = {
   old: 0,
   height: 0,
   weight: 0,
-  referralCode: 'LCY9345MGY',
-  referralLink: 'get.seim.io/ref=FDFAA',
 };
 
 const Infoslice = createSlice({
@@ -35,7 +29,6 @@ const Infoslice = createSlice({
   initialState,
   reducers: {
     updateUserProfile: (state, action: PayloadAction<UserProfileType>) => {
-      state.access_token = action.payload.access_token;
       state.email = action.payload.email;
       state.name = action.payload.name;
       state.avatar = action.payload.avatar;

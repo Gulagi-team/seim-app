@@ -14,6 +14,7 @@ import BottomSheet, {
   BottomSheetBackdropProps,
 } from '@gorhom/bottom-sheet';
 import Header from '@/components/Header';
+import HabitImage from '@/components/HabitImage';
 import Search from '@/components/Search/SearchInput';
 import {styles} from './LessionScreen.styles';
 import {AddIcon, Icon} from '@gluestack-ui/themed';
@@ -26,7 +27,7 @@ import SCREENS from '@/constants/screen';
 const LessionScreen = ({route}: any) => {
   const topic: Topic = route.params;
   const navigation = useNavigation();
-  const goBack = () => navigation.pop();
+  const goBack = () => navigation.goBack();
 
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const habits = useAppSelector(
@@ -94,11 +95,7 @@ const LessionScreen = ({route}: any) => {
               }
             }}>
             {/* <LessionIcon style={styles.itemImg} /> */}
-            <Image
-              style={styles.itemImg}
-              source={{uri: habit.icon}}
-              resizeMode={'stretch'}
-            />
+            <HabitImage style={styles.itemImg} name={habit.name} />
             <View style={styles.itemTitle}>
               <Text style={styles.title}>{habit.name}</Text>
               <Text style={styles.secondTitle}>{habit.description}</Text>
@@ -129,11 +126,7 @@ const LessionScreen = ({route}: any) => {
         <BottomSheetView style={styles.bottomContainer}>
           <View>
             {/* <LessionIcon /> */}
-            <Image
-              style={styles.itemImg}
-              source={{uri: habitSelected?.icon}}
-              resizeMode={'stretch'}
-            />
+            <HabitImage style={styles.itemImg} name={habitSelected?.name} />
           </View>
           <Text style={styles.bottomTitle}>{habitSelected?.name}</Text>
           <ScrollView style={styles.bottomScroll}>

@@ -1,90 +1,48 @@
 import {StoreState, useAppSelector} from '@/store';
-import {InfoState, updateLanguage} from '@/store/userInfo';
+import {updateLanguage} from '@/store/userInfo';
+import {LanguageType} from '@/types/colection';
 import {POPPINS_BOLD, POPPINS_MEDIUM} from '@/theme';
-import {useState} from 'react';
 
-import {
-  Text,
-  View,
-  Button,
-  TextInput,
-  Pressable,
-  StyleSheet,
-  Touchable,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
+import Enter from '@/components/motion/Enter';
+import OptionRow from './OptionRow';
+
+const LANGUAGES: {label: string; value: LanguageType}[] = [
+  {label: 'English', value: 'en'},
+  {label: 'Tiếng Việt', value: 'vi'},
+  {label: 'Korea', value: 'kr'},
+  {label: 'Chinese', value: 'cn'},
+];
+
 const GetInfoStep1Content = () => {
   const dispatch = useDispatch();
   const language = useAppSelector(
     (state: StoreState) => state.userInfo.language,
   );
+
   return (
     <View style={styles.container}>
-      <View style={styles.question}>
-        <Text style={styles.howOldAre1}>What’s your language?</Text>
-        <Text style={styles.letUsKnow1}>
-          Let us know more about you, so we can craft a personalized experience
-          just for you.
-        </Text>
-      </View>
+      <Enter delay={0} distance={14}>
+        <View style={styles.question}>
+          <Text style={styles.howOldAre1}>What's your language?</Text>
+          <Text style={styles.letUsKnow1}>
+            Let us know more about you, so we can craft a personalized experience
+            just for you.
+          </Text>
+        </View>
+      </Enter>
+
       <View style={styles.content}>
-        <TouchableOpacity
-          onPress={() => dispatch(updateLanguage('en'))}
-          style={{
-            ...styles.options,
-            backgroundColor: language === 'en' ? '#1b9cfc' : '#ffffff',
-          }}>
-          <Text
-            style={{
-              ...styles.optionContent,
-              color: language === 'en' ? '#fff' : 'black',
-            }}>
-            English
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => dispatch(updateLanguage('vi'))}
-          style={{
-            ...styles.options,
-            backgroundColor: language === 'vi' ? '#1b9cfc' : '#ffffff',
-          }}>
-          <Text
-            style={{
-              ...styles.optionContent,
-              color: language === 'vi' ? '#fff' : 'black',
-            }}>
-            Tiếng Việt
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => dispatch(updateLanguage('kr'))}
-          style={{
-            ...styles.options,
-            backgroundColor: language === 'kr' ? '#1b9cfc' : '#ffffff',
-          }}>
-          <Text
-            style={{
-              ...styles.optionContent,
-              color: language === 'kr' ? '#fff' : 'black',
-            }}>
-            Korea
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => dispatch(updateLanguage('cn'))}
-          style={{
-            ...styles.options,
-            backgroundColor: language === 'cn' ? '#1b9cfc' : '#ffffff',
-          }}>
-          <Text
-            style={{
-              ...styles.optionContent,
-              color: language === 'cn' ? '#fff' : 'black',
-            }}>
-            Chinese
-          </Text>
-        </TouchableOpacity>
+        {LANGUAGES.map((item, index) => (
+          <OptionRow
+            key={item.value}
+            index={index}
+            label={item.label}
+            selected={language === item.value}
+            onPress={() => dispatch(updateLanguage(item.value))}
+          />
+        ))}
       </View>
     </View>
   );
@@ -93,10 +51,10 @@ const GetInfoStep1Content = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    height: '100%',
+    width: '100%',
     paddingHorizontal: 16,
     marginTop: 24,
-    flex: 1,
-    backgroundColor: 'white',
   },
   question: {
     width: '100%',
@@ -120,29 +78,7 @@ const styles = StyleSheet.create({
   },
   content: {
     width: '100%',
-    // height: 100,
-    // flex: 1,
     marginTop: 22,
-  },
-  options: {
-    // backgroundColor: "#1b9cfc",
-    width: '100%',
-    height: 64,
-    borderRadius: 15,
-    marginBottom: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ddd',
-  },
-  optionContent: {
-    fontSize: 16,
-    letterSpacing: 0,
-    fontWeight: '600',
-    fontFamily: POPPINS_MEDIUM,
-    // color: "#fff",
-    textAlign: 'left',
-    // backgroundColor: "red",
   },
 });
 

@@ -3,6 +3,7 @@ import React from 'react';
 import {Image, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '@/components/Header';
+import HabitImage from '@/components/HabitImage';
 import RoadMapComplete, {ItemState, Item} from './component/RoadMapComplete';
 import {StoreState, useAppSelector} from '@/store';
 import {useNavigation} from '@react-navigation/native';
@@ -10,11 +11,12 @@ import {styles} from './HabitDetailScreen.styles';
 import StarIcon from '@/assets/icons/star.svg';
 import StreakIcon from '@/assets/icons/icon_streak.svg';
 import {Habit} from '@/types/colection';
+import Enter from '@/components/motion/Enter';
 
 const HabitDetailScreen = ({route}: any) => {
   const habit: Habit = route.params;
   const navigation = useNavigation();
-  const goBack = () => navigation.pop();
+  const goBack = () => navigation.goBack();
 
   const today = useAppSelector((state: StoreState) => state.HabitsSlide.today);
 
@@ -55,12 +57,9 @@ const HabitDetailScreen = ({route}: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <Header renderLogo={false} canGoBack={true} handleGoBack={goBack} />
-      <View style={styles.habitContainer}>
-        <Image
-          style={styles.itemImg}
-          source={{uri: habit.habit.icon}}
-          resizeMode={'stretch'}
-        />
+      <Enter delay={40} distance={14} scaleFrom={0.97}>
+        <View style={styles.habitContainer}>
+        <HabitImage style={styles.itemImg} name={habit.habit.name} />
         <View style={styles.itemTitle}>
           <Text style={styles.title}>{habit.habit.name}</Text>
           <Text style={styles.secondTitle}>{habit.habit.description}</Text>
@@ -69,13 +68,16 @@ const HabitDetailScreen = ({route}: any) => {
             <Text style={styles.statText}>{habit.habit.rating}</Text>
           </View>
         </View>
-      </View>
-      <View style={styles.totalDayContainer}>
-        <StreakIcon />
-        <Text style={styles.totalDay}>
-          Day {partNum}/{habit.habit.days}
-        </Text>
-      </View>
+        </View>
+      </Enter>
+      <Enter delay={120} distance={10}>
+        <View style={styles.totalDayContainer}>
+          <StreakIcon />
+          <Text style={styles.totalDay}>
+            Day {partNum}/{habit.habit.days}
+          </Text>
+        </View>
+      </Enter>
       <RoadMapComplete items={getDateList()} />
     </SafeAreaView>
   );

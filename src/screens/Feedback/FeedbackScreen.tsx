@@ -17,10 +17,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 // import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import LogoSeim from '@/assets/images/logo.png';
-import FastImage from 'react-native-fast-image';
 import {deviceWidth} from '@/constants/layout';
 import React, {useRef, useState} from 'react';
-// import axios from 'axios';
 import {showToast} from '@/helpers/toast';
 import {styles} from './FeedbackScreen.styles';
 import WelcomeBottom from '@/assets/images/welcomeBottom.png';
@@ -42,32 +40,10 @@ const FeedbackScreen = () => {
   } = useAppSelector((state: StoreState) => state.ThemeSlice);
   // const scrollViewRef = useRef<KeyboardAwareScrollView>(null);
 
-  const handleSubmit = () => {
-    // if (name && feedback) {
-    //   let body = {
-    //     data: {
-    //       name: name,
-    //       content: feedback,
-    //     },
-    //   };
-    //   axios
-    //     .post(
-    //       `https://app.gulagi.com/api/collections/save/See_car_feedback?token=028a110f9935d381205d43cf782f45`,
-    //       body,
-    //     )
-    //     .then(data => {
-    //       console.log('data', data.data);
-    //       showToast('success', 'Thank you for your feedback');
-    //     })
-    //     .catch(error => {
-    //       console.log('error', error);
-    //       // stateStore.dispatch(updateLoading(false));
-    //       showToast('error', 'Cant submit feedback');
-    //     });
-    // } else {
-    //   showToast('error', 'You have not entered any information yet');
-    // }
-  };
+  // Feedback used to be posted to the Gulagi collection API, which went away
+  // with the rest of the backend. The app is offline, so there is nowhere to
+  // send the form to.
+  const handleSubmit = () => {};
 
   const _scrollToInput = (reactNode: any) => {
     // Add a 'scroll' ref to your ScrollView
@@ -79,10 +55,10 @@ const FeedbackScreen = () => {
       style={{...styles.container, backgroundColor: backgroundColor}}>
       <Header title="Feedback" canGoBack={true} handleGoBack={goBack} />
       <View style={styles.containerView}>
-        <FastImage
+        <Image
           style={styles.logo}
           source={LogoSeim}
-          resizeMode={FastImage.resizeMode.contain}
+          resizeMode="contain"
         />
         <Text style={{...styles.seecar, color: textOutstandingColor}}>
           SEIM
@@ -157,10 +133,10 @@ const FeedbackScreen = () => {
           colors={['#262626', '#171717']}
           useAngle={true}
           angle={180}>
-          <FastImage
+          <Image
             style={styles.logo}
             source={LogoSeim}
-            resizeMode={FastImage.resizeMode.contain}
+            resizeMode="contain"
           />
           <Text style={styles.seecar}>SEECAR</Text>
           <Text style={styles.seeCarIs1}>{t('feedback:speech')}</Text>

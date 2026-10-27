@@ -1,0 +1,105 @@
+{
+  "data": [
+    {
+      "key": "lession_10",
+      "lession_key": "lession_10",
+      "lession_title": "Bỏ Mạng Xã Hội 30 ngày",
+      "lession_detail": "Bỏ Mạng Xã Hội 30 ngày",
+      "lession_detail_sort": "Bỏ Mạng Xã Hội 30 ngày",
+      "lession_day_total": 30,
+      "lession_color": "#6C5CE7",
+      "lession_active": true,
+      "lession_img": "lession_10.svg",
+      "lession_type_key": "type2",
+      "type": [
+        "2"
+      ],
+      "items": [
+        {
+          "item_trans_title": "Không sử dụng facebook"
+        },
+        {
+          "item_trans_title": "Ngừng lướt youtube"
+        },
+        {
+          "item_trans_title": "Không mở mạng xã hội trước khi ngủ"
+        }
+      ]
+    },
+    {
+      "key": "lession_07",
+      "lession_key": "lession_07",
+      "lession_title": "Nâng cấp cơ thể 30 ngày",
+      "lession_detail": "Nâng cấp cơ thể 30 ngày",
+      "lession_detail_sort": "Nâng cấp cơ thể 30 ngày",
+      "lession_day_total": 30,
+      "lession_color": "#0984E3",
+      "lession_active": true,
+      "lession_img": "lession_07.svg",
+      "lession_type_key": "type1",
+      "type": [
+        "1"
+      ],
+      "items": [
+        {
+          "item_trans_title": "Uống đủ 2 lít nước mỗi ngày"
+        },
+        {
+          "item_trans_title": "Đi bộ 30 phút"
+        },
+        {
+          "item_trans_title": "Ngủ trước 23h"
+        }
+      ]
+    },
+    {
+      "key": "lession_03",
+      "lession_key": "lession_03",
+      "lession_title": "Bữa sáng năng lượng 30 ngày",
+      "lession_detail": "Bữa sáng năng lượng 30 ngày",
+      "lession_detail_sort": "Bữa sáng năng lượng 30 ngày",
+      "lession_day_total": 30,
+      "lession_color": "#00B894",
+      "lession_active": true,
+      "lession_img": "lession_03.svg",
+      "lession_type_key": "type1",
+      "type": [
+        "1"
+      ],
+      "items": [
+        {
+          "item_trans_title": "Ăn sáng đủ 3 món"
+        },
+        {
+          "item_trans_title": "Không bỏ bữa sáng"
+        }
+      ]
+    },
+    {
+      "key": "lession_05",
+      "lession_key": "lession_05",
+      "lession_title": "Giấc ngủ ngon 14 ngày",
+      "lession_detail": "Giấc ngủ ngon 14 ngày",
+      "lession_detail_sort": "Giấc ngủ ngon 14 ngày",
+      "lession_day_total": 14,
+      "lession_color": "#E84393",
+      "lession_active": true,
+      "lession_img": "lession_05.svg",
+      "lession_type_key": "type3",
+      "type": [
+        "3"
+      ],
+      "items": [
+        {
+          "item_trans_title": "Ngủ trước 23h"
+        },
+        {
+          "item_trans_title": "Không uống cà phê sau 16h"
+        },
+        {
+          "item_trans_title": "Tắt đèn trước 23h30"
+        }
+      ]
+    }
+  ]
+}

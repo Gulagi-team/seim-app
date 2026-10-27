@@ -7,9 +7,6 @@ import {
   HOME,
   HOME_SELECTED,
   HOME_DARK,
-  MINING,
-  MINING_SELECTED,
-  MINING_DARK,
   NOTIFICATION,
   NOTIFICATION_SELECTED,
   NOTIFICATION_DARK,
@@ -18,13 +15,13 @@ import {
   SETTING_DARK,
 } from '@/assets/icons/bottom';
 import {COLORS} from '@/theme/index';
-import MiningScreen from '@/screens/Mining/MiningScreen';
 import SettingScreen from '@/screens/Setting/SettingScreen';
 import {StoreState, useAppSelector} from '@/store';
+import TabIcon from './TabIcon';
+import AnimatedTabLabel from './AnimatedTabLabel';
 
 export const KEY_BOTTOM_SCREEN = {
   HOME: 'Home',
-  MINING: 'Mining',
   NOTIFICATION: 'Notify',
   SETTING: 'Setting',
 };
@@ -44,15 +41,6 @@ const BottomTab = () => {
       deactiveIcon: isDarkMode ? HOME_DARK : HOME,
       index: 0,
       activeColor: COLORS.primary_A500,
-      deactiveColor: DEACTIVE_COLOR,
-    },
-    [KEY_BOTTOM_SCREEN.MINING]: {
-      name: KEY_BOTTOM_SCREEN.MINING,
-      component: MiningScreen,
-      activeIcon: MINING_SELECTED,
-      deactiveIcon: isDarkMode ? MINING_DARK : MINING,
-      index: 1,
-      activeColor: COLORS.secondary_violet2,
       deactiveColor: DEACTIVE_COLOR,
     },
     [KEY_BOTTOM_SCREEN.NOTIFICATION]: {
@@ -108,19 +96,17 @@ const BottomTab = () => {
           const newColor = focused
             ? BottomTabConstant[route.name].activeColor
             : BottomTabConstant[route.name].deactiveColor;
-          return <Text style={{color: newColor}}>{children}</Text>;
+          return (
+            <AnimatedTabLabel focused={focused} color={newColor}>
+              {children}
+            </AnimatedTabLabel>
+          );
         },
-        tabBarIcon: ({focused, color, size}) => {
+        tabBarIcon: ({focused}) => {
           const iconSrc = focused
             ? BottomTabConstant[route.name].activeIcon
             : BottomTabConstant[route.name].deactiveIcon;
-          return (
-            <Image
-              source={iconSrc}
-              resizeMode="contain"
-              style={{width: 25, height: 25}}
-            />
-          );
+          return <TabIcon source={iconSrc} focused={focused} />;
         },
         tabBarActiveTintColor: ACTIVE_COLOR,
         tabBarInactiveTintColor: DEACTIVE_COLOR,

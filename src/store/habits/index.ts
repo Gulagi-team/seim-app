@@ -1,19 +1,17 @@
 import moment from 'moment';
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
-import {union, unionWith} from 'lodash';
 import {
   fetchHabits,
   HabitResponse,
+  SaveHabitResult,
   startHabit,
   saveHabit,
-  completeTask,
 } from './action';
-import {Habit, TaskToUpdate, Task} from '@/types/colection';
+import {Habit, TaskToUpdate} from '@/types/colection';
 
 export type HabitsState = {
   today: string;
   habits: Habit[];
-  taskStack: Task[];
   status: string;
   error: any;
 };
@@ -21,11 +19,11 @@ export type HabitsState = {
 const initialState: HabitsState = {
   today: '',
   habits: [],
-  taskStack: [],
   status: 'idle',
   error: null,
 };
 
+// Every mutation below is local only - the app keeps working with no network.
 const HabitSlice = createSlice({
   name: 'habit',
   initialState,
@@ -34,22 +32,19 @@ const HabitSlice = createSlice({
       const habitIndex = state.habits.findIndex(
         el => el.habit.id === action.payload.habit_id,
       );
-      if (habitIndex !== -1) {
-        const habit = state.habits[habitIndex];
-        const taskIndex = habit.habit.tasks?.findIndex(
-          el => el.id === action.payload.task_id,
-        );
-        if (taskIndex !== -1) {
-          state.taskStack.push(state.habits[habitIndex].habit.tasks[taskIndex]);
-          state.habits[habitIndex].habit.tasks[taskIndex].isFinished =
-            !state.habits[habitIndex].habit.tasks[taskIndex].isFinished;
-        }
+      if (habitIndex === -1) {
+        return;
+      }
+      const tasks = state.habits[habitIndex].habit.tasks;
+      const taskIndex = tasks?.findIndex(el => el.id === action.payload.task_id);
+      if (tasks && taskIndex !== undefined && taskIndex !== -1) {
+        tasks[taskIndex].isFinished = !tasks[taskIndex].isFinished;
       }
     },
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchHabits.pending, (state, action) => {
+      .addCase(fetchHabits.pending, state => {
         state.status = 'loading';
       })
       .addCase(
@@ -57,7 +52,13 @@ const HabitSlice = createSlice({
         (state, action: PayloadAction<HabitResponse>) => {
           state.status = 'succeeded';
           state.today = action.payload.today ?? '';
-          state.habits = action.payload.data ?? [];
+          // Keep any habit the user already added or started in this install,
+          // the catalog only seeds the list.
+          const knownIds = state.habits.map(item => item.habit.id);
+          const seeded = (action.payload.data ?? []).filter(
+            item => !knownIds.includes(item.habit.id),
+          );
+          state.habits = [...state.habits, ...seeded];
         },
       )
       .addCase(fetchHabits.rejected, (state, action) => {
@@ -65,68 +66,37 @@ const HabitSlice = createSlice({
         state.error = action.error.message;
       })
 
-      .addCase(startHabit.pending, (state, action) => {
-        state.status = 'loading';
-      })
       .addCase(startHabit.fulfilled, (state, action: PayloadAction<string>) => {
         state.status = 'succeeded';
-
         const habitIndex = state.habits.findIndex(
           el => el.habit.id === action.payload,
         );
-        state.habits[habitIndex].startDate = moment().toISOString();
-      })
-      .addCase(startHabit.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+        if (habitIndex !== -1) {
+          state.habits[habitIndex].startDate = moment().toISOString();
+        }
       })
 
-      .addCase(saveHabit.pending, (state, action) => {
-        state.status = 'loading';
-      })
       .addCase(
         saveHabit.fulfilled,
-        (state, action: PayloadAction<HabitResponse>) => {
+        (state, action: PayloadAction<SaveHabitResult>) => {
           state.status = 'succeeded';
-          state.today = action.payload.today ?? '';
-          state.habits = action.payload.data ?? [];
-        },
-      )
-      .addCase(saveHabit.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
-
-      .addCase(completeTask.pending, (state, action) => {
-        state.status = 'loading';
-      })
-      .addCase(completeTask.fulfilled, (state, action: PayloadAction<any>) => {
-        state.status = 'succeeded';
-        delete state.taskStack[state.taskStack.length];
-      })
-      .addCase(completeTask.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-
-        // revert status Task
-        const oldTask = state.taskStack[state.taskStack.length];
-        if (oldTask) {
-          const habitIndex: number = state.habits.findIndex(el =>
-            el.habit.tasks?.some(et => et.id === oldTask.id),
-          );
-          if (habitIndex !== -1) {
-            const habit = state.habits[habitIndex];
-            const taskIndex: number =
-              habit.habit.tasks?.findIndex(el => el.id === oldTask.id) || -1;
-
-            if (taskIndex !== -1) {
-              state.habits[habitIndex].habit.tasks[taskIndex] = oldTask;
+          const {habitId, isStart, habit} = action.payload;
+          const index = state.habits.findIndex(el => el.habit.id === habitId);
+          if (!isStart) {
+            if (index !== -1) {
+              state.habits.splice(index, 1);
             }
+            return;
           }
-
-          delete state.taskStack[state.taskStack.length];
-        }
-      });
+          if (index === -1 && habit) {
+            state.habits.push({
+              startDate: moment().toISOString(),
+              endDate: null,
+              habit,
+            });
+          }
+        },
+      );
   },
 });
 

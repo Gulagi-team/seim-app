@@ -1,72 +1,52 @@
+import React, {memo} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import {LessionType} from '@/types/colection';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import FastImage from 'react-native-fast-image';
-import IconCheck from '@/assets/icons/icon_checkmark.svg';
+import PackIconFire from '@/assets/icons/pack/pack_icon_fire.svg';
+import PackIconWater from '@/assets/icons/pack/pack_icon_water.svg';
+import PackIconHeart from '@/assets/icons/pack/pack_icon_heart.svg';
+import HabitImage from '@/components/HabitImage';
+import Enter from '@/components/motion/Enter';
 import {StoreState, useAppSelector} from '@/store';
 import {FONT_SIZE, POPPINS_MEDIUM} from '@/theme';
 
 interface Props {
   lession: LessionType;
   key: string;
+  index?: number;
 }
 
-const PackItem = (props: Props) => {
-  const {lession} = props;
+const PackItem = ({lession, index = 0}: Props) => {
   const {containerColor, textColor, textOutstandingColor} = useAppSelector(
     (state: StoreState) => state.ThemeSlice,
   );
+
   return (
-    <View
-      // onPress={onSelect}
-      style={{
-        ...styles.container,
-        backgroundColor: containerColor,
-        shadowColor: textOutstandingColor,
-      }}>
-      <View style={{flex: 1, flexDirection: 'row'}}>
-        <FastImage
-          style={{
-            height: 60,
-            width: 60,
-            marginTop: 13,
-            marginBottom: 12,
-            marginLeft: 10,
-          }}
-          source={{
-            uri: 'https://firebasestorage.googleapis.com/v0/b/seim-gulagi.appspot.com/o/lesssions%2F20210528144843-2021-05-28su_lession144842.png?alt=media&token=24b73dcb-271b-4d0b-ab7a-5cdd5970dd0f',
-          }}
-          resizeMode={FastImage.resizeMode.contain}
-        />
-        <View style={{marginTop: 12, marginLeft: 12}}>
-          <Text style={{...styles.titleText, color: textColor}}>
-            {lession.lession_title}
-          </Text>
-          <View style={{marginTop: 10, flexDirection: 'row'}}>
-            <FastImage
-              style={{width: 25, height: 25, marginRight: 5}}
-              source={{
-                uri: 'https://firebasestorage.googleapis.com/v0/b/seim-gulagi.appspot.com/o/lesssions%2F20210528144824-2021-05-28su_lession144823.png?alt=media&token=2a298870-f62b-43b4-a4c7-3ff7e4a652ee',
-              }}
-              resizeMode={FastImage.resizeMode.contain}
-            />
-            <FastImage
-              style={{width: 25, height: 25, marginRight: 5}}
-              source={{
-                uri: 'https://firebasestorage.googleapis.com/v0/b/seim-gulagi.appspot.com/o/lesssions%2F20210606131148-2021-06-06su_lession131146.png?alt=media&token=b77660a7-8cb1-480a-b4a3-e899e9361ac3',
-              }}
-              resizeMode={FastImage.resizeMode.contain}
-            />
-            <FastImage
-              style={{width: 25, height: 25, marginRight: 5}}
-              source={{
-                uri: 'https://firebasestorage.googleapis.com/v0/b/seim-gulagi.appspot.com/o/lesssions%2F20210528144804-2021-05-28su_lession144803.png?alt=media&token=5bef52d4-a505-434b-ba15-e9ab0f79d14f',
-              }}
-              resizeMode={FastImage.resizeMode.contain}
-            />
+    <Enter delay={Math.min(index, 10) * 60} distance={14} scaleFrom={0.96}>
+      <View
+        style={{
+          ...styles.container,
+          backgroundColor: containerColor,
+          shadowColor: textOutstandingColor,
+        }}>
+        <View style={styles.row}>
+          <View style={styles.cover}>
+            <HabitImage name={lession.lession_title} style={styles.coverImage} />
+          </View>
+          <View style={styles.body}>
+            <Text
+              style={[styles.titleText, {color: textColor}]}
+              numberOfLines={2}>
+              {lession.lession_title}
+            </Text>
+            <View style={styles.badges}>
+              <PackIconFire width={25} height={25} style={styles.badge} />
+              <PackIconWater width={25} height={25} style={styles.badge} />
+              <PackIconHeart width={25} height={25} style={styles.badge} />
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </Enter>
   );
 };
 
@@ -78,15 +58,25 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 10,
     borderRadius: 10,
-
     elevation: 5,
   },
-  textContainer: {width: '100%'},
+  row: {flex: 1, flexDirection: 'row'},
+  cover: {
+    height: 60,
+    width: 60,
+    marginTop: 13,
+    marginBottom: 12,
+    marginLeft: 10,
+  },
+  coverImage: {flex: 1, borderRadius: 12},
+  body: {marginTop: 12, marginLeft: 12, flexShrink: 1},
+  badges: {marginTop: 10, flexDirection: 'row'},
+  badge: {marginRight: 5},
   titleText: {
     fontSize: FONT_SIZE.small1,
     fontWeight: '500',
     fontFamily: POPPINS_MEDIUM,
-    textAlign: 'left',
   },
 });
-export default PackItem;
+
+export default memo(PackItem);

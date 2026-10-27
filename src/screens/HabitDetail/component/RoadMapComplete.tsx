@@ -6,6 +6,17 @@ import StateGray from '@/assets/images/state_gray.png';
 import StateDoing from '@/assets/images/state_doing.png';
 import RoadRight from '@/assets/images/road_right.png';
 import RoadLeft from '@/assets/images/road_left.png';
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
+import {useEffect} from 'react';
+import Enter from '@/components/motion/Enter';
 
 export enum ItemState {
   DONE,
@@ -19,6 +30,44 @@ export interface Item {
 interface Props {
   items: Item[];
 }
+interface DayMarkerProps {
+  num: number;
+  containerStyle: any;
+  children: React.ReactNode;
+}
+
+// Today's milestone is the one thing on the road worth looking at, so it keeps
+// a slow glow instead of sitting still like the finished and future ones.
+const DayMarker = ({num, containerStyle, children}: DayMarkerProps) => {
+  const glow = useSharedValue(0);
+
+  useEffect(() => {
+    glow.value = withDelay(
+      400,
+      withRepeat(
+        withSequence(
+          withTiming(1, {duration: 1100, easing: Easing.inOut(Easing.ease)}),
+          withTiming(0, {duration: 1100, easing: Easing.inOut(Easing.ease)}),
+        ),
+        -1,
+        true,
+      ),
+    );
+  }, [glow]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{scale: 1 + glow.value * 0.08}],
+  }));
+
+  return (
+    <Animated.View style={[containerStyle, animatedStyle]}>
+      {children}
+      <View style={styles.todayBadge}>
+        <Text style={styles.todayBadgeText}>{num}</Text>
+      </View>
+    </Animated.View>
+  );
+};
 const RoadMapComplete = ({items}: Props) => {
   const getSpliceList = (): Item[][] => {
     const result: Item[][] = [];
@@ -60,9 +109,10 @@ const RoadMapComplete = ({items}: Props) => {
 
     if (item.state === ItemState.TODAY) {
       return (
-        <View
+        <DayMarker
           key={item.num}
-          style={
+          num={item.num}
+          containerStyle={
             isLast
               ? styles.dayContainerLast
               : isRoadRight
@@ -74,8 +124,7 @@ const RoadMapComplete = ({items}: Props) => {
             source={StateDoing}
             resizeMode={'contain'}
           />
-          <Text style={styles.dayText}>{item.num}</Text>
-        </View>
+        </DayMarker>
       );
     }
 
@@ -105,7 +154,8 @@ const RoadMapComplete = ({items}: Props) => {
     const roadWith = (_items.length - 1) * 25;
 
     return (
-      <View key={index} style={styles.roadContainer}>
+      <Enter key={index} delay={Math.min(index, 8) * 70} distance={12} scaleFrom={0.95}>
+        <View style={styles.roadContainer}>
         <View
           style={[
             isRoadRight ? styles.roadAlignLeft : styles.roadAlignRight,
@@ -122,7 +172,8 @@ const RoadMapComplete = ({items}: Props) => {
         <View style={isRoadRight ? styles.listDayRight : styles.listDayLeft}>
           {_items.map((item, i) => renderDayItem(item, i, isRoadRight))}
         </View>
-      </View>
+        </View>
+      </Enter>
     );
   };
 
