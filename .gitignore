@@ -71,3 +71,6 @@ Gemfile.lock
 # Google Play service account key (holds a private key; see docs/play-mcp-setup.md)
 play-service-account.json
 *-service-account.json
+
+# Native Kotlin app lives in its own repository (Gulagi-team/seim-android)
+/native/
